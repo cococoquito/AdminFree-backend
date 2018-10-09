@@ -18,7 +18,7 @@ import adminfree.e.utilities.ConstantNumeros;
 public class CommonDAO {
 
 	/**
-	 * Metodo utilitario para los inserts con JDBC
+	 * Metodo utilitario para los INSERTS con JDBC
 	 * 
 	 * @param insertSQL, es el INSERT SQL a ejecutar
 	 * @param valores, valores a insertar en la tabla
@@ -33,7 +33,7 @@ public class CommonDAO {
 			// se recorre cada valor para configurarlo en el PreparedStatement
 			int posicion = ConstantNumeros.UNO;
 			for (Object valor : valores) {
-				
+
 				// se configura este valor al PreparedStatement
 				setValorNotNull(pst, valor, posicion);
 				posicion++;
@@ -45,7 +45,42 @@ public class CommonDAO {
 			CerrarRecursos.closePreparedStatement(pst);
 		}
 	}
-	
+
+	/**
+	 * Metodo utilitario para los UPDATES con JDBC
+	 * 
+	 * @param updateSQL, es el UPDATE SQL a ejecutar
+	 * @param valores, valores a insertar en la tabla
+	 * @param con, conexión activa de la base datos
+	 */
+	protected void update(String updateSQL, List<ValueSQL> valores, Connection con) throws Exception {
+		PreparedStatement pst = null;
+		try {
+			// se establece el PreparedStatement
+			pst = con.prepareStatement(updateSQL);
+
+			// se recorre cada valor para configurarlo en el PreparedStatement
+			int posicion = ConstantNumeros.UNO;
+			Object valor;
+			for (ValueSQL valueSQL : valores) {
+				valor = valueSQL.getValor();
+				
+				// se valida si se debe configurar NULL en el UPDATE
+				if (valor == null) {
+					pst.setNull(posicion, valueSQL.getTipoDato());
+				} else {
+					setValorNotNull(pst, valor, posicion);
+				}
+				posicion++;
+			}
+
+			// se ejecuta la inserción
+			pst.executeUpdate();
+		} finally {
+			CerrarRecursos.closePreparedStatement(pst);
+		}
+	}
+
 	/**
 	 * Metodo que permite settear un valor not null al PreparedStatement
 	 */
@@ -59,5 +94,5 @@ public class CommonDAO {
 		} else if (valor instanceof Date) {
 			pst.setTimestamp(posicion, new java.sql.Timestamp(((Date) valor).getTime()));
 		}
-	}	
+	}
 }
