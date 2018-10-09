@@ -1,10 +1,13 @@
 package adminfree.business;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.e.utilities.ConstantEstado;
 
 /**
  * 
@@ -30,13 +33,17 @@ public class ConfiguracionesTest {
 	 */
 	@Test
 	private void crearCliente() {
-		
+
+		// se construye el cliente a crear
 		ClienteDTO cliente = new ClienteDTO();
 		cliente.setNombre("Secretaria de educacion municipal");
 		cliente.setTelefonos("3124935037;3122345609");
-		cliente.setEstado(estado);
-		
-		
+		cliente.setEstado(ConstantEstado.ID_ESTADO_ACTIVO);
 
+		// se invoca el service para la creacion del cliente
+		ClienteDTO resultado = this.configuracionesService.crearCliente(cliente);
+
+		// debe retornar el cliente con el identificador
+		assertTrue(resultado != null && resultado.getId() != null);
 	}
 }
