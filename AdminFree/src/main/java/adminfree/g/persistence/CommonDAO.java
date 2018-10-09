@@ -129,6 +129,52 @@ public class CommonDAO {
 	}
 	
 	/**
+	 * Metodo que ejecuta multiples sentencias DML por BATCH de JDBC
+	 * 
+	 * @param dmls, contiene las sentencias DML
+	 */
+	protected void batchInjection(String dml, List<List<Object>> injections, Connection con) throws Exception {
+		PreparedStatement pst = null;
+		con.setAutoCommit(false);
+		try {
+			// se establece el PreparedStatement
+			pst = con.prepareStatement(dml);
+			
+			// lleva la cuenta de DML agregados en el BATCH
+			int countDML = ConstantNumeros.ZERO;
+			
+			// se recorre la cantidad de injections agregar en el BATCH
+			int posicion;
+			for (List<Object> values : injections) {
+				
+				// se injecta los parametros de esta sentencia y se agrega al BATCH
+				posicion = ConstantNumeros.UNO;
+				for (Object value : values) {
+					setValorNotNull(pst, value, posicion);
+					posicion++;
+				}
+				
+				// se agrega el DML al BATCH y se suma a la cuenta
+				pst.addBatch();
+				countDML++;
+				
+				// se valida si se debe ejecutar el BATCH
+				if (!ConstantNumeros.UNO.equals(countDML) && 
+				    (countDML % ConstantSQL.BATCH_SIZE == ConstantNumeros.ZERO)) {
+					pst.executeBatch();
+				}
+			}
+			
+			// se ejecuta el ultimo bloque y se confirman los cambios
+			pst.executeBatch();
+			con.commit();
+		} finally {
+			con.setAutoCommit(true);
+			CerrarRecursos.closePreparedStatement(pst);
+		}
+	}
+	
+	/**
 	 * Metodo que permite settear un valor not null al PreparedStatement
 	 */
 	private void setValorNotNull(PreparedStatement pst, Object valor, int posicion) throws Exception {
