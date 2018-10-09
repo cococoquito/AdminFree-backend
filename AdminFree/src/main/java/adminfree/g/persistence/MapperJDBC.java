@@ -16,6 +16,7 @@ public class MapperJDBC {
 	/** Constantes para los identificadores de los MAPPERS */
 	public static final int MAPPER_GET_CLIENTES = 1;
 	public static final int MAPPER_COUNT = 2;
+	public static final int MAPPER_GET_CLIENTE_TOKEN = 3;
 
 	/** Es el tipo de MAPPER a ejecutar */
 	private Integer tipoMapper;
