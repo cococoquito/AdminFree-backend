@@ -2,6 +2,7 @@ package adminfree.g.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +34,6 @@ public class CommonDAO {
 			// se recorre cada valor para configurarlo en el PreparedStatement
 			int posicion = ConstantNumeros.UNO;
 			for (Object valor : valores) {
-
-				// se configura este valor al PreparedStatement
 				setValorNotNull(pst, valor, posicion);
 				posicion++;
 			}
@@ -64,7 +63,7 @@ public class CommonDAO {
 			Object valor;
 			for (ValueSQL valueSQL : valores) {
 				valor = valueSQL.getValor();
-				
+
 				// se valida si se debe configurar NULL en el PreparedStatement
 				if (valor != null) {
 					setValorNotNull(pst, valor, posicion);
@@ -77,6 +76,45 @@ public class CommonDAO {
 			// se ejecuta la inserción
 			pst.executeUpdate();
 		} finally {
+			CerrarRecursos.closePreparedStatement(pst);
+		}
+	}
+
+	/**
+	 * Metodo utilitario para ejecutar listar con JDBC
+	 * 
+	 * @param listSQL, SQL con la consultar configurada
+	 * @param valoresWhere, contiene los valores del where sentence
+	 * @param mapper, identifica que objectos se debe mappear
+	 * @param con, conexión activa de la base datos
+	 * @return lista de registros de acuerdo a la consulta
+	 */
+	protected Object list(
+			String listSQL, List<Object> valoresWhere, 
+			MapperJDBC mapper, Connection con)
+			throws Exception {
+		PreparedStatement pst = null;
+		ResultSet res = null;
+		try {
+			// se establece el PreparedStatement
+			pst = con.prepareStatement(listSQL);
+			
+			// se configura los parametros para el wheresentence
+			if (valoresWhere != null && !valoresWhere.isEmpty()) {
+				int posicion = ConstantNumeros.UNO;
+				for (Object valor : valoresWhere) {
+					setValorNotNull(pst, valor, posicion);
+					posicion++;
+				}
+			}
+			
+			// se ejecuta la consulta y se encapsula el resultado
+			res = pst.executeQuery();
+			
+			// se configura el resultado en el mapper especifico
+			return mapper.execute(res);
+		} finally {
+			CerrarRecursos.closeResultSet(res);
 			CerrarRecursos.closePreparedStatement(pst);
 		}
 	}
