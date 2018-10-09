@@ -21,6 +21,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
 	public ClienteDTO crearCliente(ClienteDTO cliente, Connection conn) throws Exception {
+		
+		
+		
+		
+		
 		return null;
 	}
 }
