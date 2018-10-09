@@ -65,11 +65,11 @@ public class CommonDAO {
 			for (ValueSQL valueSQL : valores) {
 				valor = valueSQL.getValor();
 				
-				// se valida si se debe configurar NULL en el UPDATE
-				if (valor == null) {
-					pst.setNull(posicion, valueSQL.getTipoDato());
-				} else {
+				// se valida si se debe configurar NULL en el PreparedStatement
+				if (valor != null) {
 					setValorNotNull(pst, valor, posicion);
+				} else {
+					pst.setNull(posicion, valueSQL.getTipoDato());
 				}
 				posicion++;
 			}
