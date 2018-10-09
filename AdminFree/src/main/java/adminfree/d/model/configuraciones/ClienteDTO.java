@@ -15,22 +15,25 @@ public class ClienteDTO implements Serializable {
 
 	/** Es el identificador del cliente */
 	private Long id;
-	
+
 	/** TOKEN que se utiliza para que el cliente se autentique en el sistema */
 	private String token;
-	
+
 	/** Nombre del cliente */
 	private String nombre;
-	
+
 	/** telefonos del cliente */
 	private String telefonos;
-	
+
+	/** correos del cliente */
+	private String emails;
+
 	/** fecha de activacion del cliente sobre el sistema */
 	private Date fechaActivacion;
-	
+
 	/** fecha de Inaactivacion del cliente sobre el sistema */
 	private Date fechaInactivacion;
-	
+
 	/** Estado que se encuentra el cliente */
 	private Integer estado;
 
@@ -133,5 +136,19 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo emails
+	 */
+	public String getEmails() {
+		return emails;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param emails
+	 */
+	public void setEmails(String emails) {
+		this.emails = emails;
 	}
 }

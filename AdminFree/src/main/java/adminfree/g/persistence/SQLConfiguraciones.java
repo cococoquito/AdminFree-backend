@@ -15,6 +15,8 @@ public class SQLConfiguraciones {
 	public static final String CREAR_CLIENTE = "";
 	
 	public static final String GET_CLIENTE_TOKEN = "";
+	
+	public static final String COUNT_CLIENTE_TOKEN = "";
 
 	public static final String ACTUALIZAR_CLIENTE = "";
 
