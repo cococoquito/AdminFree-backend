@@ -82,7 +82,7 @@ public class CommonDAO {
 	 * Metodo utilitario para las consultas de SELECT con JDBC
 	 * 
 	 * @param sql, SQL con la consulta configurada
-	 * @param valoresWhere, contiene los valores del whereSentence
+	 * @param valoresWhere, contiene los valores para el whereSentence
 	 * @param mapper, identifica que objecto especifico se debe mappear
 	 * 
 	 * @return registro(s) de acuerdo a la consulta
@@ -116,7 +116,18 @@ public class CommonDAO {
 			CerrarRecursos.closePreparedStatement(pst);
 		}
 	}
-
+	
+	/**
+	 * Metodo utilitario para los DELETE con JDBC
+	 * DELETE DBUSER WHERE USER_ID = ?
+	 * 
+	 * @param deleteSQL, es el DELETE SQL a ejecutar
+	 * @param valoresWhere, contiene los valores para el whereSentence
+	 */
+	protected void delete(String deleteSQL, List<Object> valoresWhere, Connection con) throws Exception {
+		insert(deleteSQL, valoresWhere, con);
+	}
+	
 	/**
 	 * Metodo que permite settear un valor not null al PreparedStatement
 	 */
