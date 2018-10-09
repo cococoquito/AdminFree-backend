@@ -8,6 +8,7 @@ package adminfree.e.utilities;
  *
  */
 public class ConstantNumeros {
+	public static final Integer ZERO = 0;
 	public static final Integer UNO = 1;
 	public static final Integer DOS = 2;
 	public static final Integer TRES = 3;

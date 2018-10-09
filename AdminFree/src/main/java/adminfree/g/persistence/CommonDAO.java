@@ -23,7 +23,6 @@ public class CommonDAO {
 	 * 
 	 * @param insertSQL, es el INSERT SQL a ejecutar
 	 * @param valores, valores a insertar en la tabla
-	 * @param con, conexión activa de la base datos
 	 */
 	protected void insert(String insertSQL, List<Object> valores, Connection con) throws Exception {
 		PreparedStatement pst = null;
@@ -50,7 +49,6 @@ public class CommonDAO {
 	 * 
 	 * @param updateSQL, es el UPDATE SQL a ejecutar
 	 * @param valores, valores a insertar en la tabla
-	 * @param con, conexión activa de la base datos
 	 */
 	protected void update(String updateSQL, List<ValueSQL> valores, Connection con) throws Exception {
 		PreparedStatement pst = null;
@@ -81,23 +79,23 @@ public class CommonDAO {
 	}
 
 	/**
-	 * Metodo utilitario para los consultas de registros con JDBC
+	 * Metodo utilitario para las consultas de SELECT con JDBC
 	 * 
-	 * @param listSQL, SQL con la consulta configurada
+	 * @param sql, SQL con la consulta configurada
 	 * @param valoresWhere, contiene los valores del whereSentence
 	 * @param mapper, identifica que objecto especifico se debe mappear
-	 * @param con, conexión activa de la base datos
-	 * @return lista de registros de acuerdo a la consulta
+	 * 
+	 * @return registro(s) de acuerdo a la consulta
 	 */
-	protected Object list(
-			String listSQL, List<Object> valoresWhere, 
+	protected Object find(
+			String sql, List<Object> valoresWhere, 
 			MapperJDBC mapper, Connection con)
 			throws Exception {
 		PreparedStatement pst = null;
 		ResultSet res = null;
 		try {
 			// se establece el PreparedStatement
-			pst = con.prepareStatement(listSQL);
+			pst = con.prepareStatement(sql);
 			
 			// se configura los parametros para el wheresentence
 			if (valoresWhere != null && !valoresWhere.isEmpty()) {
