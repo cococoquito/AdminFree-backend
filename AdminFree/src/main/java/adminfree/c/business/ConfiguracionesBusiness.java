@@ -57,19 +57,23 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	private String generarToken(Connection con) throws Exception {
 		// es el valor del nuevo TOKEN a retornar
 		String token = null;
+		
+		// es el generador de TOKEN
+		EstrategiaCriptografica generador = new EstrategiaCriptografica();
+		
+		// es el MAPPER para obtener el Count de los clientes asociados a un TOKEN
+		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_COUNT);
 
 		// el TOKEN debe ser unico en el sistema
 		boolean tokenExiste = true;
-		MapperJDBC mapper;
 		List<Object> whereToken;
 		Long count;
 		while (tokenExiste) {
 
 			// se solicita un nuevo TOKEN
-			token = new EstrategiaCriptografica().generarToken();
+			token = generador.generarToken();
 
 			// se procede a contar los registros que contenga este TOKEN
-			mapper = new MapperJDBC(MapperJDBC.MAPPER_COUNT);
 			whereToken = new ArrayList<>();
 			whereToken.add(token);
 			count = (Long) find(SQLConfiguraciones.COUNT_CLIENTE_TOKEN, whereToken, mapper, con);
