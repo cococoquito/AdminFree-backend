@@ -1,4 +1,4 @@
-package adminfree.d.model;
+package adminfree.d.model.configuraciones;
 
 /**
  * 
