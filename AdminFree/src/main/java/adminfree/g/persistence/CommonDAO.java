@@ -3,6 +3,7 @@ package adminfree.g.persistence;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
@@ -129,11 +130,11 @@ public class CommonDAO {
 	}
 	
 	/**
-	 * Metodo que ejecuta multiples sentencias DML por BATCH de JDBC
+	 * Metodo que ejecuta multiples sentencias DML por BATCH de JDBC con Injection
 	 * 
-	 * @param dmls, contiene las sentencias DML
+	 * @param dml, Es la sentencia DML a ejecutar en el BATCH
 	 */
-	protected void batchInjection(String dml, List<List<Object>> injections, Connection con) throws Exception {
+	protected void batchConInjection(String dml, List<List<Object>> injections, Connection con) throws Exception {
 		PreparedStatement pst = null;
 		con.setAutoCommit(false);
 		try {
@@ -171,6 +172,44 @@ public class CommonDAO {
 		} finally {
 			con.setAutoCommit(true);
 			CerrarRecursos.closePreparedStatement(pst);
+		}
+	}
+	
+	/**
+	 * Metodo que ejecuta multiples sentencias DML por BATCH de JDBC sin Injection
+	 * 
+	 * @param dmls, lista de sentencias DMLS a ejecutar en el BATCH
+	 */
+	protected void batchSinInjection(List<String> dmls, Connection con) throws Exception {
+		Statement stm = null;
+		con.setAutoCommit(false);
+		try {
+			// se establece el Statement
+			stm = con.createStatement();
+
+			// lleva la cuenta de DML agregados en el BATCH
+			int countDML = ConstantNumeros.ZERO;
+
+			// se recorre todos los DMLs que deben ser ejecutados por el BATCH
+			for (String dml : dmls) {
+
+				// se agrega el DML al BATCH y se suma a la cuenta
+				stm.addBatch(dml);
+				countDML++;
+
+				// se valida si se debe ejecutar el BATCH
+				if (!ConstantNumeros.UNO.equals(countDML) && 
+					(countDML % ConstantSQL.BATCH_SIZE == ConstantNumeros.ZERO)) {
+					stm.executeBatch();
+				}
+			}
+
+			// se ejecuta el ultimo bloque y se confirman los cambios
+			stm.executeBatch();
+			con.commit();
+		} finally {
+			con.setAutoCommit(true);
+			CerrarRecursos.closeStatement(stm);
 		}
 	}
 	

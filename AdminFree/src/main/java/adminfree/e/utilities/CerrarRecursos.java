@@ -2,6 +2,7 @@ package adminfree.e.utilities;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * 
@@ -20,7 +21,7 @@ public class CerrarRecursos {
 			pst.close();
 		}
 	}
-	
+
 	/**
 	 * Metodo que permite cerrar el recurso ResultSet
 	 */
@@ -28,5 +29,14 @@ public class CerrarRecursos {
 		if (res != null) {
 			res.close();
 		}
-	}	
+	}
+
+	/**
+	 * Metodo que permite cerrar el recurso Statement
+	 */
+	public static void closeStatement(Statement stm) throws Exception {
+		if (stm != null) {
+			stm.close();
+		}
+	}
 }
