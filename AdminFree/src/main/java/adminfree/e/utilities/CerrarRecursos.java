@@ -1,5 +1,6 @@
 package adminfree.e.utilities;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -37,6 +38,15 @@ public class CerrarRecursos {
 	public static void closeStatement(Statement stm) throws Exception {
 		if (stm != null) {
 			stm.close();
+		}
+	}
+
+	/**
+	 * Metodo que permite cerrar el recurso Connection SQL
+	 */
+	public static void closeConnection(Connection connection) throws Exception {
+		if (connection != null) {
+			connection.close();
 		}
 	}
 }

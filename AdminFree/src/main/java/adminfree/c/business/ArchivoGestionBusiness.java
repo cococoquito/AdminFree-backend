@@ -4,8 +4,7 @@ import adminfree.g.persistence.CommonDAO;
 
 /**
  * 
- * Clase que contiene los metodos de persistencia para el modulo de Archivo de
- * Gestión
+ * Clase que contiene los procesos de negocio para el modulo de Archivo de Gestion
  * 
  * @author Carlos Andres Diaz
  *
