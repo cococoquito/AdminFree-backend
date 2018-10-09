@@ -81,11 +81,11 @@ public class CommonDAO {
 	}
 
 	/**
-	 * Metodo utilitario para ejecutar listar con JDBC
+	 * Metodo utilitario para los consultas de registros con JDBC
 	 * 
-	 * @param listSQL, SQL con la consultar configurada
-	 * @param valoresWhere, contiene los valores del where sentence
-	 * @param mapper, identifica que objectos se debe mappear
+	 * @param listSQL, SQL con la consulta configurada
+	 * @param valoresWhere, contiene los valores del whereSentence
+	 * @param mapper, identifica que objecto especifico se debe mappear
 	 * @param con, conexión activa de la base datos
 	 * @return lista de registros de acuerdo a la consulta
 	 */
