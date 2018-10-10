@@ -88,7 +88,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Business que permite cambiar el estado del CLIENTE
 	 * 
-	 * @param cliente, DTO que contiene los datos del CLIENTE
+	 * @param cliente, DTO que contiene el identificador del cliente ACTUALIZAR
 	 * @param estado, nuevo estado del CLIENTE
 	 */
 	public void cambiarEstadoCliente(ClienteDTO cliente, Integer estado, Connection conn) throws Exception {
@@ -99,6 +99,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se actualiza el estado del CLIENTE
 		update(SQLConfiguraciones.CAMBIAR_ESTADO_CLIENTE, valoresUpdate, conn);
+	}
+	
+	/**
+	 * Business que permite ELIMINAR un cliente del sistema
+	 * 
+	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
+	 */
+	public void eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
+
 	}
 
 	/**

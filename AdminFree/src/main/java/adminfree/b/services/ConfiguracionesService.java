@@ -121,4 +121,24 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite ELIMINAR un cliente del sistema
+	 * 
+	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
+	 */
+	public void eliminarCliente(ClienteDTO cliente) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se crea la conexion de la BD
+			connection = ConnectionFactory.getConnectionAdminFree();
+
+			// se procede ELIMINAR el CLIENTE
+			new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
+		} finally {
+			// se desconecta la conexion
+			CerrarRecursos.closeConnection(connection);
+		}		
+	}
 }

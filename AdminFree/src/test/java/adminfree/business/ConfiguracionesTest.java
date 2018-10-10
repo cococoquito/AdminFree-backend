@@ -130,4 +130,24 @@ public class ConfiguracionesTest {
 			assertTrue(false);
 		}
 	}
+	
+	/**
+	 * Test que permite eliminar un CLIENTE del sistema
+	 */	
+	@Test
+	public void eliminarCliente() {
+		try {
+			// se configura el CLIENTE ELIMINAR
+			ClienteDTO clienteEliminar = new ClienteDTO();
+			clienteEliminar.setId(1L);
+			
+			// se invoca el llamado del servicio para ELIMINAR el cliente
+			this.configuracionesService.eliminarCliente(clienteEliminar);
+
+			// si llega a esta punto es porque todo fue procesado correctamente
+			assertTrue(true);			
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
 }
