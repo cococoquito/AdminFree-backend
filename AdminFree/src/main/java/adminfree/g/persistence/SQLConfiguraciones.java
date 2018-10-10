@@ -9,7 +9,8 @@ package adminfree.g.persistence;
  */
 public class SQLConfiguraciones {
 
-	public static final String LISTAR_CLIENTES = "";
+	/** SQL para obtener todos los CLIENTES del sistema */
+	public static final String LISTAR_CLIENTES = "SELECT ID_CLIENTE, TOKEN, NOMBRE, TELEFONOS, EMAILS, FECHA_ACTIVACION, FECHA_INACTIVACION, ESTADO FROM CLIENTES";
 
 	/** SQL para la creacion del CLIENTE */
 	public static final String CREAR_CLIENTE = "INSERT INTO CLIENTES (TOKEN, NOMBRE, TELEFONOS, EMAILS, ESTADO, FECHA_ACTIVACION) VALUES (?, ?, ?, ?, ?, CURDATE())";

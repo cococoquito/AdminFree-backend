@@ -2,6 +2,8 @@ package adminfree.business;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +31,7 @@ public class ConfiguracionesTest {
 	}
 
 	/**
-	 * Test para la creación de los TEST
+	 * Test para la creacion de los TEST
 	 */
 	@Test
 	public void crearCliente() {
@@ -45,6 +47,22 @@ public class ConfiguracionesTest {
 
 			// debe retornar el cliente con el identificador
 			assertTrue(resultado != null && resultado.getId() != null);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test para la lista de todos los clientes
+	 */
+	@Test
+	public void listarTodosClientes() {
+		try {
+			// se invoca el llamado del servicio para obtener los todos los clientes
+			List<ClienteDTO> clientes = this.configuracionesService.listarTodosClientes();
+
+			// debe retornar almenos un cliente
+			assertTrue(clientes != null && !clientes.isEmpty());
 		} catch (Exception e) {
 			assertTrue(false);
 		}

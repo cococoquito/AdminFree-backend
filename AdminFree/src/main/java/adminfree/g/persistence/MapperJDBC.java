@@ -1,6 +1,8 @@
 package adminfree.g.persistence;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.ConstantNumeros;
@@ -56,10 +58,24 @@ public class MapperJDBC {
 	}
 
 	/**
-	 * Mapper para configurar los atributos de los clientes
+	 * Mapper para configurar los atributos de los CLIENTES
 	 */
 	private Object getClientes(ResultSet res) throws Exception {
-		return null;
+		List<ClienteDTO> resultado = new ArrayList<>();
+		ClienteDTO cliente = null;
+		while (res.next()) {
+			cliente = new ClienteDTO();
+			cliente.setId(res.getLong(ConstantNumeros.UNO));
+			cliente.setToken(res.getString(ConstantNumeros.DOS));
+			cliente.setNombre(res.getString(ConstantNumeros.TRES));
+			cliente.setTelefonos(res.getString(ConstantNumeros.CUATRO));
+			cliente.setEmails(res.getString(ConstantNumeros.CINCO));
+			cliente.setFechaActivacion(res.getDate(ConstantNumeros.SEIS));
+			cliente.setFechaInactivacion(res.getDate(ConstantNumeros.SIETE));
+			cliente.setEstado(res.getInt(ConstantNumeros.OCHO));
+			resultado.add(cliente);
+		}
+		return resultado;
 	}
 
 	/**

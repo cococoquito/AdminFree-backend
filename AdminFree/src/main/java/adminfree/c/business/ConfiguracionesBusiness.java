@@ -51,6 +51,21 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		Object clienteBD = find(SQLConfiguraciones.GET_CLIENTE_TOKEN, whereValues, mapper, con);
 		return (ClienteDTO) clienteBD;
 	}
+	
+	/**
+	 * Business para obtener todos los CLIENTES del sistema
+	 * 
+	 * @return, lista de CLIENTES configurados
+	 */	
+	@SuppressWarnings("unchecked")
+	public List<ClienteDTO> listarTodosClientes(Connection connection) throws Exception {
+		// se configura el Mapper especifico para esta solicitud
+		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_GET_CLIENTES);
+
+		// se obtiene todos los clientes del sistema
+		Object clientes = find(SQLConfiguraciones.LISTAR_CLIENTES, null, mapper, connection);
+		return (List<ClienteDTO>) clientes;
+	}	
 
 	/**
 	 * Metodo que permite generar un TOKEN unico
