@@ -24,5 +24,6 @@ public class SQLConfiguraciones {
 	/** SQL para ACTUALIZAR los datos del CLIENTE */
 	public static final String ACTUALIZAR_CLIENTE = "UPDATE CLIENTES SET NOMBRE=?, EMAILS=?, TELEFONOS=? WHERE ID_CLIENTE=?";
 
-	public static final String CAMBIAR_ESTADO_CLIENTE = "";
+	/** SQL para cambiar el estado del CLIENTE */
+	public static final String CAMBIAR_ESTADO_CLIENTE = "UPDATE CLIENTES SET ESTADO=? WHERE ID_CLIENTE=?";
 }

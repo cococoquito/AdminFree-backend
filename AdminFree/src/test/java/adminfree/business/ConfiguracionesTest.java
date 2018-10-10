@@ -67,9 +67,9 @@ public class ConfiguracionesTest {
 			assertTrue(false);
 		}
 	}
-	
+
 	/**
-	 * Metodo que permite actualizar los datos del cliente
+	 * Test que permite actualizar los datos del cliente
 	 */
 	@Test
 	public void actualizarCliente() {
@@ -80,11 +80,51 @@ public class ConfiguracionesTest {
 			clienteUpdate.setNombre("Nombre-test");
 			clienteUpdate.setEmails("Email-test");
 			clienteUpdate.setTelefonos("Telefono-test");
-			
+
 			// se invoca el llamado del servicio para actualizar el cliente
 			this.configuracionesService.actualizarCliente(clienteUpdate);
-			
+
 			// si llega a esta punto es porque todo fue actualizado correctamente
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test que permite testiar el servicio de ACTIVAR Cliente
+	 */
+	@Test
+	public void activarCliente() {
+		try {
+			// se configura el CLIENTE ACTIVAR
+			ClienteDTO clienteActivar = new ClienteDTO();
+			clienteActivar.setId(1L);
+
+			// se invoca el llamado del servicio para ACTIVAR el cliente
+			this.configuracionesService.activarCliente(clienteActivar);
+
+			// si llega a esta punto es porque todo fue procesado correctamente
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test que permite testiar el servicio de INACTIVAR Cliente
+	 */
+	@Test
+	public void inactivarCliente() {
+		try {
+			// se configura el CLIENTE INACTIVAR
+			ClienteDTO clienteInactivar = new ClienteDTO();
+			clienteInactivar.setId(1L);
+
+			// se invoca el llamado del servicio para INACTIVAR el cliente
+			this.configuracionesService.inactivarCliente(clienteInactivar);
+
+			// si llega a esta punto es porque todo fue procesado correctamente
 			assertTrue(true);
 		} catch (Exception e) {
 			assertTrue(false);

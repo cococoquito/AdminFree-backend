@@ -84,6 +84,22 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se actualiza los datos del cliente en BD
 		update(SQLConfiguraciones.ACTUALIZAR_CLIENTE, valoresUpdate, connection);
 	}
+	
+	/**
+	 * Business que permite cambiar el estado del CLIENTE
+	 * 
+	 * @param cliente, DTO que contiene los datos del CLIENTE
+	 * @param estado, nuevo estado del CLIENTE
+	 */
+	public void cambiarEstadoCliente(ClienteDTO cliente, Integer estado, Connection conn) throws Exception {
+		// se configura los valores ACTUALIZAR
+		List<ValueSQL> valoresUpdate = new ArrayList<>();
+		valoresUpdate.add(new ValueSQL(estado, null));
+		valoresUpdate.add(new ValueSQL(cliente.getId(), null));
+
+		// se actualiza el estado del CLIENTE
+		update(SQLConfiguraciones.CAMBIAR_ESTADO_CLIENTE, valoresUpdate, conn);
+	}
 
 	/**
 	 * Metodo que permite generar un TOKEN unico

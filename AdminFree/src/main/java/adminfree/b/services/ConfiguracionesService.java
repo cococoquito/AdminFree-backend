@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import adminfree.c.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
+import adminfree.e.utilities.ConstantEstado;
 import adminfree.g.persistence.ConnectionFactory;
 
 /**
@@ -79,5 +80,45 @@ public class ConfiguracionesService {
 			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
 		}		
+	}
+
+	/**
+	 * Servicio que permite ACTIVAR un cliente en el sistema
+	 * 
+	 * @param cliente, DTO que contiene el identificador del cliente ACTIVAR
+	 */
+	public void activarCliente(ClienteDTO cliente) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se crea la conexion de la BD
+			connection = ConnectionFactory.getConnectionAdminFree();
+
+			// se procede ACTIVAR el CLIENTE
+			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, ConstantEstado.ID_ESTADO_ACTIVO, connection);
+		} finally {
+			// se desconecta la conexion
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite INACTIVAR un cliente en el sistema
+	 * 
+	 * @param cliente, DTO que contiene el identificador del cliente INACTIVAR
+	 */
+	public void inactivarCliente(ClienteDTO cliente) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se crea la conexion de la BD
+			connection = ConnectionFactory.getConnectionAdminFree();
+
+			// se procede INACTIVAR el CLIENTE
+			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, ConstantEstado.ID_ESTADO_INACTIVO, connection);
+		} finally {
+			// se desconecta la conexion
+			CerrarRecursos.closeConnection(connection);
+		}
 	}
 }
