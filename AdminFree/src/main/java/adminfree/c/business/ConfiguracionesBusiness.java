@@ -11,6 +11,7 @@ import adminfree.e.utilities.EstrategiaCriptografica;
 import adminfree.g.persistence.CommonDAO;
 import adminfree.g.persistence.MapperJDBC;
 import adminfree.g.persistence.SQLConfiguraciones;
+import adminfree.g.persistence.ValueSQL;
 
 /**
  * 
@@ -65,7 +66,24 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se obtiene todos los clientes del sistema
 		Object clientes = find(SQLConfiguraciones.LISTAR_CLIENTES, null, mapper, connection);
 		return (List<ClienteDTO>) clientes;
-	}	
+	}
+	
+	/**
+	 * Business para actualizar los datos del CLIENTE
+	 * 
+	 * @param clienteUpdate, Datos del cliente actualizar
+	 */
+	public void actualizarCliente(ClienteDTO clienteUpdate, Connection connection) throws Exception {
+		// se configura los valores ACTUALIZAR
+		List<ValueSQL> valoresUpdate = new ArrayList<>();
+		valoresUpdate.add(new ValueSQL(clienteUpdate.getNombre(), null));
+		valoresUpdate.add(new ValueSQL(clienteUpdate.getEmails(), null));
+		valoresUpdate.add(new ValueSQL(clienteUpdate.getTelefonos(), null));
+		valoresUpdate.add(new ValueSQL(clienteUpdate.getId(), null));
+
+		// se actualiza los datos del cliente en BD
+		update(SQLConfiguraciones.ACTUALIZAR_CLIENTE, valoresUpdate, connection);
+	}
 
 	/**
 	 * Metodo que permite generar un TOKEN unico

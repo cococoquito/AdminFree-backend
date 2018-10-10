@@ -67,4 +67,27 @@ public class ConfiguracionesTest {
 			assertTrue(false);
 		}
 	}
+	
+	/**
+	 * Metodo que permite actualizar los datos del cliente
+	 */
+	@Test
+	public void actualizarCliente() {
+		try {
+			// se configura el CLIENTE actualizar
+			ClienteDTO clienteUpdate = new ClienteDTO();
+			clienteUpdate.setId(1L);
+			clienteUpdate.setNombre("Nombre-test");
+			clienteUpdate.setEmails("Email-test");
+			clienteUpdate.setTelefonos("Telefono-test");
+			
+			// se invoca el llamado del servicio para actualizar el cliente
+			this.configuracionesService.actualizarCliente(clienteUpdate);
+			
+			// si llega a esta punto es porque todo fue actualizado correctamente
+			assertTrue(true);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+	}
 }

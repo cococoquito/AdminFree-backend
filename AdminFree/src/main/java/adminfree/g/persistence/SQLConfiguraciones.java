@@ -21,7 +21,8 @@ public class SQLConfiguraciones {
 	/** SQL para contar los clientes que contenga un TOKEN especifico */
 	public static final String COUNT_CLIENTE_TOKEN = "SELECT COUNT(*) FROM CLIENTES WHERE TOKEN = ?";
 
-	public static final String ACTUALIZAR_CLIENTE = "";
+	/** SQL para ACTUALIZAR los datos del CLIENTE */
+	public static final String ACTUALIZAR_CLIENTE = "UPDATE CLIENTES SET NOMBRE=?, EMAILS=?, TELEFONOS=? WHERE ID_CLIENTE=?";
 
 	public static final String CAMBIAR_ESTADO_CLIENTE = "";
 }

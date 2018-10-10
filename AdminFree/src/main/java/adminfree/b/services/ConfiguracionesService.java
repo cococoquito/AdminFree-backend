@@ -60,4 +60,24 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio para actualizar los datos del CLIENTE
+	 * 
+	 * @param clienteUpdate, datos del cliente ACTUALIZAR
+	 */
+	public void actualizarCliente(ClienteDTO clienteUpdate) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se crea la conexion de la BD
+			connection = ConnectionFactory.getConnectionAdminFree();
+
+			// se procede actualizar los datos del CLIENTE
+			new ConfiguracionesBusiness().actualizarCliente(clienteUpdate, connection);
+		} finally {
+			// se desconecta la conexion
+			CerrarRecursos.closeConnection(connection);
+		}		
+	}
 }
