@@ -62,7 +62,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @return, lista de CLIENTES configurados
 	 */	
 	@SuppressWarnings("unchecked")
-	public List<ClienteDTO> listarTodosClientes(Connection connection) throws Exception {
+	public List<ClienteDTO> listarClientes(Connection connection) throws Exception {
 		// se configura el Mapper especifico para esta solicitud
 		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_GET_CLIENTES);
 

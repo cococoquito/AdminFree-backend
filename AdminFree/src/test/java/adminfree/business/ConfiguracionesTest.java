@@ -58,8 +58,8 @@ public class ConfiguracionesTest {
 	@Test
 	public void listarTodosClientes() {
 		try {
-			// se invoca el llamado del servicio para obtener los todos los clientes
-			List<ClienteDTO> clientes = this.configuracionesService.listarTodosClientes();
+			// se invoca el llamado del servicio para obtener todos los clientes
+			List<ClienteDTO> clientes = this.configuracionesService.listarClientes();
 
 			// debe retornar almenos un cliente
 			assertTrue(clientes != null && !clientes.isEmpty());

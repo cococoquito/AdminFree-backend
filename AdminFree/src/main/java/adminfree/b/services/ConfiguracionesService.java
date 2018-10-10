@@ -47,7 +47,7 @@ public class ConfiguracionesService {
 	 * 
 	 * @return, lista de CLIENTES configurados
 	 */
-	public List<ClienteDTO> listarTodosClientes() throws Exception {
+	public List<ClienteDTO> listarClientes() throws Exception {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
@@ -55,7 +55,7 @@ public class ConfiguracionesService {
 			connection = ConnectionFactory.getConnectionAdminFree();
 
 			// se procede a listar todos los clientes del sistema
-			return new ConfiguracionesBusiness().listarTodosClientes(connection);
+			return new ConfiguracionesBusiness().listarClientes(connection);
 		} finally {
 			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
@@ -83,7 +83,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Servicio que permite ACTIVAR un cliente en el sistema
+	 * Servicio que permite ACTIVAR un cliente
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ACTIVAR
 	 */
@@ -103,7 +103,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Servicio que permite INACTIVAR un cliente en el sistema
+	 * Servicio que permite INACTIVAR un cliente
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente INACTIVAR
 	 */
