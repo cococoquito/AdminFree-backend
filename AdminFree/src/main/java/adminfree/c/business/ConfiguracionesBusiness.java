@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.e.utilities.ConstantEstado;
 import adminfree.e.utilities.ConstantNumeros;
 import adminfree.e.utilities.EstrategiaCriptografica;
 import adminfree.g.persistence.CommonDAO;
@@ -32,11 +33,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se configuran los valores para realizar el INSERT
 		List<Object> insertValues = new ArrayList<>();
+		insertValues.add(token);
 		insertValues.add(cliente.getNombre());
 		insertValues.add(cliente.getTelefonos());
-		insertValues.add(cliente.getEstado());
 		insertValues.add(cliente.getEmails());
-		insertValues.add(token);
+		insertValues.add(ConstantEstado.ID_ESTADO_ACTIVO);
 
 		// se procede a realizar el INSERT en la BD
 		insert(SQLConfiguraciones.CREAR_CLIENTE, insertValues, con);

@@ -9,14 +9,16 @@ package adminfree.g.persistence;
  */
 public class SQLConfiguraciones {
 
-	/******** CONSTANTES PARA LA ADMINISTRACION DE LOS CLIENTES DEL SISTEMA ******/
 	public static final String LISTAR_CLIENTES = "";
-	
-	public static final String CREAR_CLIENTE = "";
-	
-	public static final String GET_CLIENTE_TOKEN = "";
-	
-	public static final String COUNT_CLIENTE_TOKEN = "";
+
+	/** SQL para la creacion del CLIENTE */
+	public static final String CREAR_CLIENTE = "INSERT INTO CLIENTES (TOKEN, NOMBRE, TELEFONOS, EMAILS, ESTADO, FECHA_ACTIVACION) VALUES (?, ?, ?, ?, ?, CURDATE())";
+
+	/** SQL para obtener un CLIENTE con base al TOKEN */
+	public static final String GET_CLIENTE_TOKEN = "SELECT ID_CLIENTE, TOKEN, NOMBRE, TELEFONOS, EMAILS, FECHA_ACTIVACION, ESTADO FROM CLIENTES WHERE TOKEN = ?";
+
+	/** SQL para contar los clientes que contenga un TOKEN especifico */
+	public static final String COUNT_CLIENTE_TOKEN = "SELECT COUNT(*) FROM CLIENTES WHERE TOKEN = ?";
 
 	public static final String ACTUALIZAR_CLIENTE = "";
 

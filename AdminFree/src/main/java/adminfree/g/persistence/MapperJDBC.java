@@ -2,10 +2,10 @@ package adminfree.g.persistence;
 
 import java.sql.ResultSet;
 
+import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.ConstantNumeros;
 
 /**
- * 
  * Clase que contiene los metodos MAPPER para las consultas JDBC
  * 
  * @author Carlos Andres Diaz
@@ -47,6 +47,10 @@ public class MapperJDBC {
 			case MAPPER_COUNT:
 				result = getCount(res);
 				break;
+				
+			case MAPPER_GET_CLIENTE_TOKEN:
+				result = getCliente(res);
+				break;				
 		}
 		return result;
 	}
@@ -66,5 +70,23 @@ public class MapperJDBC {
             return res.getLong(ConstantNumeros.UNO);
         }
 		return ConstantNumeros.ZERO.longValue();
+	}
+	
+	/**
+	 * Mapper para configurar los datos de un CLIENTE
+	 */
+	private Object getCliente(ResultSet res) throws Exception {
+		ClienteDTO cliente = null;
+		if (res.next()) {
+			cliente = new ClienteDTO();
+			cliente.setId(res.getLong(ConstantNumeros.UNO));
+			cliente.setToken(res.getString(ConstantNumeros.DOS));
+			cliente.setNombre(res.getString(ConstantNumeros.TRES));
+			cliente.setTelefonos(res.getString(ConstantNumeros.CUATRO));
+			cliente.setEmails(res.getString(ConstantNumeros.CINCO));
+			cliente.setFechaActivacion(res.getDate(ConstantNumeros.SEIS));
+			cliente.setEstado(res.getInt(ConstantNumeros.SIETE));
+		}
+		return cliente;
 	}
 }
