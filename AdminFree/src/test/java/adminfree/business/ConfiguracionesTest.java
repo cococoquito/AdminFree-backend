@@ -10,6 +10,7 @@ import org.junit.Test;
 import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.ConstantEstado;
+import adminfree.g.persistence.ConstantSQL;
 
 /**
  * 
@@ -28,6 +29,22 @@ public class ConfiguracionesTest {
 	public void init() {
 		// se debe tener esta instancia para los test
 		this.configuracionesService = new ConfiguracionesService();
+	}
+	
+	/**
+	 * Test que permite iniciar sesion para administrar los clientes
+	 */
+	@Test
+	public void iniciarSesionAdminClientes() {
+		// se obtiene la clave e usuario para la autenticacion
+		String clave = "1234";
+		String usuario = "user";
+
+		// se invoca el servicio para la autenticacion
+		String resultado = this.configuracionesService.iniciarSesionAdminClientes(clave, usuario);
+
+		// se valida si es exitoso el resultado
+		assertTrue(ConstantSQL.SUCCESSFUL.equals(resultado));
 	}
 
 	/**

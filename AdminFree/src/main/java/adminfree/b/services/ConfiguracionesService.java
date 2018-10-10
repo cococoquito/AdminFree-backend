@@ -3,6 +3,7 @@ package adminfree.b.services;
 import java.sql.Connection;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.c.business.ConfiguracionesBusiness;
@@ -10,6 +11,7 @@ import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
 import adminfree.e.utilities.ConstantEstado;
 import adminfree.g.persistence.ConnectionFactory;
+import adminfree.g.persistence.ConstantSQL;
 
 /**
  * 
@@ -20,6 +22,31 @@ import adminfree.g.persistence.ConnectionFactory;
  */
 @Service("configuracionesService")
 public class ConfiguracionesService {
+	
+	/** Contiene la clave para la autenticacion del administrador de clientes */
+	@Value("${adminCliente.clave}")
+	private String adminClienteClave;
+
+	/** Contiene el usuario para la autenticacion del administrador de clientes */
+	@Value("${adminCliente.user}")
+	private String adminClienteUser;	
+
+	/**
+	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
+	 * 
+	 * @param clave, clave de la autenticacion
+	 * @param usuario, usuario de la autenticacion
+	 * @return 200 si es exitoso
+	 */
+	public String iniciarSesionAdminClientes(String clave, String usuario) {
+		String resultado = ConstantSQL.BAD_REQUEST;
+		if (clave != null && usuario != null && 
+			clave.equals(this.adminClienteClave) && 
+			usuario.equals(this.adminClienteUser)) {
+			return ConstantSQL.SUCCESSFUL;
+		}
+		return resultado;
+	}
 
 	/**
 	 * Servicio que permite crear un cliente en el sistema
