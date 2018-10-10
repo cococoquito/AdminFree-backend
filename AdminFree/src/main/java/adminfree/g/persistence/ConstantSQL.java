@@ -9,6 +9,9 @@ package adminfree.g.persistence;
  */
 public class ConstantSQL {
 
+	/** Codigo que identifica que algun proceso se ejecuto exitosamente */
+	public static final String SUCCESSFUL = "200";
+
 	/** Es el tamanio maximo a ejecutar el BATCH de JDBC */
 	public static final int BATCH_SIZE = 1000;
 }

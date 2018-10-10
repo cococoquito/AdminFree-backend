@@ -6,7 +6,6 @@ package adminfree.e.utilities;
  * @author Carlos andres diaz
  *
  */
-
 public class ConstantEstado {
 
 	/**************** Son los IDS de los estados ****************************************/

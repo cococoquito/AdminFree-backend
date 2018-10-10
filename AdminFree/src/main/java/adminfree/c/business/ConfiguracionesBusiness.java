@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.e.utilities.ConstantBusinessMessages;
 import adminfree.e.utilities.ConstantEstado;
 import adminfree.e.utilities.ConstantNumeros;
 import adminfree.e.utilities.EstrategiaCriptografica;
 import adminfree.g.persistence.CommonDAO;
+import adminfree.g.persistence.ConstantSQL;
 import adminfree.g.persistence.MapperJDBC;
+import adminfree.g.persistence.ProceduresJDBC;
 import adminfree.g.persistence.SQLConfiguraciones;
 import adminfree.g.persistence.ValueSQL;
 
@@ -107,7 +110,13 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
 	 */
 	public void eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
+		// se ejecuta el procedimiento almacenado de ELIMINAR CLIENTE
+		String resultado = new ProceduresJDBC().eliminarCliente(cliente.getId(), con);
 
+		// se valida que la ejecucion sea EXITOSA
+		if (!ConstantSQL.SUCCESSFUL.equals(resultado)) {
+			throw new Exception(ConstantBusinessMessages.ERROR_ELIMINAR_CLIENTE + resultado);
+		}
 	}
 
 	/**
