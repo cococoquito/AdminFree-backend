@@ -11,14 +11,14 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-eliminarCliente
+ * Test para el servicio ConfiguracionesService.eliminarCliente
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EliminarCliente {
+public class EliminarClienteTest {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
@@ -40,6 +40,7 @@ public class EliminarCliente {
 			// si llega a esta punto es porque todo fue procesado correctamente
 			assertTrue(true);
 		} catch (Exception e) {
+			System.err.println(e.getMessage());
 			assertTrue(false);
 		}
 	}

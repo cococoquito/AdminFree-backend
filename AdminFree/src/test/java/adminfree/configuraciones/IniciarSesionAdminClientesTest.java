@@ -12,7 +12,7 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.g.persistence.ConstantSQL;
 
 /**
- * Test para el servicio ConfiguracionesService-iniciarSesionAdminClientes
+ * Test para el servicio ConfiguracionesService.iniciarSesionAdminClientes
  * 
  * @author Carlos Andres Diaz
  *

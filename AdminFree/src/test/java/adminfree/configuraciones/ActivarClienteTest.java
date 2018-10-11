@@ -12,36 +12,33 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-actualizarCliente
+ * Test para el servicio ConfiguracionesService.activarCliente
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ActualizarCliente {
+public class ActivarClienteTest {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Test que permite actualizar los datos del cliente
+	 * Test que permite activar un Cliente
 	 */
 	@Test
-	public void actualizarCliente() {
+	public void activarCliente() {
 		try {
-			// se configura el CLIENTE actualizar
-			ClienteDTO clienteUpdate = new ClienteDTO();
-			clienteUpdate.setId(2L);
-			clienteUpdate.setNombre("este es el campo nombre");
-			clienteUpdate.setEmails("este es el campo email");
-			clienteUpdate.setTelefonos("este es el campo telefono");
+			// se configura el CLIENTE ACTIVAR
+			ClienteDTO clienteActivar = new ClienteDTO();
+			clienteActivar.setId(1L);
 
-			// se invoca el llamado del servicio para actualizar el cliente
-			this.configuracionesService.actualizarCliente(clienteUpdate);
+			// se invoca el llamado del servicio para ACTIVAR el cliente
+			this.configuracionesService.activarCliente(clienteActivar);
 
-			// si llega a esta punto es porque todo fue actualizado correctamente
+			// si llega a esta punto es porque todo fue procesado correctamente
 			assertTrue(true);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

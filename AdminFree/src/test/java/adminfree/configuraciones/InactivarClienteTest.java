@@ -12,14 +12,14 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-inactivarCliente
+ * Test para el servicio ConfiguracionesService.inactivarCliente
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class InactivarCliente {
+public class InactivarClienteTest {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired

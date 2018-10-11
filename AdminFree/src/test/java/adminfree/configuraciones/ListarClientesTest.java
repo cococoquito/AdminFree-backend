@@ -14,14 +14,14 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-listarClientes
+ * Test para el servicio ConfiguracionesService.listarClientes
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ListarClientes {
+public class ListarClientesTest {
 	
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
