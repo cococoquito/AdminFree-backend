@@ -112,6 +112,44 @@ public class ConfiguracionesService {
 	}
 	
 	/**
+	 * Metodo que permite ACTIVAR un cliente
+	 * 
+	 * @param cliente, contiene el identificador del cliente
+	 */
+	public void activarCliente(ClienteDTO cliente) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede activar el CLIENTE
+			new ConfiguracionesBusiness().activarCliente(cliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}		
+	}
+	
+	/**
+	 * Metodo que permite INACTIVAR un cliente
+	 * 
+	 * @param cliente, contiene el identificador del cliente
+	 */
+	public void inactivarCliente(ClienteDTO cliente) throws Exception {
+		// variable de referencia de la conexion
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede inactivar el CLIENTE
+			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}		
+	}	
+	
+	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
