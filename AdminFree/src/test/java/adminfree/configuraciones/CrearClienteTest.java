@@ -26,7 +26,7 @@ public class CrearClienteTest {
 	private ConfiguracionesService configuracionesService;	
 	
 	/**
-	 * Test para la creacion de los TEST
+	 * Test para la creacion del CLIENTE
 	 */
 	@Test
 	public void crearCliente() {
