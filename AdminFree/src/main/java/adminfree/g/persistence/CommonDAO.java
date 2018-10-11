@@ -89,7 +89,7 @@ public class CommonDAO {
 	}
 	
 	/**
-	 * Metodo utilitario para las consultas de SELECT con JDBC
+	 * Metodo utilitario para las consultas de SELECT sin WHERE sentence
 	 * 
 	 * @param sql, SQL con la consulta configurada
 	 * @param mapper, identifica que objecto especifico se debe mappear
@@ -113,7 +113,8 @@ public class CommonDAO {
 	}	
 
 	/**
-	 * Metodo utilitario para los DELETE con JDBC DELETE DBUSER WHERE USER_ID = ?
+	 * Metodo utilitario para los DELETE con JDBC 
+	 * DELETE DBUSER WHERE USER_ID = ?
 	 * 
 	 * @param deleteSQL, es el DELETE SQL a ejecutar
 	 * @param where, contiene los valores para el whereSentence

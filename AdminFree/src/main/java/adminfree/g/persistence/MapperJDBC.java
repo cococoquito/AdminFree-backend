@@ -33,7 +33,7 @@ public class MapperJDBC {
 	/**
 	 * Constructor del Mapper donde recibe el tipo de mapper a ejecutar
 	 */
-	public MapperJDBC(Integer tipoMapper) {
+	private MapperJDBC(Integer tipoMapper) {
 		this.tipoMapper = tipoMapper;
 	}
 

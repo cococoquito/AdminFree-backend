@@ -21,7 +21,7 @@ public class ValueSQL {
 		return new ValueSQL(valor, tipoDato);
 	}
 
-	public ValueSQL(Object valor, Integer tipoDato) {
+	private ValueSQL(Object valor, Integer tipoDato) {
 		this.valor = valor;
 		this.tipoDato = tipoDato;
 	}
