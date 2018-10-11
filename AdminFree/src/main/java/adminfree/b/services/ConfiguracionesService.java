@@ -127,9 +127,9 @@ public class ConfiguracionesService {
 			new ConfiguracionesBusiness().activarCliente(cliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
-		}		
+		}
 	}
-	
+
 	/**
 	 * Metodo que permite INACTIVAR un cliente
 	 * 
@@ -146,8 +146,8 @@ public class ConfiguracionesService {
 			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
-		}		
-	}	
+		}
+	}
 	
 	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema

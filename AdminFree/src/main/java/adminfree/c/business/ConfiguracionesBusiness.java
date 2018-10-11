@@ -94,7 +94,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
 				ValueSQL.get(ConstantEstado.ID_ESTADO_INACTIVO, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
-	}	
+	}
 	
 	/**
 	 * Business que permite ELIMINAR un cliente del sistema
