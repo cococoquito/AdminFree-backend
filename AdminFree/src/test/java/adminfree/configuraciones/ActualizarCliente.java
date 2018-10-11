@@ -2,8 +2,6 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,30 +12,37 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-listarClientes
+ * Test para el servicio ConfiguracionesService-actualizarCliente
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ListarClientes {
-	
+public class ActualizarCliente {
+
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
-	
-	/**
-	 * Test para validar la lista de clientes
-	 */	
-	@Test
-	public void listarClientes() {
-		try {
-			// se invoca el llamado del servicio para obtener todos los clientes
-			List<ClienteDTO> clientes = this.configuracionesService.listarClientes();
 
-			// debe retornar almenos un cliente
-			assertTrue(clientes != null && !clientes.isEmpty());
+	/**
+	 * Test que permite actualizar los datos del cliente
+	 */
+	@Test
+	public void actualizarCliente() {
+		try {
+			// se configura el CLIENTE actualizar
+			ClienteDTO clienteUpdate = new ClienteDTO();
+			clienteUpdate.setId(2L);
+			clienteUpdate.setNombre("este es el campo nombre");
+			clienteUpdate.setEmails("este es el campo email");
+			clienteUpdate.setTelefonos("este es el campo telefono");
+
+			// se invoca el llamado del servicio para actualizar el cliente
+			this.configuracionesService.actualizarCliente(clienteUpdate);
+
+			// si llega a esta punto es porque todo fue actualizado correctamente
+			assertTrue(true);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);
