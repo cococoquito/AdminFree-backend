@@ -3,14 +3,15 @@ package adminfree.b.services;
 import java.sql.Connection;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.c.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
-import adminfree.e.utilities.ConstantEstado;
-import adminfree.g.persistence.ConnectionFactory;
 import adminfree.g.persistence.ConstantSQL;
 
 /**
@@ -22,28 +23,32 @@ import adminfree.g.persistence.ConstantSQL;
  */
 @Service("configuracionesService")
 public class ConfiguracionesService {
-	
+
+	/** DataSource para las conexiones de la BD de AdminFree */
+	@Autowired
+	private DataSource adminFreeDS;
+
 	/** Contiene la clave para la autenticacion del administrador de clientes */
 	@Value("${adminCliente.clave}")
 	private String adminClienteClave;
 
 	/** Contiene el usuario para la autenticacion del administrador de clientes */
 	@Value("${adminCliente.user}")
-	private String adminClienteUser;	
+	private String adminClienteUser;
 
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
 	 * 
 	 * @param clave, clave de la autenticacion
 	 * @param usuario, usuario de la autenticacion
-	 * @return 200 si es exitoso
+	 * @return 200 si es exitoso, de lo contrario 400
 	 */
 	public String iniciarSesionAdminClientes(String clave, String usuario) {
 		String resultado = ConstantSQL.BAD_REQUEST;
 		if (clave != null && usuario != null && 
 			clave.equals(this.adminClienteClave) && 
 			usuario.equals(this.adminClienteUser)) {
-			return ConstantSQL.SUCCESSFUL;
+			resultado = ConstantSQL.SUCCESSFUL;
 		}
 		return resultado;
 	}
@@ -58,13 +63,12 @@ public class ConfiguracionesService {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
-			
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
 			// se procede a crear el cliente en BD
 			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
 		} finally {
-			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
@@ -78,13 +82,12 @@ public class ConfiguracionesService {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
 
 			// se procede a listar todos los clientes del sistema
 			return new ConfiguracionesBusiness().listarClientes(connection);
 		} finally {
-			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
@@ -98,53 +101,32 @@ public class ConfiguracionesService {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
 
 			// se procede actualizar los datos del CLIENTE
 			new ConfiguracionesBusiness().actualizarCliente(clienteUpdate, connection);
 		} finally {
-			// se desconecta la conexion
-			CerrarRecursos.closeConnection(connection);
-		}		
-	}
-
-	/**
-	 * Servicio que permite ACTIVAR un cliente
-	 * 
-	 * @param cliente, DTO que contiene el identificador del cliente ACTIVAR
-	 */
-	public void activarCliente(ClienteDTO cliente) throws Exception {
-		// variable de referencia de la conexion
-		Connection connection = null;
-		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
-
-			// se procede ACTIVAR el CLIENTE
-			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, ConstantEstado.ID_ESTADO_ACTIVO, connection);
-		} finally {
-			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
-
+	
 	/**
-	 * Servicio que permite INACTIVAR un cliente
+	 * Servicio que permite cambiar el estado del CLIENTE
 	 * 
-	 * @param cliente, DTO que contiene el identificador del cliente INACTIVAR
-	 */
-	public void inactivarCliente(ClienteDTO cliente) throws Exception {
+	 * @param cliente, DTO que contiene el identificador del cliente ACTUALIZAR
+	 * @param estado, nuevo estado del CLIENTE
+	 */	
+	public void cambiarEstadoCliente(ClienteDTO cliente, Integer estado) throws Exception {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
 
-			// se procede INACTIVAR el CLIENTE
-			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, ConstantEstado.ID_ESTADO_INACTIVO, connection);
+			// se procede a cambiar el estado del CLIENTE
+			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, estado, connection);
 		} finally {
-			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
@@ -158,14 +140,13 @@ public class ConfiguracionesService {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
-			// se crea la conexion de la BD
-			connection = ConnectionFactory.getConnectionAdminFree();
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
 
 			// se procede ELIMINAR el CLIENTE
 			new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
 		} finally {
-			// se desconecta la conexion
 			CerrarRecursos.closeConnection(connection);
-		}		
+		}
 	}
 }
