@@ -13,6 +13,13 @@ public class ValueSQL {
 
 	/** Es el tipo de dato para este valor cuando es NULA */
 	private Integer tipoDato;
+	
+	/**
+	 * Retorna una instancia de este tipo de Clase
+	 */
+	public static ValueSQL get(Object valor, Integer tipoDato) {
+		return new ValueSQL(valor, tipoDato);
+	}
 
 	public ValueSQL(Object valor, Integer tipoDato) {
 		this.valor = valor;

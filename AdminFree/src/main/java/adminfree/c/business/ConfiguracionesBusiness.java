@@ -1,7 +1,7 @@
 package adminfree.c.business;
 
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.sql.Types;
 import java.util.List;
 
 import adminfree.d.model.configuraciones.ClienteDTO;
@@ -33,27 +33,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public ClienteDTO crearCliente(ClienteDTO cliente, Connection con) throws Exception {
 		// se procede a generar un TOKEN unico para este cliente
-		String token = generarToken(con);
-
-		// se configuran los valores para realizar el INSERT
-		List<Object> insertValues = new ArrayList<>();
-		insertValues.add(token);
-		insertValues.add(cliente.getNombre());
-		insertValues.add(cliente.getTelefonos());
-		insertValues.add(cliente.getEmails());
-		insertValues.add(ConstantEstado.ID_ESTADO_ACTIVO);
+		ValueSQL token = generarToken(con);
 
 		// se procede a realizar el INSERT en la BD
-		insert(SQLConfiguraciones.CREAR_CLIENTE, insertValues, con);
-
-		// se configura el WHERE sentence para obtener el cliente por su TOKEN
-		List<Object> whereValues = new ArrayList<>();
-		whereValues.add(token);
+		insertUpdate(con, SQLConfiguraciones.CREAR_CLIENTE, 
+				token, 
+				ValueSQL.get(cliente.getNombre(), Types.VARCHAR),
+				ValueSQL.get(cliente.getTelefonos(), Types.VARCHAR), 
+				ValueSQL.get(cliente.getEmails(), Types.VARCHAR),
+				ValueSQL.get(ConstantEstado.ID_ESTADO_ACTIVO, Types.INTEGER));
 
 		// se retorna el cliente con sus datos registrados en el sistema
-		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_GET_CLIENTE_TOKEN);
-		Object clienteBD = find(SQLConfiguraciones.GET_CLIENTE_TOKEN, whereValues, mapper, con);
-		return (ClienteDTO) clienteBD;
+		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
+				MapperJDBC.get(MapperJDBC.MAPPER_GET_CLIENTE_TOKEN), 
+				token);
 	}
 	
 	/**
@@ -63,12 +56,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */	
 	@SuppressWarnings("unchecked")
 	public List<ClienteDTO> listarClientes(Connection connection) throws Exception {
-		// se configura el Mapper especifico para esta solicitud
-		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_GET_CLIENTES);
-
-		// se obtiene todos los clientes del sistema
-		Object clientes = find(SQLConfiguraciones.LISTAR_CLIENTES, null, mapper, connection);
-		return (List<ClienteDTO>) clientes;
+		return (List<ClienteDTO>) findAll(
+				connection, SQLConfiguraciones.LISTAR_CLIENTES,
+				MapperJDBC.get(MapperJDBC.MAPPER_GET_CLIENTES));
 	}
 	
 	/**
@@ -76,33 +66,35 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * 
 	 * @param clienteUpdate, Datos del cliente actualizar
 	 */
-	public void actualizarCliente(ClienteDTO clienteUpdate, Connection connection) throws Exception {
-		// se configura los valores ACTUALIZAR
-		List<ValueSQL> valoresUpdate = new ArrayList<>();
-		valoresUpdate.add(new ValueSQL(clienteUpdate.getNombre(), null));
-		valoresUpdate.add(new ValueSQL(clienteUpdate.getEmails(), null));
-		valoresUpdate.add(new ValueSQL(clienteUpdate.getTelefonos(), null));
-		valoresUpdate.add(new ValueSQL(clienteUpdate.getId(), null));
-
-		// se actualiza los datos del cliente en BD
-		update(SQLConfiguraciones.ACTUALIZAR_CLIENTE, valoresUpdate, connection);
+	public void actualizarCliente(ClienteDTO clienteUpdate, Connection conn) throws Exception {
+		insertUpdate(conn, SQLConfiguraciones.ACTUALIZAR_CLIENTE,
+				ValueSQL.get(clienteUpdate.getNombre(), Types.VARCHAR),
+				ValueSQL.get(clienteUpdate.getEmails(), Types.VARCHAR),
+				ValueSQL.get(clienteUpdate.getTelefonos(), Types.VARCHAR),
+				ValueSQL.get(clienteUpdate.getId(), Types.BIGINT));
 	}
 	
 	/**
-	 * Business que permite cambiar el estado del CLIENTE
+	 * Metodo que permite ACTIVAR un cliente
 	 * 
-	 * @param cliente, DTO que contiene el identificador del cliente ACTUALIZAR
-	 * @param estado, nuevo estado del CLIENTE
+	 * @param cliente, contiene el identificador del cliente
 	 */
-	public void cambiarEstadoCliente(ClienteDTO cliente, Integer estado, Connection conn) throws Exception {
-		// se configura los valores ACTUALIZAR
-		List<ValueSQL> valoresUpdate = new ArrayList<>();
-		valoresUpdate.add(new ValueSQL(estado, null));
-		valoresUpdate.add(new ValueSQL(cliente.getId(), null));
-
-		// se actualiza el estado del CLIENTE
-		update(SQLConfiguraciones.CAMBIAR_ESTADO_CLIENTE, valoresUpdate, conn);
+	public void activarCliente(ClienteDTO cliente, Connection conn) throws Exception {
+		insertUpdate(conn, SQLConfiguraciones.ACTIVAR_CLIENTE,
+				ValueSQL.get(ConstantEstado.ID_ESTADO_ACTIVO, Types.INTEGER),
+				ValueSQL.get(cliente.getId(), Types.BIGINT));
 	}
+	
+	/**
+	 * Metodo que permite INACTIVAR un cliente
+	 * 
+	 * @param cliente, contiene el identificador del cliente
+	 */
+	public void inactivarCliente(ClienteDTO cliente, Connection conn) throws Exception {
+		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
+				ValueSQL.get(ConstantEstado.ID_ESTADO_INACTIVO, Types.INTEGER),
+				ValueSQL.get(cliente.getId(), Types.BIGINT));
+	}	
 	
 	/**
 	 * Business que permite ELIMINAR un cliente del sistema
@@ -122,29 +114,25 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
-	private String generarToken(Connection con) throws Exception {
+	private ValueSQL generarToken(Connection con) throws Exception {
 		// es el valor del nuevo TOKEN a retornar
-		String token = null;
+		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
 		
 		// es el generador de TOKEN
 		EstrategiaCriptografica generador = new EstrategiaCriptografica();
 		
-		// es el MAPPER para obtener el Count de los clientes asociados a un TOKEN
-		MapperJDBC mapper = new MapperJDBC(MapperJDBC.MAPPER_COUNT);
+		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
+		MapperJDBC mapper = MapperJDBC.get(MapperJDBC.MAPPER_COUNT);
 
 		// el TOKEN debe ser unico en el sistema
 		boolean tokenExiste = true;
-		List<Object> whereToken;
-		Long count;
 		while (tokenExiste) {
 
 			// se solicita un nuevo TOKEN
-			token = generador.generarToken();
+			token.setValor(generador.generarToken());
 
 			// se procede a contar los registros que contenga este TOKEN
-			whereToken = new ArrayList<>();
-			whereToken.add(token);
-			count = (Long) find(SQLConfiguraciones.COUNT_CLIENTE_TOKEN, whereToken, mapper, con);
+			Long count = (Long)find(con, SQLConfiguraciones.COUNT_CLIENTE_TOKEN, mapper, token);
 
 			// valida si el TOKEN es unico en el sistema
 			if (count.equals(ConstantNumeros.ZERO.longValue())) {

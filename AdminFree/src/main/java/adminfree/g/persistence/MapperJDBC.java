@@ -22,6 +22,13 @@ public class MapperJDBC {
 
 	/** Es el tipo de MAPPER a ejecutar */
 	private Integer tipoMapper;
+	
+	/**
+	 * Retorna una instancia de este tipo de Clase
+	 */
+	public static MapperJDBC get(Integer tipoMapper) {
+		return new MapperJDBC(tipoMapper);
+	}	
 
 	/**
 	 * Constructor del Mapper donde recibe el tipo de mapper a ejecutar

@@ -112,26 +112,6 @@ public class ConfiguracionesService {
 	}
 	
 	/**
-	 * Servicio que permite cambiar el estado del CLIENTE
-	 * 
-	 * @param cliente, DTO que contiene el identificador del cliente ACTUALIZAR
-	 * @param estado, nuevo estado del CLIENTE
-	 */	
-	public void cambiarEstadoCliente(ClienteDTO cliente, Integer estado) throws Exception {
-		// variable de referencia de la conexion
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procede a cambiar el estado del CLIENTE
-			new ConfiguracionesBusiness().cambiarEstadoCliente(cliente, estado, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
