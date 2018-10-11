@@ -12,31 +12,31 @@ import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 
 /**
- * Test para el servicio ConfiguracionesService-activarCliente
+ * Test para el servicio ConfiguracionesService-inactivarCliente
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ActivarCliente {
+public class InactivarCliente {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Test que permite activar un Cliente
+	 * Test que permite testiar el servicio de INACTIVAR Cliente
 	 */
 	@Test
-	public void activarCliente() {
+	public void inactivarCliente() {
 		try {
-			// se configura el CLIENTE ACTIVAR
-			ClienteDTO clienteActivar = new ClienteDTO();
-			clienteActivar.setId(1L);
+			// se configura el CLIENTE INACTIVAR
+			ClienteDTO clienteInactivar = new ClienteDTO();
+			clienteInactivar.setId(1L);
 
-			// se invoca el llamado del servicio para ACTIVAR el cliente
-			this.configuracionesService.activarCliente(clienteActivar);
+			// se invoca el llamado del servicio para INACTIVAR el cliente
+			this.configuracionesService.inactivarCliente(clienteInactivar);
 
 			// si llega a esta punto es porque todo fue procesado correctamente
 			assertTrue(true);
