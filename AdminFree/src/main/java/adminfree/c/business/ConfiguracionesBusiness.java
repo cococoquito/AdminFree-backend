@@ -5,12 +5,10 @@ import java.sql.Types;
 import java.util.List;
 
 import adminfree.d.model.configuraciones.ClienteDTO;
-import adminfree.e.utilities.ConstantBusinessMessages;
 import adminfree.e.utilities.ConstantEstado;
 import adminfree.e.utilities.ConstantNumeros;
 import adminfree.e.utilities.EstrategiaCriptografica;
 import adminfree.g.persistence.CommonDAO;
-import adminfree.g.persistence.ConstantSQL;
 import adminfree.g.persistence.MapperJDBC;
 import adminfree.g.persistence.ProceduresJDBC;
 import adminfree.g.persistence.SQLConfiguraciones;
