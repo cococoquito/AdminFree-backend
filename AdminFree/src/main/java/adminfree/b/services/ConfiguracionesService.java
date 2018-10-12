@@ -153,8 +153,9 @@ public class ConfiguracionesService {
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
+	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
 	 */
-	public void eliminarCliente(ClienteDTO cliente) throws Exception {
+	public String eliminarCliente(ClienteDTO cliente) throws Exception {
 		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
@@ -162,7 +163,7 @@ public class ConfiguracionesService {
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede ELIMINAR el CLIENTE
-			new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
+			return new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.g.persistence.ConstantSQL;
 
 /**
  * Test para el servicio ConfiguracionesService.eliminarCliente
@@ -35,10 +36,15 @@ public class EliminarClienteTest {
 			clienteEliminar.setId(1L);
 
 			// se invoca el llamado del servicio para ELIMINAR el cliente
-			this.configuracionesService.eliminarCliente(clienteEliminar);
+			String resultado = this.configuracionesService.eliminarCliente(clienteEliminar);
 
-			// si llega a esta punto es porque todo fue procesado correctamente
-			assertTrue(true);
+			// si verifica que el resultado es EXITOSO
+			if (ConstantSQL.SUCCESSFUL.equals(resultado)) {
+				assertTrue(true);
+			} else {
+				System.err.println(resultado);
+				assertTrue(false);
+			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

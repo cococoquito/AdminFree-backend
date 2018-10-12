@@ -100,15 +100,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Business que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
+	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
 	 */
-	public void eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
+	public String eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
 		// se ejecuta el procedimiento almacenado de ELIMINAR CLIENTE
-		String resultado = new ProceduresJDBC().eliminarCliente(cliente.getId(), con);
-
-		// se valida que la ejecucion sea EXITOSA
-		if (!ConstantSQL.SUCCESSFUL.equals(resultado)) {
-			throw new Exception(ConstantBusinessMessages.ERROR_ELIMINAR_CLIENTE + resultado);
-		}
+		return new ProceduresJDBC().eliminarCliente(cliente.getId(), con);
 	}
 
 	/**

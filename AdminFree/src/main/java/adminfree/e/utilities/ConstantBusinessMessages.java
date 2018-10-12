@@ -7,7 +7,4 @@ package adminfree.e.utilities;
  *
  */
 public class ConstantBusinessMessages {
-
-	/** Constante que contiene el mensaje de error al eliminar un CLIENTE */
-	public static final String ERROR_ELIMINAR_CLIENTE = "Se presentó un error al tratar de eliminar el cliente:";
 }
