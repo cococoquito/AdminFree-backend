@@ -33,7 +33,7 @@ public class ActualizarClienteTest {
 		try {
 			// se configura el CLIENTE actualizar
 			ClienteDTO clienteUpdate = new ClienteDTO();
-			clienteUpdate.setId(2L);
+			clienteUpdate.setId(1L);
 			clienteUpdate.setNombre("este es el campo nombre");
 			clienteUpdate.setEmails("este es el campo email");
 			clienteUpdate.setTelefonos("este es el campo telefono");
