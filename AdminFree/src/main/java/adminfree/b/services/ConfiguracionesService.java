@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import adminfree.c.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
+import adminfree.e.utilities.Constants;
 import adminfree.g.persistence.ConstantSQL;
 
 /**
@@ -43,14 +44,17 @@ public class ConfiguracionesService {
 	 * @param usuario, usuario de la autenticacion
 	 * @return 200 si es exitoso, de lo contrario 400
 	 */
-	public String iniciarSesionAdminClientes(String clave, String usuario) {
-		String resultado = ConstantSQL.BAD_REQUEST;
-		if (clave != null && usuario != null && 
-			clave.equals(this.adminClienteClave) && 
-			usuario.equals(this.adminClienteUser)) {
-			resultado = ConstantSQL.SUCCESSFUL;
+	public String iniciarSesionAdminClientes(String clave, String usuario) throws Exception {
+		try {
+			if (clave != null && usuario != null && 
+				clave.equals(this.adminClienteClave) && 
+				usuario.equals(this.adminClienteUser)) {
+				return ConstantSQL.SUCCESSFUL;
+			}
+			return ConstantSQL.BAD_REQUEST;
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		}
-		return resultado;
 	}
 
 	/**
@@ -60,7 +64,6 @@ public class ConfiguracionesService {
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
 	public ClienteDTO crearCliente(ClienteDTO cliente) throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -68,6 +71,8 @@ public class ConfiguracionesService {
 
 			// se procede a crear el cliente en BD
 			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -79,7 +84,6 @@ public class ConfiguracionesService {
 	 * @return, lista de CLIENTES configurados
 	 */
 	public List<ClienteDTO> listarClientes() throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -87,6 +91,8 @@ public class ConfiguracionesService {
 
 			// se procede a listar todos los clientes del sistema
 			return new ConfiguracionesBusiness().listarClientes(connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -98,7 +104,6 @@ public class ConfiguracionesService {
 	 * @param clienteUpdate, datos del cliente ACTUALIZAR
 	 */
 	public void actualizarCliente(ClienteDTO clienteUpdate) throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -106,6 +111,8 @@ public class ConfiguracionesService {
 
 			// se procede actualizar los datos del CLIENTE
 			new ConfiguracionesBusiness().actualizarCliente(clienteUpdate, connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -117,7 +124,6 @@ public class ConfiguracionesService {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	public void activarCliente(ClienteDTO cliente) throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -125,6 +131,8 @@ public class ConfiguracionesService {
 
 			// se procede activar el CLIENTE
 			new ConfiguracionesBusiness().activarCliente(cliente, connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -136,7 +144,6 @@ public class ConfiguracionesService {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	public void inactivarCliente(ClienteDTO cliente) throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -144,6 +151,8 @@ public class ConfiguracionesService {
 
 			// se procede inactivar el CLIENTE
 			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -156,7 +165,6 @@ public class ConfiguracionesService {
 	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	public String eliminarCliente(ClienteDTO cliente) throws Exception {
-		// variable de referencia de la conexion
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -164,6 +172,8 @@ public class ConfiguracionesService {
 
 			// se procede ELIMINAR el CLIENTE
 			return new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
+		} catch (Exception ex) {
+			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

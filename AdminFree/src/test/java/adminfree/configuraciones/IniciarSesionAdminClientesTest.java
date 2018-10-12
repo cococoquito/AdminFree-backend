@@ -30,14 +30,19 @@ public class IniciarSesionAdminClientesTest {
 	 */
 	@Test
 	public void iniciarSesionAdminClientes() {
-		// se obtiene la clave e usuario para la autenticacion
-		String clave = "1234";
-		String usuario = "user";
+		try {
+			// se obtiene la clave e usuario para la autenticacion
+			String clave = "1234";
+			String usuario = "user";
 
-		// se invoca el servicio para la autenticacion
-		String resultado = this.configuracionesService.iniciarSesionAdminClientes(clave, usuario);
+			// se invoca el servicio para la autenticacion
+			String resultado = this.configuracionesService.iniciarSesionAdminClientes(clave, usuario);
 
-		// se valida si es exitoso el resultado
-		assertTrue(ConstantSQL.SUCCESSFUL.equals(resultado));
+			// se valida si es exitoso el resultado
+			assertTrue(ConstantSQL.SUCCESSFUL.equals(resultado));
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			assertTrue(false);
+		}
 	}
 }
