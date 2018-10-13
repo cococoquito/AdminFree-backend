@@ -119,7 +119,7 @@ public class ConfiguracionesService {
 	}
 	
 	/**
-	 * Metodo que permite ACTIVAR un cliente
+	 * Servicio que permite ACTIVAR un cliente
 	 * 
 	 * @param cliente, contiene el identificador del cliente
 	 */
@@ -139,7 +139,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Metodo que permite INACTIVAR un cliente
+	 * Servicio que permite INACTIVAR un cliente
 	 * 
 	 * @param cliente, contiene el identificador del cliente
 	 */
