@@ -24,6 +24,4 @@ public class Constants {
 	public static final String POST_ACTIVAR_CLIENTE = "activarcliente";
 	public static final String POST_INACTIVAR_CLIENTE = "inactivarcliente";
 	public static final String POST_ELIMINAR_CLIENTE = "eliminarcliente";
-	
-	
 }
