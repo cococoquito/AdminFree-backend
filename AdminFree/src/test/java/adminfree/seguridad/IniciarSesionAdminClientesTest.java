@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import adminfree.b.services.SeguridadService;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.ConstantsCodigoMessages;
-import adminfree.g.persistence.ConstantSQL;
 
 /**
  * Test para el servicio ConfiguracionesService.iniciarSesionAdminClientes
