@@ -46,7 +46,7 @@ public class IniciarSesionAdminClientesTest {
 			System.err.println("Bussines:" + e.getMessage());
 			assertTrue(false);
 		} catch (Exception e) {
-			System.err.println(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
+			System.err.println(ConstantsCodigoMessages.COD_ERROR_TECHNICAL + e.getMessage());
 			assertTrue(false);
 		}
 	}
