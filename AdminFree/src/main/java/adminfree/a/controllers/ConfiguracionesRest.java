@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.Constants;
+import adminfree.e.utilities.ConstantsCodigoMessages;
 
 /**
  * 
@@ -36,7 +37,7 @@ public class ConfiguracionesRest {
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
 	@RequestMapping(
-			value = Constants.POST_CREAR_CLIENTES,
+			value = Constants.CREAR_CLIENTES,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -44,7 +45,8 @@ public class ConfiguracionesRest {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 
@@ -54,14 +56,15 @@ public class ConfiguracionesRest {
 	 * @return lista de CLIENTES parametrizados en el sistema
 	 */
 	@RequestMapping(
-			value = Constants.GET_CLIENTES,
+			value = Constants.CLIENTES,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> getClientes() {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 	
@@ -71,7 +74,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, datos del cliente ACTUALIZAR
 	 */
 	@RequestMapping(
-			value = Constants.POST_ACTUALIZAR_CLIENTE,
+			value = Constants.ACTUALIZAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -83,7 +86,8 @@ public class ConfiguracionesRest {
 			// al llegar a este punto significa que el proceso es OK
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 	
@@ -93,7 +97,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	@RequestMapping(
-			value = Constants.POST_ACTIVAR_CLIENTE,
+			value = Constants.ACTIVAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -105,7 +109,8 @@ public class ConfiguracionesRest {
 			// al llegar a este punto significa que el proceso es OK
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 	
@@ -115,7 +120,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	@RequestMapping(
-			value = Constants.POST_INACTIVAR_CLIENTE,
+			value = Constants.INACTIVAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -127,7 +132,8 @@ public class ConfiguracionesRest {
 			// al llegar a este punto significa que el proceso es OK
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 	
@@ -138,7 +144,7 @@ public class ConfiguracionesRest {
 	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	@RequestMapping(
-			value = Constants.POST_ELIMINAR_CLIENTE,
+			value = Constants.ELIMINAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -146,7 +152,8 @@ public class ConfiguracionesRest {
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.eliminarCliente(cliente));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + e.getMessage());
 		}
 	}
 }

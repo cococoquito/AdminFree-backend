@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import adminfree.c.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
-import adminfree.e.utilities.ConstantsCodigoMessages;
 
 /**
  * 
@@ -20,7 +19,7 @@ import adminfree.e.utilities.ConstantsCodigoMessages;
  * @author Carlos Andres Diaz
  *
  */
-@Service("configuracionesService")
+@Service
 public class ConfiguracionesService {
 
 	/** DataSource para las conexiones de la BD de AdminFree */
@@ -41,8 +40,6 @@ public class ConfiguracionesService {
 
 			// se procede a crear el cliente en BD
 			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -61,8 +58,6 @@ public class ConfiguracionesService {
 
 			// se procede a listar todos los clientes del sistema
 			return new ConfiguracionesBusiness().listarClientes(connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -81,8 +76,6 @@ public class ConfiguracionesService {
 
 			// se procede actualizar los datos del CLIENTE
 			new ConfiguracionesBusiness().actualizarCliente(clienteUpdate, connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -101,8 +94,6 @@ public class ConfiguracionesService {
 
 			// se procede activar el CLIENTE
 			new ConfiguracionesBusiness().activarCliente(cliente, connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -121,8 +112,6 @@ public class ConfiguracionesService {
 
 			// se procede inactivar el CLIENTE
 			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -142,8 +131,6 @@ public class ConfiguracionesService {
 
 			// se procede ELIMINAR el CLIENTE
 			return new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

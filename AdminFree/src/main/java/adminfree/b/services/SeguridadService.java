@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.Constants;
 import adminfree.e.utilities.ConstantsCodigoMessages;
 import adminfree.e.utilities.EstrategiaCriptografica;
@@ -44,21 +45,19 @@ public class SeguridadService {
 	 * @return el TOKEN asociado al usuario
 	 */
 	public String iniciarSesionAdminClientes(String clave, String usuario) throws Exception {
-		try {
-			// se valida si son las credenciales correctas
-			if (clave != null && usuario !=  null && 
-				clave.equals(this.securityAdminClienteClave) && 
-				usuario.equals(this.securityAdminClienteUser)) {
+		// se valida si son las credenciales correctas
+		if (clave != null && usuario !=  null && 
+			clave.equals(this.securityAdminClienteClave) && 
+			usuario.equals(this.securityAdminClienteUser)) {
 
-				// se procede a generar el TOKEN
-				return EstrategiaCriptografica.get().generarTokenAuth(
-						this.securityAdminClienteUser,
-						this.securityAdminClienteClave, 
-						this.securityPostToken);
-			}
-		} catch (Exception ex) {
-			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			// se procede a generar el TOKEN
+			return EstrategiaCriptografica.get().generarTokenAuth(
+					this.securityAdminClienteUser,
+					this.securityAdminClienteClave, 
+					this.securityPostToken);
 		}
-		throw new Exception(ConstantsCodigoMessages.COD_AUTENTICACION_FALLIDA);
+		
+		// se lanza bussines exception si las credenciales son fallidas
+		throw new BusinessException(ConstantsCodigoMessages.COD_AUTENTICACION_FALLIDA);		
 	}
 }

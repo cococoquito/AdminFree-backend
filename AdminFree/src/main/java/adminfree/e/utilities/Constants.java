@@ -25,11 +25,14 @@ public class Constants {
 	
 	/** Constantes para los nombre de los servicios REST del modulo de configuraciones*/
 	public static final String CONFIGURACIONES_NOMBRE_API = "configuracionesapi";
-	public static final String GET_CLIENTES = "clientes";
-	public static final String POST_INICIAR_SESION_ADMIN_CLIENTES = "iniciarsesionadminclientes";
-	public static final String POST_CREAR_CLIENTES = "crearclientes";
-	public static final String POST_ACTUALIZAR_CLIENTE = "actualizarcliente";
-	public static final String POST_ACTIVAR_CLIENTE = "activarcliente";
-	public static final String POST_INACTIVAR_CLIENTE = "inactivarcliente";
-	public static final String POST_ELIMINAR_CLIENTE = "eliminarcliente";
+	public static final String CLIENTES = "clientes";
+	public static final String CREAR_CLIENTES = "crearclientes";
+	public static final String ACTUALIZAR_CLIENTE = "actualizarcliente";
+	public static final String ACTIVAR_CLIENTE = "activarcliente";
+	public static final String INACTIVAR_CLIENTE = "inactivarcliente";
+	public static final String ELIMINAR_CLIENTE = "eliminarcliente";
+	
+	/** Constantes para los nombre de los servicios REST del modulo de seguridad*/
+	public static final String SEGURIDAD_NOMBRE_API = "authapi";
+	public static final String INICIAR_SESION_ADMIN_CLIENTES = "iniciarsesionadminclientes";
 }
