@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import adminfree.d.model.configuraciones.AutenticacionDTO;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.Constants;
 import adminfree.e.utilities.ConstantsCodigoMessages;
@@ -42,22 +43,34 @@ public class SeguridadService {
 	 * 
 	 * @param clave, clave de la autenticacion
 	 * @param usuario, usuario de la autenticacion
-	 * @return el TOKEN asociado al usuario
+	 * @return DTO con el TOKEN asociado al usuario
 	 */
-	public String iniciarSesionAdminClientes(String clave, String usuario) throws Exception {
-		// se valida si son las credenciales correctas
-		if (clave != null && usuario !=  null && 
-			clave.equals(this.securityAdminClienteClave) && 
-			usuario.equals(this.securityAdminClienteUser)) {
+	public AutenticacionDTO iniciarSesionAdminClientes(AutenticacionDTO credenciales) throws Exception {
+		if (credenciales != null) {
+			
+			// se obtiene los valores
+			String usuario = credenciales.getUsuario();
+			String clave = credenciales.getClave();
 
-			// se procede a generar el TOKEN
-			return EstrategiaCriptografica.get().generarTokenAuth(
-					this.securityAdminClienteUser,
-					this.securityAdminClienteClave, 
-					this.securityPostToken);
+			// se verifica si las credenciales coincide
+			if (clave != null && usuario != null && 
+				clave.equals(this.securityAdminClienteClave) && 
+				usuario.equals(this.securityAdminClienteUser)) {
+
+				// se procede a generar el TOKEN
+				String token = EstrategiaCriptografica.get().generarTokenAuth(
+						this.securityAdminClienteUser,
+						this.securityAdminClienteClave, 
+						this.securityPostToken);
+				
+				// se construye el response con el TOKEN generado
+				AutenticacionDTO response = new AutenticacionDTO();
+				response.setToken(token);
+				return response;
+			}
 		}
-		
+
 		// se lanza bussines exception si las credenciales son fallidas
-		throw new BusinessException(ConstantsCodigoMessages.COD_AUTENTICACION_FALLIDA);		
+		throw new BusinessException(ConstantsCodigoMessages.COD_AUTENTICACION_FALLIDA);
 	}
 }

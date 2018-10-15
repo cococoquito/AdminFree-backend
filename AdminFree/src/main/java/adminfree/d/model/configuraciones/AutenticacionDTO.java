@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @author Carlos Andres Diaz
  *
  */
-public class CredencialAdminClientesDTO implements Serializable {
+public class AutenticacionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** Es el usuario de la autenticacion para administrar clientes */
@@ -17,6 +17,9 @@ public class CredencialAdminClientesDTO implements Serializable {
 
 	/** Es el clave de la autenticacion para administrar clientes */
 	private String clave;
+	
+	/** Es el token generado desde el servidor */
+	private String token;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo clave
@@ -44,5 +47,20 @@ public class CredencialAdminClientesDTO implements Serializable {
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo token
+	 */
+	public String getToken() {
+		return token;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param token
+	 */
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

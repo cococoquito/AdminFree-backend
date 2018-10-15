@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.b.services.SeguridadService;
+import adminfree.d.model.configuraciones.AutenticacionDTO;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.ConstantsCodigoMessages;
 
@@ -33,15 +34,16 @@ public class IniciarSesionAdminClientesTest {
 	public void iniciarSesionAdminClientes() {
 		try {
 			// se obtiene la clave e usuario para la autenticacion
-			String clave = "d104657114ec4d42ff2d54f35fbbb866";
-			String usuario = "04eeefae977ca82da5c4d5765c35edcf";
-
+			AutenticacionDTO auth = new AutenticacionDTO();
+			auth.setClave("d104657114ec4d42ff2d54f35fbbb866");
+			auth.setUsuario("04eeefae977ca82da5c4d5765c35edcf");
+			
 			// se invoca el servicio para la autenticacion
-			String token = this.seguridadService.iniciarSesionAdminClientes(clave, usuario);
+			auth = this.seguridadService.iniciarSesionAdminClientes(auth);
 
 			// se valida si es exitoso el resultado
-			System.out.println("Token:" + token);
-			assertTrue(token != null);
+			assertTrue(auth != null);
+			System.out.println(auth != null ? auth.getToken() : "FALLIDO");
 		} catch (BusinessException e) {
 			System.err.println("Bussines:" + e.getMessage());
 			assertTrue(false);

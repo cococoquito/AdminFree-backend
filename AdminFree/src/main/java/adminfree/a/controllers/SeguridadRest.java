@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.b.services.SeguridadService;
-import adminfree.d.model.configuraciones.CredencialAdminClientesDTO;
+import adminfree.d.model.configuraciones.AutenticacionDTO;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.Constants;
 import adminfree.e.utilities.ConstantsCodigoMessages;
@@ -41,12 +41,10 @@ public class SeguridadRest {
 			method = RequestMethod.POST, 
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, 
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody CredencialAdminClientesDTO credenciales) {
+	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody AutenticacionDTO credenciales) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(this.seguridadService
-					.iniciarSesionAdminClientes(
-							credenciales.getClave(), 
-							credenciales.getUsuario()));
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(this.seguridadService.iniciarSesionAdminClientes(credenciales));
 		} catch (BusinessException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
