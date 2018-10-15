@@ -27,6 +27,7 @@ public class Constants {
 	public static final String SECURITY_HUSER = "huser";
 	public static final String SECURITY_HPASS = "hpass";
 	public static final String SECURITY_HTOKEN = "htoken";
+	public static final String CONTENT_TYPE = "Content-Type";
 	
 	/** Constantes para los nombre de los servicios REST del modulo de configuraciones*/
 	public static final String CONFIGURACIONES_NOMBRE_API = "configuracionesapi";

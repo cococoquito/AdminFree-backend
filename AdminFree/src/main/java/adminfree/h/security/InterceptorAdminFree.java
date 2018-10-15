@@ -4,11 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import adminfree.e.utilities.ConstantNumeros;
 import adminfree.e.utilities.Constants;
+import adminfree.e.utilities.ConstantsCodigoMessages;
 import adminfree.e.utilities.EstrategiaCriptografica;
 
 /**
@@ -62,6 +64,21 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 				}
 			}
 		}
-		return false;		
+		
+		// la solicitud no tiene permisos para el recurso solicitado
+		return returnResponseFallido(response);
+	}
+	
+	/**
+	 * Metodo que permite construir el response fallido cuando la solicitud no esta
+	 * autorizada para acceder al recurso solicitado
+	 */
+	private boolean returnResponseFallido(HttpServletResponse response) throws Exception {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.addHeader(Constants.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+		response.getWriter().write(ConstantsCodigoMessages.COD_AUTORIZACION_FALLIDA);
+		response.getWriter().flush();
+		response.getWriter().close();
+		return false;
 	}
 }
