@@ -38,15 +38,15 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 
 		// se obtiene y se valida la nulalidad del USUARIO
 		String user = request.getHeader(Constants.SECURITY_HUSER);
-		if (user != null && user.length() > ConstantNumeros.CUATRO) {
+		if (user != null && user.length() > ConstantNumeros.TREINTA) {
 
 			// se obtiene y se valida la nulalidad del PASSWORD
 			String pass = request.getHeader(Constants.SECURITY_HPASS);
-			if (pass != null && pass.length() > ConstantNumeros.CUATRO) {
+			if (pass != null && pass.length() > ConstantNumeros.TREINTA) {
 
 				// se obtiene y se valida la nulalidad del TOKEN
 				String token = request.getHeader(Constants.SECURITY_HTOKEN);
-				if (token != null && token.length() > ConstantNumeros.CUATRO) {
+				if (token != null && token.length() > ConstantNumeros.TREINTA) {
 
 					// se valida el codigo de postAngular
 					String postAngular = token.substring(token.length() - this.securityPostAngular.length());
