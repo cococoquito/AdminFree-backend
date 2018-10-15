@@ -16,6 +16,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class InterceptorAdminFree implements HandlerInterceptor {
 
+	/**
+	 * Metodo que se ejecuta antes de procesar la peticion HTTP de cualquier modulo
+	 * excepto seguridad
+	 * 
+	 * @return true si la peticion es valida, de lo contrario false
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		System.out.println("InterceptorAdminFree fue invocado");

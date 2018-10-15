@@ -23,6 +23,11 @@ public class Constants {
 	public static final String SECURITY_POST_PASS = "${adminfree.security.post.pass}";
 	public static final String SECURITY_POST_TOKEN = "${adminfree.security.post.token}";
 	
+	/** Constantes de la seguridad del sistema */
+	public static final String SECURITY_HUSER = "huser";
+	public static final String SECURITY_HPASS = "hpass";
+	public static final String SECURITY_HTOKEN = "htoken";
+	
 	/** Constantes para los nombre de los servicios REST del modulo de configuraciones*/
 	public static final String CONFIGURACIONES_NOMBRE_API = "configuracionesapi";
 	public static final String CLIENTES = "clientes";

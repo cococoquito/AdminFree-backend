@@ -19,4 +19,5 @@ public class ConstantNumeros {
 	public static final Integer OCHO = 8;
 	public static final Integer NUEVE = 9;
 	public static final Integer DIEZ = 10;
+	public static final Integer TREINTA = 30;
 }
