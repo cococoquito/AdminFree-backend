@@ -34,7 +34,7 @@ public class SeguridadRest {
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
 	 * 
-	 * @return 200 si es exitoso, de lo contrario 400
+	 * return el TOKEN asociado al usuario
 	 */
 	@RequestMapping(
 			value = Constants.INICIAR_SESION_ADMIN_CLIENTES, 
