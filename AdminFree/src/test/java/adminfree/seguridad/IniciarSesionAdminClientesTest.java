@@ -33,8 +33,8 @@ public class IniciarSesionAdminClientesTest {
 	public void iniciarSesionAdminClientes() {
 		try {
 			// se obtiene la clave e usuario para la autenticacion
-			String clave = "04eeefae977ca82da5c4d5765c35edcf";
-			String usuario = "d104657114ec4d42ff2d54f35fbbb866";
+			String clave = "d104657114ec4d42ff2d54f35fbbb866";
+			String usuario = "04eeefae977ca82da5c4d5765c35edcf";
 
 			// se invoca el servicio para la autenticacion
 			String token = this.seguridadService.iniciarSesionAdminClientes(clave, usuario);

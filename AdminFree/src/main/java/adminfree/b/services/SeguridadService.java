@@ -24,14 +24,14 @@ public class SeguridadService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
+	
+	/** Contiene el usuario para la autenticacion del administrador de clientes */
+	@Value(Constants.SECURITY_ADMINCLIENTES_USER)
+	private String securityAdminClienteUser;
 
 	/** Contiene la clave para la autenticacion del administrador de clientes */
-	@Value(Constants.SECURITY_ADMINCLIENTES_USER)
-	private String securityAdminClienteClave;
-
-	/** Contiene el usuario para la autenticacion del administrador de clientes */
 	@Value(Constants.SECURITY_ADMINCLIENTES_PASS)
-	private String securityAdminClienteUser;
+	private String securityAdminClienteClave;
 
 	/** Contiene el postToken para la generacion de TOKENS */
 	@Value(Constants.SECURITY_POST_TOKEN)
