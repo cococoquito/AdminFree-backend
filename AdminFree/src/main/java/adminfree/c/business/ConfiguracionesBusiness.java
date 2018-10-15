@@ -112,9 +112,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// es el valor del nuevo TOKEN a retornar
 		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
 		
-		// es el generador de TOKEN
-		EstrategiaCriptografica generador = new EstrategiaCriptografica();
-		
 		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
 		MapperJDBC mapper = MapperJDBC.get(MapperJDBC.MAPPER_COUNT);
 
@@ -123,7 +120,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		while (tokenExiste) {
 
 			// se solicita un nuevo TOKEN
-			token.setValor(generador.generarToken());
+			token.setValor(EstrategiaCriptografica.get().generarToken());
 
 			// se procede a contar los registros que contenga este TOKEN
 			Long count = (Long)find(con, SQLConfiguraciones.COUNT_CLIENTE_TOKEN, mapper, token);

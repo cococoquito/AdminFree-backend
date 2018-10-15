@@ -14,12 +14,42 @@ public class EstrategiaCriptografica {
 
 	/** constante que representa la encriptacion por MD5* */
 	private static String ENCRIPTACION_MD5 = "MD5";
+	private static EstrategiaCriptografica instance;
+	
+	/**
+	 * Metodo que permite retornar una instancia unica de esta clase
+	 */
+	public static EstrategiaCriptografica get() {
+		if (instance == null) {
+			instance = new EstrategiaCriptografica();
+		}
+		return instance;
+	}
+	
+	/**
+	 * No se puede instanciar desde fuera
+	 */
+	private EstrategiaCriptografica() {}
 
 	/**
 	 * Metodo que permite generar un TOKEN
 	 */
 	public String generarToken() throws Exception {
 		return encriptarMD5(generateUUID());
+	}
+	
+	/**
+	 * Metodo que permite generar un nuevo TOKEN de autenticacion
+	 * 
+	 * @param user, es el usuario de las credenciales de autenticacion
+	 * @param clave, es la clave de las credenciales de autenticacion
+	 * @param postToken, es postToken del TOKEN a generar
+	 * @return nuevo TOKEN listo a ser utilizado
+	 */
+	public String generarTokenAuth(String user, String clave, String postToken) throws Exception {
+		StringBuilder auth = new StringBuilder();
+		auth.append(user).append(clave).append(postToken);
+		return encriptarMD5(auth.toString());
 	}
 
 	/**

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.b.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
-import adminfree.d.model.configuraciones.CredencialAdminClientesDTO;
 import adminfree.e.utilities.Constants;
 
 /**
@@ -29,28 +28,7 @@ public class ConfiguracionesRest {
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
-	
-	/**
-	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
-	 * 
-	 * @return 200 si es exitoso, de lo contrario 400
-	 */
-	@RequestMapping(
-			value = Constants.POST_INICIAR_SESION_ADMIN_CLIENTES, 
-			method = RequestMethod.POST, 
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, 
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody CredencialAdminClientesDTO credenciales) {
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(
-					this.configuracionesService.iniciarSesionAdminClientes(
-							credenciales.getClave(),
-							credenciales.getUsuario()));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-		}
-	}
-	
+
 	/**
 	 * Servicio que permite crear un cliente en el sistema
 	 * 

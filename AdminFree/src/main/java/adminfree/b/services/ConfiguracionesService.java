@@ -6,14 +6,12 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.c.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
-import adminfree.e.utilities.Constants;
-import adminfree.g.persistence.ConstantSQL;
+import adminfree.e.utilities.ConstantsCodigoMessages;
 
 /**
  * 
@@ -28,35 +26,7 @@ public class ConfiguracionesService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
-
-	/** Contiene la clave para la autenticacion del administrador de clientes */
-	@Value("${adminCliente.clave}")
-	private String adminClienteClave;
-
-	/** Contiene el usuario para la autenticacion del administrador de clientes */
-	@Value("${adminCliente.user}")
-	private String adminClienteUser;
-
-	/**
-	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
-	 * 
-	 * @param clave, clave de la autenticacion
-	 * @param usuario, usuario de la autenticacion
-	 * @return 200 si es exitoso, de lo contrario 400
-	 */
-	public String iniciarSesionAdminClientes(String clave, String usuario) throws Exception {
-		try {
-			if (clave != null && usuario != null && 
-				clave.equals(this.adminClienteClave) && 
-				usuario.equals(this.adminClienteUser)) {
-				return ConstantSQL.SUCCESSFUL;
-			}
-			return ConstantSQL.BAD_REQUEST;
-		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
-		}
-	}
-
+	
 	/**
 	 * Servicio que permite crear un cliente en el sistema
 	 * 
@@ -72,7 +42,7 @@ public class ConfiguracionesService {
 			// se procede a crear el cliente en BD
 			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -92,7 +62,7 @@ public class ConfiguracionesService {
 			// se procede a listar todos los clientes del sistema
 			return new ConfiguracionesBusiness().listarClientes(connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -112,7 +82,7 @@ public class ConfiguracionesService {
 			// se procede actualizar los datos del CLIENTE
 			new ConfiguracionesBusiness().actualizarCliente(clienteUpdate, connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -132,7 +102,7 @@ public class ConfiguracionesService {
 			// se procede activar el CLIENTE
 			new ConfiguracionesBusiness().activarCliente(cliente, connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -152,7 +122,7 @@ public class ConfiguracionesService {
 			// se procede inactivar el CLIENTE
 			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -173,7 +143,7 @@ public class ConfiguracionesService {
 			// se procede ELIMINAR el CLIENTE
 			return new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
 		} catch (Exception ex) {
-			throw new Exception(Constants.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
+			throw new Exception(ConstantsCodigoMessages.MESSAGE_ERROR_TECHNICAL + ex.getMessage());
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
