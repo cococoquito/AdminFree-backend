@@ -3,8 +3,13 @@ package adminfree.h.security;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import adminfree.e.utilities.ConstantNumeros;
+import adminfree.e.utilities.Constants;
+import adminfree.e.utilities.EstrategiaCriptografica;
 
 /**
  * Interceptor que aplica para las peticiones http de toda la aplicacion excepto
@@ -15,6 +20,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 @Component
 public class InterceptorAdminFree implements HandlerInterceptor {
+	
+	/** Variables de seguridad para la autenticacion del sistema */
+	@Value(Constants.SECURITY_POST_ANGULAR)
+	private String securityPostAngular;
+	@Value(Constants.SECURITY_POST_TOKEN)
+	private String securityPostToken;	
 
 	/**
 	 * Metodo que se ejecuta antes de procesar la peticion HTTP de cualquier modulo
@@ -24,7 +35,33 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		System.out.println("InterceptorAdminFree fue invocado");
-		return true;
+
+		// se obtiene y se valida la nulalidad del USUARIO
+		String user = request.getHeader(Constants.SECURITY_HUSER);
+		if (user != null && user.length() > ConstantNumeros.CUATRO) {
+
+			// se obtiene y se valida la nulalidad del PASSWORD
+			String pass = request.getHeader(Constants.SECURITY_HPASS);
+			if (pass != null && pass.length() > ConstantNumeros.CUATRO) {
+
+				// se obtiene y se valida la nulalidad del TOKEN
+				String token = request.getHeader(Constants.SECURITY_HTOKEN);
+				if (token != null && token.length() > ConstantNumeros.CUATRO) {
+
+					// se valida el codigo de postAngular
+					String postAngular = token.substring(token.length() - this.securityPostAngular.length());
+					if (postAngular.equals(this.securityPostAngular)) {
+						
+						// se valida si el TOKEN es valido
+						String tokenValidar = EstrategiaCriptografica.get().generarTokenAuth(user, pass, this.securityPostToken);
+						String soloToken = token.substring(ConstantNumeros.ZERO, token.length() - this.securityPostAngular.length());
+						if (tokenValidar.equals(soloToken)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;		
 	}
 }
