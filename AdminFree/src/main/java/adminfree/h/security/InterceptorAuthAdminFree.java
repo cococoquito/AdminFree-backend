@@ -51,14 +51,17 @@ public class InterceptorAuthAdminFree implements HandlerInterceptor {
 				String token = request.getHeader(Constants.SECURITY_HTOKEN);
 				if (token != null && token.length() > ConstantNumeros.TREINTA) {
 
-					// se valida que todos los parametros coincidan con la seguridad
+					// se valida el codigo de postAngular
 					String postAngular = token.substring(token.length() - this.securityPostAngularAuth.length());
-					String soloToken = token.substring(ConstantNumeros.ZERO, token.length() - this.securityPostAngularAuth.length());
-					if (postAngular.equals(this.securityPostAngularAuth) &&
-						user.equals(this.securityAuthUser) &&
-						pass.equals(this.securityAuthPass) &&
-						soloToken.equals(this.securityAuthToken)) {
-						return true;
+					if (postAngular.equals(this.securityPostAngularAuth)) {
+						
+						// se valida que todos los parametros coincidan con la seguridad
+						String soloToken = token.substring(ConstantNumeros.ZERO, token.length() - this.securityPostAngularAuth.length());
+						if (user.equals(this.securityAuthUser) &&
+							pass.equals(this.securityAuthPass) &&
+							soloToken.equals(this.securityAuthToken)) {
+							return true;
+						}
 					}
 				}
 			}
