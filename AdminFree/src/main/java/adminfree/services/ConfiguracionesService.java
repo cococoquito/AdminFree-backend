@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import adminfree.c.business.ConfiguracionesBusiness;
+import adminfree.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.CerrarRecursos;
 

@@ -1,4 +1,4 @@
-package adminfree.c.business;
+package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;

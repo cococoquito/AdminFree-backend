@@ -1,4 +1,4 @@
-package adminfree.c.business;
+package adminfree.business;
 
 import adminfree.g.persistence.CommonDAO;
 
