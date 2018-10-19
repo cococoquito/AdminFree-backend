@@ -1,4 +1,4 @@
-package adminfree.e.utilities;
+package adminfree.utilities;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

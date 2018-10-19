@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
-import adminfree.e.utilities.Constants;
-import adminfree.e.utilities.ConstantsCodigoMessages;
+import adminfree.utilities.Constants;
+import adminfree.utilities.ConstantsCodigoMessages;
 
 /**
  * 

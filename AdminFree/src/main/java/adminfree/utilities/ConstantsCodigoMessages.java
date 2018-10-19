@@ -1,4 +1,4 @@
-package adminfree.e.utilities;
+package adminfree.utilities;
 
 /**
  * Clase constante que contiene los Mensajes del negocio

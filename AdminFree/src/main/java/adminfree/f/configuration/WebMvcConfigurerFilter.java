@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import adminfree.e.utilities.Constants;
+import adminfree.utilities.Constants;
 
 /**
  * Configuration Class that allows to set up all requests of the application WEB

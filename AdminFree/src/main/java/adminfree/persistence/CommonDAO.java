@@ -8,8 +8,8 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 
-import adminfree.e.utilities.CerrarRecursos;
-import adminfree.e.utilities.ConstantNumeros;
+import adminfree.utilities.CerrarRecursos;
+import adminfree.utilities.ConstantNumeros;
 
 /**
  * 

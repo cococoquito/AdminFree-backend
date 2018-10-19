@@ -1,4 +1,4 @@
-package adminfree.e.utilities;
+package adminfree.utilities;
 
 /**
  * 

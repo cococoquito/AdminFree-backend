@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.d.model.configuraciones.ClienteDTO;
-import adminfree.e.utilities.CerrarRecursos;
+import adminfree.utilities.CerrarRecursos;
 
 /**
  * 

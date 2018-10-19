@@ -4,8 +4,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 
-import adminfree.e.utilities.CerrarRecursos;
-import adminfree.e.utilities.ConstantNumeros;
+import adminfree.utilities.CerrarRecursos;
+import adminfree.utilities.ConstantNumeros;
 
 /**
  * 

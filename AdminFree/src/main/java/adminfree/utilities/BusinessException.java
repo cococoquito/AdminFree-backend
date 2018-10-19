@@ -1,4 +1,4 @@
-package adminfree.e.utilities;
+package adminfree.utilities;
 
 /**
  * Clase que identifica el tipo de exception de negocio

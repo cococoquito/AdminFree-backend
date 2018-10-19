@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.services.SeguridadService;
 import adminfree.d.model.configuraciones.AutenticacionDTO;
-import adminfree.e.utilities.BusinessException;
-import adminfree.e.utilities.ConstantsCodigoMessages;
+import adminfree.utilities.BusinessException;
+import adminfree.utilities.ConstantsCodigoMessages;
 
 /**
  * Test para el servicio ConfiguracionesService.iniciarSesionAdminClientes
