@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
 
@@ -15,30 +16,31 @@ import adminfree.model.configuraciones.ClienteDTO;
  */
 public class MapperJDBC {
 
-	/** Constantes para los identificadores de los MAPPERS */
-	public static final int MAPPER_GET_CLIENTES = 1;
-	public static final int MAPPER_COUNT = 2;
-	public static final int MAPPER_GET_CLIENTE_TOKEN = 3;
+	/** Objecto statica que se comporta como una unica instancia */
+	private static MapperJDBC instance;
 
 	/** Es el tipo de MAPPER a ejecutar */
-	private Integer tipoMapper;
-	
-	/**
-	 * Retorna una instancia de este tipo de Clase
-	 */
-	public static MapperJDBC get(Integer tipoMapper) {
-		return new MapperJDBC(tipoMapper);
-	}	
+	private Mapper tipoMapper;
 
 	/**
 	 * Constructor del Mapper donde recibe el tipo de mapper a ejecutar
 	 */
-	private MapperJDBC(Integer tipoMapper) {
-		this.tipoMapper = tipoMapper;
+	private MapperJDBC() {
 	}
 
 	/**
-	 * Metodo que es ejecutado para MAPPER los datos de acuerdo a un ResultSet
+	 * Retorna una instancia de este tipo de Clase
+	 */
+	public static MapperJDBC get(Mapper tipoMapper) {
+		if (instance == null) {
+			instance = new MapperJDBC();
+		}
+		instance.tipoMapper = tipoMapper;
+		return instance;
+	}
+
+	/**
+	 * Metodo que es ejecutado para MAPPEAR los datos de acuerdo a un ResultSet
 	 * 
 	 * @param res, resultado de acuerdo a la consulta
 	 * @return objecto con sus datos configurado de acuerdo al Mapper
@@ -46,22 +48,32 @@ public class MapperJDBC {
 	public Object execute(ResultSet res) throws Exception {
 		// encapsula el resultado con sus atributo configurados
 		Object result = null;
-		
+
 		// se ejecuta el metodo de acuerdo al tipo de MAPPER
 		switch (this.tipoMapper) {
-			case MAPPER_GET_CLIENTES:
+			case COUNT:
+				result = getCount(res);
+				break;
+	
+			case GET_CLIENTES:
 				result = getClientes(res);
 				break;
 	
-			case MAPPER_COUNT:
-				result = getCount(res);
-				break;
-				
-			case MAPPER_GET_CLIENTE_TOKEN:
+			case GET_CLIENTE:
 				result = getCliente(res);
-				break;				
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Mapper para configurar el COUNT de un SELECT
+	 */
+	private Object getCount(ResultSet res) throws Exception {
+		if (res.next()) {
+			return res.getLong(Numero.UNO.value);
+		}
+		return Numero.ZERO.value.longValue();
 	}
 
 	/**
@@ -85,16 +97,6 @@ public class MapperJDBC {
 		return resultado;
 	}
 
-	/**
-	 * Mapper para configurar el COUNT de un SELECT
-	 */	
-	private Object getCount(ResultSet res) throws Exception {
-		if (res.next()) {
-            return res.getLong(Numero.UNO.value);
-        }
-		return Numero.ZERO.value.longValue();
-	}
-	
 	/**
 	 * Mapper para configurar los datos de un CLIENTE
 	 */

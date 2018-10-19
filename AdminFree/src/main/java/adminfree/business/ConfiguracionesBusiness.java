@@ -6,6 +6,7 @@ import java.util.List;
 
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.enums.Estado;
+import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.persistence.CommonDAO;
@@ -43,7 +44,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se retorna el cliente con sus datos registrados en el sistema
 		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
-				MapperJDBC.get(MapperJDBC.MAPPER_GET_CLIENTE_TOKEN), 
+				MapperJDBC.get(Mapper.GET_CLIENTE), 
 				token);
 	}
 	
@@ -56,7 +57,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public List<ClienteDTO> listarClientes(Connection connection) throws Exception {
 		return (List<ClienteDTO>) findAll(
 				connection, SQLConfiguraciones.LISTAR_CLIENTES,
-				MapperJDBC.get(MapperJDBC.MAPPER_GET_CLIENTES));
+				MapperJDBC.get(Mapper.GET_CLIENTES));
 	}
 	
 	/**
@@ -113,7 +114,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
 		
 		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
-		MapperJDBC mapper = MapperJDBC.get(MapperJDBC.MAPPER_COUNT);
+		MapperJDBC mapper = MapperJDBC.get(Mapper.COUNT);
 
 		// el TOKEN debe ser unico en el sistema
 		boolean tokenExiste = true;
