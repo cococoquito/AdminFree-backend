@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import adminfree.constants.ApiRest;
 import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
-import adminfree.utilities.Constants;
 
 /**
  * 
@@ -23,7 +23,7 @@ import adminfree.utilities.Constants;
  *
  */
 @RestController
-@RequestMapping(Constants.CONFIGURACIONES_NOMBRE_API)
+@RequestMapping(ApiRest.CONFIGURACIONES_API)
 public class ConfiguracionesRest {
 
 	/** Service que contiene las configuraciones del sistema */
@@ -37,7 +37,7 @@ public class ConfiguracionesRest {
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
 	@RequestMapping(
-			value = Constants.CREAR_CLIENTES,
+			value = ApiRest.CREAR_CLIENTES,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -56,7 +56,7 @@ public class ConfiguracionesRest {
 	 * @return lista de CLIENTES parametrizados en el sistema
 	 */
 	@RequestMapping(
-			value = Constants.CLIENTES,
+			value = ApiRest.CLIENTES,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> getClientes() {
@@ -74,7 +74,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, datos del cliente ACTUALIZAR
 	 */
 	@RequestMapping(
-			value = Constants.ACTUALIZAR_CLIENTE,
+			value = ApiRest.ACTUALIZAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -97,7 +97,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	@RequestMapping(
-			value = Constants.ACTIVAR_CLIENTE,
+			value = ApiRest.ACTIVAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -120,7 +120,7 @@ public class ConfiguracionesRest {
 	 * @param cliente, contiene el identificador del cliente
 	 */
 	@RequestMapping(
-			value = Constants.INACTIVAR_CLIENTE,
+			value = ApiRest.INACTIVAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
@@ -144,7 +144,7 @@ public class ConfiguracionesRest {
 	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	@RequestMapping(
-			value = Constants.ELIMINAR_CLIENTE,
+			value = ApiRest.ELIMINAR_CLIENTE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })

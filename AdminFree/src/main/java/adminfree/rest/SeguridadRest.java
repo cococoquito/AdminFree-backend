@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import adminfree.constants.ApiRest;
 import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
-import adminfree.utilities.Constants;
 
 /**
  * 
@@ -24,7 +24,7 @@ import adminfree.utilities.Constants;
  *
  */
 @RestController
-@RequestMapping(Constants.SEGURIDAD_NOMBRE_API)
+@RequestMapping(ApiRest.SEGURIDAD_API)
 public class SeguridadRest {
 	
 	/** Objecto que contiene todo los servicios relacionado con la seguridad */
@@ -37,9 +37,9 @@ public class SeguridadRest {
 	 * return el TOKEN asociado al usuario
 	 */
 	@RequestMapping(
-			value = Constants.INICIAR_SESION_ADMIN_CLIENTES, 
+			value = ApiRest.ADMIN_CLIENTES_ENTRAR,
 			method = RequestMethod.POST, 
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody AutenticacionDTO credenciales) {
 		try {

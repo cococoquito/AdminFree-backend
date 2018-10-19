@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import adminfree.utilities.Constants;
+import adminfree.constants.ApiRest;
 
 /**
  * Configuracion que permite registrar los interceptores de la aplicacion
@@ -37,10 +37,10 @@ public class InterceptorConfiguracion implements WebMvcConfigurer {
 				
 		// se registra el interceptor para toda la aplicacion excepto seguridad
 		registry.addInterceptor(this.interceptorAdminFree).addPathPatterns("/**")
-				.excludePathPatterns("/" + Constants.SEGURIDAD_NOMBRE_API + "/**");
+				.excludePathPatterns("/" + ApiRest.SEGURIDAD_API + "/**");
 
 		// se registra el interceptor de la autenticacion
 		registry.addInterceptor(this.interceptorAuthAdminFree)
-				.addPathPatterns("/" + Constants.SEGURIDAD_NOMBRE_API + "/**");
+				.addPathPatterns("/" + ApiRest.SEGURIDAD_API + "/**");
 	}
 }
