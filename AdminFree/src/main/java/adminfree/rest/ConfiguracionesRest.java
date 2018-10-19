@@ -1,4 +1,4 @@
-package adminfree.a.controllers;
+package adminfree.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

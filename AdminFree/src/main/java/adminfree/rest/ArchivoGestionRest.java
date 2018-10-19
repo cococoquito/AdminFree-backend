@@ -1,4 +1,4 @@
-package adminfree.a.controllers;
+package adminfree.rest;
 
 /**
  * 
