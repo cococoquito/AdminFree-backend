@@ -1,4 +1,4 @@
-package adminfree.f.configuration;
+package adminfree.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
