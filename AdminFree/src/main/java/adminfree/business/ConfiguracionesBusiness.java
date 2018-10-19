@@ -4,15 +4,15 @@ import java.sql.Connection;
 import java.sql.Types;
 import java.util.List;
 
+import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
-import adminfree.utilities.ConstantEstado;
-import adminfree.utilities.ConstantNumeros;
-import adminfree.utilities.EstrategiaCriptografica;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
 import adminfree.persistence.SQLConfiguraciones;
 import adminfree.persistence.ValueSQL;
+import adminfree.utilities.ConstantEstado;
+import adminfree.utilities.EstrategiaCriptografica;
 
 /**
  * 
@@ -126,7 +126,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Long count = (Long)find(con, SQLConfiguraciones.COUNT_CLIENTE_TOKEN, mapper, token);
 
 			// valida si el TOKEN es unico en el sistema
-			if (count.equals(ConstantNumeros.ZERO.longValue())) {
+			if (count.equals(Numero.ZERO.getValor().longValue())) {
 				tokenExiste = false;
 			}
 		}

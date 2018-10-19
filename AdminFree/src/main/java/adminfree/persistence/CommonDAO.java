@@ -8,8 +8,8 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.List;
 
+import adminfree.enums.Numero;
 import adminfree.utilities.CerrarRecursos;
-import adminfree.utilities.ConstantNumeros;
 
 /**
  * 
@@ -33,7 +33,7 @@ public class CommonDAO {
 			pst = con.prepareStatement(dml);
 
 			// se recorre cada valor para configurarlo en el PreparedStatement
-			int posicion = ConstantNumeros.UNO;
+			int posicion = Numero.UNO.getValor();
 			for (ValueSQL valueSQL : valores) {
 
 				// se valida si se debe configurar NULL en el PreparedStatement
@@ -69,8 +69,8 @@ public class CommonDAO {
 			pst = con.prepareStatement(sql);
 
 			// se configura los parametros para el wheresentence
-			if (where != null && where.length > ConstantNumeros.ZERO) {
-				int posicion = ConstantNumeros.UNO;
+			if (where != null && where.length > Numero.ZERO.getValor()) {
+				int posicion = Numero.UNO.getValor();
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -123,13 +123,13 @@ public class CommonDAO {
 		PreparedStatement pst = null;
 		try {
 			// el where sentence es obligatorio
-			if (where != null && where.length > ConstantNumeros.ZERO) {
+			if (where != null && where.length > Numero.ZERO.getValor()) {
 
 				// se establece el PreparedStatement
 				pst = con.prepareStatement(deleteSQL);
 
 				// se recorre cada valor para configurarlo en el PreparedStatement
-				int posicion = ConstantNumeros.UNO;
+				int posicion = Numero.UNO.getValor();
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -155,16 +155,20 @@ public class CommonDAO {
 		try {
 			// se establece el PreparedStatement
 			pst = con.prepareStatement(dml);
+			
+			// constante numerico para el proceso
+			final Integer ZERO = Numero.ZERO.getValor();
+			final Integer UNO = Numero.UNO.getValor();
 
 			// lleva la cuenta de DML agregados en el BATCH
-			int countDML = ConstantNumeros.ZERO;
+			int countDML = ZERO;
 
 			// se recorre la cantidad de injections agregar en el BATCH
 			int posicion;
 			for (List<ValueSQL> values : injections) {
 
 				// se injecta los parametros de esta sentencia y se agrega al BATCH
-				posicion = ConstantNumeros.UNO;
+				posicion = UNO;
 				for (ValueSQL valueSQL : values) {
 					
 					// se valida si se debe configurar NULL en el PreparedStatement
@@ -181,8 +185,8 @@ public class CommonDAO {
 				countDML++;
 
 				// se valida si se debe ejecutar el BATCH
-				if (!ConstantNumeros.UNO.equals(countDML) && 
-					(countDML % ConstantSQL.BATCH_SIZE == ConstantNumeros.ZERO)) {
+				if (!UNO.equals(countDML) && 
+					(countDML % ConstantSQL.BATCH_SIZE == ZERO)) {
 					pst.executeBatch();
 				}
 			}
@@ -207,9 +211,13 @@ public class CommonDAO {
 		try {
 			// se establece el Statement
 			stm = con.createStatement();
+			
+			// constante numerico para el proceso
+			final Integer ZERO = Numero.ZERO.getValor();
+			final Integer UNO = Numero.UNO.getValor();
 
 			// lleva la cuenta de DML agregados en el BATCH
-			int countDML = ConstantNumeros.ZERO;
+			int countDML = ZERO;
 
 			// se recorre todos los DMLs que deben ser ejecutados por el BATCH
 			for (String dml : dmls) {
@@ -219,8 +227,8 @@ public class CommonDAO {
 				countDML++;
 
 				// se valida si se debe ejecutar el BATCH
-				if (!ConstantNumeros.UNO.equals(countDML) && 
-					(countDML % ConstantSQL.BATCH_SIZE == ConstantNumeros.ZERO)) {
+				if (!UNO.equals(countDML) && 
+					(countDML % ConstantSQL.BATCH_SIZE == ZERO)) {
 					stm.executeBatch();
 				}
 			}
