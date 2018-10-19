@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import adminfree.utilities.ConstantNumeros;
+import adminfree.enums.Numero;
 import adminfree.utilities.Constants;
 import adminfree.utilities.ConstantsCodigoMessages;
 
@@ -43,22 +43,23 @@ public class InterceptorAuthAdminFree implements HandlerInterceptor {
 
 		// se obtiene y se valida la nulalidad del USUARIO
 		String user = request.getHeader(Constants.SECURITY_HUSER);
-		if (user != null && user.length() > ConstantNumeros.TREINTA) {
+		final Integer TREINTA = Numero.TREINTA.getValor();
+		if (user != null && user.length() > TREINTA) {
 
 			// se obtiene y se valida la nulalidad del PASSWORD
 			String pass = request.getHeader(Constants.SECURITY_HPASS);
-			if (pass != null && pass.length() > ConstantNumeros.TREINTA) {
+			if (pass != null && pass.length() > TREINTA) {
 
 				// se obtiene y se valida la nulalidad del TOKEN
 				String token = request.getHeader(Constants.SECURITY_HTOKEN);
-				if (token != null && token.length() > ConstantNumeros.TREINTA) {
+				if (token != null && token.length() > TREINTA) {
 
 					// se valida el codigo de postAngular
 					String postAngular = token.substring(token.length() - this.securityPostAngularAuth.length());
 					if (postAngular.equals(this.securityPostAngularAuth)) {
 						
 						// se valida que todos los parametros coincidan con la seguridad
-						String soloToken = token.substring(ConstantNumeros.ZERO, token.length() - this.securityPostAngularAuth.length());
+						String soloToken = token.substring(Numero.ZERO.getValor(), token.length() - this.securityPostAngularAuth.length());
 						if (user.equals(this.securityAuthUser) &&
 							pass.equals(this.securityAuthPass) &&
 							soloToken.equals(this.securityAuthToken)) {
