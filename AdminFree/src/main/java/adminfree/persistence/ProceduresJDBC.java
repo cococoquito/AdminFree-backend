@@ -4,8 +4,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Types;
 
+import adminfree.enums.Numero;
 import adminfree.utilities.CerrarRecursos;
-import adminfree.utilities.ConstantNumeros;
 
 /**
  * 
@@ -33,16 +33,16 @@ public class ProceduresJDBC {
 			callStatement = con.prepareCall(PR_ELIMINAR_CLIENTE);
 
 			// para el procedimiento se necesita el id del cliente
-			callStatement.setLong(ConstantNumeros.UNO, idCliente);
+			callStatement.setLong(Numero.UNO.getValor(), idCliente);
 
 			// se registra el tipo de retorno
-			callStatement.registerOutParameter(ConstantNumeros.DOS, Types.VARCHAR);
+			callStatement.registerOutParameter(Numero.DOS.getValor(), Types.VARCHAR);
 
 			// se ejecuta el procedimiento
 			callStatement.execute();
 
 			// se obtiene el resultado del procedimiento ELIMINAR CLIENTE
-			return callStatement.getString(ConstantNumeros.DOS);
+			return callStatement.getString(Numero.DOS.getValor());
 		} finally {
 			CerrarRecursos.closeStatement(callStatement);
 		}
