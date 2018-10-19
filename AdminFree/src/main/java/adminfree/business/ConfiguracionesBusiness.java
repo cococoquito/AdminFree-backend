@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.Types;
 import java.util.List;
 
+import adminfree.constants.SQLConfiguraciones;
 import adminfree.enums.Estado;
 import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
-import adminfree.persistence.SQLConfiguraciones;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.EstrategiaCriptografica;
 

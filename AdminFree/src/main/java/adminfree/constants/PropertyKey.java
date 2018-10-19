@@ -1,4 +1,4 @@
-package adminfree.enums;
+package adminfree.constants;
 
 /**
  * 
