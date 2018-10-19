@@ -12,7 +12,7 @@ import adminfree.constants.ApiRest;
 import adminfree.constants.PropertyKey;
 import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
-import adminfree.utilities.Constants;
+import adminfree.enums.Security;
 
 /**
  * Interceptor que aplica para las peticiones http para la autenticacion del
@@ -44,16 +44,16 @@ public class InterceptorAuthAdminFree implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		// se obtiene y se valida la nulalidad del USUARIO
-		String user = request.getHeader(Constants.SECURITY_HUSER);
+		String user = request.getHeader(Security.SECURITY_HUSER.value);
 		final Integer TREINTA = Numero.TREINTA.value;
 		if (user != null && user.length() > TREINTA) {
 
 			// se obtiene y se valida la nulalidad del PASSWORD
-			String pass = request.getHeader(Constants.SECURITY_HPASS);
+			String pass = request.getHeader(Security.SECURITY_HPASS.value);
 			if (pass != null && pass.length() > TREINTA) {
 
 				// se obtiene y se valida la nulalidad del TOKEN
-				String token = request.getHeader(Constants.SECURITY_HTOKEN);
+				String token = request.getHeader(Security.SECURITY_HTOKEN.value);
 				if (token != null && token.length() > TREINTA) {
 
 					// se valida el codigo de postAngular

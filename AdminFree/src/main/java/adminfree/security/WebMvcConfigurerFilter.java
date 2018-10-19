@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import adminfree.utilities.Constants;
+import adminfree.enums.Security;
 
 /**
  * Configuration Class that allows to set up all requests of the application WEB
@@ -24,7 +24,7 @@ public class WebMvcConfigurerFilter {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping(Constants.GRANTS_PERMITS);
+				registry.addMapping(Security.GRANTS_PERMITS_ALL.value);
 			}
 		};
 	}
