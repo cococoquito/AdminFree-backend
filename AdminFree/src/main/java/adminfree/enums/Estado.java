@@ -9,24 +9,24 @@ package adminfree.enums;
 public enum Estado {
 
 	/** Constante que representa el ESTADO ACTIVO */
-	ACTIVO(Numero.UNO, "Activo"),
+	ACTIVO(Numero.UNO.getValor(), "Activo"),
 
 	/** Constante que representa el ESTADO INACTIVO */
-	INACTIVO(Numero.DOS, "Inactivo"),
+	INACTIVO(Numero.DOS.getValor(), "Inactivo"),
 
 	/** Constante que representa el ESTADO ANULADO */
-	ANULADO(Numero.TRES, "Anulado"),
+	ANULADO(Numero.TRES.getValor(), "Anulado"),
 
 	/** Constante que representa el ESTADO BORRADO */
-	BORRADO(Numero.CUATRO, "Borrado"),
+	BORRADO(Numero.CUATRO.getValor(), "Borrado"),
 
 	/** Constante que representa el ESTADO CERRADO */
-	CERRADO(Numero.CINCO, "Cerrado");
+	CERRADO(Numero.CINCO.getValor(), "Cerrado");
 
-	private Numero id;
+	private Integer id;
 	private String nombre;
 
-	private Estado(Numero id, String nombre) {
+	private Estado(Integer id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
 	}
@@ -34,14 +34,15 @@ public enum Estado {
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
-	public Numero getId() {
+	public Integer getId() {
 		return id;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param id
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param id
 	 */
-	public void setId(Numero id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -53,7 +54,8 @@ public enum Estado {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param nombre
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param nombre
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
