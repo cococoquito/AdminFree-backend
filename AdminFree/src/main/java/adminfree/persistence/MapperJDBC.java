@@ -92,7 +92,7 @@ public class MapperJDBC {
 		if (res.next()) {
             return res.getLong(Numero.UNO.getValor());
         }
-		return Numero.UNO.getValor().longValue();
+		return Numero.ZERO.getValor().longValue();
 	}
 	
 	/**
