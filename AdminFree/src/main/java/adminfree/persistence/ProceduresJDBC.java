@@ -1,4 +1,4 @@
-package adminfree.g.persistence;
+package adminfree.persistence;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

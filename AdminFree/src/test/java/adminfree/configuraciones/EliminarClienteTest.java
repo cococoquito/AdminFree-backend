@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.services.ConfiguracionesService;
 import adminfree.d.model.configuraciones.ClienteDTO;
-import adminfree.g.persistence.ConstantSQL;
+import adminfree.persistence.ConstantSQL;
 
 /**
  * Test para el servicio ConfiguracionesService.eliminarCliente

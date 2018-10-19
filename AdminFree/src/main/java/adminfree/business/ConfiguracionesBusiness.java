@@ -8,11 +8,11 @@ import adminfree.d.model.configuraciones.ClienteDTO;
 import adminfree.e.utilities.ConstantEstado;
 import adminfree.e.utilities.ConstantNumeros;
 import adminfree.e.utilities.EstrategiaCriptografica;
-import adminfree.g.persistence.CommonDAO;
-import adminfree.g.persistence.MapperJDBC;
-import adminfree.g.persistence.ProceduresJDBC;
-import adminfree.g.persistence.SQLConfiguraciones;
-import adminfree.g.persistence.ValueSQL;
+import adminfree.persistence.CommonDAO;
+import adminfree.persistence.MapperJDBC;
+import adminfree.persistence.ProceduresJDBC;
+import adminfree.persistence.SQLConfiguraciones;
+import adminfree.persistence.ValueSQL;
 
 /**
  * 

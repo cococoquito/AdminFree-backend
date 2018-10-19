@@ -1,4 +1,4 @@
-package adminfree.g.persistence;
+package adminfree.persistence;
 
 /**
  * Clase que contiene los atributos de un valor para SQL

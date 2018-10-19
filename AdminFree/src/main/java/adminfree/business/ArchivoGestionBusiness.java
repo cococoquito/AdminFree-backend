@@ -1,6 +1,6 @@
 package adminfree.business;
 
-import adminfree.g.persistence.CommonDAO;
+import adminfree.persistence.CommonDAO;
 
 /**
  * 
