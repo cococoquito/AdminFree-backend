@@ -39,25 +39,9 @@ public enum Estado {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param id
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo nombre
 	 */
 	public String getNombre() {
 		return nombre;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param nombre
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 }

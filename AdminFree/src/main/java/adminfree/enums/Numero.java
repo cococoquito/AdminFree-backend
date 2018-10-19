@@ -23,11 +23,4 @@ public enum Numero {
 	public Integer getValor() {
 		return valor;
 	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param valor
-	 */
-	public void setValor(Integer valor) {
-		this.valor = valor;
-	}
 }
