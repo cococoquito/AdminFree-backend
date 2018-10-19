@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.services.ConfiguracionesService;
-import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.model.configuraciones.ClienteDTO;
 
 /**
  * Test para el servicio ConfiguracionesService.activarCliente

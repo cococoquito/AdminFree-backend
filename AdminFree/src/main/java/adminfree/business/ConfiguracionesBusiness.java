@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.Types;
 import java.util.List;
 
-import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.utilities.ConstantEstado;
 import adminfree.utilities.ConstantNumeros;
 import adminfree.utilities.EstrategiaCriptografica;

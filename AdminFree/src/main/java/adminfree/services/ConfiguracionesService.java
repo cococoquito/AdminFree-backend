@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
-import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**

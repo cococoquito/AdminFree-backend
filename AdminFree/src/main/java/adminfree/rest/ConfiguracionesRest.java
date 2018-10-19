@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.services.ConfiguracionesService;
-import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.utilities.Constants;
 import adminfree.utilities.ConstantsCodigoMessages;
 

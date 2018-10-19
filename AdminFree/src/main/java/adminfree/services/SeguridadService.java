@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import adminfree.d.model.configuraciones.AutenticacionDTO;
+import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Constants;
 import adminfree.utilities.ConstantsCodigoMessages;

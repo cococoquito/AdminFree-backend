@@ -1,4 +1,4 @@
-package adminfree.d.model.configuraciones;
+package adminfree.model.configuraciones;
 
 import java.io.Serializable;
 

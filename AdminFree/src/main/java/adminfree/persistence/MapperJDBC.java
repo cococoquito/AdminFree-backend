@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import adminfree.d.model.configuraciones.ClienteDTO;
+import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.utilities.ConstantNumeros;
 
 /**
