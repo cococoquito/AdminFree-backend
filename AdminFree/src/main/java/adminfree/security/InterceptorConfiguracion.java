@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import adminfree.constants.ApiRest;
+import adminfree.enums.Security;
 
 /**
  * Configuracion que permite registrar los interceptores de la aplicacion
@@ -34,13 +35,15 @@ public class InterceptorConfiguracion implements WebMvcConfigurer {
 	 */	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
+		
+		// Es el path y grant de todos los permisos de seguridad
+		String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
 				
-		// se registra el interceptor para toda la aplicacion excepto seguridad
-		registry.addInterceptor(this.interceptorAdminFree).addPathPatterns("/**")
-				.excludePathPatterns("/" + ApiRest.SEGURIDAD_API + "/**");
+		// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
+		registry.addInterceptor(this.interceptorAdminFree).addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
+				.excludePathPatterns(grantSecurity);
 
 		// se registra el interceptor de la autenticacion
-		registry.addInterceptor(this.interceptorAuthAdminFree)
-				.addPathPatterns("/" + ApiRest.SEGURIDAD_API + "/**");
+		registry.addInterceptor(this.interceptorAuthAdminFree).addPathPatterns(grantSecurity);
 	}
 }
