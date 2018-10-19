@@ -33,16 +33,16 @@ public class ProceduresJDBC {
 			callStatement = con.prepareCall(PR_ELIMINAR_CLIENTE);
 
 			// para el procedimiento se necesita el id del cliente
-			callStatement.setLong(Numero.UNO.getValor(), idCliente);
+			callStatement.setLong(Numero.UNO.value, idCliente);
 
 			// se registra el tipo de retorno
-			callStatement.registerOutParameter(Numero.DOS.getValor(), Types.VARCHAR);
+			callStatement.registerOutParameter(Numero.DOS.value, Types.VARCHAR);
 
 			// se ejecuta el procedimiento
 			callStatement.execute();
 
 			// se obtiene el resultado del procedimiento ELIMINAR CLIENTE
-			return callStatement.getString(Numero.DOS.getValor());
+			return callStatement.getString(Numero.DOS.value);
 		} finally {
 			CerrarRecursos.closeStatement(callStatement);
 		}

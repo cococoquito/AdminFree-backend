@@ -71,6 +71,6 @@ public class SeguridadService {
 		}
 
 		// se lanza bussines exception si las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA.getValor());
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA.value);
 	}
 }

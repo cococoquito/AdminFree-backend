@@ -33,7 +33,7 @@ public class CommonDAO {
 			pst = con.prepareStatement(dml);
 
 			// se recorre cada valor para configurarlo en el PreparedStatement
-			int posicion = Numero.UNO.getValor();
+			int posicion = Numero.UNO.value;
 			for (ValueSQL valueSQL : valores) {
 
 				// se valida si se debe configurar NULL en el PreparedStatement
@@ -69,8 +69,8 @@ public class CommonDAO {
 			pst = con.prepareStatement(sql);
 
 			// se configura los parametros para el wheresentence
-			if (where != null && where.length > Numero.ZERO.getValor()) {
-				int posicion = Numero.UNO.getValor();
+			if (where != null && where.length > Numero.ZERO.value) {
+				int posicion = Numero.UNO.value;
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -123,13 +123,13 @@ public class CommonDAO {
 		PreparedStatement pst = null;
 		try {
 			// el where sentence es obligatorio
-			if (where != null && where.length > Numero.ZERO.getValor()) {
+			if (where != null && where.length > Numero.ZERO.value) {
 
 				// se establece el PreparedStatement
 				pst = con.prepareStatement(deleteSQL);
 
 				// se recorre cada valor para configurarlo en el PreparedStatement
-				int posicion = Numero.UNO.getValor();
+				int posicion = Numero.UNO.value;
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -157,8 +157,8 @@ public class CommonDAO {
 			pst = con.prepareStatement(dml);
 			
 			// constante numerico para el proceso
-			final Integer ZERO = Numero.ZERO.getValor();
-			final Integer UNO = Numero.UNO.getValor();
+			final Integer ZERO = Numero.ZERO.value;
+			final Integer UNO = Numero.UNO.value;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;
@@ -213,8 +213,8 @@ public class CommonDAO {
 			stm = con.createStatement();
 			
 			// constante numerico para el proceso
-			final Integer ZERO = Numero.ZERO.getValor();
-			final Integer UNO = Numero.UNO.getValor();
+			final Integer ZERO = Numero.ZERO.value;
+			final Integer UNO = Numero.UNO.value;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;

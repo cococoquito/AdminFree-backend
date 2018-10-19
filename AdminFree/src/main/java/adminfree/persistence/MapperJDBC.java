@@ -72,14 +72,14 @@ public class MapperJDBC {
 		ClienteDTO cliente = null;
 		while (res.next()) {
 			cliente = new ClienteDTO();
-			cliente.setId(res.getLong(Numero.UNO.getValor()));
-			cliente.setToken(res.getString(Numero.DOS.getValor()));
-			cliente.setNombre(res.getString(Numero.TRES.getValor()));
-			cliente.setTelefonos(res.getString(Numero.CUATRO.getValor()));
-			cliente.setEmails(res.getString(Numero.CINCO.getValor()));
-			cliente.setFechaActivacion(res.getDate(Numero.SEIS.getValor()));
-			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.getValor()));
-			cliente.setEstado(res.getInt(Numero.OCHO.getValor()));
+			cliente.setId(res.getLong(Numero.UNO.value));
+			cliente.setToken(res.getString(Numero.DOS.value));
+			cliente.setNombre(res.getString(Numero.TRES.value));
+			cliente.setTelefonos(res.getString(Numero.CUATRO.value));
+			cliente.setEmails(res.getString(Numero.CINCO.value));
+			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
+			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.value));
+			cliente.setEstado(res.getInt(Numero.OCHO.value));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -90,9 +90,9 @@ public class MapperJDBC {
 	 */	
 	private Object getCount(ResultSet res) throws Exception {
 		if (res.next()) {
-            return res.getLong(Numero.UNO.getValor());
+            return res.getLong(Numero.UNO.value);
         }
-		return Numero.ZERO.getValor().longValue();
+		return Numero.ZERO.value.longValue();
 	}
 	
 	/**
@@ -102,13 +102,13 @@ public class MapperJDBC {
 		ClienteDTO cliente = null;
 		if (res.next()) {
 			cliente = new ClienteDTO();
-			cliente.setId(res.getLong(Numero.UNO.getValor()));
-			cliente.setToken(res.getString(Numero.DOS.getValor()));
-			cliente.setNombre(res.getString(Numero.TRES.getValor()));
-			cliente.setTelefonos(res.getString(Numero.CUATRO.getValor()));
-			cliente.setEmails(res.getString(Numero.CINCO.getValor()));
-			cliente.setFechaActivacion(res.getDate(Numero.SEIS.getValor()));
-			cliente.setEstado(res.getInt(Numero.SIETE.getValor()));
+			cliente.setId(res.getLong(Numero.UNO.value));
+			cliente.setToken(res.getString(Numero.DOS.value));
+			cliente.setNombre(res.getString(Numero.TRES.value));
+			cliente.setTelefonos(res.getString(Numero.CUATRO.value));
+			cliente.setEmails(res.getString(Numero.CINCO.value));
+			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
+			cliente.setEstado(res.getInt(Numero.SIETE.value));
 		}
 		return cliente;
 	}

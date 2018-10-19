@@ -9,39 +9,25 @@ package adminfree.enums;
 public enum Estado {
 
 	/** Constante que representa el ESTADO ACTIVO */
-	ACTIVO(Numero.UNO.getValor(), "Activo"),
+	ACTIVO(Numero.UNO.value, "Activo"),
 
 	/** Constante que representa el ESTADO INACTIVO */
-	INACTIVO(Numero.DOS.getValor(), "Inactivo"),
+	INACTIVO(Numero.DOS.value, "Inactivo"),
 
 	/** Constante que representa el ESTADO ANULADO */
-	ANULADO(Numero.TRES.getValor(), "Anulado"),
+	ANULADO(Numero.TRES.value, "Anulado"),
 
 	/** Constante que representa el ESTADO BORRADO */
-	BORRADO(Numero.CUATRO.getValor(), "Borrado"),
+	BORRADO(Numero.CUATRO.value, "Borrado"),
 
 	/** Constante que representa el ESTADO CERRADO */
-	CERRADO(Numero.CINCO.getValor(), "Cerrado");
+	CERRADO(Numero.CINCO.value, "Cerrado");
 
-	private Integer id;
-	private String nombre;
+	public Integer id;
+	public String nombre;
 
 	private Estado(Integer id, String nombre) {
 		this.id = id;
 		this.nombre = nombre;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo id
-	 */
-	public Integer getId() {
-		return id;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo nombre
-	 */
-	public String getNombre() {
-		return nombre;
 	}
 }

@@ -41,7 +41,7 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 
 		// se obtiene y se valida la nulalidad del USUARIO
 		String user = request.getHeader(Constants.SECURITY_HUSER);
-		final Integer TREINTA = Numero.TREINTA.getValor();
+		final Integer TREINTA = Numero.TREINTA.value;
 		if (user != null && user.length() > TREINTA) {
 
 			// se obtiene y se valida la nulalidad del PASSWORD
@@ -58,7 +58,7 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 						
 						// se valida si el TOKEN es valido
 						String tokenValidar = EstrategiaCriptografica.get().generarTokenAuth(user, pass, this.securityPostToken);
-						String soloToken = token.substring(Numero.ZERO.getValor(), token.length() - this.securityPostAngular.length());
+						String soloToken = token.substring(Numero.ZERO.value, token.length() - this.securityPostAngular.length());
 						if (tokenValidar.equals(soloToken)) {
 							return true;
 						}
@@ -78,7 +78,7 @@ public class InterceptorAdminFree implements HandlerInterceptor {
 	private boolean returnResponseFallido(HttpServletResponse response) throws Exception {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader(Constants.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-		response.getWriter().write(MessageBusiness.AUTORIZACION_FALLIDA.getValor());
+		response.getWriter().write(MessageBusiness.AUTORIZACION_FALLIDA.value);
 		response.getWriter().flush();
 		response.getWriter().close();
 		return false;

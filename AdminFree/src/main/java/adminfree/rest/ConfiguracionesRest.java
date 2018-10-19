@@ -46,7 +46,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.eliminarCliente(cliente));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 }

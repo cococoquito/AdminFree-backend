@@ -49,7 +49,7 @@ public class SeguridadRest {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
 }

@@ -39,7 +39,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(cliente.getNombre(), Types.VARCHAR),
 				ValueSQL.get(cliente.getTelefonos(), Types.VARCHAR), 
 				ValueSQL.get(cliente.getEmails(), Types.VARCHAR),
-				ValueSQL.get(Estado.ACTIVO.getId(), Types.INTEGER));
+				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
 
 		// se retorna el cliente con sus datos registrados en el sistema
 		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
@@ -79,7 +79,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void activarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.ACTIVAR_CLIENTE,
-				ValueSQL.get(Estado.ACTIVO.getId(), Types.INTEGER),
+				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
 	}
 	
@@ -90,7 +90,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void inactivarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
-				ValueSQL.get(Estado.INACTIVO.getId(), Types.INTEGER),
+				ValueSQL.get(Estado.INACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
 	}
 	
@@ -126,7 +126,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Long count = (Long)find(con, SQLConfiguraciones.COUNT_CLIENTE_TOKEN, mapper, token);
 
 			// valida si el TOKEN es unico en el sistema
-			if (count.equals(Numero.ZERO.getValor().longValue())) {
+			if (count.equals(Numero.ZERO.value.longValue())) {
 				tokenExiste = false;
 			}
 		}

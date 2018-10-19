@@ -9,24 +9,17 @@ package adminfree.enums;
 public enum MessageBusiness {
 
 	/** 400 - El Usuario y la Contraseña que usted ingresó no ha sido reconocido. Por favor, inténtelo de nuevo.*/
-	AUTENTICACION_FALLIDA(Numero.UNO.getValor().toString()),
+	AUTENTICACION_FALLIDA(Numero.UNO.value.toString()),
 
 	/** 400 - No estas autorizado para acceder a este recurso.*/
-	AUTORIZACION_FALLIDA(Numero.DOS.getValor().toString()),
+	AUTORIZACION_FALLIDA(Numero.DOS.value.toString()),
 
 	/** 500 - Se produjo un error en el sistema:*/
-	ERROR_TECHNICAL(Numero.UNO.getValor().toString());
+	ERROR_TECHNICAL(Numero.UNO.value.toString());
 
-	private String valor;
+	public String value;
 
-	private MessageBusiness(String valor) {
-		this.valor = valor;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo code
-	 */
-	public String getValor() {
-		return valor;
+	private MessageBusiness(String value) {
+		this.value = value;
 	}
 }
