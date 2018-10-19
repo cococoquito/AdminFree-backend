@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
-import adminfree.utilities.ConstantNumeros;
 
 /**
  * Clase que contiene los metodos MAPPER para las consultas JDBC
@@ -72,14 +72,14 @@ public class MapperJDBC {
 		ClienteDTO cliente = null;
 		while (res.next()) {
 			cliente = new ClienteDTO();
-			cliente.setId(res.getLong(ConstantNumeros.UNO));
-			cliente.setToken(res.getString(ConstantNumeros.DOS));
-			cliente.setNombre(res.getString(ConstantNumeros.TRES));
-			cliente.setTelefonos(res.getString(ConstantNumeros.CUATRO));
-			cliente.setEmails(res.getString(ConstantNumeros.CINCO));
-			cliente.setFechaActivacion(res.getDate(ConstantNumeros.SEIS));
-			cliente.setFechaInactivacion(res.getDate(ConstantNumeros.SIETE));
-			cliente.setEstado(res.getInt(ConstantNumeros.OCHO));
+			cliente.setId(res.getLong(Numero.UNO.getValor()));
+			cliente.setToken(res.getString(Numero.DOS.getValor()));
+			cliente.setNombre(res.getString(Numero.TRES.getValor()));
+			cliente.setTelefonos(res.getString(Numero.CUATRO.getValor()));
+			cliente.setEmails(res.getString(Numero.CINCO.getValor()));
+			cliente.setFechaActivacion(res.getDate(Numero.SEIS.getValor()));
+			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.getValor()));
+			cliente.setEstado(res.getInt(Numero.OCHO.getValor()));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -90,9 +90,9 @@ public class MapperJDBC {
 	 */	
 	private Object getCount(ResultSet res) throws Exception {
 		if (res.next()) {
-            return res.getLong(ConstantNumeros.UNO);
+            return res.getLong(Numero.UNO.getValor());
         }
-		return ConstantNumeros.ZERO.longValue();
+		return Numero.UNO.getValor().longValue();
 	}
 	
 	/**
@@ -102,13 +102,13 @@ public class MapperJDBC {
 		ClienteDTO cliente = null;
 		if (res.next()) {
 			cliente = new ClienteDTO();
-			cliente.setId(res.getLong(ConstantNumeros.UNO));
-			cliente.setToken(res.getString(ConstantNumeros.DOS));
-			cliente.setNombre(res.getString(ConstantNumeros.TRES));
-			cliente.setTelefonos(res.getString(ConstantNumeros.CUATRO));
-			cliente.setEmails(res.getString(ConstantNumeros.CINCO));
-			cliente.setFechaActivacion(res.getDate(ConstantNumeros.SEIS));
-			cliente.setEstado(res.getInt(ConstantNumeros.SIETE));
+			cliente.setId(res.getLong(Numero.UNO.getValor()));
+			cliente.setToken(res.getString(Numero.DOS.getValor()));
+			cliente.setNombre(res.getString(Numero.TRES.getValor()));
+			cliente.setTelefonos(res.getString(Numero.CUATRO.getValor()));
+			cliente.setEmails(res.getString(Numero.CINCO.getValor()));
+			cliente.setFechaActivacion(res.getDate(Numero.SEIS.getValor()));
+			cliente.setEstado(res.getInt(Numero.SIETE.getValor()));
 		}
 		return cliente;
 	}
