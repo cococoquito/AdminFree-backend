@@ -159,6 +159,7 @@ public class CommonDAO {
 			// constante numerico para el proceso
 			final Integer ZERO = Numero.ZERO.value;
 			final Integer UNO = Numero.UNO.value;
+			final Integer MIL = Numero.MIL.value;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;
@@ -186,7 +187,7 @@ public class CommonDAO {
 
 				// se valida si se debe ejecutar el BATCH
 				if (!UNO.equals(countDML) && 
-					(countDML % ConstantSQL.BATCH_SIZE == ZERO)) {
+					(countDML % MIL == ZERO)) {
 					pst.executeBatch();
 				}
 			}
@@ -215,6 +216,7 @@ public class CommonDAO {
 			// constante numerico para el proceso
 			final Integer ZERO = Numero.ZERO.value;
 			final Integer UNO = Numero.UNO.value;
+			final Integer MIL = Numero.MIL.value;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;
@@ -228,7 +230,7 @@ public class CommonDAO {
 
 				// se valida si se debe ejecutar el BATCH
 				if (!UNO.equals(countDML) && 
-					(countDML % ConstantSQL.BATCH_SIZE == ZERO)) {
+					(countDML % MIL == ZERO)) {
 					stm.executeBatch();
 				}
 			}

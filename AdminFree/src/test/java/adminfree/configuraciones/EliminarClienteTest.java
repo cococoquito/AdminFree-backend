@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.services.ConfiguracionesService;
 import adminfree.model.configuraciones.ClienteDTO;
-import adminfree.persistence.ConstantSQL;
+import adminfree.services.ConfiguracionesService;
 
 /**
  * Test para el servicio ConfiguracionesService.eliminarCliente
@@ -39,7 +38,7 @@ public class EliminarClienteTest {
 			String resultado = this.configuracionesService.eliminarCliente(clienteEliminar);
 
 			// si verifica que el resultado es EXITOSO
-			if (ConstantSQL.SUCCESSFUL.equals(resultado)) {
+			if ("200".equals(resultado)) {
 				assertTrue(true);
 			} else {
 				System.err.println(resultado);
