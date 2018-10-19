@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.enums.MessageBusiness;
+import adminfree.enums.PropertyKey;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.utilities.BusinessException;
-import adminfree.utilities.Constants;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
@@ -27,15 +27,15 @@ public class SeguridadService {
 	private DataSource adminFreeDS;
 	
 	/** Contiene el usuario para la autenticacion del administrador de clientes */
-	@Value(Constants.SECURITY_ADMINCLIENTES_USER)
+	@Value(PropertyKey.SECURITY_ADMINCLIENTES_USER)
 	private String securityAdminClienteUser;
 
 	/** Contiene la clave para la autenticacion del administrador de clientes */
-	@Value(Constants.SECURITY_ADMINCLIENTES_PASS)
+	@Value(PropertyKey.SECURITY_ADMINCLIENTES_PASS)
 	private String securityAdminClienteClave;
 
 	/** Contiene el postToken para la generacion de TOKENS */
-	@Value(Constants.SECURITY_POST_TOKEN)
+	@Value(PropertyKey.SECURITY_POST_TOKEN)
 	private String securityPostToken;
 
 	/**

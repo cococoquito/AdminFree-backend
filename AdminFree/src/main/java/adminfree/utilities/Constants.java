@@ -11,18 +11,7 @@ public class Constants {
 	
 	/** Constant that represent the character to grant the permits for all request of the application WEB */
 	public static final String GRANTS_PERMITS = "/**";
-		
-	/** Constant para obtener los valores del archivo application.properties */
-	public static final String SECURITY_ADMINCLIENTES_USER = "${adminfree.security.adminclientes.user}";
-	public static final String SECURITY_ADMINCLIENTES_PASS = "${adminfree.security.adminclientes.pass}";
-	public static final String SECURITY_AUTH_USER = "${adminfree.security.auth.user}";
-	public static final String SECURITY_AUTH_PASS = "${adminfree.security.auth.pass}";
-	public static final String SECURITY_AUTH_TOKEN = "${adminfree.security.auth.token}";
-	public static final String SECURITY_POST_ANGULAR_AUTH = "${adminfree.security.post.angular.auth}";
-	public static final String SECURITY_POST_ANGULAR = "${adminfree.security.post.angular}";
-	public static final String SECURITY_POST_PASS = "${adminfree.security.post.pass}";
-	public static final String SECURITY_POST_TOKEN = "${adminfree.security.post.token}";
-	
+
 	/** Constantes de la seguridad del sistema */
 	public static final String SECURITY_HUSER = "huser";
 	public static final String SECURITY_HPASS = "hpass";

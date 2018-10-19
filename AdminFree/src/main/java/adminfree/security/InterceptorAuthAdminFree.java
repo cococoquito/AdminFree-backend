@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
+import adminfree.enums.PropertyKey;
 import adminfree.utilities.Constants;
 
 /**
@@ -23,13 +24,13 @@ import adminfree.utilities.Constants;
 public class InterceptorAuthAdminFree implements HandlerInterceptor {
 
 	/** Variables de seguridad para la autenticacion del sistema */
-	@Value(Constants.SECURITY_POST_ANGULAR_AUTH)
+	@Value(PropertyKey.SECURITY_POST_ANGULAR_AUTH)
 	private String securityPostAngularAuth;
-	@Value(Constants.SECURITY_AUTH_USER)
+	@Value(PropertyKey.SECURITY_AUTH_USER)
 	private String securityAuthUser;
-	@Value(Constants.SECURITY_AUTH_PASS)
+	@Value(PropertyKey.SECURITY_AUTH_PASS)
 	private String securityAuthPass;
-	@Value(Constants.SECURITY_AUTH_TOKEN)
+	@Value(PropertyKey.SECURITY_AUTH_TOKEN)
 	private String securityAuthToken;
 
 	/**

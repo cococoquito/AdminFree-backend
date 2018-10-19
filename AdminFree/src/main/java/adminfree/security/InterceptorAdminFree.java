@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
+import adminfree.enums.PropertyKey;
 import adminfree.utilities.Constants;
 import adminfree.utilities.EstrategiaCriptografica;
 
@@ -24,9 +25,9 @@ import adminfree.utilities.EstrategiaCriptografica;
 public class InterceptorAdminFree implements HandlerInterceptor {
 	
 	/** Variables de seguridad para la autenticacion del sistema */
-	@Value(Constants.SECURITY_POST_ANGULAR)
+	@Value(PropertyKey.SECURITY_POST_ANGULAR)
 	private String securityPostAngular;
-	@Value(Constants.SECURITY_POST_TOKEN)
+	@Value(PropertyKey.SECURITY_POST_TOKEN)
 	private String securityPostToken;	
 
 	/**
