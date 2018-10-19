@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Types;
 import java.util.List;
 
+import adminfree.enums.Estado;
 import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.persistence.CommonDAO;
@@ -11,7 +12,6 @@ import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
 import adminfree.persistence.SQLConfiguraciones;
 import adminfree.persistence.ValueSQL;
-import adminfree.utilities.ConstantEstado;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
@@ -39,7 +39,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(cliente.getNombre(), Types.VARCHAR),
 				ValueSQL.get(cliente.getTelefonos(), Types.VARCHAR), 
 				ValueSQL.get(cliente.getEmails(), Types.VARCHAR),
-				ValueSQL.get(ConstantEstado.ID_ESTADO_ACTIVO, Types.INTEGER));
+				ValueSQL.get(Estado.ACTIVO.getId(), Types.INTEGER));
 
 		// se retorna el cliente con sus datos registrados en el sistema
 		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
@@ -79,7 +79,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void activarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.ACTIVAR_CLIENTE,
-				ValueSQL.get(ConstantEstado.ID_ESTADO_ACTIVO, Types.INTEGER),
+				ValueSQL.get(Estado.ACTIVO.getId(), Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
 	}
 	
@@ -90,7 +90,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void inactivarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
-				ValueSQL.get(ConstantEstado.ID_ESTADO_INACTIVO, Types.INTEGER),
+				ValueSQL.get(Estado.INACTIVO.getId(), Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
 	}
 	
