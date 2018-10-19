@@ -1,4 +1,4 @@
-package adminfree.h.security;
+package adminfree.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
