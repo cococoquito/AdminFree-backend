@@ -1,5 +1,7 @@
 package adminfree.utilities;
 
+import adminfree.enums.Numero;
+
 /**
  * Clase utilitaria que define constantes para los estados
  *
@@ -10,15 +12,15 @@ public class ConstantEstado {
 
 	/**************** Son los IDS de los estados ****************************************/
 	/** Constante que representa el ESTADO ACTIVO */
-	public static final Integer ID_ESTADO_ACTIVO = ConstantNumeros.UNO;
+	public static final Integer ID_ESTADO_ACTIVO = Numero.UNO.getValor();
 	/** Constante que representa el ESTADO INACTIVO */
-	public static final Integer ID_ESTADO_INACTIVO = ConstantNumeros.DOS;	
+	public static final Integer ID_ESTADO_INACTIVO = Numero.DOS.getValor();	
 	/** Constante que representa el ESTADO ANULADO */
-	public static final Integer ID_ESTADO_ANULADO = ConstantNumeros.TRES;
+	public static final Integer ID_ESTADO_ANULADO = Numero.TRES.getValor();
 	/** Constante que representa el ESTADO BORRADO */
-	public static final Integer ID_ESTADO_BORRADO = ConstantNumeros.CUATRO;
+	public static final Integer ID_ESTADO_BORRADO = Numero.CUATRO.getValor();
 	/** Constante que representa el ESTADO CERRADO */
-	public static final Integer ID_ESTADO_CERRADO = ConstantNumeros.CINCO;
+	public static final Integer ID_ESTADO_CERRADO = Numero.CINCO.getValor();
 
 	/**************** Son los NOMBRES de los estados *************************************/
 	/** Constante que representa el nombre ESTADO ACTIVO */

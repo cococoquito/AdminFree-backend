@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.UUID;
 
+import adminfree.enums.Numero;
+
 /**
  * Clase para generacion de TOKEN del sistema
  * 
@@ -63,8 +65,9 @@ public class EstrategiaCriptografica {
 		byte[] messageDigest = md.digest(entrada.getBytes());
 		BigInteger number = new BigInteger(1, messageDigest);
 		String hashtext = number.toString(16);
+		final String ZERO = Numero.ZERO.getValor().toString();
 		while (hashtext.length() < 32) {
-			hashtext = ConstantNumeros.ZERO.toString() + hashtext;
+			hashtext = ZERO + hashtext;
 		}
 		return hashtext;
 	}
