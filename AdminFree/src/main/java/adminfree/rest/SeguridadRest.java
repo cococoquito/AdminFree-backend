@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import adminfree.services.SeguridadService;
+import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.AutenticacionDTO;
+import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Constants;
-import adminfree.utilities.ConstantsCodigoMessages;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class SeguridadRest {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(ConstantsCodigoMessages.COD_ERROR_TECHNICAL + e.getMessage());
+					.body(MessageBusiness.ERROR_TECHNICAL.getValor() + e.getMessage());
 		}
 	}
 }

@@ -8,9 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
 import adminfree.utilities.Constants;
-import adminfree.utilities.ConstantsCodigoMessages;
 
 /**
  * Interceptor que aplica para las peticiones http para la autenticacion del
@@ -81,7 +81,7 @@ public class InterceptorAuthAdminFree implements HandlerInterceptor {
 	private boolean returnResponseFallido(HttpServletResponse response) throws Exception {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader(Constants.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-		response.getWriter().write(ConstantsCodigoMessages.COD_AUTORIZACION_FALLIDA);
+		response.getWriter().write(MessageBusiness.AUTORIZACION_FALLIDA.getValor());
 		response.getWriter().flush();
 		response.getWriter().close();
 		return false;

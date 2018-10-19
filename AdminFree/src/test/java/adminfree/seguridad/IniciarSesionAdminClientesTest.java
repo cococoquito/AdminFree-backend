@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.services.SeguridadService;
 import adminfree.model.configuraciones.AutenticacionDTO;
+import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
-import adminfree.utilities.ConstantsCodigoMessages;
 
 /**
  * Test para el servicio ConfiguracionesService.iniciarSesionAdminClientes
@@ -48,7 +47,7 @@ public class IniciarSesionAdminClientesTest {
 			System.err.println("Bussines:" + e.getMessage());
 			assertTrue(false);
 		} catch (Exception e) {
-			System.err.println(ConstantsCodigoMessages.COD_ERROR_TECHNICAL + e.getMessage());
+			System.err.println("Technical:" + e.getMessage());
 			assertTrue(false);
 		}
 	}

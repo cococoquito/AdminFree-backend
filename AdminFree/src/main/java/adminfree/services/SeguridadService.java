@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Constants;
-import adminfree.utilities.ConstantsCodigoMessages;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
@@ -71,6 +71,6 @@ public class SeguridadService {
 		}
 
 		// se lanza bussines exception si las credenciales son fallidas
-		throw new BusinessException(ConstantsCodigoMessages.COD_AUTENTICACION_FALLIDA);
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA.getValor());
 	}
 }
