@@ -16,5 +16,5 @@ public class Constants {
 	public static final String SECURITY_HUSER = "huser";
 	public static final String SECURITY_HPASS = "hpass";
 	public static final String SECURITY_HTOKEN = "htoken";
-	public static final String CONTENT_TYPE = "Content-Type";
+	
 }
