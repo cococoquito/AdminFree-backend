@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.b.services.SeguridadService;
+import adminfree.services.SeguridadService;
 import adminfree.d.model.configuraciones.AutenticacionDTO;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.ConstantsCodigoMessages;

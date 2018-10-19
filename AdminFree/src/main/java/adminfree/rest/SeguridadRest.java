@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import adminfree.b.services.SeguridadService;
+import adminfree.services.SeguridadService;
 import adminfree.d.model.configuraciones.AutenticacionDTO;
 import adminfree.e.utilities.BusinessException;
 import adminfree.e.utilities.Constants;

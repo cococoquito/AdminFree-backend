@@ -1,4 +1,4 @@
-package adminfree.b.services;
+package adminfree.services;
 
 import javax.sql.DataSource;
 

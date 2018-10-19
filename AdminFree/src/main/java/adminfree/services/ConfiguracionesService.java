@@ -1,4 +1,4 @@
-package adminfree.b.services;
+package adminfree.services;
 
 import java.sql.Connection;
 import java.util.List;
