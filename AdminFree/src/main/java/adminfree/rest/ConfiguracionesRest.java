@@ -30,7 +30,7 @@ public class ConfiguracionesRest {
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
-	
+
 	/**
 	 * Servicio REST que permite obtener los CLIENTES del sistema
 	 * 
