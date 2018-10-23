@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
+import adminfree.constants.TipoEvento;
 import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
@@ -29,6 +30,24 @@ public class ConfiguracionesRest {
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
+	
+	/**
+	 * Servicio REST que permite obtener los CLIENTES del sistema
+	 * 
+	 * @return lista de CLIENTES parametrizados en el sistema
+	 */
+	@RequestMapping(
+			value = ApiRest.CLIENTES,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getClientes() {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+		}
+	}
 
 	/**
 	 * Servicio que permite crear un cliente en el sistema
@@ -51,38 +70,34 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Servicio REST que permite obtener los CLIENTES del sistema
-	 * 
-	 * @return lista de CLIENTES parametrizados en el sistema
-	 */
-	@RequestMapping(
-			value = ApiRest.CLIENTES,
-			method = RequestMethod.GET,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getClientes() {
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
-		}
-	}
-	
-	/**
 	 * Servicio para actualizar los datos del CLIENTE
 	 * 
-	 * @param cliente, datos del cliente ACTUALIZAR
+	 * @param cliente, datos del cliente a MODIFICAR
 	 */
 	@RequestMapping(
-			value = ApiRest.ACTUALIZAR_CLIENTE,
-			method = RequestMethod.POST,
+			value = ApiRest.MODIFICAR_CLIENTE,
+			method = RequestMethod.PUT,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> actualizarCliente(@RequestBody ClienteDTO cliente) {
+	public ResponseEntity<Object> modificarCLiente(@RequestBody ClienteDTO cliente) {
 		try {
-			// se actualiza los datos del cliente
-			this.configuracionesService.actualizarCliente(cliente);
+			// se captura el tipo de evento
+			String tipoEvento = cliente.getTipoEvento();
 			
+			// de acuerdo al tipo de evento se procede a modificar el cliente
+			switch (tipoEvento) {
+				case TipoEvento.ACTUALIZAR:
+					this.configuracionesService.actualizarCliente(cliente);
+					break;
+	
+				case TipoEvento.ACTIVAR:
+					this.configuracionesService.activarCliente(cliente);
+					break;
+	
+				case TipoEvento.INACTIVAR:
+					this.configuracionesService.inactivarCliente(cliente);
+					break;
+			}
 			// al llegar a este punto significa que el proceso es OK
 			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
 		} catch (Exception e) {
@@ -90,53 +105,7 @@ public class ConfiguracionesRest {
 					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
 		}
 	}
-	
-	/**
-	 * Servicio que permite ACTIVAR un cliente
-	 * 
-	 * @param cliente, contiene el identificador del cliente
-	 */
-	@RequestMapping(
-			value = ApiRest.ACTIVAR_CLIENTE,
-			method = RequestMethod.POST,
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> activarCliente(@RequestBody ClienteDTO cliente) {
-		try {
-			// se procede activar el cliente
-			this.configuracionesService.activarCliente(cliente);
-			
-			// al llegar a este punto significa que el proceso es OK
-			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
-		}
-	}
-	
-	/**
-	 * Servicio que permite INACTIVAR un cliente
-	 * 
-	 * @param cliente, contiene el identificador del cliente
-	 */
-	@RequestMapping(
-			value = ApiRest.INACTIVAR_CLIENTE,
-			method = RequestMethod.POST,
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> inactivarCliente(@RequestBody ClienteDTO cliente) {
-		try {
-			// se procede inactivar el CLIENTE
-			this.configuracionesService.inactivarCliente(cliente);
-			
-			// al llegar a este punto significa que el proceso es OK
-			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
-		}
-	}
-	
+
 	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
@@ -145,7 +114,7 @@ public class ConfiguracionesRest {
 	 */
 	@RequestMapping(
 			value = ApiRest.ELIMINAR_CLIENTE,
-			method = RequestMethod.POST,
+			method = RequestMethod.PUT,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> eliminarCliente(@RequestBody ClienteDTO cliente) {
