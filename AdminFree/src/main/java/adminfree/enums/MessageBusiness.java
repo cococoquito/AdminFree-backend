@@ -12,10 +12,7 @@ public enum MessageBusiness {
 	AUTENTICACION_FALLIDA(Numero.UNO.value.toString()),
 
 	/** 400 - No estas autorizado para acceder a este recurso.*/
-	AUTORIZACION_FALLIDA(Numero.DOS.value.toString()),
-
-	/** 500 - Se produjo un error en el sistema:*/
-	ERROR_TECHNICAL(Numero.UNO.value.toString());
+	AUTORIZACION_FALLIDA(Numero.DOS.value.toString());
 
 	public String value;
 
