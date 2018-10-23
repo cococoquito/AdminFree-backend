@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
-import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
+import adminfree.utilities.CommonResponse;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+					.body(CommonResponse.getResponseError(e.getMessage()));
 		}
 	}
 
@@ -65,7 +65,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+					.body(CommonResponse.getResponseError(e.getMessage()));
 		}
 	}
 
@@ -99,10 +99,10 @@ public class ConfiguracionesRest {
 					break;
 			}
 			// al llegar a este punto significa que el proceso es OK
-			return ResponseEntity.status(HttpStatus.OK).body(HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.getResponseSuccess());
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+					.body(CommonResponse.getResponseError(e.getMessage()));
 		}
 	}
 
@@ -122,7 +122,7 @@ public class ConfiguracionesRest {
 			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.eliminarCliente(cliente));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+					.body(CommonResponse.getResponseError(e.getMessage()));
 		}
 	}
 }

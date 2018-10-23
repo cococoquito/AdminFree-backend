@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
-import adminfree.enums.MessageBusiness;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
+import adminfree.utilities.CommonResponse;
 
 /**
  * 
@@ -46,10 +46,11 @@ public class SeguridadRest {
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(this.seguridadService.iniciarSesionAdminClientes(credenciales));
 		} catch (BusinessException e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(CommonResponse.getResponseBusiness(e.getMessage()));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(MessageBusiness.ERROR_TECHNICAL.value + e.getMessage());
+					.body(CommonResponse.getResponseError(e.getMessage()));
 		}
 	}
 }
