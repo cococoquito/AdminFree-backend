@@ -110,7 +110,7 @@ public class ConfiguracionesRest {
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
-	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
+	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	@RequestMapping(
 			value = ApiRest.ELIMINAR_CLIENTE,
@@ -119,7 +119,17 @@ public class ConfiguracionesRest {
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> eliminarCliente(@RequestBody ClienteDTO cliente) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.eliminarCliente(cliente));
+			// se elimina el cliente del sistema
+			String respuesta = this.configuracionesService.eliminarCliente(cliente);
+			
+			// se valida si el proceso fue exitoso
+			if (HttpStatus.OK.getReasonPhrase().equals(respuesta)) {
+				return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.getResponseSuccess());
+			}
+			
+			// si MYSQL retorna algun error
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(CommonResponse.getResponseError(respuesta));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(CommonResponse.getResponseError(e.getMessage()));

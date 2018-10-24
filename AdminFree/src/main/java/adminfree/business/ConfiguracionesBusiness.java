@@ -99,7 +99,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Business que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
-	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
+	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	public String eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
 		// se ejecuta el procedimiento almacenado de ELIMINAR CLIENTE

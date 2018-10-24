@@ -38,7 +38,7 @@ public class EliminarClienteTest {
 			String resultado = this.configuracionesService.eliminarCliente(clienteEliminar);
 
 			// si verifica que el resultado es EXITOSO
-			if ("200".equals(resultado)) {
+			if ("OK".equals(resultado)) {
 				assertTrue(true);
 			} else {
 				System.err.println(resultado);

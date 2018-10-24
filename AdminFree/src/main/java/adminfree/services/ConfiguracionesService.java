@@ -121,7 +121,7 @@ public class ConfiguracionesService {
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
-	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
+	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	public String eliminarCliente(ClienteDTO cliente) throws Exception {
 		Connection connection = null;

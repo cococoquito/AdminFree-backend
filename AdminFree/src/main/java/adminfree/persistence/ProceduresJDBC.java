@@ -24,7 +24,7 @@ public class ProceduresJDBC {
 	 * CLIENTE del sistema
 	 * 
 	 * @param idCliente, identificador del CLIENTE
-	 * @return 200 = OK, de lo contrario el mensaje de error de MYSQL
+	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
 	public String eliminarCliente(Long idCliente, Connection con) throws Exception {
 		CallableStatement callStatement = null;
