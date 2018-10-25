@@ -37,7 +37,7 @@ public class SeguridadRest {
 	 * return el TOKEN asociado al usuario
 	 */
 	@RequestMapping(
-			value = ApiRest.ADMIN_CLIENTES_ENTRAR,
+			value = ApiRest.ADMIN_CLIENTES_AUTH,
 			method = RequestMethod.POST, 
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
