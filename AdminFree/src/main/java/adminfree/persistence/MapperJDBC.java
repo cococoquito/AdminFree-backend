@@ -7,6 +7,7 @@ import java.util.List;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
 import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.utilities.Util;
 
 /**
  * Clase que contiene los metodos MAPPER para las consultas JDBC
@@ -92,6 +93,7 @@ public class MapperJDBC {
 			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
 			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.value));
 			cliente.setEstado(res.getInt(Numero.OCHO.value));
+			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -111,6 +113,7 @@ public class MapperJDBC {
 			cliente.setEmails(res.getString(Numero.CINCO.value));
 			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
 			cliente.setEstado(res.getInt(Numero.SIETE.value));
+			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
 		}
 		return cliente;
 	}

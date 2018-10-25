@@ -37,6 +37,9 @@ public class ClienteDTO implements Serializable {
 	/** Estado que se encuentra el cliente */
 	private Integer estado;
 
+	/** Es el nombre del Estado que se encuentra el cliente */
+	private String estadoNombre;
+
 	/** Identifica que tipo de accion se va ralizar sobre el cliente */
 	private String tipoEvento;
 
@@ -168,5 +171,20 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo estadoNombre
+	 */
+	public String getEstadoNombre() {
+		return estadoNombre;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * estadoNombre
+	 */
+	public void setEstadoNombre(String estadoNombre) {
+		this.estadoNombre = estadoNombre;
 	}
 }
