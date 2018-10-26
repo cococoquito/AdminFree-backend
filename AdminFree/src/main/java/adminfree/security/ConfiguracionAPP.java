@@ -2,6 +2,7 @@ package adminfree.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -49,6 +50,7 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 		 */
 		registry.addMapping(Security.GRANTS_PERMITS_ALL.value)
 				.allowedHeaders(
+						HttpHeaders.CONTENT_TYPE,
 						Security.SECURITY_HUSER.value,
 						Security.SECURITY_HPASS.value,
 						Security.SECURITY_HTOKEN.value)
