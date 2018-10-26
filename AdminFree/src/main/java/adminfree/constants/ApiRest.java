@@ -10,9 +10,6 @@ package adminfree.constants;
  */
 public class ApiRest {
 	
-	/** Representa el tipo de contenido del response o request de las solicitudes*/
-	public static final String CONTENT_TYPE = "Content-Type";
-
 	/** Constantes para los nombre de los servicios REST del modulo de configuraciones*/
 	public static final String CONFIGURACIONES_API = "configuracionesapi";
 	public static final String CLIENTES = "clientes";

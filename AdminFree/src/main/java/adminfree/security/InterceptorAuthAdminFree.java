@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import adminfree.constants.ApiRest;
 import adminfree.constants.PropertyKey;
 import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
@@ -82,7 +82,7 @@ public class InterceptorAuthAdminFree implements HandlerInterceptor {
 	 */
 	private boolean returnResponseFallido(HttpServletResponse response) throws Exception {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.addHeader(ApiRest.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
 		response.getWriter().write(MessageBusiness.AUTORIZACION_FALLIDA.value);
 		response.getWriter().flush();
 		response.getWriter().close();

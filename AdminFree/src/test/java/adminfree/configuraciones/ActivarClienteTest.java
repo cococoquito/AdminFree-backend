@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.services.ConfiguracionesService;
 import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.services.ConfiguracionesService;
 
 /**
  * Test para el servicio ConfiguracionesService.activarCliente
