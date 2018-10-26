@@ -1,12 +1,12 @@
 package adminfree.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import adminfree.constants.ApiRest;
 import adminfree.enums.Security;
 
 /**
@@ -19,10 +19,17 @@ import adminfree.enums.Security;
 public class ConfiguracionAPP implements WebMvcConfigurer {
 
 	/**
-	 * Filtro para la seguridad de los servicios REST
+	 * Interceptor que aplica para las peticiones http de toda la aplicacion excepto
+	 * el paquete de autenticacion
 	 */
 	@Autowired
-	private SecurityFilter securityFilter;
+	private InterceptorAdminFree interceptorAdminFree;
+
+	/**
+	 * Interceptor que aplica para las peticiones http para la autenticacion de APP
+	 */
+	@Autowired
+	private InterceptorAuthAdminFree interceptorAuthAdminFree;
 
 	/**
 	 * Metodo que permite agregar los permisos a las solicitudes tales como origen,
@@ -30,16 +37,39 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping(Security.GRANTS_PERMITS_ALL.value);
+
+		/**
+		 * MaxAge: tiempo que dura la cache por parte del cliente en mantener la
+		 * peticion segura y no hacer un Preflighted_requests
+		 * 
+		 * AllowedHeaders: Si el cliente manda alguna data en el header, esta debe ser
+		 * los permitidos por la configuracion establecida
+		 * 
+		 * AllowedMethods: Se especifica los metodos http permitidos
+		 */
+		registry.addMapping(Security.GRANTS_PERMITS_ALL.value)
+				.allowedHeaders(
+						Security.SECURITY_HUSER.value,
+						Security.SECURITY_HPASS.value,
+						Security.SECURITY_HTOKEN.value)
+				.allowedMethods(Security.PERMITS_ALL.value)
+				.maxAge(Long.valueOf(Security.MAX_AGE.value));
 	}
-	
+
 	/**
-	 * Metodo que permite agregar el filtro de seguridad del sistema
+	 * Metodo encargado de registrar los interceptores de la APP
 	 */
-	@Bean
-	public FilterRegistrationBean<SecurityFilter> dawsonApiFilter() {
-		FilterRegistrationBean<SecurityFilter> registration = new FilterRegistrationBean<SecurityFilter>();
-		registration.setFilter(this.securityFilter);
-		return registration;
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+
+		// Es el path y grant de todos los permisos de seguridad
+		String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
+
+		// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
+		registry.addInterceptor(this.interceptorAdminFree).addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
+				.excludePathPatterns(grantSecurity);
+
+		// se registra el interceptor de la autenticacion
+		registry.addInterceptor(this.interceptorAuthAdminFree).addPathPatterns(grantSecurity);
 	}
 }
