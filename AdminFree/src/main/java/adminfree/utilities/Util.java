@@ -15,7 +15,8 @@ public class Util {
 	 */
 	public static String getEstadoNombre(Integer id) {
 		if (id != null) {
-			for (Estado estado : Estado.values()) {
+			Estado[] estados = Estado.values();
+			for (Estado estado : estados) {
 				if (estado.id.equals(id)) {
 					return estado.nombre;
 				}
