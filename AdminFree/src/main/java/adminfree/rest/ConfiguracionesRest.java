@@ -13,7 +13,7 @@ import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
 import adminfree.model.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
-import adminfree.utilities.CommonResponse;
+import adminfree.utilities.Util;
 
 /**
  * 
@@ -42,10 +42,9 @@ public class ConfiguracionesRest {
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> getClientes() {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.listarClientes());
+			return Util.getResponseSuccessful(this.configuracionesService.listarClientes());
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(CommonResponse.getResponseError(e.getMessage()));
+			return Util.getResponseError(e.getMessage());
 		}
 	}
 
@@ -62,10 +61,9 @@ public class ConfiguracionesRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> crearCliente(@RequestBody ClienteDTO cliente) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(this.configuracionesService.crearCliente(cliente));
+			return Util.getResponseSuccessful(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(CommonResponse.getResponseError(e.getMessage()));
+			return Util.getResponseError(e.getMessage());
 		}
 	}
 
@@ -99,10 +97,9 @@ public class ConfiguracionesRest {
 					break;
 			}
 			// al llegar a este punto significa que el proceso es OK
-			return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.getResponseSuccess());
+			return Util.getResponseOk();
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(CommonResponse.getResponseError(e.getMessage()));
+			return Util.getResponseError(e.getMessage());
 		}
 	}
 
@@ -124,15 +121,13 @@ public class ConfiguracionesRest {
 			
 			// se valida si el proceso fue exitoso
 			if (HttpStatus.OK.getReasonPhrase().equals(respuesta)) {
-				return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.getResponseSuccess());
+				return Util.getResponseOk();
 			}
 			
 			// si MYSQL retorna algun error
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(CommonResponse.getResponseError(respuesta));
+			return Util.getResponseError(respuesta);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(CommonResponse.getResponseError(e.getMessage()));
+			return Util.getResponseError(e.getMessage());
 		}
 	}
 }
