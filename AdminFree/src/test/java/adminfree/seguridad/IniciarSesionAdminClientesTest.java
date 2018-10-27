@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import adminfree.model.configuraciones.AdminClientesDTO;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
@@ -38,11 +39,13 @@ public class IniciarSesionAdminClientesTest {
 			auth.setUsuario("04eeefae977ca82da5c4d5765c35edcf");
 			
 			// se invoca el servicio para la autenticacion
-			auth = this.seguridadService.iniciarSesionAdminClientes(auth);
+			AdminClientesDTO response = this.seguridadService.iniciarSesionAdminClientes(auth);
 
 			// se valida si es exitoso el resultado
-			assertTrue(auth != null);
-			System.out.println(auth != null ? auth.getToken() : "FALLIDO");
+			assertTrue(
+					response != null && 
+					response.getCredenciales() != null &&
+					response.getCredenciales().getToken() != null);
 		} catch (BusinessException e) {
 			System.err.println("Bussines:" + e.getMessage());
 			assertTrue(false);

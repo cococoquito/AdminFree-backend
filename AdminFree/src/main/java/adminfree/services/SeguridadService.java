@@ -1,15 +1,20 @@
 package adminfree.services;
 
+import java.sql.Connection;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.enums.MessageBusiness;
+import adminfree.model.configuraciones.AdminClientesDTO;
 import adminfree.model.configuraciones.AutenticacionDTO;
 import adminfree.utilities.BusinessException;
+import adminfree.utilities.CerrarRecursos;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
@@ -43,34 +48,47 @@ public class SeguridadService {
 	 * 
 	 * @param clave, clave de la autenticacion
 	 * @param usuario, usuario de la autenticacion
-	 * @return DTO con el TOKEN asociado al usuario
+	 * @return DTO con los datos iniciales del modulo
 	 */
-	public AutenticacionDTO iniciarSesionAdminClientes(AutenticacionDTO credenciales) throws Exception {
-		if (credenciales != null) {
-			
-			// se obtiene los valores
-			String usuario = credenciales.getUsuario();
-			String clave = credenciales.getClave();
+	public AdminClientesDTO iniciarSesionAdminClientes(AutenticacionDTO credenciales) throws Exception {
+		Connection connection = null;
+		try {
+			if (credenciales != null) {
 
-			// se verifica si las credenciales coincide
-			if (clave != null && usuario != null && 
-				clave.equals(this.securityAdminClienteClave) && 
-				usuario.equals(this.securityAdminClienteUser)) {
+				// se obtiene los valores
+				String usuario = credenciales.getUsuario();
+				String clave = credenciales.getClave();
 
-				// se procede a generar el TOKEN
-				String token = EstrategiaCriptografica.get().generarTokenAuth(
-						this.securityAdminClienteUser,
-						this.securityAdminClienteClave, 
-						this.securityPostToken);
-				
-				// se construye el response con el TOKEN generado
-				AutenticacionDTO response = new AutenticacionDTO();
-				response.setToken(token);
-				return response;
+				// se verifica si las credenciales coincide
+				if (clave != null && usuario != null && 
+					clave.equals(this.securityAdminClienteClave) && 
+					usuario.equals(this.securityAdminClienteUser)) {
+					
+					// se procede a generar el TOKEN
+					String token = EstrategiaCriptografica.get().generarTokenAuth(
+							this.securityAdminClienteUser,
+							this.securityAdminClienteClave,
+							this.securityPostToken);
+
+					// se configura el TOKEN en el response
+					AutenticacionDTO autenticacion = new AutenticacionDTO();
+					autenticacion.setToken(token);
+
+					// se configura el DTO de respuesta
+					AdminClientesDTO respuesta = new AdminClientesDTO();
+					respuesta.setCredenciales(autenticacion);
+					
+					// se procede a consultar los clientes
+					connection = this.adminFreeDS.getConnection();
+					respuesta.setClientes(new ConfiguracionesBusiness().listarClientes(connection));
+					return respuesta;
+				}
 			}
+		} finally {
+			CerrarRecursos.closeConnection(connection);
 		}
 
-		// se lanza bussines exception si las credenciales son fallidas
+		// si llega a este punto es porque las credenciales son fallidas
 		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA.value);
 	}
 }
