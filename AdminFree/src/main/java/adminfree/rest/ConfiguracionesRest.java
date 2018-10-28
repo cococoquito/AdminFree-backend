@@ -46,7 +46,7 @@ public class ConfiguracionesRest {
 		try {
 			return Util.getResponseSuccessful(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearCliente:", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearCliente ", e.getMessage());
 		}
 	}
 
@@ -85,7 +85,7 @@ public class ConfiguracionesRest {
 			}
 			return response;
 		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarCLiente:", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarCLiente ", e.getMessage());
 		}
 	}
 
@@ -111,9 +111,9 @@ public class ConfiguracionesRest {
 			}
 			
 			// si MYSQL retorna algun error
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente:", respuesta);
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente ", respuesta);
 		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente:", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente ", e.getMessage());
 		}
 	}
 }
