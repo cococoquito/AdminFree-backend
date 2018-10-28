@@ -1,4 +1,4 @@
-package adminfree.utilities;
+package adminfree.model.common;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Carlos Andres Diaz
  */
-public class MessageResponse implements Serializable {
+public class MessageResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -20,7 +20,7 @@ public class MessageResponse implements Serializable {
 	 */
 	private String mensaje;
 	
-	public MessageResponse(String mensaje) {
+	public MessageResponseDTO(String mensaje) {
 		this.mensaje = mensaje;
 	}
 
