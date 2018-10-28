@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import adminfree.enums.Estado;
+import adminfree.enums.Numero;
 
 /**
  * Clase que contiene los metodo utilitarios del sistema
@@ -50,9 +51,15 @@ public class Util {
 	}
 
 	/**
-	 * Metodo que permite construir el response de respuesta INTERNAL_SERVER_ERROR
+	 * Metodo que permite construir el response de respuesta INTERNAL_SERVER_ERROR 
+	 * 
+	 * @param metodo, metodo donde se origino el error
+	 * @param error, mensaje de la exception lanzada
 	 */
-	public static ResponseEntity<Object> getResponseError(String error) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage(error));
+	public static ResponseEntity<Object> getResponseError(String metodo, String error) {
+		if (error == null || error.trim().length() == Numero.ZERO.value) {
+			error = "Exception lanzada por NullPointerException.";
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage(metodo + error));
 	}
 }

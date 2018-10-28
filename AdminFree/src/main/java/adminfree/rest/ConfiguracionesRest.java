@@ -32,23 +32,6 @@ public class ConfiguracionesRest {
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Servicio REST que permite obtener los CLIENTES del sistema
-	 * 
-	 * @return lista de CLIENTES parametrizados en el sistema
-	 */
-	@RequestMapping(
-			value = ApiRest.CLIENTES,
-			method = RequestMethod.GET,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getClientes() {
-		try {
-			return Util.getResponseSuccessful(this.configuracionesService.listarClientes());
-		} catch (Exception e) {
-			return Util.getResponseError(e.getMessage());
-		}
-	}
-
-	/**
 	 * Servicio que permite crear un cliente en el sistema
 	 * 
 	 * @param cliente, DTO con los datos del cliente a crear
@@ -63,7 +46,7 @@ public class ConfiguracionesRest {
 		try {
 			return Util.getResponseSuccessful(this.configuracionesService.crearCliente(cliente));
 		} catch (Exception e) {
-			return Util.getResponseError(e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearCliente:", e.getMessage());
 		}
 	}
 
@@ -102,7 +85,7 @@ public class ConfiguracionesRest {
 			}
 			return response;
 		} catch (Exception e) {
-			return Util.getResponseError(e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarCLiente:", e.getMessage());
 		}
 	}
 
@@ -128,9 +111,9 @@ public class ConfiguracionesRest {
 			}
 			
 			// si MYSQL retorna algun error
-			return Util.getResponseError(respuesta);
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente:", respuesta);
 		} catch (Exception e) {
-			return Util.getResponseError(e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente:", e.getMessage());
 		}
 	}
 }

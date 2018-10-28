@@ -1,7 +1,6 @@
 package adminfree.services;
 
 import java.sql.Connection;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -40,24 +39,6 @@ public class ConfiguracionesService {
 
 			// se procede a crear el cliente en BD
 			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Servicio para obtener todos los CLIENTES del sistema
-	 * 
-	 * @return, lista de CLIENTES configurados
-	 */
-	public List<ClienteDTO> listarClientes() throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procede a listar todos los clientes del sistema
-			return new ConfiguracionesBusiness().listarClientes(connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

@@ -46,7 +46,7 @@ public class SeguridadRest {
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
-			return Util.getResponseError(e.getMessage());
+			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesionAdminClientes:", e.getMessage());
 		}
 	}
 }
