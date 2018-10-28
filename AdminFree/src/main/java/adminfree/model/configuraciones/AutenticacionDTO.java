@@ -12,10 +12,10 @@ import java.io.Serializable;
 public class AutenticacionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Es el usuario de la autenticacion para administrar clientes */
+	/** Es el usuario para la autenticacion del sistema */
 	private String usuario;
 
-	/** Es el clave de la autenticacion para administrar clientes */
+	/** Es la clave para la autenticacion del sistema */
 	private String clave;
 	
 	/** Es el token generado desde el servidor */
