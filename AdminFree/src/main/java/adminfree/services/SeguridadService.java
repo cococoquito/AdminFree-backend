@@ -89,6 +89,6 @@ public class SeguridadService {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA.value);
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
 	}
 }

@@ -2,6 +2,7 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
+import java.util.Calendar;
 import java.util.List;
 
 import adminfree.constants.SQLConfiguraciones;
@@ -14,6 +15,7 @@ import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.EstrategiaCriptografica;
+import adminfree.utilities.Util;
 
 /**
  * 
@@ -76,23 +78,38 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite ACTIVAR un cliente
 	 * 
+	 * @return cliente con los nuevos datos de la ACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
-	public void activarCliente(ClienteDTO cliente, Connection conn) throws Exception {
+	public ClienteDTO activarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.ACTIVAR_CLIENTE,
 				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
+		
+		// se configura los nuevos datos del cliente
+		cliente.setEstado(Estado.ACTIVO.id);
+		cliente.setEstadoNombre(Util.getEstadoNombre(Estado.ACTIVO.id));
+		cliente.setFechaInactivacion(null);
+		cliente.setFechaActivacion(Calendar.getInstance().getTime());
+		return cliente;
 	}
 	
 	/**
 	 * Metodo que permite INACTIVAR un cliente
 	 * 
+	 * @return cliente con los nuevos datos de la INACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
-	public void inactivarCliente(ClienteDTO cliente, Connection conn) throws Exception {
+	public ClienteDTO inactivarCliente(ClienteDTO cliente, Connection conn) throws Exception {
 		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
 				ValueSQL.get(Estado.INACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
+		
+		// se configura los nuevos datos del cliente
+		cliente.setEstado(Estado.INACTIVO.id);
+		cliente.setEstadoNombre(Util.getEstadoNombre(Estado.INACTIVO.id));
+		cliente.setFechaInactivacion(Calendar.getInstance().getTime());
+		return cliente;		
 	}
 	
 	/**

@@ -79,6 +79,9 @@ public class ConfiguracionesRest {
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> modificarCLiente(@RequestBody ClienteDTO cliente) {
 		try {
+			// se utiliza para almacenar el response
+			ResponseEntity<Object> response = null;
+			
 			// se captura el tipo de evento
 			String tipoEvento = cliente.getTipoEvento();
 			
@@ -86,18 +89,18 @@ public class ConfiguracionesRest {
 			switch (tipoEvento) {
 				case TipoEvento.ACTUALIZAR:
 					this.configuracionesService.actualizarCliente(cliente);
+					response = Util.getResponseOk();
 					break;
 	
 				case TipoEvento.ACTIVAR:
-					this.configuracionesService.activarCliente(cliente);
+					response = Util.getResponseSuccessful(this.configuracionesService.activarCliente(cliente));
 					break;
 	
 				case TipoEvento.INACTIVAR:
-					this.configuracionesService.inactivarCliente(cliente);
+					response = Util.getResponseSuccessful(this.configuracionesService.inactivarCliente(cliente));
 					break;
 			}
-			// al llegar a este punto significa que el proceso es OK
-			return Util.getResponseOk();
+			return response;
 		} catch (Exception e) {
 			return Util.getResponseError(e.getMessage());
 		}

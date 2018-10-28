@@ -84,16 +84,17 @@ public class ConfiguracionesService {
 	/**
 	 * Servicio que permite ACTIVAR un cliente
 	 * 
+	 * @return cliente con los nuevos datos de la ACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
-	public void activarCliente(ClienteDTO cliente) throws Exception {
+	public ClienteDTO activarCliente(ClienteDTO cliente) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede activar el CLIENTE
-			new ConfiguracionesBusiness().activarCliente(cliente, connection);
+			return new ConfiguracionesBusiness().activarCliente(cliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -102,16 +103,17 @@ public class ConfiguracionesService {
 	/**
 	 * Servicio que permite INACTIVAR un cliente
 	 * 
+	 * @return cliente con los nuevos datos de la INACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
-	public void inactivarCliente(ClienteDTO cliente) throws Exception {
+	public ClienteDTO inactivarCliente(ClienteDTO cliente) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede inactivar el CLIENTE
-			new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
+			return new ConfiguracionesBusiness().inactivarCliente(cliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
