@@ -3,18 +3,24 @@ package adminfree.utilities;
 import java.io.Serializable;
 
 /**
- * Se utiliza para retornar un solo mensaje al cliente
+ * Se utiliza para recibir un solo mensaje del servidor
  *
- * @author Carlos andres diaz
- *
+ * @author Carlos Andres Diaz
  */
-public class ResponseMessage implements Serializable {
+public class MessageResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Es el mensaje relacionado al codigo **/
+	/**
+	 * Cuando el error es un Internal server error, 
+	 * El mensaje es la descripcion de la exception.
+	 *
+	 * Cuando el error es provocado por un business exeption,
+	 * El mensaje contiene el codigo que representa el mensaje de business error
+	 *
+	 */
 	private String mensaje;
-
-	public ResponseMessage(String mensaje) {
+	
+	public MessageResponse(String mensaje) {
 		this.mensaje = mensaje;
 	}
 

@@ -40,14 +40,14 @@ public class Util {
 	 * Metodo que permite construir el response de respuesta OK
 	 */
 	public static ResponseEntity<Object> getResponseOk() {
-		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpStatus.OK.getReasonPhrase()));
+		return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(HttpStatus.OK.getReasonPhrase()));
 	}
 
 	/**
 	 * Metodo que permite construir el response de respuesta BAD REQUEST
 	 */
 	public static ResponseEntity<Object> getResponseBadRequest(String bussinesMessage) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(bussinesMessage));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(bussinesMessage));
 	}
 
 	/**
@@ -60,6 +60,6 @@ public class Util {
 		if (error == null || error.trim().length() == Numero.ZERO.value) {
 			error = "Exception lanzada por NullPointerException.";
 		}
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage(metodo + error));
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse(metodo + error));
 	}
 }
