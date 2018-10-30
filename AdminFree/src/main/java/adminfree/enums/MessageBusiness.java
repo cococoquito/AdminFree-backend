@@ -14,7 +14,7 @@ public enum MessageBusiness {
 	/** 401 - No estas autorizado para acceder a este recurso.*/
 	AUTORIZACION_FALLIDA_401(Numero.UNO.value.toString());
 
-	public String value;
+	public final String value;
 
 	private MessageBusiness(String value) {
 		this.value = value;

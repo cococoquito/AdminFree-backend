@@ -23,8 +23,8 @@ public enum Estado {
 	/** Constante que representa el ESTADO CERRADO */
 	CERRADO(Numero.CINCO.value, "Cerrado");
 
-	public Integer id;
-	public String nombre;
+	public final Integer id;
+	public final String nombre;
 
 	private Estado(Integer id, String nombre) {
 		this.id = id;
