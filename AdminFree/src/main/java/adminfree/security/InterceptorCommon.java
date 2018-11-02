@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import adminfree.enums.MessageBusiness;
-import adminfree.model.common.MessageResponseDTO;
+import adminfree.dtos.transversal.MessageResponseDTO;
 
 /**
  * Contiene los metodos comunes para los interceptores de la APP

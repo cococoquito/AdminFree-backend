@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
-import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
 import adminfree.utilities.Util;
 

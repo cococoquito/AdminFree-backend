@@ -1,4 +1,4 @@
-package adminfree.model.configuraciones;
+package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
 import java.util.Date;

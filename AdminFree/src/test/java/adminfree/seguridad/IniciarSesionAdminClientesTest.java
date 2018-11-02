@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.model.configuraciones.AdminClientesDTO;
-import adminfree.model.configuraciones.AutenticacionDTO;
+import adminfree.dtos.configuraciones.AdminClientesDTO;
+import adminfree.dtos.configuraciones.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
 

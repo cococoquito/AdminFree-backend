@@ -9,7 +9,7 @@ import adminfree.constants.SQLConfiguraciones;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
-import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;

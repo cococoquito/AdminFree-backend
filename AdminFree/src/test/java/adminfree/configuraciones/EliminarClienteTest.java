@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
-import adminfree.model.configuraciones.AutenticacionDTO;
+import adminfree.dtos.configuraciones.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;

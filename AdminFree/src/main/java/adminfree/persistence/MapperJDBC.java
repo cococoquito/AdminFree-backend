@@ -6,7 +6,7 @@ import java.util.List;
 
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
-import adminfree.model.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.utilities.Util;
 
 /**

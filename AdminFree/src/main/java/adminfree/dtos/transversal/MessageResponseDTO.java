@@ -1,4 +1,4 @@
-package adminfree.model.common;
+package adminfree.dtos.transversal;
 
 import java.io.Serializable;
 

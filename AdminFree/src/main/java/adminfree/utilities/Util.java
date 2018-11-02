@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import adminfree.enums.Estado;
 import adminfree.enums.Numero;
-import adminfree.model.common.MessageResponseDTO;
+import adminfree.dtos.transversal.MessageResponseDTO;
 
 /**
  * Clase que contiene los metodo utilitarios del sistema
