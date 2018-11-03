@@ -20,6 +20,9 @@ public class AutenticacionDTO implements Serializable {
 	
 	/** Es el token generado desde el servidor */
 	private String token;
+	
+	/** Indica si el usuario es un administrador */
+	private boolean administrador;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo clave
@@ -62,5 +65,20 @@ public class AutenticacionDTO implements Serializable {
 	 */
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo administrador
+	 */
+	public boolean isAdministrador() {
+		return administrador;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param administrador
+	 */
+	public void setAdministrador(boolean administrador) {
+		this.administrador = administrador;
 	}
 }
