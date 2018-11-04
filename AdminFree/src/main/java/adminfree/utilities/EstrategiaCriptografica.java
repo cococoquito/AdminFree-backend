@@ -34,6 +34,17 @@ public class EstrategiaCriptografica {
 	private EstrategiaCriptografica() {}
 
 	/**
+	 * Metodo que permite encriptar la clave de ingreso de ADMINFREE
+	 * 
+	 * @param clave, es el password de ingreso
+	 * @param securityPostPass, se utiliza para el poss security de clave
+	 * @return clave encriptada de acuerdo al negocio
+	 */
+	public String encriptarPassword(String clave, String securityPostPass) throws Exception {
+		return encriptarMD5(encriptarMD5(clave) + securityPostPass);
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN
 	 */
 	public String generarToken() throws Exception {

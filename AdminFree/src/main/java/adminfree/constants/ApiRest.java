@@ -19,4 +19,5 @@ public class ApiRest {
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";
 	public static final String ADMIN_CLIENTES_AUTH = "adminclientesauth";
+	public static final String AUTH = "auth";
 }

@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
+import adminfree.business.SeguridadBusiness;
 import adminfree.constants.PropertyKey;
-import adminfree.enums.MessageBusiness;
 import adminfree.dtos.configuraciones.AdminClientesDTO;
+import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.UsuarioDTO;
+import adminfree.enums.MessageBusiness;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.CerrarRecursos;
 import adminfree.utilities.EstrategiaCriptografica;
@@ -42,6 +45,10 @@ public class SeguridadService {
 	/** Contiene el postToken para la generacion de TOKENS */
 	@Value(PropertyKey.SECURITY_POST_TOKEN)
 	private String securityPostToken;
+	
+	/** Contiene el postPass para la encriptacion de claves */
+	@Value(PropertyKey.SECURITY_POST_PASS)
+	private String securityPostPass;	
 
 	/**
 	 * Servicio para la autenticacion del usuario administrar clientes
@@ -91,4 +98,49 @@ public class SeguridadService {
 		// si llega a este punto es porque las credenciales son fallidas
 		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
 	}
+	
+	/**
+	 * Servicio que permite iniciar sesion como ADMINISTRADOR
+	 * 
+	 * @param credenciales, DTO que contiene los datos de ingreso
+	 * 
+	 * @return datos del cliente que es el administrador configurados
+	 * si existe en la base datos de acuerdo a las credenciales
+	 */
+	public ClienteDTO iniciarSesionAdmin(AutenticacionDTO credenciales) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a iniciar sesion como ADMINISTRADOR
+			return new SeguridadBusiness().iniciarSesionAdmin(credenciales, this.securityPostToken, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+	
+	/**
+	 * Servicio que permite iniciar sesion como USUARIO
+	 * 
+	 * @param credenciales, DTO que contiene los datos de ingreso
+	 * 
+	 * @return datos del usuario autenticado en el sistema
+	 */	
+	public UsuarioDTO iniciarSesionUser(AutenticacionDTO credenciales) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a iniciar sesion como USUARIO
+			return new SeguridadBusiness().iniciarSesionUser(
+					credenciales,
+					this.securityPostToken,
+					this.securityPostPass,
+					connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}	
 }

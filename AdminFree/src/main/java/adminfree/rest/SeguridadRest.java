@@ -49,4 +49,30 @@ public class SeguridadRest {
 			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesionAdminClientes ", e.getMessage());
 		}
 	}
+	
+	/**
+	 * Servicio que permite soportar el proceso de iniciar sesion
+	 * 
+	 * return datos del USUARIO o ADMINISTRADOR autenticado
+	 */
+	@RequestMapping(
+			value = ApiRest.AUTH,
+			method = RequestMethod.POST, 
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> iniciarSesion(@RequestBody AutenticacionDTO credenciales) {
+		try {
+			// si el inicio sesion es modo ADMINISTRADOR
+			if (credenciales.isAdministrador()) {
+				return Util.getResponseSuccessful(this.seguridadService.iniciarSesionAdmin(credenciales));
+			}
+			
+			// si el inicio sesion es modo USUARIO 
+			return Util.getResponseSuccessful(this.seguridadService.iniciarSesionUser(credenciales));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesion ", e.getMessage());
+		}
+	}	
 }
