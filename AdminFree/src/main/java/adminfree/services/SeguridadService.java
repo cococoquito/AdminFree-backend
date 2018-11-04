@@ -12,7 +12,7 @@ import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.enums.MessageBusiness;
 import adminfree.dtos.configuraciones.AdminClientesDTO;
-import adminfree.dtos.configuraciones.AutenticacionDTO;
+import adminfree.dtos.seguridad.AutenticacionDTO;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.CerrarRecursos;
 import adminfree.utilities.EstrategiaCriptografica;

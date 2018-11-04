@@ -3,6 +3,8 @@ package adminfree.dtos.configuraciones;
 import java.io.Serializable;
 import java.util.List;
 
+import adminfree.dtos.seguridad.AutenticacionDTO;
+
 /**
  * DTO para transportar los datos iniciales del modulo administrar clientes
  * 

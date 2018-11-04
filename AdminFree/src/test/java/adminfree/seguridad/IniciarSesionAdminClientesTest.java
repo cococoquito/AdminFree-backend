@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.configuraciones.AdminClientesDTO;
-import adminfree.dtos.configuraciones.AutenticacionDTO;
+import adminfree.dtos.seguridad.AutenticacionDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
 
