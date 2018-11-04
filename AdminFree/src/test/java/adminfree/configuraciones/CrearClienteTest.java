@@ -36,6 +36,7 @@ public class CrearClienteTest {
 			cliente.setNombre("cliente prueba");
 			cliente.setTelefonos("364935038");
 			cliente.setEmails("adiz98@gmail.com");
+			cliente.setUsuario("usuario cliente");
 
 			// se invoca el service para la creacion del cliente
 			cliente = this.configuracionesService.crearCliente(cliente);
