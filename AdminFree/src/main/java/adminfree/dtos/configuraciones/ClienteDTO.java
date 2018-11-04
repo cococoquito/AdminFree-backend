@@ -43,6 +43,9 @@ public class ClienteDTO implements Serializable {
 	/** Identifica que tipo de accion se va ralizar sobre el cliente */
 	private String tipoEvento;
 
+	/** Es el usuario para la autenticacion del cliente en el sistema como admin */
+	private String usuario;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
@@ -186,5 +189,19 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setEstadoNombre(String estadoNombre) {
 		this.estadoNombre = estadoNombre;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo usuario
+	 */
+	public String getUsuario() {
+		return usuario;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param usuario
+	 */
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 }

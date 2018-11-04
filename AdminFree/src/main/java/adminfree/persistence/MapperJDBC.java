@@ -94,6 +94,7 @@ public class MapperJDBC {
 			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.value));
 			cliente.setEstado(res.getInt(Numero.OCHO.value));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
+			cliente.setUsuario(res.getString(Numero.NUEVE.value));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -114,6 +115,7 @@ public class MapperJDBC {
 			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
 			cliente.setEstado(res.getInt(Numero.SIETE.value));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
+			cliente.setUsuario(res.getString(Numero.OCHO.value));
 		}
 		return cliente;
 	}

@@ -42,7 +42,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(cliente.getNombre(), Types.VARCHAR),
 				ValueSQL.get(cliente.getTelefonos(), Types.VARCHAR), 
 				ValueSQL.get(cliente.getEmails(), Types.VARCHAR),
-				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
+				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
+				ValueSQL.get(cliente.getUsuario(), Types.VARCHAR));
 
 		// se retorna el cliente con sus datos registrados en el sistema
 		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
