@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.AutenticacionDTO;
 import adminfree.dtos.seguridad.RolDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
@@ -94,9 +95,14 @@ public class MapperJDBC {
 		List<ClienteDTO> resultado = new ArrayList<>();
 		ClienteDTO cliente = null;
 		while (res.next()) {
+			// se configura el cliente con su credenciales
 			cliente = new ClienteDTO();
+			AutenticacionDTO credenciales = new AutenticacionDTO();
+			cliente.setCredenciales(credenciales);
+			
+			// se configura los atributos del cliente
 			cliente.setId(res.getLong(Numero.UNO.value));
-			cliente.setToken(res.getString(Numero.DOS.value));
+			credenciales.setToken(res.getString(Numero.DOS.value));
 			cliente.setNombre(res.getString(Numero.TRES.value));
 			cliente.setTelefonos(res.getString(Numero.CUATRO.value));
 			cliente.setEmails(res.getString(Numero.CINCO.value));
@@ -104,7 +110,7 @@ public class MapperJDBC {
 			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.value));
 			cliente.setEstado(res.getInt(Numero.OCHO.value));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
-			cliente.setUsuario(res.getString(Numero.NUEVE.value));
+			credenciales.setUsuario(res.getString(Numero.NUEVE.value));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -116,16 +122,21 @@ public class MapperJDBC {
 	private Object getCliente(ResultSet res) throws Exception {
 		ClienteDTO cliente = null;
 		if (res.next()) {
+			// se configura el cliente con su credenciales
 			cliente = new ClienteDTO();
+			AutenticacionDTO credenciales = new AutenticacionDTO();
+			cliente.setCredenciales(credenciales);
+			
+			// se configura los atributos del cliente
 			cliente.setId(res.getLong(Numero.UNO.value));
-			cliente.setToken(res.getString(Numero.DOS.value));
+			credenciales.setToken(res.getString(Numero.DOS.value));
 			cliente.setNombre(res.getString(Numero.TRES.value));
 			cliente.setTelefonos(res.getString(Numero.CUATRO.value));
 			cliente.setEmails(res.getString(Numero.CINCO.value));
 			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
 			cliente.setEstado(res.getInt(Numero.SIETE.value));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
-			cliente.setUsuario(res.getString(Numero.OCHO.value));
+			credenciales.setUsuario(res.getString(Numero.OCHO.value));
 		}
 		return cliente;
 	}

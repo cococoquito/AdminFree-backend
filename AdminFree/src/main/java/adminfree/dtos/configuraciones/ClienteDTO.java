@@ -18,9 +18,6 @@ public class ClienteDTO implements Serializable {
 	/** Es el identificador del cliente */
 	private Long id;
 
-	/** TOKEN que se utiliza para que el cliente se autentique en el sistema */
-	private String token;
-
 	/** Nombre del cliente */
 	private String nombre;
 
@@ -44,9 +41,6 @@ public class ClienteDTO implements Serializable {
 
 	/** Identifica que tipo de accion se va ralizar sobre el cliente */
 	private String tipoEvento;
-
-	/** Es el usuario para la autenticacion del cliente en el sistema como admin */
-	private String usuario;
 	
 	/** Se utiliza para la autenticacion del ADMINISTRADOR */
 	private AutenticacionDTO credenciales;
@@ -63,20 +57,6 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo token
-	 */
-	public String getToken() {
-		return token;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param token
-	 */
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	/**
@@ -194,20 +174,6 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setEstadoNombre(String estadoNombre) {
 		this.estadoNombre = estadoNombre;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo usuario
-	 */
-	public String getUsuario() {
-		return usuario;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param usuario
-	 */
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
 	}
 
 	/**
