@@ -1,12 +1,16 @@
 package adminfree.business;
 
 import java.sql.Connection;
+import java.sql.Types;
 
+import adminfree.constants.SQLSeguridad;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.AutenticacionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
+import adminfree.enums.Estado;
 import adminfree.enums.MessageBusiness;
 import adminfree.persistence.CommonDAO;
+import adminfree.persistence.ValueSQL;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.EstrategiaCriptografica;
 
@@ -33,7 +37,23 @@ public class SeguridadBusiness extends CommonDAO {
 			AutenticacionDTO credenciales,
 			String securityPostToken,
 			Connection connection) throws Exception {
-		return null;
+
+		// se valida la nulalidad de las credenciales
+		if (credenciales != null) {
+
+			// se obtiene los valores
+			String usuario = credenciales.getUsuario();
+			String clave = credenciales.getClave();
+
+			// se verifica si las credenciales coincide
+			if (clave != null && usuario != null) {
+				find(connection, SQLSeguridad.INICIAR_SESION_ADMIN, null, ValueSQL.get(clave, Types.VARCHAR),
+						ValueSQL.get(usuario, Types.VARCHAR), ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
+			}
+		}
+		
+		// si llega a este punto es porque las credenciales son fallidas
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
 	}
 	
 	/**
@@ -50,7 +70,22 @@ public class SeguridadBusiness extends CommonDAO {
 			String securityPostToken,
 			String securityPostPass,
 			Connection connection) throws Exception {
-		return null;
+		
+		// se valida la nulalidad de las credenciales
+		if (credenciales != null) {
+
+			// se obtiene los valores
+			String usuario = credenciales.getUsuario();
+			String clave = credenciales.getClave();
+
+			// se verifica si las credenciales coincide
+			if (clave != null && usuario != null) {
+
+			}
+
+		}
+		// si llega a este punto es porque las credenciales son fallidas
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
 	}
 
 	/**

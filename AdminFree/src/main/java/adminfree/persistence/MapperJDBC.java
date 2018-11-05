@@ -4,9 +4,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.RolDTO;
+import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
-import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.utilities.Util;
 
 /**
@@ -55,13 +57,21 @@ public class MapperJDBC {
 			case COUNT:
 				result = getCount(res);
 				break;
-	
+
 			case GET_CLIENTES:
 				result = getClientes(res);
 				break;
-	
+
 			case GET_CLIENTE:
 				result = getCliente(res);
+				break;
+
+			case GET_DATOS_ADMIN_AUTH:
+				result = getDatosAdminAuth(res);
+				break;
+				
+			case GET_DATOS_USER_AUTH:
+				result = getDatosUserAuth(res);
 				break;
 		}
 		return result;
@@ -119,4 +129,53 @@ public class MapperJDBC {
 		}
 		return cliente;
 	}
+
+	/**
+	 * Mapper para obtener los datos del ADMIN cuando inicia sesion
+	 */
+	private Object getDatosAdminAuth(ResultSet res) throws Exception {
+		ClienteDTO admin = null;
+		if (res.next()) {
+			admin = new ClienteDTO();
+			admin.setId(res.getLong(Numero.UNO.value));
+			admin.setNombre(res.getString(Numero.DOS.value));
+		}
+		return admin;
+	}
+
+	/**
+	 * Mapper para obtener los datos del USUARIO cuando inicia sesion
+	 */
+	private Object getDatosUserAuth(ResultSet res) throws Exception {
+		UsuarioDTO user = null;
+		while (res.next()) {
+			if (user == null) {
+				
+				// se configura los datos del USUARIO
+				user = new UsuarioDTO();
+				user.setId(res.getLong(Numero.UNO.value));
+				user.setNombre(res.getString(Numero.DOS.value));
+
+				// se configura los datos del CLIENTE
+				ClienteDTO cliente = new ClienteDTO();
+				cliente.setId(res.getLong(Numero.TRES.value));
+				cliente.setNombre(res.getString(Numero.CUATRO.value));
+				user.setCliente(cliente);
+
+				// se configura los datos del ROL
+				RolDTO rol = new RolDTO();
+				rol.setId(res.getInt(Numero.CINCO.value));
+				rol.setNombre(res.getString(Numero.SEIS.value));
+				user.agregarROL(rol);
+			} else {
+				
+				// solamente se configura los datos del ROL
+				RolDTO rol = new RolDTO();
+				rol.setId(res.getInt(Numero.CINCO.value));
+				rol.setNombre(res.getString(Numero.SEIS.value));
+				user.agregarROL(rol);
+			}
+		}
+		return user;
+	}	
 }

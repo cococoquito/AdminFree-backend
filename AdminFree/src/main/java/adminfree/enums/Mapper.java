@@ -8,5 +8,5 @@ package adminfree.enums;
  *
  */
 public enum Mapper {
-	COUNT, GET_CLIENTES, GET_CLIENTE;
+	COUNT, GET_CLIENTES, GET_CLIENTE, GET_DATOS_ADMIN_AUTH, GET_DATOS_USER_AUTH;
 }

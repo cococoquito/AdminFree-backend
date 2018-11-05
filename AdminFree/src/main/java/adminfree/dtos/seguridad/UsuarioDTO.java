@@ -1,6 +1,7 @@
 package adminfree.dtos.seguridad;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
@@ -31,6 +32,16 @@ public class UsuarioDTO implements Serializable {
 
 	/** Lista de ROLES que tiene el usuario */
 	private List<RolDTO> roles;
+
+	/**
+	 * Metodo que permite agregar un ROL para este USUARIO
+	 */
+	public void agregarROL(RolDTO rol) {
+		if (this.roles == null) {
+			this.roles = new ArrayList<>();
+		}
+		this.roles.add(rol);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
