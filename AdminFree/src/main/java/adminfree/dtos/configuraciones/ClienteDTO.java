@@ -3,6 +3,8 @@ package adminfree.dtos.configuraciones;
 import java.io.Serializable;
 import java.util.Date;
 
+import adminfree.dtos.seguridad.AutenticacionDTO;
+
 /**
  * 
  * DTO que contiene los atributos de los clientes del sistema
@@ -45,6 +47,9 @@ public class ClienteDTO implements Serializable {
 
 	/** Es el usuario para la autenticacion del cliente en el sistema como admin */
 	private String usuario;
+	
+	/** Se utiliza para la autenticacion del ADMINISTRADOR */
+	private AutenticacionDTO credenciales;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -203,5 +208,20 @@ public class ClienteDTO implements Serializable {
 	 */
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo credenciales
+	 */
+	public AutenticacionDTO getCredenciales() {
+		return credenciales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param credenciales
+	 */
+	public void setCredenciales(AutenticacionDTO credenciales) {
+		this.credenciales = credenciales;
 	}
 }

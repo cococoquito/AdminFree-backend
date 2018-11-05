@@ -21,17 +21,14 @@ public class UsuarioDTO implements Serializable {
 	/** Nombre del usuario */
 	private String nombre;
 
-	/** Valor del usuario por la cual el usuario ingresa a la app */
-	private String usuarioIngreso;
-
-	/** Clave del usuario por la cual el usuario ingresa a la app */
-	private String claveIngreso;
-
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
 	/** Lista de ROLES que tiene el usuario */
 	private List<RolDTO> roles;
+	
+	/** Se utiliza para la autenticacion del USUARIO */
+	private AutenticacionDTO credenciales;	
 
 	/**
 	 * Metodo que permite agregar un ROL para este USUARIO
@@ -72,36 +69,6 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo usuarioIngreso
-	 */
-	public String getUsuarioIngreso() {
-		return usuarioIngreso;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * usuarioIngreso
-	 */
-	public void setUsuarioIngreso(String usuarioIngreso) {
-		this.usuarioIngreso = usuarioIngreso;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo claveIngreso
-	 */
-	public String getClaveIngreso() {
-		return claveIngreso;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * claveIngreso
-	 */
-	public void setClaveIngreso(String claveIngreso) {
-		this.claveIngreso = claveIngreso;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo cliente
 	 */
 	public ClienteDTO getCliente() {
@@ -127,5 +94,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setRoles(List<RolDTO> roles) {
 		this.roles = roles;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo credenciales
+	 */
+	public AutenticacionDTO getCredenciales() {
+		return credenciales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param credenciales
+	 */
+	public void setCredenciales(AutenticacionDTO credenciales) {
+		this.credenciales = credenciales;
 	}
 }
