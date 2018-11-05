@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.RolDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
@@ -97,7 +97,7 @@ public class MapperJDBC {
 		while (res.next()) {
 			// se configura el cliente con su credenciales
 			cliente = new ClienteDTO();
-			AutenticacionDTO credenciales = new AutenticacionDTO();
+			CredencialesDTO credenciales = new CredencialesDTO();
 			cliente.setCredenciales(credenciales);
 			
 			// se configura los atributos del cliente
@@ -124,7 +124,7 @@ public class MapperJDBC {
 		if (res.next()) {
 			// se configura el cliente con su credenciales
 			cliente = new ClienteDTO();
-			AutenticacionDTO credenciales = new AutenticacionDTO();
+			CredencialesDTO credenciales = new CredencialesDTO();
 			cliente.setCredenciales(credenciales);
 			
 			// se configura los atributos del cliente

@@ -26,9 +26,9 @@ public class UsuarioDTO implements Serializable {
 
 	/** Lista de ROLES que tiene el usuario */
 	private List<RolDTO> roles;
-	
-	/** Se utiliza para la autenticacion del USUARIO */
-	private AutenticacionDTO credenciales;	
+
+	/** Son las credenciales del USUARIO */
+	private CredencialesDTO credenciales;
 
 	/**
 	 * Metodo que permite agregar un ROL para este USUARIO
@@ -99,15 +99,15 @@ public class UsuarioDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo credenciales
 	 */
-	public AutenticacionDTO getCredenciales() {
+	public CredencialesDTO getCredenciales() {
 		return credenciales;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param credenciales
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * credenciales
 	 */
-	public void setCredenciales(AutenticacionDTO credenciales) {
+	public void setCredenciales(CredencialesDTO credenciales) {
 		this.credenciales = credenciales;
 	}
 }

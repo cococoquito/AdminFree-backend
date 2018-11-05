@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.services.SeguridadService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
@@ -40,7 +40,7 @@ public class SeguridadRest {
 			method = RequestMethod.POST, 
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody AutenticacionDTO credenciales) {
+	public ResponseEntity<Object> iniciarSesionAdminClientes(@RequestBody CredencialesDTO credenciales) {
 		try {
 			return Util.getResponseSuccessful(this.seguridadService.iniciarSesionAdminClientes(credenciales));
 		} catch (BusinessException e) {
@@ -60,7 +60,7 @@ public class SeguridadRest {
 			method = RequestMethod.POST, 
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> iniciarSesion(@RequestBody AutenticacionDTO credenciales) {
+	public ResponseEntity<Object> iniciarSesion(@RequestBody CredencialesDTO credenciales) {
 		try {
 			// si el inicio sesion es modo ADMINISTRADOR
 			if (credenciales.isAdministrador()) {

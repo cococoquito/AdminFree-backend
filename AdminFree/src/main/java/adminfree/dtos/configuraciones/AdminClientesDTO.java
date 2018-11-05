@@ -3,7 +3,7 @@ package adminfree.dtos.configuraciones;
 import java.io.Serializable;
 import java.util.List;
 
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 
 /**
  * DTO para transportar los datos iniciales del modulo administrar clientes
@@ -14,8 +14,8 @@ import adminfree.dtos.seguridad.AutenticacionDTO;
 public class AdminClientesDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** DTO con los datos de la autenticacion */
-	private AutenticacionDTO credenciales;
+	/** DTO con los datos de la autenticacion para administrar los clientes */
+	private CredencialesDTO credenciales;
 
 	/** Lista de clientes parametrizados en el sistema */
 	private List<ClienteDTO> clientes;
@@ -37,7 +37,7 @@ public class AdminClientesDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo credenciales
 	 */
-	public AutenticacionDTO getCredenciales() {
+	public CredencialesDTO getCredenciales() {
 		return credenciales;
 	}
 
@@ -45,7 +45,7 @@ public class AdminClientesDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor para el atributo @param
 	 * credenciales
 	 */
-	public void setCredenciales(AutenticacionDTO credenciales) {
+	public void setCredenciales(CredencialesDTO credenciales) {
 		this.credenciales = credenciales;
 	}
 }

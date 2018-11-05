@@ -13,7 +13,7 @@ import adminfree.business.SeguridadBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.AdminClientesDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.MessageBusiness;
 import adminfree.utilities.BusinessException;
@@ -57,7 +57,7 @@ public class SeguridadService {
 	 * @param usuario, usuario de la autenticacion
 	 * @return DTO con los datos iniciales del modulo
 	 */
-	public AdminClientesDTO iniciarSesionAdminClientes(AutenticacionDTO credenciales) throws Exception {
+	public AdminClientesDTO iniciarSesionAdminClientes(CredencialesDTO credenciales) throws Exception {
 		Connection connection = null;
 		try {
 			if (credenciales != null) {
@@ -78,7 +78,7 @@ public class SeguridadService {
 							this.securityPostToken);
 
 					// se configura el TOKEN en el response
-					AutenticacionDTO autenticacion = new AutenticacionDTO();
+					CredencialesDTO autenticacion = new CredencialesDTO();
 					autenticacion.setToken(token);
 
 					// se configura el DTO de respuesta
@@ -107,7 +107,7 @@ public class SeguridadService {
 	 * @return datos del cliente que es el administrador configurados
 	 * si existe en la base datos de acuerdo a las credenciales
 	 */
-	public ClienteDTO iniciarSesionAdmin(AutenticacionDTO credenciales) throws Exception {
+	public ClienteDTO iniciarSesionAdmin(CredencialesDTO credenciales) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -127,7 +127,7 @@ public class SeguridadService {
 	 * 
 	 * @return datos del usuario autenticado en el sistema
 	 */	
-	public UsuarioDTO iniciarSesionUser(AutenticacionDTO credenciales) throws Exception {
+	public UsuarioDTO iniciarSesionUser(CredencialesDTO credenciales) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree

@@ -5,7 +5,7 @@ import java.sql.Types;
 
 import adminfree.constants.SQLSeguridad;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
@@ -36,7 +36,7 @@ public class SeguridadBusiness extends CommonDAO {
 	 *  la base datos de acuerdo a las credenciales
 	 */
 	public ClienteDTO iniciarSesionAdmin(
-			AutenticacionDTO credenciales,
+			CredencialesDTO credenciales,
 			String securityPostToken,
 			Connection connection) throws Exception {
 
@@ -86,7 +86,7 @@ public class SeguridadBusiness extends CommonDAO {
 	 * @return datos del usuario autenticado en el sistema
 	 */
 	public UsuarioDTO iniciarSesionUser(
-			AutenticacionDTO credenciales,
+			CredencialesDTO credenciales,
 			String securityPostToken,
 			String securityPostPass,
 			Connection connection) throws Exception {

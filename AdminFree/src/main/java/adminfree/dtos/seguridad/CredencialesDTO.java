@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 /**
  * 
- * DTO para mappear las credenciales del la pagina administrar clientes
+ * DTO para mappear las credenciales para la autentiacion en el sistema
  * 
  * @author Carlos Andres Diaz
  *
  */
-public class AutenticacionDTO implements Serializable {
+public class CredencialesDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** Es el usuario para la autenticacion del sistema */

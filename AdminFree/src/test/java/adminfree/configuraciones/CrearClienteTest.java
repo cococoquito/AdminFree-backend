@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.AutenticacionDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -39,7 +39,7 @@ public class CrearClienteTest {
 			cliente.setEmails("adiz98@gmail.com");
 			
 			// se construye las credenciales del usuario
-			AutenticacionDTO credenciales = new AutenticacionDTO();
+			CredencialesDTO credenciales = new CredencialesDTO();
 			credenciales.setUsuario("usuario cliente");
 			cliente.setCredenciales(credenciales);
 
