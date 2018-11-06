@@ -34,7 +34,7 @@ public class InterceptorCommon implements HandlerInterceptor {
 	 * autorizada para acceder al recurso solicitado
 	 */
 	protected boolean returnResponseFallido(HttpServletResponse response) throws Exception {
-		MessageResponseDTO msjResponse = new MessageResponseDTO(MessageBusiness.AUTORIZACION_FALLIDA_401.value);
+		MessageResponseDTO msjResponse = new MessageResponseDTO(MessageBusiness.AUTORIZACION_FALLIDA.value);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		response.getWriter().write(new ObjectMapper().writeValueAsString(msjResponse));

@@ -8,11 +8,14 @@ package adminfree.enums;
  */
 public enum MessageBusiness {
 
-	/** 400 - El Usuario y la Contraseña que usted ingresó no ha sido reconocido. Por favor, inténtelo de nuevo.*/
-	AUTENTICACION_FALLIDA_400(Numero.UNO.value.toString()),
+	/** 400 - El Usuario y la Contraseña que ingresó no ha sido reconocido.*/
+	AUTENTICACION_FALLIDA_USER(Numero.UNO.value.toString()),
+	
+	/** 400 - El Usuario y el Token que ingresó no ha sido reconocido.*/
+	AUTENTICACION_FALLIDA_ADMIN(Numero.DOS.value.toString()),	
 
 	/** 401 - No estas autorizado para acceder a este recurso.*/
-	AUTORIZACION_FALLIDA_401(Numero.UNO.value.toString());
+	AUTORIZACION_FALLIDA(Numero.UNO.value.toString());
 
 	public final String value;
 

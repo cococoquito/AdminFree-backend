@@ -73,7 +73,7 @@ public class SeguridadBusiness extends CommonDAO {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_ADMIN.value);
 	}
 
 	/**
@@ -131,6 +131,6 @@ public class SeguridadBusiness extends CommonDAO {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_400.value);
+		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_USER.value);
 	}
 }
