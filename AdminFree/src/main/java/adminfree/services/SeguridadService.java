@@ -12,9 +12,8 @@ import adminfree.business.ConfiguracionesBusiness;
 import adminfree.business.SeguridadBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.AdminClientesDTO;
-import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
-import adminfree.dtos.seguridad.UsuarioDTO;
+import adminfree.dtos.seguridad.WelcomeDTO;
 import adminfree.enums.MessageBusiness;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.CerrarRecursos;
@@ -104,10 +103,9 @@ public class SeguridadService {
 	 * 
 	 * @param credenciales, DTO que contiene los datos de ingreso
 	 * 
-	 * @return datos del cliente que es el administrador configurados
-	 * si existe en la base datos de acuerdo a las credenciales
+	 * @return datos de inicio de la aplicacion
 	 */
-	public ClienteDTO iniciarSesionAdmin(CredencialesDTO credenciales) throws Exception {
+	public WelcomeDTO iniciarSesionAdmin(CredencialesDTO credenciales) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
@@ -125,9 +123,9 @@ public class SeguridadService {
 	 * 
 	 * @param credenciales, DTO que contiene los datos de ingreso
 	 * 
-	 * @return datos del usuario autenticado en el sistema
+	 * @return datos de inicio de la aplicacion
 	 */	
-	public UsuarioDTO iniciarSesionUser(CredencialesDTO credenciales) throws Exception {
+	public WelcomeDTO iniciarSesionUser(CredencialesDTO credenciales) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree

@@ -42,7 +42,7 @@ public class ClienteDTO implements Serializable {
 	/** Identifica que tipo de accion se va ralizar sobre el cliente */
 	private String tipoEvento;
 
-	/** Son las credenciales del cliente que es un ADMIN */
+	/** Se utiliza para el modulo de administrar clientes */
 	private CredencialesDTO credenciales;
 
 	/**
