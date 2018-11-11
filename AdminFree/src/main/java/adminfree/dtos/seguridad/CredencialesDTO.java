@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 
- * DTO para mappear las credenciales para la autentiacion en el sistema
+ * DTO para mappear las credenciales para la autenticacion en el sistema
  * 
  * @author Carlos Andres Diaz
  *
