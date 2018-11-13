@@ -6,7 +6,7 @@ import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
-import adminfree.dtos.seguridad.RolDTO;
+import adminfree.dtos.seguridad.ModuloDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
@@ -173,18 +173,18 @@ public class MapperJDBC {
 				cliente.setNombre(res.getString(Numero.CUATRO.value));
 				user.setCliente(cliente);
 
-				// se configura los datos del ROL
-				RolDTO rol = new RolDTO();
-				rol.setId(res.getInt(Numero.CINCO.value));
-				rol.setNombre(res.getString(Numero.SEIS.value));
-				user.agregarROL(rol);
+				// se configura los datos del MODULO
+				ModuloDTO modulo = new ModuloDTO();
+				modulo.setId(res.getInt(Numero.CINCO.value));
+				modulo.setNombre(res.getString(Numero.SEIS.value));
+				user.agregarModulo(modulo);
 			} else {
 				
-				// solamente se configura los datos del ROL
-				RolDTO rol = new RolDTO();
-				rol.setId(res.getInt(Numero.CINCO.value));
-				rol.setNombre(res.getString(Numero.SEIS.value));
-				user.agregarROL(rol);
+				// solamente se configura los datos del MODULO
+				ModuloDTO modulo = new ModuloDTO();
+				modulo.setId(res.getInt(Numero.CINCO.value));
+				modulo.setNombre(res.getString(Numero.SEIS.value));
+				user.agregarModulo(modulo);
 			}
 		}
 		return user;

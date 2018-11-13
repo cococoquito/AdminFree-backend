@@ -3,18 +3,18 @@ package adminfree.dtos.seguridad;
 import java.io.Serializable;
 
 /**
- * DTO que contiene los atributos de un ROL
+ * DTO que contiene los atributos de un MODULO
  * 
  * @author Carlos Andres Diaz
  *
  */
-public class RolDTO implements Serializable {
+public class ModuloDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Identificador del ROL */
+	/** Identificador del MODULO */
 	private Integer id;
 
-	/** Nombre del ROL */
+	/** Nombre del MODULO */
 	private String nombre;
 
 	/**

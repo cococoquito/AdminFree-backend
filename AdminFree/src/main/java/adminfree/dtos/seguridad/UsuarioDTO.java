@@ -24,17 +24,17 @@ public class UsuarioDTO implements Serializable {
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
-	/** Lista de ROLES que tiene el usuario */
-	private List<RolDTO> roles;
+	/** Lista de Modulos asignados al usuario */
+	private List<ModuloDTO> modulos;
 
 	/**
-	 * Metodo que permite agregar un ROL para este USUARIO
+	 * Metodo que permite agregar un MODULO para este USUARIO
 	 */
-	public void agregarROL(RolDTO rol) {
-		if (this.roles == null) {
-			this.roles = new ArrayList<>();
+	public void agregarModulo(ModuloDTO modulo) {
+		if (this.modulos == null) {
+			this.modulos = new ArrayList<>();
 		}
-		this.roles.add(rol);
+		this.modulos.add(modulo);
 	}
 
 	/**
@@ -80,16 +80,16 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo roles
+	 * Metodo que permite obtener el valor del atributo modulos
 	 */
-	public List<RolDTO> getRoles() {
-		return roles;
+	public List<ModuloDTO> getModulos() {
+		return modulos;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param roles
+	 * Metodo que permite configurar el nuevo valor para el atributo @param modulos
 	 */
-	public void setRoles(List<RolDTO> roles) {
-		this.roles = roles;
+	public void setModulos(List<ModuloDTO> modulos) {
+		this.modulos = modulos;
 	}
 }
