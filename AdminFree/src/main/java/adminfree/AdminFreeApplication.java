@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 
- * Clase RAIZ donde se desplega la aplicación
+ * Clase RAIZ  donde se desplega la aplicación
  * 
  * @author Carlos Andres Diaz
  *
