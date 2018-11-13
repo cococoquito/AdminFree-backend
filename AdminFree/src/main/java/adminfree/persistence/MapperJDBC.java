@@ -175,14 +175,14 @@ public class MapperJDBC {
 
 				// se configura los datos del MODULO
 				ModuloDTO modulo = new ModuloDTO();
-				modulo.setId(res.getInt(Numero.CINCO.value));
+				modulo.setTokenModulo(res.getString(Numero.CINCO.value));
 				modulo.setNombre(res.getString(Numero.SEIS.value));
 				user.agregarModulo(modulo);
 			} else {
 				
 				// solamente se configura los datos del MODULO
 				ModuloDTO modulo = new ModuloDTO();
-				modulo.setId(res.getInt(Numero.CINCO.value));
+				modulo.setTokenModulo(res.getString(Numero.CINCO.value));
 				modulo.setNombre(res.getString(Numero.SEIS.value));
 				user.agregarModulo(modulo);
 			}

@@ -11,24 +11,25 @@ import java.io.Serializable;
 public class ModuloDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Identificador del MODULO */
-	private Integer id;
+	/** token del MODULO */
+	private String tokenModulo;
 
 	/** Nombre del MODULO */
 	private String nombre;
 
 	/**
-	 * Metodo que permite obtener el valor del atributo id
+	 * Metodo que permite obtener el valor del atributo tokenModulo
 	 */
-	public Integer getId() {
-		return id;
+	public String getTokenModulo() {
+		return tokenModulo;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param id
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tokenModulo
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setTokenModulo(String tokenModulo) {
+		this.tokenModulo = tokenModulo;
 	}
 
 	/**

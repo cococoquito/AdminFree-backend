@@ -35,7 +35,7 @@ public class IniciarSesionAdminTest {
 		try {
 			// se configura las credenciales de autenticacion
 			CredencialesDTO credenciales = new CredencialesDTO();
-			credenciales.setClave("06cfb91e7212d06ba19d3e9f91ca2637");
+			credenciales.setClave("d80fc33cbd8550910a30ee846f8f6d6b");
 			credenciales.setUsuario("usuario cliente");
 			credenciales.setAdministrador(true);
 
