@@ -37,6 +37,7 @@ public class IniciarSesionUserTest {
 			CredencialesDTO credenciales = new CredencialesDTO();
 			credenciales.setClave("chichona1");
 			credenciales.setUsuario("USER USUARIO 1");
+			credenciales.setAdministrador(false);
 
 			// se inicia sesion como USUARIO
 			WelcomeDTO inicio = this.seguridadService.iniciarSesionUser(credenciales);
