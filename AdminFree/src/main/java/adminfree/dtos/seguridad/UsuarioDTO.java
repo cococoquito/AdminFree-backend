@@ -21,6 +21,12 @@ public class UsuarioDTO implements Serializable {
 	/** Nombre del usuario */
 	private String nombre;
 
+	/** Es el usuario de ingreso al sistema */
+	private String usuarioIngreso;
+
+	/** Estado que se encuentra el USUARIO */
+	private Integer estado;
+
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
@@ -92,5 +98,34 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setModulosTokens(List<String> modulosTokens) {
 		this.modulosTokens = modulosTokens;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo usuarioIngreso
+	 */
+	public String getUsuarioIngreso() {
+		return usuarioIngreso;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * usuarioIngreso
+	 */
+	public void setUsuarioIngreso(String usuarioIngreso) {
+		this.usuarioIngreso = usuarioIngreso;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo estado
+	 */
+	public Integer getEstado() {
+		return estado;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param estado
+	 */
+	public void setEstado(Integer estado) {
+		this.estado = estado;
 	}
 }
