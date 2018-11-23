@@ -27,6 +27,9 @@ public class UsuarioDTO implements Serializable {
 	/** Estado que se encuentra el USUARIO */
 	private Integer estado;
 
+	/** Es el nombre del Estado que se encuentra el USUARIO */
+	private String estadoNombre;	
+
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
@@ -127,5 +130,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo estadoNombre
+	 */
+	public String getEstadoNombre() {
+		return estadoNombre;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param estadoNombre
+	 */
+	public void setEstadoNombre(String estadoNombre) {
+		this.estadoNombre = estadoNombre;
 	}
 }

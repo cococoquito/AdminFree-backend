@@ -116,4 +116,24 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente ", e.getMessage());
 		}
 	}
+	
+	/**
+	 * Servicio que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
+	 * asociados a un cliente especifico
+	 * 
+	 * @param filtro, contiene los datos del filtro de busqueda
+	 * @return lista de Usuarios asociados a un cliente
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_CLIENTES_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getUsuariosCliente(@RequestBody ClienteDTO filtro) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getUsuariosCliente(filtro));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getUsuariosCliente ", e.getMessage());
+		}
+	}	
 }

@@ -1,6 +1,7 @@
 package adminfree.services;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -114,6 +116,26 @@ public class ConfiguracionesService {
 
 			// se procede ELIMINAR el CLIENTE
 			return new ConfiguracionesBusiness().eliminarCliente(cliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+	
+	/**
+	 * Servicio que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
+	 * asociados a un cliente especifico
+	 * 
+	 * @param filtro, contiene los datos del filtro de busqueda
+	 * @return lista de Usuarios asociados a un cliente
+	 */	
+	public List<UsuarioDTO> getUsuariosCliente(ClienteDTO filtro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los usuarios asociados a un cliente
+			return new ConfiguracionesBusiness().getUsuariosCliente(filtro, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

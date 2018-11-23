@@ -7,6 +7,7 @@ import java.util.List;
 
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
@@ -122,6 +123,23 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public String eliminarCliente(ClienteDTO cliente, Connection con) throws Exception {
 		// se ejecuta el procedimiento almacenado de ELIMINAR CLIENTE
 		return new ProceduresJDBC().eliminarCliente(cliente.getId(), con);
+	}
+	
+	/**
+	 * Metodo que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
+	 * asociados a un cliente especifico
+	 * 
+	 * @param filtro, contiene los datos del filtro de busqueda
+	 * @return lista de Usuarios asociados a un cliente
+	 */
+	@SuppressWarnings("unchecked")
+	public List<UsuarioDTO> getUsuariosCliente(ClienteDTO filtro, Connection connection) throws Exception {
+		return (List<UsuarioDTO>) find(connection,
+				SQLConfiguraciones.GET_USUARIOS_CLIENTE,
+				MapperJDBC.get(Mapper.GET_USUARIOS_CLIENTE),
+				ValueSQL.get(filtro.getId(), Types.BIGINT),
+				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
+				ValueSQL.get(Estado.INACTIVO.id, Types.INTEGER));
 	}
 
 	/**

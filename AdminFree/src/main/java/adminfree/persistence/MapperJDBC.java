@@ -2,6 +2,7 @@ package adminfree.persistence;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
@@ -73,6 +74,10 @@ public class MapperJDBC {
 			case GET_DATOS_USER_AUTH:
 				result = getDatosUserAuth(res);
 				break;
+
+			case GET_USUARIOS_CLIENTE:
+				result = getUsuariosCliente(res);
+				break;				
 		}
 		return result;
 	}
@@ -92,7 +97,7 @@ public class MapperJDBC {
 	 */
 	private Object getClientes(ResultSet res) throws Exception {
 		List<ClienteDTO> resultado = new ArrayList<>();
-		ClienteDTO cliente = null;
+		ClienteDTO cliente;
 		while (res.next()) {
 			// se configura el cliente con su credenciales
 			cliente = new ClienteDTO();
@@ -180,5 +185,29 @@ public class MapperJDBC {
 			}
 		}
 		return user;
-	}	
+	}
+
+	/**
+	 * Mapper para obtener la lista de USUARIOS asociados a un cliente
+	 */
+	public Object getUsuariosCliente(ResultSet res) throws Exception {
+		List<UsuarioDTO> usuarios = new ArrayList<>();
+		final String SEPARATOR = ";";
+		UsuarioDTO usuario;
+		String modulos;
+		while (res.next()) {
+			usuario = new UsuarioDTO();
+			usuario.setId(res.getLong(Numero.UNO.value));
+			usuario.setNombre(res.getString(Numero.DOS.value));
+			usuario.setUsuarioIngreso(res.getString(Numero.TRES.value));
+			usuario.setEstado(res.getInt(Numero.CUATRO.value));
+			usuario.setEstadoNombre(Util.getEstadoNombre(usuario.getEstado()));
+			modulos = res.getString(Numero.CINCO.value);
+			if (modulos != null) {
+				usuario.setModulosTokens(Arrays.asList(modulos.split(SEPARATOR)));
+			}
+			usuarios.add(usuario);
+		}
+		return usuarios;
+	}
 }
