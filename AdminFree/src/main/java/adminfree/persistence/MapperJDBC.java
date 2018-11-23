@@ -6,7 +6,6 @@ import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
-import adminfree.dtos.seguridad.ModuloDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
@@ -174,17 +173,10 @@ public class MapperJDBC {
 				user.setCliente(cliente);
 
 				// se configura los datos del MODULO
-				ModuloDTO modulo = new ModuloDTO();
-				modulo.setTokenModulo(res.getString(Numero.CINCO.value));
-				modulo.setNombre(res.getString(Numero.SEIS.value));
-				user.agregarModulo(modulo);
+				user.agregarModuloToken(res.getString(Numero.CINCO.value));
 			} else {
-				
 				// solamente se configura los datos del MODULO
-				ModuloDTO modulo = new ModuloDTO();
-				modulo.setTokenModulo(res.getString(Numero.CINCO.value));
-				modulo.setNombre(res.getString(Numero.SEIS.value));
-				user.agregarModulo(modulo);
+				user.agregarModuloToken(res.getString(Numero.CINCO.value));
 			}
 		}
 		return user;

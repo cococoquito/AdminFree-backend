@@ -24,17 +24,17 @@ public class UsuarioDTO implements Serializable {
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
-	/** Lista de Modulos asignados al usuario */
-	private List<ModuloDTO> modulos;
+	/** Lista de Tokens de modulos asignados al usuario */
+	private List<String> modulosTokens;
 
 	/**
 	 * Metodo que permite agregar un MODULO para este USUARIO
 	 */
-	public void agregarModulo(ModuloDTO modulo) {
-		if (this.modulos == null) {
-			this.modulos = new ArrayList<>();
+	public void agregarModuloToken(String moduloToken) {
+		if (this.modulosTokens == null) {
+			this.modulosTokens = new ArrayList<>();
 		}
-		this.modulos.add(modulo);
+		this.modulosTokens.add(moduloToken);
 	}
 
 	/**
@@ -80,16 +80,17 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo modulos
+	 * Metodo que permite obtener el valor del atributo modulosTokens
 	 */
-	public List<ModuloDTO> getModulos() {
-		return modulos;
+	public List<String> getModulosTokens() {
+		return modulosTokens;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param modulos
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * modulosTokens
 	 */
-	public void setModulos(List<ModuloDTO> modulos) {
-		this.modulos = modulos;
+	public void setModulosTokens(List<String> modulosTokens) {
+		this.modulosTokens = modulosTokens;
 	}
 }
