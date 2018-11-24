@@ -167,7 +167,7 @@ public class ConfiguracionesRest {
 	 * @return OK, si todo el proceso se ejecuto sin errores
 	 */
 	@RequestMapping(
-			value = ApiRest.CREAR_USUARIO,
+			value = ApiRest.MODIFICAR_ESTADO_USUARIO,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
