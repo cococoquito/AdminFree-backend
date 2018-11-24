@@ -184,7 +184,7 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Metodo que permite modificar los privilegios de un Usuario
+	 * Servicio que permite modificar los privilegios de un Usuario
 	 * 
 	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
 	 * @return OK, si todo el proceso se ejecuto sin errores
