@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
+import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
@@ -64,21 +66,21 @@ public class ConfiguracionesRest {
 		try {
 			// se utiliza para almacenar el response
 			ResponseEntity<Object> response = null;
-			
+
 			// se captura el tipo de evento
 			String tipoEvento = cliente.getTipoEvento();
-			
+
 			// de acuerdo al tipo de evento se procede a modificar el cliente
 			switch (tipoEvento) {
 				case TipoEvento.ACTUALIZAR:
 					this.configuracionesService.actualizarCliente(cliente);
 					response = Util.getResponseOk();
 					break;
-	
+
 				case TipoEvento.ACTIVAR:
 					response = Util.getResponseSuccessful(this.configuracionesService.activarCliente(cliente));
 					break;
-	
+
 				case TipoEvento.INACTIVAR:
 					response = Util.getResponseSuccessful(this.configuracionesService.inactivarCliente(cliente));
 					break;
@@ -104,19 +106,19 @@ public class ConfiguracionesRest {
 		try {
 			// se elimina el cliente del sistema
 			String respuesta = this.configuracionesService.eliminarCliente(cliente);
-			
+
 			// se valida si el proceso fue exitoso
 			if (HttpStatus.OK.getReasonPhrase().equals(respuesta)) {
 				return Util.getResponseOk();
 			}
-			
+
 			// si MYSQL retorna algun error
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente ", respuesta);
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCliente ", e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Servicio que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
@@ -135,5 +137,26 @@ public class ConfiguracionesRest {
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getUsuariosCliente ", e.getMessage());
 		}
-	}	
+	}
+
+	/**
+	 * Servicio que permite crear el usuario con sus privilegios en el sistema
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuarios
+	 * @return DTO con los datos del usuario creado
+	 */
+	@RequestMapping(
+			value = ApiRest.CREAR_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> crearUsuario(@RequestBody UsuarioDTO usuario) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.crearUsuario(usuario));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesion ", e.getMessage());
+		}
+	}
 }

@@ -25,11 +25,11 @@ import adminfree.utilities.Util;
 @RestController
 @RequestMapping(ApiRest.SEGURIDAD_API)
 public class SeguridadRest {
-	
+
 	/** Objecto que contiene todo los servicios relacionado con la seguridad */
 	@Autowired
 	private SeguridadService seguridadService;	
-	
+
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
 	 * 
@@ -49,7 +49,7 @@ public class SeguridadRest {
 			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesionAdminClientes ", e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion
 	 * 
@@ -66,7 +66,7 @@ public class SeguridadRest {
 			if (credenciales.isAdministrador()) {
 				return Util.getResponseSuccessful(this.seguridadService.iniciarSesionAdmin(credenciales));
 			}
-			
+
 			// si el inicio sesion es modo USUARIO 
 			return Util.getResponseSuccessful(this.seguridadService.iniciarSesionUser(credenciales));
 		} catch (BusinessException e) {
@@ -74,5 +74,5 @@ public class SeguridadRest {
 		} catch (Exception e) {
 			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesion ", e.getMessage());
 		}
-	}	
+	}
 }
