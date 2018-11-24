@@ -240,6 +240,18 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite cambiar el estado de un usuario
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuario a modificar
+	 */
+	public void modificarEstadoUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
+		insertUpdate(connection,
+				SQLConfiguraciones.UPDATE_ESTADO_USER,
+				ValueSQL.get(usuario.getEstado(), Types.INTEGER),
+				ValueSQL.get(usuario.getId(), Types.BIGINT));
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

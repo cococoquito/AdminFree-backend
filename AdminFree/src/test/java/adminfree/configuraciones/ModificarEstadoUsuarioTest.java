@@ -2,48 +2,46 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
+import adminfree.enums.Estado;
 import adminfree.services.ConfiguracionesService;
 
 /**
- * Test para el servicio ConfiguracionesService.getUsuariosCliente
+ * Test para el servicio ConfiguracionesService.modificarEstadoUsuario
  * 
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GetUsuariosClienteTest {
+public class ModificarEstadoUsuarioTest {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Test que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
-	 * asociados a un cliente especifico
+	 * Test que permite cambiar el estado de un usuario
 	 */
 	@Test
-	public void getUsuariosCliente() {
+	public void modificarEstadoUsuario() {
 		try {
-			// se consultas los usuarios asociados al cliente con el id=1
-			ClienteDTO filtro = new ClienteDTO();
-			filtro.setId(1L);
+			// se construye le usuario a modificar su estado
+			UsuarioDTO usuario = new UsuarioDTO();
+			usuario.setId(1l);
+			usuario.setEstado(Estado.ACTIVO.id);
 
-			// se consulta los usuarios de acuerdo al filtro
-			List<UsuarioDTO> usuarios = this.configuracionesService.getUsuariosCliente(filtro);
+			// se procede a modificar el estado del usuario
+			this.configuracionesService.modificarEstadoUsuario(usuario);
 
-			// debe existir usuarios para este test asociado al cliente = 1
-			assertTrue(usuarios != null && !usuarios.isEmpty());
+			// si llega a esta punto es porque todo fue procesado correctamente
+			assertTrue(true);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

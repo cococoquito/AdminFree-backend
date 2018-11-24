@@ -44,4 +44,7 @@ public class SQLConfiguraciones {
 
 	/** SQL para insertar los privilegios de un usuario */
 	public static final String INSERTAR_PRIVILEGIOS_USER = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?, ?)";
+
+	/** SQL para modificar el estado del usuario */
+	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO = ? WHERE ID_USUARIO = ?";
 }

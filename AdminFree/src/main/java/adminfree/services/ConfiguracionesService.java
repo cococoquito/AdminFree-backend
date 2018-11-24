@@ -165,4 +165,22 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Metodo que permite cambiar el estado de un usuario
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuario a modificar
+	 */
+	public void modificarEstadoUsuario(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a modificar el estado del usuario
+			new ConfiguracionesBusiness().modificarEstadoUsuario(usuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }
