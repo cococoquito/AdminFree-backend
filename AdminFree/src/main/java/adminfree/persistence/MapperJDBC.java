@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import adminfree.constants.CommonConstant;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -70,7 +71,7 @@ public class MapperJDBC {
 			case GET_DATOS_ADMIN_AUTH:
 				result = getDatosAdminAuth(res);
 				break;
-				
+
 			case GET_DATOS_USER_AUTH:
 				result = getDatosUserAuth(res);
 				break;
@@ -196,7 +197,6 @@ public class MapperJDBC {
 	 */
 	public Object getUsuariosCliente(ResultSet res) throws Exception {
 		List<UsuarioDTO> usuarios = new ArrayList<>();
-		final String SEPARATOR = ";";
 		UsuarioDTO usuario;
 		String modulos;
 		while (res.next()) {
@@ -208,7 +208,7 @@ public class MapperJDBC {
 			usuario.setEstadoNombre(Util.getEstadoNombre(usuario.getEstado()));
 			modulos = res.getString(Numero.CINCO.value);
 			if (modulos != null) {
-				usuario.setModulosTokens(Arrays.asList(modulos.split(SEPARATOR)));
+				usuario.setModulosTokens(Arrays.asList(modulos.split(CommonConstant.PUNTO_COMA)));
 			}
 			usuarios.add(usuario);
 		}

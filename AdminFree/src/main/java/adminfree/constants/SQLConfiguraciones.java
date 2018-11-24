@@ -47,4 +47,11 @@ public class SQLConfiguraciones {
 
 	/** SQL para modificar el estado del usuario */
 	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO = ? WHERE ID_USUARIO = ?";
+
+	/** Se utiliza para eliminar los privilegios del usuario */
+	public static final String DELETE_PRIVILEGIOS_USER_ = "DELETE FROM USUARIOS_MODULOS WHERE ID_USUARIO = ?";
+
+	/** Se utiliza para insertar los privilegios del usuario sin injection */
+	public static final String INSERTAR_PRIVILEGIOS_USER_ = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?1, '?2')";
+
 }

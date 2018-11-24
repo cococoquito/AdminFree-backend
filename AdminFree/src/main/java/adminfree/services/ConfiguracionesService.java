@@ -183,4 +183,22 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Metodo que permite modificar los privilegios de un Usuario
+	 * 
+	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
+	 */
+	public void modificarPrivilegiosUsuario(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a modificar los privilegios del usuario
+			new ConfiguracionesBusiness().modificarPrivilegiosUsuario(usuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }
