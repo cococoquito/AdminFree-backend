@@ -2,19 +2,23 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
+import adminfree.enums.MessageBusiness;
 import adminfree.enums.Numero;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
 import adminfree.persistence.ValueSQL;
+import adminfree.utilities.BusinessException;
 import adminfree.utilities.EstrategiaCriptografica;
 import adminfree.utilities.Util;
 
@@ -143,12 +147,110 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite crear el usuario con sus privilegios en el sistema
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuarios
+	 * @param securityPostPass, se utiliza para encriptar la clave de ingreso
+	 * @return DTO con los datos del usuario creado
+	 */
+	public UsuarioDTO crearUsuario(
+			UsuarioDTO usuario,
+			String securityPostPass,
+			Connection connection) throws Exception {
+
+		// se verifica que no exista un usuario de ingreso registrado en la BD
+		String usuarioIngreso = usuario.getCredenciales().getUsuario();
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
+
+		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE crear el usuario
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessageBusiness.USUARIO_INGRESO_EXISTE.value);
+		}
+
+		// bloque para la creacion del usuario con sus privilegios
+		try {
+			connection.setAutoCommit(false);
+			EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
+
+			// se genera una nueva clave para el nuevo usuario
+			String claveIngreso = criptografica.generarToken();
+
+			// se encripta la nueva clave para ser almacenada en la BD
+			String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
+
+			// se procede a crear el USUARIO en la BD
+			insertUpdate(connection,
+					SQLConfiguraciones.CREAR_USUARIO,
+					ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
+					ValueSQL.get(usuarioIngreso, Types.VARCHAR),
+					ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
+					ValueSQL.get(usuario.getCliente().getId(), Types.BIGINT),
+					ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
+
+			// se obtiene el identificador del usuario creado
+			Long idUsuario = (Long) find(connection,
+					SQLConfiguraciones.GET_ID_USUARIO,
+					MapperJDBC.get(Mapper.GET_ID),
+					ValueSQL.get(usuarioIngreso, Types.VARCHAR),
+					ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR));
+
+			// creacion del los privilegios asignados al nuevo usuario
+			List<String> privilegios = usuario.getModulosTokens();
+			if (privilegios != null && !privilegios.isEmpty()) {
+
+				// se construye la lista de injections para la insercion
+				List<List<ValueSQL>> injections = new ArrayList<>();
+				ValueSQL valueIdUser = ValueSQL.get(idUsuario, Types.BIGINT);
+				List<ValueSQL> where;
+				for (String privilegio : privilegios) {
+					where = new ArrayList<>();
+					where.add(valueIdUser);
+					where.add(ValueSQL.get(privilegio, Types.VARCHAR));
+					injections.add(where);
+				}
+
+				// se inserta la lista de privilegios asignados al usuario
+				batchConInjection(connection, SQLConfiguraciones.INSERTAR_PRIVILEGIOS_USER, injections);
+			}
+
+			// se construye los datos del usuario a retornar
+			UsuarioDTO nuevoUsuario = new UsuarioDTO();
+			nuevoUsuario.setId(idUsuario);
+			nuevoUsuario.setNombre(usuario.getNombre());
+			nuevoUsuario.setEstado(Estado.ACTIVO.id);
+			nuevoUsuario.setEstadoNombre(Util.getEstadoNombre(nuevoUsuario.getEstado()));
+			nuevoUsuario.setCliente(usuario.getCliente());
+			nuevoUsuario.setModulosTokens(privilegios);
+
+			// se construye las credenciales del usuario creado
+			CredencialesDTO credenciales = new CredencialesDTO();
+			credenciales.setUsuario(usuarioIngreso);
+			credenciales.setClave(claveIngreso);
+			nuevoUsuario.setCredenciales(credenciales);
+
+			// se debe confirmar los cambios en BD
+			connection.commit();
+
+			// este DTO contiene todos los datos del nuevo usuario en la BD
+			return nuevoUsuario;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {
 		// es el valor del nuevo TOKEN a retornar
 		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
-		
+
 		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
 		MapperJDBC mapper = MapperJDBC.get(Mapper.COUNT);
 

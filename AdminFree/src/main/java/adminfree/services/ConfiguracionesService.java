@@ -6,9 +6,11 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
+import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -26,7 +28,11 @@ public class ConfiguracionesService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
-	
+
+	/** Contiene el postPass para la encriptacion de claves */
+	@Value(PropertyKey.SECURITY_POST_PASS)
+	private String securityPostPass;	
+
 	/**
 	 * Servicio que permite crear un cliente en el sistema
 	 * 
@@ -120,7 +126,7 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
-	
+
 	/**
 	 * Servicio que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
@@ -136,6 +142,25 @@ public class ConfiguracionesService {
 
 			// se procede a consultar los usuarios asociados a un cliente
 			return new ConfiguracionesBusiness().getUsuariosCliente(filtro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite crear el usuario con sus privilegios en el sistema
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuarios
+	 * @return DTO con los datos del usuario creado
+	 */
+	public UsuarioDTO crearUsuario(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a crear el usuario con sus privilegios
+			return new ConfiguracionesBusiness().crearUsuario(usuario, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

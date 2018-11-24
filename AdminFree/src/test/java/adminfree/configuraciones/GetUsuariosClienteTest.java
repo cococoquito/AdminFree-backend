@@ -23,11 +23,11 @@ import adminfree.services.ConfiguracionesService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GetUsuariosClienteTest {
-	
+
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
 	private ConfiguracionesService configuracionesService;
-	
+
 	/**
 	 * Test que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
@@ -38,7 +38,7 @@ public class GetUsuariosClienteTest {
 			// se consultas los usuarios asociados al cliente con el id=1
 			ClienteDTO filtro = new ClienteDTO();
 			filtro.setId(1L);
-			
+
 			// se consulta los usuarios de acuerdo al filtro
 			List<UsuarioDTO> usuarios = this.configuracionesService.getUsuariosCliente(filtro);
 

@@ -10,9 +10,12 @@ public enum MessageBusiness {
 
 	/** 400 - El Usuario y la Contraseña que ingresó no ha sido reconocido.*/
 	AUTENTICACION_FALLIDA_USER(Numero.UNO.value.toString()),
-	
+
 	/** 400 - El Usuario y el Token que ingresó no ha sido reconocido.*/
-	AUTENTICACION_FALLIDA_ADMIN(Numero.DOS.value.toString()),	
+	AUTENTICACION_FALLIDA_ADMIN(Numero.DOS.value.toString()),
+
+	/** 400 - El valor del usuario de ingreso (?) ya se encuentra asociado a otro usuario.*/
+	USUARIO_INGRESO_EXISTE(Numero.TRES.value.toString()),	
 
 	/** 401 - No estas autorizado para acceder a este recurso.*/
 	AUTORIZACION_FALLIDA(Numero.UNO.value.toString());

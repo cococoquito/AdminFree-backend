@@ -151,11 +151,10 @@ public class CommonDAO {
 	 */
 	protected void batchConInjection(Connection con, String dml, List<List<ValueSQL>> injections) throws Exception {
 		PreparedStatement pst = null;
-		con.setAutoCommit(false);
 		try {
 			// se establece el PreparedStatement
 			pst = con.prepareStatement(dml);
-			
+
 			// constante numerico para el proceso
 			final Integer ZERO = Numero.ZERO.value;
 			final Integer UNO = Numero.UNO.value;
@@ -171,7 +170,7 @@ public class CommonDAO {
 				// se injecta los parametros de esta sentencia y se agrega al BATCH
 				posicion = UNO;
 				for (ValueSQL valueSQL : values) {
-					
+
 					// se valida si se debe configurar NULL en el PreparedStatement
 					if (valueSQL.getValor() != null) {
 						setValorNotNull(pst, valueSQL, posicion);
@@ -194,9 +193,7 @@ public class CommonDAO {
 
 			// se ejecuta el ultimo bloque y se confirman los cambios
 			pst.executeBatch();
-			con.commit();
 		} finally {
-			con.setAutoCommit(true);
 			CerrarRecursos.closePreparedStatement(pst);
 		}
 	}
@@ -208,11 +205,10 @@ public class CommonDAO {
 	 */
 	protected void batchSinInjection(Connection con, List<String> dmls) throws Exception {
 		Statement stm = null;
-		con.setAutoCommit(false);
 		try {
 			// se establece el Statement
 			stm = con.createStatement();
-			
+
 			// constante numerico para el proceso
 			final Integer ZERO = Numero.ZERO.value;
 			final Integer UNO = Numero.UNO.value;
@@ -237,9 +233,7 @@ public class CommonDAO {
 
 			// se ejecuta el ultimo bloque y se confirman los cambios
 			stm.executeBatch();
-			con.commit();
 		} finally {
-			con.setAutoCommit(true);
 			CerrarRecursos.closeStatement(stm);
 		}
 	}
@@ -252,19 +246,19 @@ public class CommonDAO {
 			case Types.VARCHAR:
 				pst.setString(posicion, (String) valor.getValor());
 				break;
-	
+
 			case Types.INTEGER:
 				pst.setInt(posicion, (Integer) valor.getValor());
 				break;
-	
+
 			case Types.BIGINT:
 				pst.setLong(posicion, (Long) valor.getValor());
 				break;
-	
+
 			case Types.DATE:
 				pst.setDate(posicion, new java.sql.Date(((Date) valor.getValor()).getTime()));
 				break;
-	
+
 			case Types.TIMESTAMP:
 				pst.setTimestamp(posicion, new java.sql.Timestamp(((Date) valor.getValor()).getTime()));
 				break;

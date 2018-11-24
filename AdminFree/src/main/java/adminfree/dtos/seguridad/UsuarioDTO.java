@@ -21,20 +21,20 @@ public class UsuarioDTO implements Serializable {
 	/** Nombre del usuario */
 	private String nombre;
 
-	/** Es el usuario de ingreso al sistema */
-	private String usuarioIngreso;
-
 	/** Estado que se encuentra el USUARIO */
 	private Integer estado;
 
 	/** Es el nombre del Estado que se encuentra el USUARIO */
-	private String estadoNombre;	
+	private String estadoNombre;
 
 	/** Cliente donde pertenece el usuario */
 	private ClienteDTO cliente;
 
 	/** Lista de Tokens de modulos asignados al usuario */
 	private List<String> modulosTokens;
+
+	/** son las credenciales del usuario */
+	private CredencialesDTO credenciales;
 
 	/**
 	 * Metodo que permite agregar un MODULO para este USUARIO
@@ -104,21 +104,6 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo usuarioIngreso
-	 */
-	public String getUsuarioIngreso() {
-		return usuarioIngreso;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * usuarioIngreso
-	 */
-	public void setUsuarioIngreso(String usuarioIngreso) {
-		this.usuarioIngreso = usuarioIngreso;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo estado
 	 */
 	public Integer getEstado() {
@@ -140,10 +125,25 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param estadoNombre
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * estadoNombre
 	 */
 	public void setEstadoNombre(String estadoNombre) {
 		this.estadoNombre = estadoNombre;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo credenciales
+	 */
+	public CredencialesDTO getCredenciales() {
+		return credenciales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * credenciales
+	 */
+	public void setCredenciales(CredencialesDTO credenciales) {
+		this.credenciales = credenciales;
 	}
 }
