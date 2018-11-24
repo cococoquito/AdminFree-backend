@@ -54,4 +54,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para insertar los privilegios del usuario sin injection */
 	public static final String INSERTAR_PRIVILEGIOS_USER_ = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?1, '?2')";
 
+	/** Se utiliza para actualizar la clave de ingreso del Usuario */
+	public static final String ACTUALIZAR_CLAVE_INGRESO = "UPDATE USUARIOS SET CLAVE_INGRESO = ? WHERE ID_USUARIO = ?";
 }

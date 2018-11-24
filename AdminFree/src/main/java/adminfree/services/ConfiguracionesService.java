@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -197,6 +198,26 @@ public class ConfiguracionesService {
 
 			// se procede a modificar los privilegios del usuario
 			new ConfiguracionesBusiness().modificarPrivilegiosUsuario(usuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Metodo que permite generar una nueva clave de ingreso
+	 * para el usuario que llega por parametro
+	 * 
+	 * @param usuario, DTO con el identificador del usuario
+	 * @return DTO con la clave de ingreso generada
+	 */
+	public CredencialesDTO generarClaveIngreso(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a generar una nueva clave de ingreso para el usuario
+			return new ConfiguracionesBusiness().generarClaveIngreso(usuario, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

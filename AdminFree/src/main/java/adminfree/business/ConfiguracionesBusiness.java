@@ -9,6 +9,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
@@ -288,6 +289,40 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		} finally {
 			connection.setAutoCommit(true);
 		}
+	}
+
+	/**
+	 * Metodo que permite generar una nueva clave de ingreso
+	 * para el usuario que llega por parametro
+	 * 
+	 * @param usuario, DTO con el identificador del usuario
+	 * @param securityPostPass, se utiliza para encriptar la clave
+	 * @return DTO con la clave de ingreso generada
+	 */
+	public CredencialesDTO generarClaveIngreso(
+			UsuarioDTO usuario,
+			String securityPostPass,
+			Connection connection) throws Exception {
+
+		// se utiliza para encriptar la clave de ingreso
+		EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
+
+		// se genera una nueva clave para el usuario
+		String claveIngreso = criptografica.generarToken();
+
+		// se encripta la nueva clave para ser almacenada en la BD
+		String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
+
+		// actualiza la clave de ingreso en la BD
+		insertUpdate(connection,
+				SQLConfiguraciones.ACTUALIZAR_CLAVE_INGRESO,
+				ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
+				ValueSQL.get(usuario.getId(), Types.BIGINT));
+
+		// se retorna las credenciales con la nueva clave
+		CredencialesDTO credenciales = new CredencialesDTO();
+		credenciales.setClave(claveIngreso);
+		return credenciales;
 	}
 
 	/**

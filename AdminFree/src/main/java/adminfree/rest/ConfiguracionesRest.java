@@ -205,4 +205,24 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarPrivilegiosUsuario ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite generar una nueva clave
+	 * de ingreso para el usuario que llega por parametro
+	 *
+	 * @param usuario, DTO con el identificador del usuario
+	 * @return DTO con la clave de ingreso generada
+	 */
+	@RequestMapping(
+			value = ApiRest.GENERAR_CLAVE_USER,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> generarClaveIngreso(@RequestBody UsuarioDTO usuario) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.generarClaveIngreso(usuario));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".generarClaveIngreso ", e.getMessage());
+		}
+	}
 }
