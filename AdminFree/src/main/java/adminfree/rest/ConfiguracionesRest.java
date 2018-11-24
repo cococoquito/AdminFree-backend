@@ -214,7 +214,7 @@ public class ConfiguracionesRest {
 	 * @return DTO con la clave de ingreso generada
 	 */
 	@RequestMapping(
-			value = ApiRest.GENERAR_CLAVE_USER,
+			value = ApiRest.GENERAR_CLAVE_USUARIO,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
