@@ -32,7 +32,7 @@ public class SeguridadService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
-	
+
 	/** Contiene el usuario para la autenticacion del administrador de clientes */
 	@Value(PropertyKey.SECURITY_ADMINCLIENTES_USER)
 	private String securityAdminClienteUser;
@@ -44,7 +44,7 @@ public class SeguridadService {
 	/** Contiene el postToken para la generacion de TOKENS */
 	@Value(PropertyKey.SECURITY_POST_TOKEN)
 	private String securityPostToken;
-	
+
 	/** Contiene el postPass para la encriptacion de claves */
 	@Value(PropertyKey.SECURITY_POST_PASS)
 	private String securityPostPass;	
@@ -69,7 +69,7 @@ public class SeguridadService {
 				if (clave != null && usuario != null && 
 					clave.equals(this.securityAdminClienteClave) && 
 					usuario.equals(this.securityAdminClienteUser)) {
-					
+
 					// se procede a generar el TOKEN
 					String token = EstrategiaCriptografica.get().generarTokenAuth(
 							this.securityAdminClienteUser,
@@ -83,7 +83,7 @@ public class SeguridadService {
 					// se configura el DTO de respuesta
 					AdminClientesDTO respuesta = new AdminClientesDTO();
 					respuesta.setCredenciales(autenticacion);
-					
+
 					// se procede a consultar los clientes
 					connection = this.adminFreeDS.getConnection();
 					respuesta.setClientes(new ConfiguracionesBusiness().listarClientes(connection));
@@ -97,7 +97,7 @@ public class SeguridadService {
 		// si llega a este punto es porque las credenciales son fallidas
 		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_USER.value);
 	}
-	
+
 	/**
 	 * Servicio que permite iniciar sesion como ADMINISTRADOR
 	 * 
@@ -117,7 +117,7 @@ public class SeguridadService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
-	
+
 	/**
 	 * Servicio que permite iniciar sesion como USUARIO
 	 * 

@@ -17,10 +17,10 @@ public class CredencialesDTO implements Serializable {
 
 	/** Es la clave para la autenticacion del sistema */
 	private String clave;
-	
+
 	/** Es el token generado desde el servidor */
 	private String token;
-	
+
 	/** Indica si el usuario es un administrador */
 	private boolean administrador;
 
@@ -60,8 +60,7 @@ public class CredencialesDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param token
+	 * Metodo que permite configurar el nuevo valor para el atributo @param token
 	 */
 	public void setToken(String token) {
 		this.token = token;
@@ -75,8 +74,8 @@ public class CredencialesDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param administrador
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * administrador
 	 */
 	public void setAdministrador(boolean administrador) {
 		this.administrador = administrador;

@@ -13,7 +13,7 @@ public class ValueSQL {
 
 	/** Es el tipo de dato para este valor cuando es NULA */
 	private Integer tipoDato;
-	
+
 	/**
 	 * Retorna una instancia de este tipo de Clase
 	 */

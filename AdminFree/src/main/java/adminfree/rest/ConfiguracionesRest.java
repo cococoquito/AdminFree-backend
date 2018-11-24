@@ -156,7 +156,7 @@ public class ConfiguracionesRest {
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
-			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".iniciarSesion ", e.getMessage());
+			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearUsuario ", e.getMessage());
 		}
 	}
 }

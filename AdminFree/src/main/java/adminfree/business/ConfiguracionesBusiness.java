@@ -54,7 +54,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				MapperJDBC.get(Mapper.GET_CLIENTE), 
 				token);
 	}
-	
+
 	/**
 	 * Business para obtener todos los CLIENTES del sistema
 	 * 
@@ -66,7 +66,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				connection, SQLConfiguraciones.LISTAR_CLIENTES,
 				MapperJDBC.get(Mapper.GET_CLIENTES));
 	}
-	
+
 	/**
 	 * Business para actualizar los datos del CLIENTE
 	 * 
@@ -79,7 +79,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(clienteUpdate.getTelefonos(), Types.VARCHAR),
 				ValueSQL.get(clienteUpdate.getId(), Types.BIGINT));
 	}
-	
+
 	/**
 	 * Metodo que permite ACTIVAR un cliente
 	 * 
@@ -90,7 +90,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		insertUpdate(conn, SQLConfiguraciones.ACTIVAR_CLIENTE,
 				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
-		
+
 		// se configura los nuevos datos del cliente
 		cliente.setEstado(Estado.ACTIVO.id);
 		cliente.setEstadoNombre(Util.getEstadoNombre(Estado.ACTIVO.id));
@@ -98,7 +98,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		cliente.setFechaActivacion(Calendar.getInstance().getTime());
 		return cliente;
 	}
-	
+
 	/**
 	 * Metodo que permite INACTIVAR un cliente
 	 * 
@@ -109,14 +109,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		insertUpdate(conn, SQLConfiguraciones.INACTIVAR_CLIENTE,
 				ValueSQL.get(Estado.INACTIVO.id, Types.INTEGER),
 				ValueSQL.get(cliente.getId(), Types.BIGINT));
-		
+
 		// se configura los nuevos datos del cliente
 		cliente.setEstado(Estado.INACTIVO.id);
 		cliente.setEstadoNombre(Util.getEstadoNombre(Estado.INACTIVO.id));
 		cliente.setFechaInactivacion(Calendar.getInstance().getTime());
 		return cliente;		
 	}
-	
+
 	/**
 	 * Business que permite ELIMINAR un cliente del sistema
 	 * 

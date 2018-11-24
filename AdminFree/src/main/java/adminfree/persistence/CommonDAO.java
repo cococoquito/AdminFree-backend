@@ -87,7 +87,7 @@ public class CommonDAO {
 			CerrarRecursos.closePreparedStatement(pst);
 		}
 	}
-	
+
 	/**
 	 * Metodo utilitario para las consultas de SELECT sin WHERE sentence
 	 * 

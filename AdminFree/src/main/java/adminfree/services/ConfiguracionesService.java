@@ -107,7 +107,7 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
-	
+
 	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema
 	 * 

@@ -107,7 +107,7 @@ public class MapperJDBC {
 			cliente = new ClienteDTO();
 			CredencialesDTO credenciales = new CredencialesDTO();
 			cliente.setCredenciales(credenciales);
-			
+
 			// se configura los atributos del cliente
 			cliente.setId(res.getLong(Numero.UNO.value));
 			credenciales.setToken(res.getString(Numero.DOS.value));
@@ -134,7 +134,7 @@ public class MapperJDBC {
 			cliente = new ClienteDTO();
 			CredencialesDTO credenciales = new CredencialesDTO();
 			cliente.setCredenciales(credenciales);
-			
+
 			// se configura los atributos del cliente
 			cliente.setId(res.getLong(Numero.UNO.value));
 			credenciales.setToken(res.getString(Numero.DOS.value));
@@ -169,7 +169,7 @@ public class MapperJDBC {
 		UsuarioDTO user = null;
 		while (res.next()) {
 			if (user == null) {
-				
+
 				// se configura los datos del USUARIO
 				user = new UsuarioDTO();
 				user.setId(res.getLong(Numero.UNO.value));

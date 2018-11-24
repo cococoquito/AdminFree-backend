@@ -17,7 +17,7 @@ public class EstrategiaCriptografica {
 	/** constante que representa la encriptacion por MD5* */
 	private static String ENCRIPTACION_MD5 = "MD5";
 	private static EstrategiaCriptografica instance;
-	
+
 	/**
 	 * Metodo que permite retornar una instancia unica de esta clase
 	 */
@@ -27,7 +27,7 @@ public class EstrategiaCriptografica {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * No se puede instanciar desde fuera
 	 */
@@ -50,7 +50,7 @@ public class EstrategiaCriptografica {
 	public String generarToken() throws Exception {
 		return encriptarMD5(generateUUID());
 	}
-	
+
 	/**
 	 * Metodo que permite generar un nuevo TOKEN de autenticacion
 	 * 
