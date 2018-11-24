@@ -159,4 +159,27 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearUsuario ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite cambiar el estado de un usuario
+	 * 
+	 * @param usuario, DTO que contiene los datos del usuario a modificar
+	 * @return OK, si todo el proceso se ejecuto sin errores
+	 */
+	@RequestMapping(
+			value = ApiRest.CREAR_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> modificarEstadoUsuario(@RequestBody UsuarioDTO usuario) {
+		try {
+			// se procede a modificar el estado del usuario
+			this.configuracionesService.modificarEstadoUsuario(usuario);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarEstadoUsuario ", e.getMessage());
+		}
+	}
 }
