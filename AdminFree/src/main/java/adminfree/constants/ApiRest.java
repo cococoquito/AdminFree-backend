@@ -18,6 +18,7 @@ public class ApiRest {
 	public static final String GET_CLIENTES_USUARIO = "clientesusuario";
 	public static final String CREAR_USUARIO = "crearuser";
 	public static final String MODIFICAR_ESTADO_USUARIO = "updatestateuser";
+	public static final String MODIFICAR_PRIVILEGIOS_USUARIO = "updateprivilegiosuser";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";

@@ -182,4 +182,27 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarEstadoUsuario ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Metodo que permite modificar los privilegios de un Usuario
+	 * 
+	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
+	 * @return OK, si todo el proceso se ejecuto sin errores
+	 */
+	@RequestMapping(
+			value = ApiRest.MODIFICAR_PRIVILEGIOS_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> modificarPrivilegiosUsuario(@RequestBody UsuarioDTO usuario) {
+		try {
+			// se procede a modificar los privilegios del usuario
+			this.configuracionesService.modificarPrivilegiosUsuario(usuario);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarPrivilegiosUsuario ", e.getMessage());
+		}
+	}
 }
