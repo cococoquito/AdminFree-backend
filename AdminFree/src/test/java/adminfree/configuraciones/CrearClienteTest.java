@@ -21,11 +21,11 @@ import adminfree.services.ConfiguracionesService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CrearClienteTest {
-		
+
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
-	private ConfiguracionesService configuracionesService;	
-	
+	private ConfiguracionesService configuracionesService;
+
 	/**
 	 * Test para la creacion del CLIENTE
 	 */
@@ -37,7 +37,7 @@ public class CrearClienteTest {
 			cliente.setNombre("cliente prueba");
 			cliente.setTelefonos("364935038");
 			cliente.setEmails("adiz98@gmail.com");
-			
+
 			// se construye las credenciales del usuario
 			CredencialesDTO credenciales = new CredencialesDTO();
 			credenciales.setUsuario("usuario cliente");

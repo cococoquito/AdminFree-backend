@@ -150,7 +150,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite crear el usuario con sus privilegios en el sistema
 	 * 
-	 * @param usuario, DTO que contiene los datos del usuarios
+	 * @param usuario, DTO que contiene los datos del usuario
 	 * @param securityPostPass, se utiliza para encriptar la clave de ingreso
 	 * @return DTO con los datos del usuario creado
 	 */
