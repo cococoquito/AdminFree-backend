@@ -8,7 +8,6 @@ import java.util.List;
 
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
@@ -128,7 +127,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se ejecuta el procedimiento almacenado de ELIMINAR CLIENTE
 		return new ProceduresJDBC().eliminarCliente(cliente.getId(), con);
 	}
-	
+
 	/**
 	 * Metodo que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
@@ -159,7 +158,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Connection connection) throws Exception {
 
 		// se verifica que no exista un usuario de ingreso registrado en la BD
-		String usuarioIngreso = usuario.getCredenciales().getUsuario();
+		String usuarioIngreso = usuario.getUsuarioIngreso();
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
 				MapperJDBC.get(Mapper.COUNT),
@@ -224,12 +223,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			nuevoUsuario.setEstadoNombre(Util.getEstadoNombre(nuevoUsuario.getEstado()));
 			nuevoUsuario.setCliente(usuario.getCliente());
 			nuevoUsuario.setModulosTokens(privilegios);
-
-			// se construye las credenciales del usuario creado
-			CredencialesDTO credenciales = new CredencialesDTO();
-			credenciales.setUsuario(usuarioIngreso);
-			credenciales.setClave(claveIngreso);
-			nuevoUsuario.setCredenciales(credenciales);
+			nuevoUsuario.setUsuarioIngreso(usuarioIngreso);
+			nuevoUsuario.setClaveIngreso(claveIngreso);
 
 			// se debe confirmar los cambios en BD
 			connection.commit();

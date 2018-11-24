@@ -197,16 +197,13 @@ public class MapperJDBC {
 	public Object getUsuariosCliente(ResultSet res) throws Exception {
 		List<UsuarioDTO> usuarios = new ArrayList<>();
 		final String SEPARATOR = ";";
-		CredencialesDTO credenciales;
 		UsuarioDTO usuario;
 		String modulos;
 		while (res.next()) {
 			usuario = new UsuarioDTO();
-			credenciales = new CredencialesDTO();
-			usuario.setCredenciales(credenciales);
 			usuario.setId(res.getLong(Numero.UNO.value));
 			usuario.setNombre(res.getString(Numero.DOS.value));
-			credenciales.setUsuario(res.getString(Numero.TRES.value));
+			usuario.setUsuarioIngreso(res.getString(Numero.TRES.value));
 			usuario.setEstado(res.getInt(Numero.CUATRO.value));
 			usuario.setEstadoNombre(Util.getEstadoNombre(usuario.getEstado()));
 			modulos = res.getString(Numero.CINCO.value);

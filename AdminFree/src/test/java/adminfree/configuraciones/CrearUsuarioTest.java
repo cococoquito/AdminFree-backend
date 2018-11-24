@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
 
@@ -35,14 +34,12 @@ public class CrearUsuarioTest {
 		try {
 			// se construye las entidades asociados
 			UsuarioDTO usuarioCrear = new UsuarioDTO();
-			CredencialesDTO credenciales = new CredencialesDTO();
 			ClienteDTO cliente = new ClienteDTO();
 			usuarioCrear.setCliente(cliente);
-			usuarioCrear.setCredenciales(credenciales);
 
 			// se configura los datos necesarios para la insercion
 			usuarioCrear.setNombre("Cristopher Diaz");
-			credenciales.setUsuario("crisdiaz");
+			usuarioCrear.setUsuarioIngreso("crisdiaz");
 			cliente.setId(1L);
 			usuarioCrear.agregarModuloToken("9f1124f946de506332f221a01d39c411");
 			usuarioCrear.agregarModuloToken("a9ee4d222a05960a00ea9b5eb6fb0a81");

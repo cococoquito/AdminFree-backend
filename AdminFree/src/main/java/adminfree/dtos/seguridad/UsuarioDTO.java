@@ -21,6 +21,12 @@ public class UsuarioDTO implements Serializable {
 	/** Nombre del usuario */
 	private String nombre;
 
+	/** Usuario de ingreso para el USER */
+	private String usuarioIngreso;
+
+	/** Clave de ingreso para el USER */
+	private String claveIngreso;
+
 	/** Estado que se encuentra el USUARIO */
 	private Integer estado;
 
@@ -32,9 +38,6 @@ public class UsuarioDTO implements Serializable {
 
 	/** Lista de Tokens de modulos asignados al usuario */
 	private List<String> modulosTokens;
-
-	/** son las credenciales del usuario */
-	private CredencialesDTO credenciales;
 
 	/**
 	 * Metodo que permite agregar un MODULO para este USUARIO
@@ -133,17 +136,32 @@ public class UsuarioDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo credenciales
+	 * Metodo que permite obtener el valor del atributo usuarioIngreso
 	 */
-	public CredencialesDTO getCredenciales() {
-		return credenciales;
+	public String getUsuarioIngreso() {
+		return usuarioIngreso;
 	}
 
 	/**
 	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * credenciales
+	 * usuarioIngreso
 	 */
-	public void setCredenciales(CredencialesDTO credenciales) {
-		this.credenciales = credenciales;
+	public void setUsuarioIngreso(String usuarioIngreso) {
+		this.usuarioIngreso = usuarioIngreso;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo claveIngreso
+	 */
+	public String getClaveIngreso() {
+		return claveIngreso;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * claveIngreso
+	 */
+	public void setClaveIngreso(String claveIngreso) {
+		this.claveIngreso = claveIngreso;
 	}
 }
