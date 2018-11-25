@@ -46,7 +46,7 @@ public class InterceptorAdminFree extends InterceptorCommon {
 
 			// se obtiene y se valida la nulalidad del USUARIO
 			String user = request.getHeader(Security.SECURITY_HUSER.value);
-			if (user != null && user.length() > TREINTA) {
+			if (user != null && user.length() > Numero.ZERO.value) {
 
 				// se obtiene y se valida la nulalidad del PASSWORD
 				String pass = request.getHeader(Security.SECURITY_HPASS.value);
