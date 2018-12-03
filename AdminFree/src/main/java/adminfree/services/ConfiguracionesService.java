@@ -168,7 +168,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Metodo que permite cambiar el estado de un usuario
+	 * Servicio que permite cambiar el estado de un usuario
 	 * 
 	 * @param usuario, DTO que contiene los datos del usuario a modificar
 	 */
@@ -186,7 +186,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Metodo que permite modificar los privilegios de un Usuario
+	 * Servicio que permite modificar los privilegios de un Usuario
 	 * 
 	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
 	 */
@@ -204,7 +204,7 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Metodo que permite generar una nueva clave de ingreso
+	 * Servicio que permite generar una nueva clave de ingreso
 	 * para el usuario que llega por parametro
 	 * 
 	 * @param usuario, DTO con el identificador del usuario
@@ -218,6 +218,25 @@ public class ConfiguracionesService {
 
 			// se procede a generar una nueva clave de ingreso para el usuario
 			return new ConfiguracionesBusiness().generarClaveIngreso(usuario, this.securityPostPass, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite actualizar los datos de la cuenta
+	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
+	 * 
+	 * @param usuario, DTO 	que contiene los datos del usuario
+	 */
+	public void modificarDatosCuenta(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a modificar los datos de la cuenta user
+			new ConfiguracionesBusiness().modificarDatosCuenta(usuario, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

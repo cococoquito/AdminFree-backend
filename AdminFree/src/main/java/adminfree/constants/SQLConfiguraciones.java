@@ -56,4 +56,7 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para actualizar la clave de ingreso del Usuario */
 	public static final String ACTUALIZAR_CLAVE_INGRESO = "UPDATE USUARIOS SET CLAVE_INGRESO = ? WHERE ID_USUARIO = ?";
+
+	/** Se utiliza para actualizar la cuenta del usuario */
+	public static final String UPDATE_DATOS_CUENTA = "UPDATE USUARIOS SET NOMBRE = ?, USUARIO_INGRESO = ? WHERE ID_USUARIO = ?";	
 }

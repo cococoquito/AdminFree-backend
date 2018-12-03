@@ -225,4 +225,28 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".generarClaveIngreso ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite actualizar los datos de la cuenta
+	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
+	 * 
+	 * @param usuario, DTO 	que contiene los datos del usuario
+	 * @return OK, si todo el proceso se ejecuto sin errores
+	 */
+	@RequestMapping(
+			value = ApiRest.MODIFICAR_DATOS_CUENTA,
+			method = RequestMethod.PUT,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> modificarDatosCuenta(@RequestBody UsuarioDTO usuario) {
+		try {
+			// se procede a modificar los datos de la cuenta user
+			this.configuracionesService.modificarDatosCuenta(usuario);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarDatosCuenta ", e.getMessage());
+		}
+	}
 }

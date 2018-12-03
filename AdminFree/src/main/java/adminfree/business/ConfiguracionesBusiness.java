@@ -326,6 +326,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite actualizar los datos de la cuenta
+	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
+	 * 
+	 * @param usuario, DTO 	que contiene los datos del usuario
+	 */
+	public void modificarDatosCuenta(UsuarioDTO usuario, Connection connection) throws Exception {
+		insertUpdate(connection,
+				SQLConfiguraciones.UPDATE_DATOS_CUENTA,
+				ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
+				ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
+				ValueSQL.get(usuario.getId(), Types.BIGINT));
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {
