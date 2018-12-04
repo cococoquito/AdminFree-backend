@@ -8,8 +8,8 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
+import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;

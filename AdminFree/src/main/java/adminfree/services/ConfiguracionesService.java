@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
+import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;

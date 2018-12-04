@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
+import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
-import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
 import adminfree.utilities.BusinessException;

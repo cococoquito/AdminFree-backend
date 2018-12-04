@@ -1,4 +1,4 @@
-package adminfree.dtos.seguridad;
+package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
 
