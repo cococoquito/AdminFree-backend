@@ -9,6 +9,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
@@ -337,6 +338,60 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
 				ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
 				ValueSQL.get(usuario.getId(), Types.BIGINT));
+	}
+
+	/**
+	 * Metodo que permite soportar el proceso de modificar la clave de ingreso
+	 *
+	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
+	 * @param securityPostPass, se utiliza para encriptar las claves
+	 */
+	public void modificarClaveIngreso(
+			CambioClaveDTO datos,
+			String securityPostPass,
+			Connection connection) throws Exception {
+
+		// se obtiene los recursos necesarios para el proceso
+		String nuevaClave = datos.getClaveNueva();
+		Long idUsuario = datos.getIdUsuario();
+		EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
+
+		// se verifica si La contrasenia de verificación coincide
+		if (!nuevaClave.equals(datos.getClaveVerificacion())) {
+			throw new BusinessException(MessageBusiness.CLAVE_VERIFICACION_NO_COINCIDE.value);
+		}
+
+		// la nueva contrasenia debe tener minimo la cantidad permitida
+		if (nuevaClave.length() < Numero.DOCE.value) {
+			throw new BusinessException(MessageBusiness.CLAVE_LONGITUD_NO_PERMITIDA.value);
+		}
+
+		// la nueva contrasenia no puede contener espacios en blanco
+		if (nuevaClave.indexOf(' ') != -1) {
+			throw new BusinessException(MessageBusiness.CLAVE_ESPACIOS_BLANCO.value);
+		}
+
+		// se verifica si la contrasenia actual coincide con la clave del usuario
+		String claveUser = (String) find(connection,
+				SQLConfiguraciones.GET_CLAVE_INGRESO,
+				MapperJDBC.get(Mapper.GET_SOLO_UN_STRING),
+				ValueSQL.get(idUsuario, Types.BIGINT));
+		String claveActualMD5 = criptografica.encriptarPassword(datos.getClaveActual(), securityPostPass);
+		if (!claveUser.equals(claveActualMD5)) {
+			throw new BusinessException(MessageBusiness.CLAVE_NO_COINCIDE.value);
+		}
+
+		// se verifica que la clave nueva no sea igual a la clave del usuario
+		String nuevaClaveMD5 = criptografica.encriptarPassword(nuevaClave, securityPostPass);
+		if (nuevaClaveMD5.equals(claveUser)) {
+			throw new BusinessException(MessageBusiness.CLAVE_ACTUAL_IGUAL.value);
+		}
+
+		// actualiza la clave de ingreso en la BD
+		insertUpdate(connection,
+				SQLConfiguraciones.ACTUALIZAR_CLAVE_INGRESO,
+				ValueSQL.get(nuevaClaveMD5, Types.VARCHAR),
+				ValueSQL.get(idUsuario, Types.BIGINT));
 	}
 
 	/**

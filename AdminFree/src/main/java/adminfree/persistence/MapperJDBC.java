@@ -83,6 +83,10 @@ public class MapperJDBC {
 			case GET_ID:
 				result = getId(res);
 				break;
+
+			case GET_SOLO_UN_STRING:
+				result = getSoloUnString(res);
+				break;
 		}
 		return result;
 	}
@@ -221,6 +225,16 @@ public class MapperJDBC {
 	public Long getId(ResultSet res) throws Exception {
 		if (res.next()) {
 			return res.getLong(Numero.UNO.value);
+		}
+		return null;
+	}
+
+	/**
+	 * Mapper para obtener solo un valor texto
+	 */
+	public String getSoloUnString(ResultSet res) throws Exception {
+		if (res.next()) {
+			return res.getString(Numero.UNO.value);
 		}
 		return null;
 	}

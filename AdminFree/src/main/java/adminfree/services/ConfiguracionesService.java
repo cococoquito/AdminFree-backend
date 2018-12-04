@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -237,6 +238,24 @@ public class ConfiguracionesService {
 
 			// se procede a modificar los datos de la cuenta user
 			new ConfiguracionesBusiness().modificarDatosCuenta(usuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite soportar el proceso de modificar la clave de ingreso
+	 *
+	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
+	 */
+	public void modificarClaveIngreso(CambioClaveDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a modificar la clave de ingreso del usuario
+			new ConfiguracionesBusiness().modificarClaveIngreso(datos, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
