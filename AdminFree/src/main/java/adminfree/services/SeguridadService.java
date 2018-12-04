@@ -20,9 +20,9 @@ import adminfree.utilities.CerrarRecursos;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
- * 
+ *
  * Clase que contiene todos los servicios para la seguridad del sistema
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -51,7 +51,7 @@ public class SeguridadService {
 
 	/**
 	 * Servicio para la autenticacion del usuario administrar clientes
-	 * 
+	 *
 	 * @param clave, clave de la autenticacion
 	 * @param usuario, usuario de la autenticacion
 	 * @return DTO con los datos iniciales del modulo
@@ -100,9 +100,9 @@ public class SeguridadService {
 
 	/**
 	 * Servicio que permite iniciar sesion como ADMINISTRADOR
-	 * 
+	 *
 	 * @param credenciales, DTO que contiene los datos de ingreso
-	 * 
+	 *
 	 * @return datos de inicio de la aplicacion
 	 */
 	public WelcomeDTO iniciarSesionAdmin(CredencialesDTO credenciales) throws Exception {
@@ -120,9 +120,9 @@ public class SeguridadService {
 
 	/**
 	 * Servicio que permite iniciar sesion como USUARIO
-	 * 
+	 *
 	 * @param credenciales, DTO que contiene los datos de ingreso
-	 * 
+	 *
 	 * @return datos de inicio de la aplicacion
 	 */	
 	public WelcomeDTO iniciarSesionUser(CredencialesDTO credenciales) throws Exception {

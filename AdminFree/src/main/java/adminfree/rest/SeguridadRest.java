@@ -15,10 +15,10 @@ import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
- * 
+ *
  * Clase que contiene todos los servicios REST para el modulo de seguridad
  * localhost:puerto/Constants.SEGURIDAD_NOMBRE_API/
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -32,7 +32,7 @@ public class SeguridadRest {
 
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes
-	 * 
+	 *
 	 * return el TOKEN asociado al usuario
 	 */
 	@RequestMapping(
@@ -52,7 +52,7 @@ public class SeguridadRest {
 
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion
-	 * 
+	 *
 	 * return datos del USUARIO o ADMINISTRADOR autenticado
 	 */
 	@RequestMapping(

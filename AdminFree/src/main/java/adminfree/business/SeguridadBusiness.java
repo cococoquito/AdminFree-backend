@@ -18,10 +18,10 @@ import adminfree.utilities.BusinessException;
 import adminfree.utilities.EstrategiaCriptografica;
 
 /**
- * 
+ *
  * Clase que contiene los procesos de negocio para el modulo de seguridad de la
  * aplicacion
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -29,10 +29,10 @@ public class SeguridadBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite iniciar sesion como ADMINISTRADOR
-	 * 
+	 *
 	 * @param credenciales, DTO que contiene los datos de ingreso
 	 * @param securityPostToken, se utiliza para encriptar el token
-	 * 
+	 *
 	 * @return datos de inicio de la aplicacion
 	 */
 	public WelcomeDTO iniciarSesionAdmin(
@@ -82,11 +82,11 @@ public class SeguridadBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite iniciar sesion como USUARIO
-	 * 
+	 *
 	 * @param credenciales, DTO que contiene los datos de ingreso
 	 * @param securityPostToken, se utiliza para encriptar el token
 	 * @param securityPostPass, se utiliza para encriptar la clave
-	 * 
+	 *
 	 * @return datos de inicio de la aplicacion
 	 */
 	public WelcomeDTO iniciarSesionUser(

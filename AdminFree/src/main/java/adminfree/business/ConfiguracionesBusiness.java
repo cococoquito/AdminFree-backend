@@ -25,9 +25,9 @@ import adminfree.utilities.EstrategiaCriptografica;
 import adminfree.utilities.Util;
 
 /**
- * 
+ *
  * Clase que contiene los procesos de negocio para el modulo de Configuraciones
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -35,7 +35,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Business que permite crear un cliente en el sistema
-	 * 
+	 *
 	 * @param cliente, DTO con los datos del cliente a crear
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
@@ -60,7 +60,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Business para obtener todos los CLIENTES del sistema
-	 * 
+	 *
 	 * @return, lista de CLIENTES configurados
 	 */	
 	@SuppressWarnings("unchecked")
@@ -72,7 +72,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Business para actualizar los datos del CLIENTE
-	 * 
+	 *
 	 * @param clienteUpdate, Datos del cliente actualizar
 	 */
 	public void actualizarCliente(ClienteDTO clienteUpdate, Connection conn) throws Exception {
@@ -85,7 +85,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite ACTIVAR un cliente
-	 * 
+	 *
 	 * @return cliente con los nuevos datos de la ACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
@@ -104,7 +104,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite INACTIVAR un cliente
-	 * 
+	 *
 	 * @return cliente con los nuevos datos de la INACTIVACION
 	 * @param cliente, contiene el identificador del cliente
 	 */
@@ -122,7 +122,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Business que permite ELIMINAR un cliente del sistema
-	 * 
+	 *
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
 	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
@@ -134,7 +134,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
-	 * 
+	 *
 	 * @param filtro, contiene los datos del filtro de busqueda
 	 * @return lista de Usuarios asociados a un cliente
 	 */
@@ -150,7 +150,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite crear el usuario con sus privilegios en el sistema
-	 * 
+	 *
 	 * @param usuario, DTO que contiene los datos del usuario
 	 * @param securityPostPass, se utiliza para encriptar la clave de ingreso
 	 * @return DTO con los datos del usuario creado
@@ -244,7 +244,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite cambiar el estado de un usuario
-	 * 
+	 *
 	 * @param usuario, DTO que contiene los datos del usuario a modificar
 	 */
 	public void modificarEstadoUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
@@ -256,7 +256,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite modificar los privilegios de un Usuario
-	 * 
+	 *
 	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
 	 */
 	public void modificarPrivilegiosUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
@@ -295,7 +295,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite generar una nueva clave de ingreso
 	 * para el usuario que llega por parametro
-	 * 
+	 *
 	 * @param usuario, DTO con el identificador del usuario
 	 * @param securityPostPass, se utiliza para encriptar la clave
 	 * @return DTO con la clave de ingreso generada
@@ -329,7 +329,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite actualizar los datos de la cuenta
 	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
-	 * 
+	 *
 	 * @param usuario, DTO 	que contiene los datos del usuario
 	 */
 	public void modificarDatosCuenta(UsuarioDTO usuario, Connection connection) throws Exception {
