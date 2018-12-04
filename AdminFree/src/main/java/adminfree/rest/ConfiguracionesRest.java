@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.seguridad.CambioClaveDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
- * 
+ *
  * Clase que contiene todos los servicios REST para el modulo de Configuraciones
  * localhost:puerto/Constants.CONFIGURACIONES_NOMBRE_API/
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -35,7 +36,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que permite crear un cliente en el sistema
-	 * 
+	 *
 	 * @param cliente, DTO con los datos del cliente a crear
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
@@ -54,7 +55,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio para actualizar los datos del CLIENTE
-	 * 
+	 *
 	 * @param cliente, datos del cliente a MODIFICAR
 	 */
 	@RequestMapping(
@@ -93,7 +94,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que permite ELIMINAR un cliente del sistema
-	 * 
+	 *
 	 * @param cliente, DTO que contiene el identificador del cliente ELIMINAR
 	 * @return OK, de lo contrario el mensaje de error de MYSQL
 	 */
@@ -122,7 +123,7 @@ public class ConfiguracionesRest {
 	/**
 	 * Servicio que permite consultar los usuarios con estados (ACTIVO/INACTIVO)
 	 * asociados a un cliente especifico
-	 * 
+	 *
 	 * @param filtro, contiene los datos del filtro de busqueda
 	 * @return lista de Usuarios asociados a un cliente
 	 */
@@ -141,7 +142,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que permite crear el usuario con sus privilegios en el sistema
-	 * 
+	 *
 	 * @param usuario, DTO que contiene los datos del usuarios
 	 * @return DTO con los datos del usuario creado
 	 */
@@ -162,7 +163,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que permite cambiar el estado de un usuario
-	 * 
+	 *
 	 * @param usuario, DTO que contiene los datos del usuario a modificar
 	 * @return OK, si todo el proceso se ejecuto sin errores
 	 */
@@ -185,7 +186,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que permite modificar los privilegios de un Usuario
-	 * 
+	 *
 	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
 	 * @return OK, si todo el proceso se ejecuto sin errores
 	 */
@@ -229,7 +230,7 @@ public class ConfiguracionesRest {
 	/**
 	 * Servicio que permite actualizar los datos de la cuenta
 	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
-	 * 
+	 *
 	 * @param usuario, DTO 	que contiene los datos del usuario
 	 * @return OK, si todo el proceso se ejecuto sin errores
 	 */
@@ -247,6 +248,29 @@ public class ConfiguracionesRest {
 			return Util.getResponseOk();
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarDatosCuenta ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite soportar el proceso de modificar la clave de ingreso
+	 *
+	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
+	 * @return OK, si todo el proceso se ejecuto sin errores
+	 */
+	@RequestMapping(
+			value = ApiRest.MODIFICAR_CLAVE,
+			method = RequestMethod.PUT,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> modificarClaveIngreso(@RequestBody CambioClaveDTO datos) {
+		try {
+			// se procede a modificar la clave de ingreso del usuario
+			this.configuracionesService.modificarClaveIngreso(datos);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarClaveIngreso ", e.getMessage());
 		}
 	}
 }
