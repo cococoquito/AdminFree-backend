@@ -39,6 +39,9 @@ public class UsuarioDTO implements Serializable {
 	/** Lista de Tokens de modulos asignados al usuario */
 	private List<String> modulosTokens;
 
+	/** Indica si el usuario de ingreso fue modificado */
+	private boolean userIngresoModificado;
+
 	/**
 	 * Metodo que permite agregar un MODULO para este USUARIO
 	 */
@@ -163,5 +166,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setClaveIngreso(String claveIngreso) {
 		this.claveIngreso = claveIngreso;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo userIngresoModificado
+	 */
+	public boolean isUserIngresoModificado() {
+		return userIngresoModificado;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * userIngresoModificado
+	 */
+	public void setUserIngresoModificado(boolean userIngresoModificado) {
+		this.userIngresoModificado = userIngresoModificado;
 	}
 }

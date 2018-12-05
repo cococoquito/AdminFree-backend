@@ -228,10 +228,10 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Servicio que permite actualizar los datos de la cuenta
-	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
+	 * Servicio que permite actualizar los datos de la cuenta del usuario, solamente
+	 * aplica (Nombre, Usuario Ingreso)
 	 *
-	 * @param usuario, DTO 	que contiene los datos del usuario
+	 * @param usuario, DTO que contiene los datos del usuario
 	 * @return OK, si todo el proceso se ejecuto sin errores
 	 */
 	@RequestMapping(
@@ -246,6 +246,8 @@ public class ConfiguracionesRest {
 
 			// si llega a este punto es porque el proceso se ejecuto sin problemas
 			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarDatosCuenta ", e.getMessage());
 		}
@@ -269,6 +271,8 @@ public class ConfiguracionesRest {
 
 			// si llega a este punto es porque el proceso se ejecuto sin problemas
 			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarClaveIngreso ", e.getMessage());
 		}

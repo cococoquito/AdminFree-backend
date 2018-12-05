@@ -343,16 +343,38 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se obtiene el valor del usuario de ingreso
 		String userIngreso = usuario.getUsuarioIngreso();
 
-		// se verifica la longitud del usuario de ingreso
-		if (userIngreso == null  || userIngreso.length() < Numero.DIEZ.value) {
-			throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+		// se hace las validaciones al user de ingreso si fue modificado
+		if (usuario.isUserIngresoModificado()) {
+
+			// se verifica la longitud del usuario de ingreso
+			if (userIngreso == null  || userIngreso.length() < Numero.DIEZ.value) {
+				throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+			}
+
+			// se verifica que no exista un usuario de ingreso registrado en la BD
+			Long count = (Long) find(connection,
+					SQLConfiguraciones.COUNT_USUARIO_INGRESO,
+					MapperJDBC.get(Mapper.COUNT),
+					ValueSQL.get(userIngreso, Types.VARCHAR));
+
+			// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE crear el usuario
+			if (!count.equals(Numero.ZERO.value.longValue())) {
+				throw new BusinessException(MessageBusiness.USUARIO_INGRESO_EXISTE.value);
+			}
 		}
 
-		insertUpdate(connection,
-				SQLConfiguraciones.UPDATE_DATOS_CUENTA,
-				ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
-				ValueSQL.get(userIngreso, Types.VARCHAR),
-				ValueSQL.get(usuario.getId(), Types.BIGINT));
+		if (usuario.isUserIngresoModificado()) {
+			insertUpdate(connection,
+					SQLConfiguraciones.UPDATE_DATOS_CUENTA,
+					ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
+					ValueSQL.get(userIngreso, Types.VARCHAR),
+					ValueSQL.get(usuario.getId(), Types.BIGINT));
+		} else {
+			insertUpdate(connection,
+					SQLConfiguraciones.UPDATE_NOMBRE_USER,
+					ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
+					ValueSQL.get(usuario.getId(), Types.BIGINT));
+		}
 	}
 
 	/**

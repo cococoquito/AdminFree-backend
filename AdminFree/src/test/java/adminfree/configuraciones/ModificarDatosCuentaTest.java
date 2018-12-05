@@ -36,6 +36,7 @@ public class ModificarDatosCuentaTest {
 			usuario.setId(91l);
 			usuario.setNombre("Carlos Andres Diaz Mendoza");
 			usuario.setUsuarioIngreso("secreArmenia1");
+			usuario.setUserIngresoModificado(true);
 
 			// se procede a modificar los datos de la cuenta
 			this.configuracionesService.modificarDatosCuenta(usuario);

@@ -30,7 +30,10 @@ public class SQLConfiguraciones {
 	/** SQL para INACTIVAR un CLIENTE */
 	public static final String INACTIVAR_CLIENTE = "UPDATE CLIENTES SET ESTADO=?, FECHA_INACTIVACION=CURDATE() WHERE ID_CLIENTE=?";
 
-	/** SQL para obtener todos los USUARIOS ACTIVO/INACTIVO del sistema asociados a un CLIENTE */
+	/**
+	 * SQL para obtener todos los USUARIOS ACTIVO/INACTIVO del sistema asociados a
+	 * un CLIENTE
+	 */
 	public static final String GET_USUARIOS_CLIENTE = "SELECT US.ID_USUARIO AS ID_USER, US.NOMBRE AS NOMBRE_USER, US.USUARIO_INGRESO AS INGRESO_USER, US.ESTADO AS ESTADO_USER, GROUP_CONCAT(USER_MODULO.TOKEN_MODULO SEPARATOR ';') AS MODULOS FROM USUARIOS US LEFT JOIN USUARIOS_MODULOS USER_MODULO ON(USER_MODULO.ID_USUARIO = US.ID_USUARIO) WHERE US.CLIENTE = ? AND (US.ESTADO = ? OR US.ESTADO = ?) GROUP BY US.ID_USUARIO, US.NOMBRE, US.USUARIO_INGRESO, US.ESTADO ORDER BY US.NOMBRE";
 
 	/** SQL para contar los USUARIO que contenga USUARIO_INGRESO especifico */
@@ -59,6 +62,9 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para actualizar la cuenta del usuario */
 	public static final String UPDATE_DATOS_CUENTA = "UPDATE USUARIOS SET NOMBRE = ?, USUARIO_INGRESO = ? WHERE ID_USUARIO = ?";
+
+	/** Se utiliza para actualizar el nombre del usuario */
+	public static final String UPDATE_NOMBRE_USER = "UPDATE USUARIOS SET NOMBRE = ? WHERE ID_USUARIO = ?";
 
 	/** Se utiliza para obtener la clave de ingreso */
 	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO = ?";
