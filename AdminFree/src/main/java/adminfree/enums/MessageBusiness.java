@@ -36,7 +36,10 @@ public enum MessageBusiness {
 	CLAVE_ACTUAL_IGUAL(Numero.OCHO.value.toString()),
 	
 	/** 400 - El usuario de ingreso debe tener al menos 10 caracteres*/
-	USER_INGRESO_LONGITUD_NO_PERMITIDA(Numero.NUEVE.value.toString());
+	USER_INGRESO_LONGITUD_NO_PERMITIDA(Numero.NUEVE.value.toString()),
+
+	/** 400 - El usuario de ingreso no puede contener espacios en blanco*/
+	USER_INGRESO_ESPACIOS_BLANCO(Numero.DIEZ.value.toString());
 
 	public final String value;
 

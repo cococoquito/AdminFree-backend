@@ -160,24 +160,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			String securityPostPass,
 			Connection connection) throws Exception {
 
-		// se obtiene el valor del usuario de ingreso
+		// se aplica las validaciones de negocio para el usuario de ingreso
 		String usuarioIngreso = usuario.getUsuarioIngreso();
-
-		// se verifica la longitud del usuario de ingreso
-		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.value) {
-			throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
-		}
-
-		// se verifica que no exista un usuario de ingreso registrado en la BD
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
-				MapperJDBC.get(Mapper.COUNT),
-				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
-
-		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE crear el usuario
-		if (!count.equals(Numero.ZERO.value.longValue())) {
-			throw new BusinessException(MessageBusiness.USUARIO_INGRESO_EXISTE.value);
-		}
+		validarUsuarioIngreso(usuarioIngreso, connection);
 
 		// bloque para la creacion del usuario con sus privilegios
 		try {
@@ -343,24 +328,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se obtiene el valor del usuario de ingreso
 		String userIngreso = usuario.getUsuarioIngreso();
 
-		// se hace las validaciones al user de ingreso si fue modificado
+		// se aplica las validaciones de negocio para el usuario de ingreso si es modificado
 		if (usuario.isUserIngresoModificado()) {
-
-			// se verifica la longitud del usuario de ingreso
-			if (userIngreso == null  || userIngreso.length() < Numero.DIEZ.value) {
-				throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
-			}
-
-			// se verifica que no exista un usuario de ingreso registrado en la BD
-			Long count = (Long) find(connection,
-					SQLConfiguraciones.COUNT_USUARIO_INGRESO,
-					MapperJDBC.get(Mapper.COUNT),
-					ValueSQL.get(userIngreso, Types.VARCHAR));
-
-			// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE crear el usuario
-			if (!count.equals(Numero.ZERO.value.longValue())) {
-				throw new BusinessException(MessageBusiness.USUARIO_INGRESO_EXISTE.value);
-			}
+			validarUsuarioIngreso(userIngreso, connection);
 		}
 
 		if (usuario.isUserIngresoModificado()) {
@@ -457,5 +427,37 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			}
 		}
 		return token;
+	}
+
+	/**
+	 * Metodo que permite validar el usuario de ingreso al momento
+	 * de crear el usuario o modificar la cuenta del usuario
+	 *
+	 * @param usuarioIngreso, valor del user de ingreso a validar
+	 */
+	private void validarUsuarioIngreso(
+			String usuarioIngreso,
+			Connection connection) throws Exception {
+
+		// se verifica la longitud del usuario de ingreso
+		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.value) {
+			throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+		}
+
+		// el usuario de ingreso no puede contener espacios en blanco
+		if (usuarioIngreso.indexOf(' ') != -1) {
+			throw new BusinessException(MessageBusiness.USER_INGRESO_ESPACIOS_BLANCO.value);
+		}
+
+		// se verifica que no exista un usuario de ingreso registrado en la BD
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
+
+		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessageBusiness.USUARIO_INGRESO_EXISTE.value);
+		}
 	}
 }
