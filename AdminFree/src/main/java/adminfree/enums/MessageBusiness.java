@@ -33,7 +33,10 @@ public enum MessageBusiness {
 	CLAVE_NO_COINCIDE(Numero.SIETE.value.toString()),
 
 	/** 400 - La nueva contrasenia debe ser diferente a la contrasenia actual*/
-	CLAVE_ACTUAL_IGUAL(Numero.OCHO.value.toString());
+	CLAVE_ACTUAL_IGUAL(Numero.OCHO.value.toString()),
+	
+	/** 400 - El usuario de ingreso debe tener al menos 10 caracteres*/
+	USER_INGRESO_LONGITUD_NO_PERMITIDA(Numero.NUEVE.value.toString());
 
 	public final String value;
 

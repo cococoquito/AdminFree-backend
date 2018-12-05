@@ -160,8 +160,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			String securityPostPass,
 			Connection connection) throws Exception {
 
-		// se verifica que no exista un usuario de ingreso registrado en la BD
+		// se obtiene el valor del usuario de ingreso
 		String usuarioIngreso = usuario.getUsuarioIngreso();
+
+		// se verifica la longitud del usuario de ingreso
+		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.value) {
+			throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+		}
+
+		// se verifica que no exista un usuario de ingreso registrado en la BD
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
 				MapperJDBC.get(Mapper.COUNT),
@@ -333,10 +340,18 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param usuario, DTO 	que contiene los datos del usuario
 	 */
 	public void modificarDatosCuenta(UsuarioDTO usuario, Connection connection) throws Exception {
+		// se obtiene el valor del usuario de ingreso
+		String userIngreso = usuario.getUsuarioIngreso();
+
+		// se verifica la longitud del usuario de ingreso
+		if (userIngreso == null  || userIngreso.length() < Numero.DIEZ.value) {
+			throw new BusinessException(MessageBusiness.USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+		}
+
 		insertUpdate(connection,
 				SQLConfiguraciones.UPDATE_DATOS_CUENTA,
 				ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
-				ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
+				ValueSQL.get(userIngreso, Types.VARCHAR),
 				ValueSQL.get(usuario.getId(), Types.BIGINT));
 	}
 
