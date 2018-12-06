@@ -130,6 +130,8 @@ public class SeguridadBusiness extends CommonDAO {
 					// se construye la respuesta a retornar
 					WelcomeDTO welcome = new WelcomeDTO();
 					welcome.setCredenciales(credenciales);
+
+					// este dato se utiliza para el modulo configuracion de cuenta
 					user.setUsuarioIngreso(usuario);
 					welcome.setUsuario(user);
 
