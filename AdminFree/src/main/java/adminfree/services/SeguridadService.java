@@ -14,7 +14,7 @@ import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.AdminClientesDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.WelcomeDTO;
-import adminfree.enums.MessageBusiness;
+import adminfree.enums.MessagesKeyBusiness;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.CerrarRecursos;
 import adminfree.utilities.EstrategiaCriptografica;
@@ -95,7 +95,7 @@ public class SeguridadService {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_USER.value);
+		throw new BusinessException(MessagesKeyBusiness.KEY_AUTENTICACION_FALLIDA_USER.value);
 	}
 
 	/**

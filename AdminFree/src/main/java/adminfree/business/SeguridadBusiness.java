@@ -10,7 +10,7 @@ import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.dtos.seguridad.WelcomeDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
-import adminfree.enums.MessageBusiness;
+import adminfree.enums.MessagesKeyBusiness;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ValueSQL;
@@ -77,7 +77,7 @@ public class SeguridadBusiness extends CommonDAO {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_ADMIN.value);
+		throw new BusinessException(MessagesKeyBusiness.KEY_AUTENTICACION_FALLIDA_ADMIN.value);
 	}
 
 	/**
@@ -142,6 +142,6 @@ public class SeguridadBusiness extends CommonDAO {
 		}
 
 		// si llega a este punto es porque las credenciales son fallidas
-		throw new BusinessException(MessageBusiness.AUTENTICACION_FALLIDA_USER.value);
+		throw new BusinessException(MessagesKeyBusiness.KEY_AUTENTICACION_FALLIDA_USER.value);
 	}
 }
