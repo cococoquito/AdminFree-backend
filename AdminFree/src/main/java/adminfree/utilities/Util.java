@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Numero;
+import adminfree.enums.TipoCampo;
 
 /**
  * Clase que contiene los metodo utilitarios del sistema
@@ -24,6 +25,21 @@ public class Util {
 			for (Estado estado : estados) {
 				if (estado.id.equals(id)) {
 					return estado.nombre;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Metodo que permite obtener el nombre de un tipo de campo
+	 */
+	public static String getTipoCampoNombre(Integer id) {
+		if (id != null) {
+			TipoCampo[] tipos = TipoCampo.values();
+			for (TipoCampo tipo : tipos) {
+				if (tipo.id.equals(id)) {
+					return tipo.nombre;
 				}
 			}
 		}
