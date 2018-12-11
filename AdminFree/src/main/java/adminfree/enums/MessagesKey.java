@@ -6,7 +6,7 @@ package adminfree.enums;
  * @author Carlos andres diaz
  *
  */
-public enum MessagesKeyBusiness {
+public enum MessagesKey {
 
 	/** 401 - No estas autorizado para acceder a este recurso.*/
 	KEY_AUTORIZACION_FALLIDA(Numero.UNO.value.toString()),
@@ -43,7 +43,7 @@ public enum MessagesKeyBusiness {
 
 	public final String value;
 
-	private MessagesKeyBusiness(String value) {
+	private MessagesKey(String value) {
 		this.value = value;
 	}
 }

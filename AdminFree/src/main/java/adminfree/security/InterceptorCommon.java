@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import adminfree.dtos.transversal.MessageResponseDTO;
-import adminfree.enums.MessagesKeyBusiness;
+import adminfree.enums.MessagesKey;
 
 /**
  * Contiene los metodos comunes para los interceptores de la APP
@@ -34,7 +34,7 @@ public class InterceptorCommon implements HandlerInterceptor {
 	 * autorizada para acceder al recurso solicitado
 	 */
 	protected boolean returnResponseFallido(HttpServletResponse response) throws Exception {
-		MessageResponseDTO msjResponse = new MessageResponseDTO(MessagesKeyBusiness.KEY_AUTORIZACION_FALLIDA.value);
+		MessageResponseDTO msjResponse = new MessageResponseDTO(MessagesKey.KEY_AUTORIZACION_FALLIDA.value);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 		response.getWriter().write(new ObjectMapper().writeValueAsString(msjResponse));

@@ -14,7 +14,7 @@ import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
-import adminfree.enums.MessagesKeyBusiness;
+import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
@@ -365,17 +365,17 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se verifica si La contrasenia de verificación coincide
 		if (!nuevaClave.equals(datos.getClaveVerificacion())) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_CLAVE_VERIFICACION_NO_COINCIDE.value);
+			throw new BusinessException(MessagesKey.KEY_CLAVE_VERIFICACION_NO_COINCIDE.value);
 		}
 
 		// la nueva contrasenia debe tener minimo la cantidad permitida
 		if (nuevaClave.length() < Numero.DOCE.value) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_CLAVE_LONGITUD_NO_PERMITIDA.value);
+			throw new BusinessException(MessagesKey.KEY_CLAVE_LONGITUD_NO_PERMITIDA.value);
 		}
 
 		// la nueva contrasenia no puede contener espacios en blanco
 		if (nuevaClave.indexOf(' ') != -1) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_CLAVE_ESPACIOS_BLANCO.value);
+			throw new BusinessException(MessagesKey.KEY_CLAVE_ESPACIOS_BLANCO.value);
 		}
 
 		// se verifica si la contrasenia actual coincide con la clave del usuario
@@ -385,13 +385,13 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(idUsuario, Types.BIGINT));
 		String claveActualMD5 = criptografica.encriptarPassword(datos.getClaveActual(), securityPostPass);
 		if (!claveUser.equals(claveActualMD5)) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_CLAVE_NO_COINCIDE.value);
+			throw new BusinessException(MessagesKey.KEY_CLAVE_NO_COINCIDE.value);
 		}
 
 		// se verifica que la clave nueva no sea igual a la clave del usuario
 		String nuevaClaveMD5 = criptografica.encriptarPassword(nuevaClave, securityPostPass);
 		if (nuevaClaveMD5.equals(claveUser)) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_CLAVE_ACTUAL_IGUAL.value);
+			throw new BusinessException(MessagesKey.KEY_CLAVE_ACTUAL_IGUAL.value);
 		}
 
 		// actualiza la clave de ingreso en la BD
@@ -441,12 +441,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se verifica la longitud del usuario de ingreso
 		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.value) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
+			throw new BusinessException(MessagesKey.KEY_USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
 		}
 
 		// el usuario de ingreso no puede contener espacios en blanco
 		if (usuarioIngreso.indexOf(' ') != -1) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_USER_INGRESO_ESPACIOS_BLANCO.value);
+			throw new BusinessException(MessagesKey.KEY_USER_INGRESO_ESPACIOS_BLANCO.value);
 		}
 
 		// se verifica que no exista un usuario de ingreso registrado en la BD
@@ -457,7 +457,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.value.longValue())) {
-			throw new BusinessException(MessagesKeyBusiness.KEY_USUARIO_INGRESO_EXISTE.value);
+			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
 		}
 	}
 }
