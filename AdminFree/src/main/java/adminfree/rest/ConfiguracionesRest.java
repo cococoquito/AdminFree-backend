@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
@@ -275,6 +276,24 @@ public class ConfiguracionesRest {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarClaveIngreso ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener las restricciones asociados a un tipo de campo
+	 *
+	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
+	 * @return Lista de restricciones parametrizadas en la BD
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_RESTRICCIONES,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getRestriciones(@RequestParam Integer tipoCampo) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getRestriciones(tipoCampo));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getRestriciones ", e.getMessage());
 		}
 	}
 }

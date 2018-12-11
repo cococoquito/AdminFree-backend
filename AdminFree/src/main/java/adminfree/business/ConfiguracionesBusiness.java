@@ -10,6 +10,7 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
@@ -399,6 +400,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.ACTUALIZAR_CLAVE_INGRESO,
 				ValueSQL.get(nuevaClaveMD5, Types.VARCHAR),
 				ValueSQL.get(idUsuario, Types.BIGINT));
+	}
+
+	/**
+	 * Metodo que permite obtener las restricciones asociados a un tipo de campo
+	 *
+	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
+	 * @return Lista de restricciones parametrizadas en la BD
+	 */
+	@SuppressWarnings("unchecked")
+	public List<RestriccionDTO> getRestriciones(Integer tipoCampo, Connection connection) throws Exception {
+		return (List<RestriccionDTO>) find(connection,
+				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
+				MapperJDBC.get(Mapper.GET_RESTRICCIONES),
+				ValueSQL.get(tipoCampo, Types.INTEGER));
 	}
 
 	/**

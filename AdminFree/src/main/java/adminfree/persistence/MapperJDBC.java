@@ -7,6 +7,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Mapper;
@@ -86,6 +87,10 @@ public class MapperJDBC {
 
 			case GET_SOLO_UN_STRING:
 				result = getSoloUnString(res);
+				break;
+
+			case GET_RESTRICCIONES:
+				result = getRestricciones(res);
 				break;
 		}
 		return result;
@@ -237,5 +242,21 @@ public class MapperJDBC {
 			return res.getString(Numero.UNO.value);
 		}
 		return null;
+	}
+
+	/**
+	 * Mapper para obtener las restricciones asociadas al tipo de campo
+	 */
+	public Object getRestricciones(ResultSet res) throws Exception {
+		List<RestriccionDTO> restricciones = new ArrayList<>();
+		RestriccionDTO restriccion;
+		while (res.next()) {
+			restriccion = new RestriccionDTO();
+			restriccion.setId(res.getInt(Numero.UNO.value));
+			restriccion.setNombre(res.getString(Numero.DOS.value));
+			restriccion.setDescripcion(res.getString(Numero.TRES.value));
+			restricciones.add(restriccion);
+		}
+		return restricciones;
 	}
 }

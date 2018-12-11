@@ -13,6 +13,7 @@ import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -256,6 +257,25 @@ public class ConfiguracionesService {
 
 			// se procede a modificar la clave de ingreso del usuario
 			new ConfiguracionesBusiness().modificarClaveIngreso(datos, this.securityPostPass, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener las restricciones asociados a un tipo de campo
+	 *
+	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
+	 * @return Lista de restricciones parametrizadas en la BD
+	 */
+	public List<RestriccionDTO> getRestriciones(Integer tipoCampo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a obtener las restricciones asociada al tipo de campo
+			return new ConfiguracionesBusiness().getRestriciones(tipoCampo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

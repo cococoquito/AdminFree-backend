@@ -68,4 +68,7 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para obtener la clave de ingreso */
 	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO = ?";
+
+	/** Se utiliza para obtener las restricciones para los campos de ingreso */
+	public static final String GET_RESTRICCIONES_CAMPO_INGRESO = "SELECT RE.ID_RESTRICCION, RE.NOMBRE, RE.DESCRIPCION FROM RESTRICCIONES RE JOIN RESTRICCIONES_TIPO_CAMPO RT ON (RT.RESTRICCION = RE.ID_RESTRICCION) WHERE RT.TIPO_CAMPO = ?";
 }

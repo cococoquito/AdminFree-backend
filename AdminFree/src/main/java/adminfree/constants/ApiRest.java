@@ -22,6 +22,7 @@ public class ApiRest {
 	public static final String GENERAR_CLAVE_USUARIO = "generarclaveuser";
 	public static final String MODIFICAR_DATOS_CUENTA = "updateaccount";
 	public static final String MODIFICAR_CLAVE = "updateclaveuser";
+	public static final String GET_RESTRICCIONES = "getrestricciones";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";
