@@ -82,5 +82,5 @@ public class SQLConfiguraciones {
 	public static final String INSERTAR_RESTRICCIONES_CAMPO = "INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (?1,?2)";
 
 	/** Se utiliza para registrar los items del campo de entrada tipo lista desplegable */
-	public static final String INSERTAR_SELECT_ITEMS = "INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (?1,?2)";
+	public static final String INSERTAR_SELECT_ITEMS = "INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (?1,'?2')";
 }

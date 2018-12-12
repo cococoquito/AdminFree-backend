@@ -283,6 +283,24 @@ public class ConfiguracionesService {
 	}
 
 	/**
+	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 */
+	public void validarCampoEntradaExistente(CampoEntradaDTO campo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a ejecutar la validacion
+			new ConfiguracionesBusiness().validarCampoEntradaExistente(campo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
 	 * Servicio que permite soportar el proceso de negocio para
 	 * la creacion del campo de entrada de informacion
 	 *

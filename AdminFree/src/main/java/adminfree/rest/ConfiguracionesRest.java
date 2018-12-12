@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
+import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
@@ -294,6 +295,52 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.getRestriciones(tipoCampo));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getRestriciones ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 */
+	@RequestMapping(
+			value = ApiRest.VALIDAR_CAMPO_ENTRADA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> validarCampoEntradaExistente(@RequestBody CampoEntradaDTO campo) {
+		try {
+			// se procede a ejecutar la validacion
+			this.configuracionesService.validarCampoEntradaExistente(campo);
+
+			// si llega a este punto es porque la validacion paso sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarCampoEntradaExistente ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite soportar el proceso de negocio para
+	 * la creacion del campo de entrada de informacion
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 * @return DTO con los datos del nuevo campo de entrada creado
+	 */
+	@RequestMapping(
+			value = ApiRest.CREAR_CAMPO_ENTRADA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> crearCampoEntrada(@RequestBody CampoEntradaDTO campo) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.crearCampoEntrada(campo));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearCampoEntrada ", e.getMessage());
 		}
 	}
 }

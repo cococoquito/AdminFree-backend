@@ -1,10 +1,10 @@
 package adminfree.constants;
 
 /**
- * 
+ *
  * Clase Constante que contiene todos los valores relacionados a los servicios
  * REST
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -23,6 +23,8 @@ public class ApiRest {
 	public static final String MODIFICAR_DATOS_CUENTA = "updateaccount";
 	public static final String MODIFICAR_CLAVE = "updateclaveuser";
 	public static final String GET_RESTRICCIONES = "getrestricciones";
+	public static final String VALIDAR_CAMPO_ENTRADA = "valcampoentrada";
+	public static final String CREAR_CAMPO_ENTRADA = "crearcampoin";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";

@@ -420,33 +420,37 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 */
+	public void validarCampoEntradaExistente(CampoEntradaDTO campo, Connection connection) throws Exception {
+		// se verifica que no exista otro campo con el mismo tipo y nombre
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
+
+		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+		}
+	}
+
+	/**
 	 * Metodo que permite soportar el proceso de negocio para
 	 * la creacion del campo de entrada de informacion
 	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
 	 * @return DTO con los datos del nuevo campo de entrada creado
 	 */
-	public CampoEntradaDTO crearCampoEntrada(
-			CampoEntradaDTO campo,
-			Connection connection) throws Exception {
-
+	public CampoEntradaDTO crearCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
 		// se obtiene los datos basico del campo
 		Integer tipoCampo = campo.getTipoCampo();
 		String nombre = campo.getNombre();
 		Long idCliente = campo.getIdCliente();
-
-		// se verifica que no exista otro campo con el mismo tipo y nombre
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
-				MapperJDBC.get(Mapper.COUNT),
-				ValueSQL.get(tipoCampo, Types.INTEGER),
-				ValueSQL.get(nombre, Types.VARCHAR),
-				ValueSQL.get(idCliente, Types.BIGINT));
-
-		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.value.longValue())) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
-		}
 
 		// bloque para la creacion del campo de entrada informacion
 		try {
