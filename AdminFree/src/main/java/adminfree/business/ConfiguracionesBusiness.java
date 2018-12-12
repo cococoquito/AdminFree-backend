@@ -539,11 +539,22 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCampo, identificador del campo de entrada informacion
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
+	@SuppressWarnings("unchecked")
 	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
-		return (CampoEntradaDTO) find(connection,
+		// se consulta los datos del campo con sus restricciones
+		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
 				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_ENTRADA),
 				ValueSQL.get(idCampo, Types.BIGINT));
+
+		// se consulta los items si el campo es una lista desplegable
+		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getTipoCampo())) {
+			campo.setItems((List<ItemDTO>)find(connection,
+							SQLConfiguraciones.GET_ITEMS,
+							MapperJDBC.get(Mapper.GET_ITEMS),
+							ValueSQL.get(idCampo, Types.BIGINT)));
+		}
+		return campo;
 	}
 
 	/**

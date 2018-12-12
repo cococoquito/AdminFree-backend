@@ -49,7 +49,7 @@ public class MapperJDBC {
 
 	/**
 	 * Metodo que es ejecutado para MAPPEAR los datos de acuerdo a un ResultSet
-	 * 
+	 *
 	 * @param res, resultado de acuerdo a la consulta
 	 * @return objecto con sus datos configurado de acuerdo al Mapper
 	 */
@@ -101,6 +101,10 @@ public class MapperJDBC {
 
 			case GET_DETALLE_CAMPO_ENTRADA:
 				result = getDetalleCampoEntrada(res);
+				break;
+
+			case GET_ITEMS:
+				result = getItems(res);
 				break;
 		}
 		return result;
@@ -214,7 +218,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener la lista de USUARIOS asociados a un cliente
 	 */
-	public Object getUsuariosCliente(ResultSet res) throws Exception {
+	private Object getUsuariosCliente(ResultSet res) throws Exception {
 		List<UsuarioDTO> usuarios = new ArrayList<>();
 		UsuarioDTO usuario;
 		String modulos;
@@ -237,7 +241,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener el identificador de una entidad
 	 */
-	public Long getId(ResultSet res) throws Exception {
+	private Long getId(ResultSet res) throws Exception {
 		if (res.next()) {
 			return res.getLong(Numero.UNO.value);
 		}
@@ -247,7 +251,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener solo un valor texto
 	 */
-	public String getSoloUnString(ResultSet res) throws Exception {
+	private String getSoloUnString(ResultSet res) throws Exception {
 		if (res.next()) {
 			return res.getString(Numero.UNO.value);
 		}
@@ -257,7 +261,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener las restricciones asociadas al tipo de campo
 	 */
-	public Object getRestricciones(ResultSet res) throws Exception {
+	private Object getRestricciones(ResultSet res) throws Exception {
 		List<RestriccionDTO> restricciones = new ArrayList<>();
 		RestriccionDTO restriccion;
 		while (res.next()) {
@@ -273,7 +277,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener los campos de entrada informacion asociado a un cliente
 	 */
-	public Object getCamposEntrada(ResultSet res) throws Exception {
+	private Object getCamposEntrada(ResultSet res) throws Exception {
 		List<CampoEntradaDTO> campos = new ArrayList<>();
 		CampoEntradaDTO campo;
 		while (res.next()) {
@@ -290,8 +294,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener el detalle de un campo de entrada de informacion
 	 */
-	public CampoEntradaDTO getDetalleCampoEntrada(ResultSet res) throws Exception {
-		Long ZERO = Numero.ZERO.value.longValue();
+	private CampoEntradaDTO getDetalleCampoEntrada(ResultSet res) throws Exception {
 		CampoEntradaDTO campoEntrada = null;
 		while (res.next()) {
 			// para la primera iteracion se debe configurar los datos basicos
@@ -306,13 +309,11 @@ public class MapperJDBC {
 				campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.value));
 				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
 
-				// se configura las restricciones y los items para este campo
+				// se configura las restricciones para este campo
 				configurarRestriccion(campoEntrada, res);
-				configurarItem(campoEntrada, ZERO, res);
 			} else {
-				// para las demas iteraciones solamente se debe configurar las restriciones e items
+				// para las demas iteraciones solamente se debe configurar las restriciones
 				configurarRestriccion(campoEntrada, res);
-				configurarItem(campoEntrada, ZERO, res);
 			}
 		}
 		return campoEntrada;
@@ -333,15 +334,17 @@ public class MapperJDBC {
 	}
 
 	/**
-	 * Metodo que permite configurar un ITEM para un campo de entrada tipo select-item
+	 * Metodo que permite obtener los items de un campos tipo select item
 	 */
-	private void configurarItem(CampoEntradaDTO campo, Long ZERO, ResultSet res) throws Exception {
-		Long idItem = res.getLong(Numero.NUEVE.value);
-		if (idItem != null && idItem > ZERO) {
-			ItemDTO item = new ItemDTO();
-			item.setId(idItem);
-			item.setValor(res.getString(Numero.DIEZ.value));
-			campo.agregarItem(item);
+	private List<ItemDTO> getItems(ResultSet res) throws Exception {
+		List<ItemDTO> items = new ArrayList<>();
+		ItemDTO item;
+		while (res.next()) {
+			item = new ItemDTO();
+			item.setId(res.getLong(Numero.UNO.value));
+			item.setValor(res.getString(Numero.DOS.value));
+			items.add(item);
 		}
+		return items;
 	}
 }
