@@ -369,7 +369,7 @@ public class ConfiguracionesRest {
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
 	@RequestMapping(
-			value = ApiRest.GET_DETEALLE_CAMPO_ENTRADA,
+			value = ApiRest.GET_DETALLE_CAMPO_ENTRADA,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> getDetalleCampoEntrada(@RequestParam Long idCampo) {
