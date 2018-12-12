@@ -4,21 +4,21 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * DTO que contiene los atributos para los campos de ingreso de informacion
+ * DTO que contiene los atributos para los campos de entrada de informacion
  * 
  * @author Carlos Andres Diaz
  *
  */
-public class CampoIngresoDTO implements Serializable {
+public class CampoEntradaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Es el identificador del campo de ingreso */
+	/** Es el identificador del campo de entrada */
 	private Long id;
 
-	/** Nombre del campo de ingreso */
+	/** Nombre del campo de entrada */
 	private String nombre;
 
-	/** Descripcion del campo de ingreso */
+	/** Descripcion del campo de entrada */
 	private String descripcion;
 
 	/** Identifica el tipo de campo (input,list,check,date) */

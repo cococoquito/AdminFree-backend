@@ -39,7 +39,10 @@ public enum MessagesKey {
 	KEY_USER_INGRESO_LONGITUD_NO_PERMITIDA(Numero.NUEVE.value.toString()),
 
 	/** 400 - El usuario de ingreso no puede contener espacios en blanco*/
-	KEY_USER_INGRESO_ESPACIOS_BLANCO(Numero.DIEZ.value.toString());
+	KEY_USER_INGRESO_ESPACIOS_BLANCO(Numero.DIEZ.value.toString()),
+
+	/** 400 - Ya existe un campo de entrada de informacion con el mismo tipo y nombre*/
+	KEY_EXISTE_CAMPO_ENTRADA(Numero.ONCE.value.toString());
 
 	public final String value;
 

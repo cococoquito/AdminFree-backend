@@ -9,6 +9,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
+import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -414,6 +415,27 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
 				MapperJDBC.get(Mapper.GET_RESTRICCIONES),
 				ValueSQL.get(tipoCampo, Types.INTEGER));
+	}
+
+	/**
+	 * Metodo que permite soportar el proceso de negocio para
+	 * la creacion del campo de entrada de informacion
+	 * 
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 */
+	public void crearCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
+		// se verifica que no exista otro campo con el mismo tipo y nombre
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
+
+		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+		}
 	}
 
 	/**
