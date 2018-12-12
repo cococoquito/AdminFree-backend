@@ -8,6 +8,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -96,6 +97,10 @@ public class MapperJDBC {
 
 			case GET_CAMPOS_ENTRADA:
 				result = getCamposEntrada(res);
+				break;
+
+			case GET_DETALLE_CAMPO_ENTRADA:
+				result = getDetalleCampoEntrada(res);
 				break;
 		}
 		return result;
@@ -280,5 +285,63 @@ public class MapperJDBC {
 			campos.add(campo);
 		}
 		return campos;
+	}
+
+	/**
+	 * Mapper para obtener el detalle de un campo de entrada de informacion
+	 */
+	public CampoEntradaDTO getDetalleCampoEntrada(ResultSet res) throws Exception {
+		Long ZERO = Numero.ZERO.value.longValue();
+		CampoEntradaDTO campoEntrada = null;
+		while (res.next()) {
+			// para la primera iteracion se debe configurar los datos basicos
+			if (campoEntrada == null) {
+
+				// se configura los datos basicos
+				campoEntrada = new CampoEntradaDTO();
+				campoEntrada.setId(res.getLong(Numero.UNO.value));
+				campoEntrada.setIdCliente(res.getLong(Numero.DOS.value));
+				campoEntrada.setNombre(res.getString(Numero.TRES.value));
+				campoEntrada.setDescripcion(res.getString(Numero.CUATRO.value));
+				campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.value));
+				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
+
+				// se configura las restricciones y los items para este campo
+				configurarRestriccion(campoEntrada, res);
+				configurarItem(campoEntrada, ZERO, res);
+			} else {
+				// para las demas iteraciones solamente se debe configurar las restriciones e items
+				configurarRestriccion(campoEntrada, res);
+				configurarItem(campoEntrada, ZERO, res);
+			}
+		}
+		return campoEntrada;
+	}
+
+	/**
+	 * Metodo que permite configurar la restriccion para un campo de entrada
+	 */
+	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
+		Integer idRestriccion = res.getInt(Numero.SEIS.value);
+		if (idRestriccion != null && idRestriccion > Numero.ZERO.value) {
+			RestriccionDTO restriccion = new RestriccionDTO();
+			restriccion.setId(idRestriccion);
+			restriccion.setNombre(res.getString(Numero.SIETE.value));
+			restriccion.setDescripcion(res.getString(Numero.OCHO.value));
+			campo.agregarRestriccion(restriccion);
+		}
+	}
+
+	/**
+	 * Metodo que permite configurar un ITEM para un campo de entrada tipo select-item
+	 */
+	private void configurarItem(CampoEntradaDTO campo, Long ZERO, ResultSet res) throws Exception {
+		Long idItem = res.getLong(Numero.NUEVE.value);
+		if (idItem != null && idItem > ZERO) {
+			ItemDTO item = new ItemDTO();
+			item.setId(idItem);
+			item.setValor(res.getString(Numero.DIEZ.value));
+			campo.agregarItem(item);
+		}
 	}
 }

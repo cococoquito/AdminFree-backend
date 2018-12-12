@@ -534,6 +534,19 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite obtener el detalle de un campo de entrada de informacion
+	 *
+	 * @param idCampo, identificador del campo de entrada informacion
+	 * @return DTO con los datos del campo de entrada de informacion
+	 */
+	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
+		return (CampoEntradaDTO) find(connection,
+				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
+				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_ENTRADA),
+				ValueSQL.get(idCampo, Types.BIGINT));
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

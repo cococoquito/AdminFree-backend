@@ -338,4 +338,23 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener el detalle de un campo de entrada de informacion
+	 *
+	 * @param idCampo, identificador del campo de entrada informacion
+	 * @return DTO con los datos del campo de entrada de informacion
+	 */
+	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar el detalle del campo de entrada informacion
+			return new ConfiguracionesBusiness().getDetalleCampoEntrada(idCampo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

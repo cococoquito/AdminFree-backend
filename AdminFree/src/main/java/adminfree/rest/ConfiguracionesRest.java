@@ -361,4 +361,22 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getCamposEntrada ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener el detalle de un campo de entrada de informacion
+	 *
+	 * @param idCampo, identificador del campo de entrada informacion
+	 * @return DTO con los datos del campo de entrada de informacion
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DETEALLE_CAMPO_ENTRADA,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetalleCampoEntrada(@RequestParam Long idCampo) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getDetalleCampoEntrada(idCampo));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleCampoEntrada ", e.getMessage());
+		}
+	}
 }
