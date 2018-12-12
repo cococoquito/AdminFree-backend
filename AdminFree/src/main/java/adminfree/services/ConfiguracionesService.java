@@ -305,7 +305,7 @@ public class ConfiguracionesService {
 	 * la creacion del campo de entrada de informacion
 	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
-	 * @return DTO con los datos del nuevo campo de entrada creado
+	 * @return DTO con los datos del nuevo campo de entrada
 	 */
 	public CampoEntradaDTO crearCampoEntrada(CampoEntradaDTO campo) throws Exception {
 		Connection connection = null;
@@ -313,7 +313,7 @@ public class ConfiguracionesService {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
-			// se procede a crear el campo de entrada
+			// se procede a crear el campo de entrada de informacion
 			return new ConfiguracionesBusiness().crearCampoEntrada(campo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);

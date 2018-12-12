@@ -299,7 +299,7 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
+	 * Servicio que permite validar si el campo de entrada existe para el tipo, nombre y cliente
 	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
 	 */
@@ -327,7 +327,7 @@ public class ConfiguracionesRest {
 	 * la creacion del campo de entrada de informacion
 	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
-	 * @return DTO con los datos del nuevo campo de entrada creado
+	 * @return DTO con los datos del nuevo campo de entrada
 	 */
 	@RequestMapping(
 			value = ApiRest.CREAR_CAMPO_ENTRADA,

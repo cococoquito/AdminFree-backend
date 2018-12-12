@@ -444,7 +444,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * la creacion del campo de entrada de informacion
 	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
-	 * @return DTO con los datos del nuevo campo de entrada creado
+	 * @return DTO con los datos del nuevo campo de entrada
 	 */
 	public CampoEntradaDTO crearCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
 		// se obtiene los datos basico del campo

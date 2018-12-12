@@ -27,7 +27,7 @@ public class ValidarCampoEntradaExistenteTest {
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Test que permite modificar los privilegios del usuario
+	 * Test que permite validar si el campo de entrada existe para el tipo, nombre y cliente
 	 */
 	@Test
 	public void validarCampoEntradaExistente() {
