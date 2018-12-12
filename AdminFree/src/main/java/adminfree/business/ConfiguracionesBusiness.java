@@ -11,6 +11,7 @@ import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -18,6 +19,7 @@ import adminfree.enums.Estado;
 import adminfree.enums.Mapper;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
+import adminfree.enums.TipoCampo;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
@@ -420,21 +422,96 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite soportar el proceso de negocio para
 	 * la creacion del campo de entrada de informacion
-	 * 
+	 *
 	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 * @return DTO con los datos del nuevo campo de entrada creado
 	 */
-	public void crearCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
+	public CampoEntradaDTO crearCampoEntrada(
+			CampoEntradaDTO campo,
+			Connection connection) throws Exception {
+
+		// se obtiene los datos basico del campo
+		Integer tipoCampo = campo.getTipoCampo();
+		String nombre = campo.getNombre();
+		Long idCliente = campo.getIdCliente();
+
 		// se verifica que no exista otro campo con el mismo tipo y nombre
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
 				MapperJDBC.get(Mapper.COUNT),
-				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
+				ValueSQL.get(tipoCampo, Types.INTEGER),
+				ValueSQL.get(nombre, Types.VARCHAR),
+				ValueSQL.get(idCliente, Types.BIGINT));
 
 		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.value.longValue())) {
 			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+		}
+
+		// bloque para la creacion del campo de entrada informacion
+		try {
+			connection.setAutoCommit(false);
+
+			// se procede a crear el campo de entrada informacion
+			insertUpdate(connection,
+					SQLConfiguraciones.INSERTAR_CAMPO_ENTRADA,
+					ValueSQL.get(idCliente, Types.BIGINT),
+					ValueSQL.get(tipoCampo, Types.INTEGER),
+					ValueSQL.get(nombre, Types.VARCHAR),
+					ValueSQL.get(campo.getDescripcion(), Types.VARCHAR));
+
+			// se obtiene el identificador del campo creado
+			Long idCampo = (Long) find(connection,
+					SQLConfiguraciones.GET_ID_CAMPO_ENTRADA,
+					MapperJDBC.get(Mapper.GET_ID),
+					ValueSQL.get(tipoCampo, Types.INTEGER),
+					ValueSQL.get(nombre, Types.VARCHAR),
+					ValueSQL.get(idCliente, Types.BIGINT));
+			String idCampoString = idCampo.toString();
+
+			// se utiliza para las inserciones para las restricciones e items si aplica
+			List<String> dmls = new ArrayList<>();
+
+			// restriciones para el nuevo campo
+			List<RestriccionDTO> restricciones = campo.getRestricciones();
+			if (restricciones != null && !restricciones.isEmpty()) {
+				for (RestriccionDTO restriccion : restricciones) {
+					dmls.add(SQLConfiguraciones.INSERTAR_RESTRICCIONES_CAMPO.
+							replace(CommonConstant.INTERROGACION_1, idCampoString).
+							replace(CommonConstant.INTERROGACION_2, restriccion.getId().toString()));
+				}
+			}
+
+			// items para el nuevo campo solo si es lista desplegable
+			if (campo.getTipoCampo().equals(TipoCampo.LISTA_DESPLEGABLE.id)) {
+				List<ItemDTO> items = campo.getItems();
+				if (items != null && !items.isEmpty()) {
+					for (ItemDTO item : items) {
+						dmls.add(SQLConfiguraciones.INSERTAR_SELECT_ITEMS.
+								replace(CommonConstant.INTERROGACION_1, idCampoString).
+								replace(CommonConstant.INTERROGACION_2, item.getValor()));
+					}
+				}
+			}
+
+			// se ejecuta las insercciones para los items y restricciones
+			if (!dmls.isEmpty()) {
+				batchSinInjection(connection, dmls);
+			}
+			connection.commit();
+
+			// se configura el DTO de retorno
+			CampoEntradaDTO resultado = new CampoEntradaDTO();
+			resultado.setId(idCampo);
+			resultado.setNombre(nombre);
+			resultado.setTipoCampo(tipoCampo);
+			resultado.setTipoCampoNombre(Util.getTipoCampoNombre(tipoCampo));
+			return resultado;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 

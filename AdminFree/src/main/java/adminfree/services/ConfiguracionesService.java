@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
+import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -276,6 +277,26 @@ public class ConfiguracionesService {
 
 			// se procede a obtener las restricciones asociada al tipo de campo
 			return new ConfiguracionesBusiness().getRestriciones(tipoCampo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite soportar el proceso de negocio para
+	 * la creacion del campo de entrada de informacion
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 * @return DTO con los datos del nuevo campo de entrada creado
+	 */
+	public CampoEntradaDTO crearCampoEntrada(CampoEntradaDTO campo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a crear el campo de entrada
+			return new ConfiguracionesBusiness().crearCampoEntrada(campo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
