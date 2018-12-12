@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import adminfree.constants.CommonConstant;
+import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -91,6 +92,10 @@ public class MapperJDBC {
 
 			case GET_RESTRICCIONES:
 				result = getRestricciones(res);
+				break;
+
+			case GET_CAMPOS_ENTRADA:
+				result = getCamposEntrada(res);
 				break;
 		}
 		return result;
@@ -258,5 +263,22 @@ public class MapperJDBC {
 			restricciones.add(restriccion);
 		}
 		return restricciones;
+	}
+
+	/**
+	 * Mapper para obtener los campos de entrada informacion asociado a un cliente
+	 */
+	public Object getCamposEntrada(ResultSet res) throws Exception {
+		List<CampoEntradaDTO> campos = new ArrayList<>();
+		CampoEntradaDTO campo;
+		while (res.next()) {
+			campo = new CampoEntradaDTO();
+			campo.setId(res.getLong(Numero.UNO.value));
+			campo.setTipoCampo(res.getInt(Numero.DOS.value));
+			campo.setTipoCampoNombre(Util.getTipoCampoNombre(campo.getTipoCampo()));
+			campo.setNombre(res.getString(Numero.TRES.value));
+			campos.add(campo);
+		}
+		return campos;
 	}
 }

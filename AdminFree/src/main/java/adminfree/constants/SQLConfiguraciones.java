@@ -83,4 +83,7 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para registrar los items del campo de entrada tipo lista desplegable */
 	public static final String INSERTAR_SELECT_ITEMS = "INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (?1,'?2')";
+
+	/** Se utiliza para obtener los campos de entrada de informacion asociado a un cliente */
+	public static final String GET_CAMPOS_ENTRADA_INFORMACION = "SELECT ID_CAMPO, TIPO_CAMPO, NOMBRE FROM CAMPOS_ENTRADA WHERE CLIENTE =?";
 }

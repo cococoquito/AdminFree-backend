@@ -319,4 +319,23 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los campos de entrada de informacion asociado a un cliente
+	 *
+	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
+	 * @return lista DTO con la informacion de los campos de entrada
+	 */
+	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los campos de entrada asociado al cliente
+			return new ConfiguracionesBusiness().getCamposEntrada(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

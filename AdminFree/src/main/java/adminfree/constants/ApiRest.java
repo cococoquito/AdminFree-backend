@@ -25,6 +25,7 @@ public class ApiRest {
 	public static final String GET_RESTRICCIONES = "getrestricciones";
 	public static final String VALIDAR_CAMPO_ENTRADA = "valcampoentrada";
 	public static final String CREAR_CAMPO_ENTRADA = "crearcampoin";
+	public static final String GET_CAMPOS_ENTRADA = "getcamposin";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";

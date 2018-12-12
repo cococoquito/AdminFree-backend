@@ -520,6 +520,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite obtener los campos de entrada de informacion asociado a un cliente
+	 *
+	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
+	 * @return lista DTO con la informacion de los campos de entrada
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente, Connection connection) throws Exception {
+		return (List<CampoEntradaDTO>) find(connection,
+				SQLConfiguraciones.GET_CAMPOS_ENTRADA_INFORMACION,
+				MapperJDBC.get(Mapper.GET_CAMPOS_ENTRADA),
+				ValueSQL.get(idCliente, Types.BIGINT));
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

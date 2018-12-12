@@ -343,4 +343,22 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearCampoEntrada ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los campos de entrada de informacion asociado a un cliente
+	 *
+	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
+	 * @return lista DTO con la informacion de los campos de entrada
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_CAMPOS_ENTRADA,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getCamposEntrada(@RequestParam Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getCamposEntrada(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getCamposEntrada ", e.getMessage());
+		}
+	}
 }
