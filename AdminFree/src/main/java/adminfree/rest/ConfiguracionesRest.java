@@ -379,4 +379,25 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleCampoEntrada ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que soporta el proceso de negocio para la eliminacion de un campo de entrada
+	 * 
+	 * @param idCampo, identificador del campo de entrada
+	 */
+	@RequestMapping(
+			value = ApiRest.DELETE_CAMPO_ENTRADA,
+			method = RequestMethod.DELETE,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> eliminarCampoEntrada(@RequestParam Long idCampo) {
+		try {
+			// se procede eliminar el campo de entrada
+			this.configuracionesService.eliminarCampoEntrada(idCampo);
+
+			// si llega a este punto es porque el proceso se ejecuto bien
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCampoEntrada ", e.getMessage());
+		}
+	}
 }

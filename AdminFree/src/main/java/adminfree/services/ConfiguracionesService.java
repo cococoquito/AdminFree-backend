@@ -357,4 +357,22 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que soporta el proceso de negocio para la eliminacion de un campo de entrada
+	 * 
+	 * @param idCampo, identificador del campo de entrada
+	 */
+	public void eliminarCampoEntrada(Long idCampo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede eliminar el campo de entrada informacion
+			new ConfiguracionesBusiness().eliminarCampoEntrada(idCampo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

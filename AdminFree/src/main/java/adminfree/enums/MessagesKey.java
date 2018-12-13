@@ -42,7 +42,10 @@ public enum MessagesKey {
 	KEY_USER_INGRESO_ESPACIOS_BLANCO(Numero.DIEZ.value.toString()),
 
 	/** 400 - Ya existe un campo de entrada de informacion con el mismo tipo y nombre*/
-	KEY_EXISTE_CAMPO_ENTRADA(Numero.ONCE.value.toString());
+	KEY_EXISTE_CAMPO_ENTRADA(Numero.ONCE.value.toString()),
+
+	/** 400 - El campo de entrada de información que intenta eliminar tiene una nomenclatura asociada*/
+	KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA(Numero.DOCE.value.toString());
 
 	public final String value;
 

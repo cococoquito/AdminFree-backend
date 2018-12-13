@@ -92,4 +92,16 @@ public class SQLConfiguraciones {
 
 	/** Se consulta los items de un campo tipo selectitems */
 	public static final String GET_ITEMS = "SELECT ID_ITEM, VALOR FROM SELECT_ITEMS WHERE CAMPO =?";
+
+	/** Se utiliza si intentan eliminar un campo y esta tiene asociado una nomenclatura */
+	public static final String COUNT_CAMPO_NOMENCLATURA_ASOCIADA = "SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE CAMPO =?";
+
+	/** Se utiliza para eliminar las restricciones de un campo de entrada */
+	public static final String DELETE_CAMPO_RESTRICCIONES = "DELETE FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
+
+	/** Se utiliza para eliminar los items de un campo de entrada */
+	public static final String DELETE_CAMPO_ITEMS = "DELETE FROM SELECT_ITEMS WHERE CAMPO =?";
+
+	/** Se utiliza para eliminar el campo de entrada de informacion */
+	public static final String DELETE_CAMPO_ENTRADA = "DELETE FROM CAMPOS_ENTRADA WHERE ID_CAMPO =?";
 }

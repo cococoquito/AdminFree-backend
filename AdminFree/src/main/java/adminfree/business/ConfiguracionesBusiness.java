@@ -558,6 +558,51 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que soporta el proceso de negocio para la eliminacion de un campo de entrada
+	 * 
+	 * @param idCampo, identificador del campo de entrada
+	 */
+	public void eliminarCampoEntrada(Long idCampo, Connection connection) throws Exception {
+		// se verifica que no exista una nomenclatura asociada al campo
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_CAMPO_NOMENCLATURA_ASOCIADA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(idCampo, Types.BIGINT));
+
+		// si existe una nomenclatura asociada no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA.value);
+		}
+
+		// bloque para la eliminacion del campo
+		try {
+			connection.setAutoCommit(false);
+			String id = idCampo.toString();
+
+			// lista para enviar al batch de eliminacion
+			List<String> deletes = new ArrayList<>();
+
+			// SQL para eliminar las restricciones
+			deletes.add(SQLConfiguraciones.DELETE_CAMPO_RESTRICCIONES.replace(CommonConstant.INTERROGACION, id));
+
+			// SQL para eliminar los items
+			deletes.add(SQLConfiguraciones.DELETE_CAMPO_ITEMS.replace(CommonConstant.INTERROGACION, id));
+
+			// SQL para eliminar el campo de entrada
+			deletes.add(SQLConfiguraciones.DELETE_CAMPO_ENTRADA.replace(CommonConstant.INTERROGACION, id));
+
+			// se ejecuta el batch y se confirman los cambios
+			batchSinInjection(connection, deletes);
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {
