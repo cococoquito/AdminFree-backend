@@ -37,7 +37,7 @@ public class CrearCampoEntradaTest {
 		try {
 			// se crea el campo de entrada a insertar
 			CampoEntradaDTO campoEntrada = new CampoEntradaDTO();
-			campoEntrada.setTipoCampo(TipoCampo.CAMPO_FECHA.id);
+			campoEntrada.setTipoCampo(TipoCampo.LISTA_DESPLEGABLE.id);
 			campoEntrada.setNombre("Nro SAC");
 			campoEntrada.setDescripcion("Este es la descripcion del nuevo campo");
 			campoEntrada.setIdCliente(1l);
