@@ -159,7 +159,7 @@ public class ConfiguracionesRest {
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
-			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearUsuario ", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearUsuario ", e.getMessage());
 		}
 	}
 
@@ -340,7 +340,7 @@ public class ConfiguracionesRest {
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
-			return Util.getResponseError(SeguridadRest.class.getSimpleName() + ".crearCampoEntrada ", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearCampoEntrada ", e.getMessage());
 		}
 	}
 
@@ -382,7 +382,7 @@ public class ConfiguracionesRest {
 
 	/**
 	 * Servicio que soporta el proceso de negocio para la eliminacion de un campo de entrada
-	 * 
+	 *
 	 * @param idCampo, identificador del campo de entrada
 	 */
 	@RequestMapping(
@@ -396,6 +396,8 @@ public class ConfiguracionesRest {
 
 			// si llega a este punto es porque el proceso se ejecuto bien
 			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCampoEntrada ", e.getMessage());
 		}
