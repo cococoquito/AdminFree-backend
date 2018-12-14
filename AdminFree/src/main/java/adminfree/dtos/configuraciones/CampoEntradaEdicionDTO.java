@@ -23,6 +23,18 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	/** Es el identificador del campo de entrada */
 	private boolean tieneConsecutivos;
 
+	/** Indica si los datos basicas del campo se debe editar */
+	private boolean datosBasicosEditar;
+
+	/** Indica si el tipo y nombre fueron modificados */
+	private boolean tipoNombreEditar;
+
+	/** Indica si las restricciones fueron modificados */
+	private boolean restriccionesEditar;
+
+	/** Indica si los items fueron modificados */
+	private boolean itemsEditar;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo campoEntrada
 	 */
@@ -81,5 +93,65 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	 */
 	public void setTieneRestricciones(boolean tieneRestricciones) {
 		this.tieneRestricciones = tieneRestricciones;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo restriccionesEditar
+	 */
+	public boolean isRestriccionesEditar() {
+		return restriccionesEditar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * restriccionesEditar
+	 */
+	public void setRestriccionesEditar(boolean restriccionesEditar) {
+		this.restriccionesEditar = restriccionesEditar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo itemsEditar
+	 */
+	public boolean isItemsEditar() {
+		return itemsEditar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * itemsEditar
+	 */
+	public void setItemsEditar(boolean itemsEditar) {
+		this.itemsEditar = itemsEditar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo datosBasicosEditar
+	 */
+	public boolean isDatosBasicosEditar() {
+		return datosBasicosEditar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * datosBasicosEditar
+	 */
+	public void setDatosBasicosEditar(boolean datosBasicosEditar) {
+		this.datosBasicosEditar = datosBasicosEditar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tipoNombreEditar
+	 */
+	public boolean isTipoNombreEditar() {
+		return tipoNombreEditar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tipoNombreEditar
+	 */
+	public void setTipoNombreEditar(boolean tipoNombreEditar) {
+		this.tipoNombreEditar = tipoNombreEditar;
 	}
 }

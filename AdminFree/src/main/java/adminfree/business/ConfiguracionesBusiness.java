@@ -636,6 +636,128 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite editar un campo de entrada de informacion
+	 *
+	 * @param datos, DTO que contiene los datos a editar
+	 * @return DTO con los datos basico del campo
+	 */
+	public CampoEntradaDTO editarCampoEntradaInformacion(
+			CampoEntradaEdicionDTO datos,
+			Connection connection) throws Exception {
+
+		// lista que contiene los DMLS a ejecutar para la edicion
+		List<String> dmls = new ArrayList<>();
+
+		// se obtiene el campo de entrada a editar
+		CampoEntradaDTO campoEditar = datos.getCampoEntrada();
+
+		// ID del campo entrada, se utiliza para las sentencias
+		String idCampoSQL = campoEditar.getId().toString();
+
+		// ************* 01-ACTUALIZACION DE LOS DATOS BASICOS DEL CAMPO *************************
+		if (datos.isDatosBasicosEditar()) {
+
+			// si el tipo o nombre fueron modificados
+			if (datos.isTipoNombreEditar()) {
+
+				// el tipo del campo no se puede modificar si ya solicitaron un consecutivo
+				if (datos.isTieneConsecutivos()) {
+					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE.
+							replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
+							replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
+							replace(CommonConstant.INTERROGACION_3, idCampoSQL));
+				} else {
+					// se ejecuta la validacion si el campo existe para el nombre y tipo
+					validarCampoEntradaExistente(campoEditar, connection);
+
+					// se actualiza todos los atributos del campo
+					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_ENTRADA.
+							replace(CommonConstant.INTERROGACION_1, campoEditar.getTipoCampo().toString()).
+							replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
+							replace(CommonConstant.INTERROGACION_3, campoEditar.getDescripcion()).
+							replace(CommonConstant.INTERROGACION_4, idCampoSQL));
+				}
+			} else {
+				dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION.
+						replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
+						replace(CommonConstant.INTERROGACION_2, idCampoSQL));
+			}
+		}
+
+		// ************* 02-ACTUALIZACION DE LAS RESTRICCIONES DEL CAMPO *************************
+		if (datos.isRestriccionesEditar()) {
+
+			// se eliminan todas las restricciones asociadas al campo,
+			// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
+			dmls.add(SQLConfiguraciones.DELETE_CAMPO_RESTRICCIONES.replace(CommonConstant.INTERROGACION, idCampoSQL));
+
+			// se recorre todas las restricciones y se agrega en la lista dmls
+			List<RestriccionDTO> restricciones = campoEditar.getRestricciones();
+
+			// un campo puede quedar sin restricciones
+			if (restricciones != null && !restricciones.isEmpty()) {
+				for (RestriccionDTO restriccion : restricciones) {
+					dmls.add(SQLConfiguraciones.INSERTAR_RESTRICCIONES_CAMPO.
+							replace(CommonConstant.INTERROGACION_1, idCampoSQL).
+							replace(CommonConstant.INTERROGACION_2, restriccion.getId().toString()));
+				}
+			}
+		}
+
+		// ************* 03-ACTUALIZACION DE LOS ITEMS DEL CAMPO *********************************
+		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campoEditar.getTipoCampo()) && datos.isItemsEditar()) {
+
+			// los items para la lista desplegable son obligatorios
+			List<ItemDTO> items = campoEditar.getItems();
+
+			// se recorre todos los items del campo
+			for (ItemDTO item : items) {
+
+				// si es creacion del ITEM
+				if (item.getId() == null) {
+					dmls.add(SQLConfiguraciones.INSERTAR_SELECT_ITEMS.
+							replace(CommonConstant.INTERROGACION_1, idCampoSQL).
+							replace(CommonConstant.INTERROGACION_2, item.getValor()));
+				} else {
+					// si es edicion del ITEM
+					if (!item.isBorrar()) {
+						dmls.add(SQLConfiguraciones.UPDATE_SELECT_ITEMS.
+								replace(CommonConstant.INTERROGACION_1, item.getValor()).
+								replace(CommonConstant.INTERROGACION_2, item.getId().toString()));
+					} else {
+						// si es borrar se debe validar que no existan consecutivos asociado al campo
+						if (!datos.isTieneConsecutivos()) {
+							dmls.add(SQLConfiguraciones.DELETE_SELECT_ITEMS.replace(CommonConstant.INTERROGACION, item.getId().toString()));
+						}
+					}
+				}
+			}
+		}
+
+		// si hay lista dmls se ejecuta el batch
+		if (!dmls.isEmpty()) {
+			try {
+				connection.setAutoCommit(false);
+				batchSinInjection(connection, dmls);
+				connection.commit();
+			} catch (Exception e) {
+				connection.rollback();
+				throw e;
+			} finally {
+				connection.setAutoCommit(true);
+			}
+		}
+
+		// el proceso se ejecuto sin problemas si llega este punto
+		CampoEntradaDTO resultado = new CampoEntradaDTO();
+		resultado.setId(campoEditar.getId());
+		resultado.setNombre(campoEditar.getNombre());
+		resultado.setTipoCampo(campoEditar.getTipoCampo());
+		resultado.setTipoCampoNombre(Util.getTipoCampoNombre(campoEditar.getTipoCampo()));
+		return resultado;
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

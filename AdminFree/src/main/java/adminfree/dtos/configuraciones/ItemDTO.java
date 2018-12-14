@@ -20,6 +20,9 @@ public class ItemDTO implements Serializable {
 	/** Valor del Item */
 	private String valor;
 
+	/** indica si el item se debe borrar */
+	private boolean borrar;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
@@ -60,5 +63,20 @@ public class ItemDTO implements Serializable {
 	 */
 	public void setValor(String valor) {
 		this.valor = valor;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo borrar
+	 */
+	public boolean isBorrar() {
+		return borrar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param borrar
+	 */
+	public void setBorrar(boolean borrar) {
+		this.borrar = borrar;
 	}
 }

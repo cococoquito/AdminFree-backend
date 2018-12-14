@@ -84,6 +84,12 @@ public class SQLConfiguraciones {
 	/** Se utiliza para registrar los items del campo de entrada tipo lista desplegable */
 	public static final String INSERTAR_SELECT_ITEMS = "INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (?1,'?2')";
 
+	/** Se utiliza para actualizar el valor de un item*/
+	public static final String UPDATE_SELECT_ITEMS = "UPDATE SELECT_ITEMS SET VALOR = '?1' WHERE ID_ITEM = ?2";
+
+	/** Se utiliza para eliminar un item*/
+	public static final String DELETE_SELECT_ITEMS = "DELETE FROM SELECT_ITEMS WHERE ID_ITEM = ?";
+
 	/** Se utiliza para obtener los campos de entrada de informacion asociado a un cliente */
 	public static final String GET_CAMPOS_ENTRADA_INFORMACION = "SELECT ID_CAMPO, TIPO_CAMPO, NOMBRE FROM CAMPOS_ENTRADA WHERE CLIENTE =?";
 
@@ -110,4 +116,13 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para la edicion de las restricciones */
 	public static final String GET_RESTRICCIONES_EDICION = "SELECT RESTRICCION FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
+
+	/** DML para actualizar todos los campos de entrada para el campo */
+	public static final String UPDATE_CAMPO_ENTRADA = "UPDATE CAMPOS_ENTRADA SET TIPO_CAMPO =?1, NOMBRE ='?2', DESCRIPCION ='?3' WHERE ID_CAMPO =?4";
+
+	/** DML para actualizar la descripcion y el nombre del campo de entrada */
+	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1', NOMBRE ='?2' WHERE ID_CAMPO =?3";
+
+	/** DML para actualizar la descripcion del campo de entrada */
+	public static final String UPDATE_CAMPO_DESCRIPCION = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1' WHERE ID_CAMPO =?2";
 }

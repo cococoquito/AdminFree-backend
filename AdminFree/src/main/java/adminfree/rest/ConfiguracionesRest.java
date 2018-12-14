@@ -14,6 +14,7 @@ import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
+import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
@@ -418,6 +419,27 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.getDetalleCampoEntradaEdicion(idCampo));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleCampoEntradaEdicion ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite editar un campo de entrada de informacion
+	 *
+	 * @param datos, DTO que contiene los datos a editar
+	 * @return DTO con los datos basico del campo
+	 */
+	@RequestMapping(
+			value = ApiRest.EDITAR_CAMPO_ENTRADA,
+			method = RequestMethod.PUT,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> editarCampoEntradaInformacion(@RequestBody CampoEntradaEdicionDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.editarCampoEntradaInformacion(datos));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarCampoEntradaInformacion ", e.getMessage());
 		}
 	}
 }
