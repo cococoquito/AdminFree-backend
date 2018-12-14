@@ -10,6 +10,7 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
+import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
@@ -600,6 +601,38 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		} finally {
 			connection.setAutoCommit(true);
 		}
+	}
+
+	/**
+	 * Metodo que permite obtener el detalle de un campo de entrada para edicion
+	 *
+	 * @param idCampo, identificador del campo de entrada a editar
+	 * @return DTO con los datos del campo de entrada de informacion a editar
+	 */
+	@SuppressWarnings("unchecked")
+	public CampoEntradaEdicionDTO getDetalleCampoEntradaEdicion(Long idCampo, Connection connection) throws Exception {
+		// se consulta los datos del campo de entrada a editar
+		CampoEntradaEdicionDTO campo = (CampoEntradaEdicionDTO) find(connection,
+				SQLConfiguraciones.GET_DETALLE_CAMPO_EDITAR,
+				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_EDITAR),
+				ValueSQL.get(idCampo, Types.BIGINT));
+
+		// si tiene restricciones se procede a consultarlas
+		if (campo.isTieneRestricciones()) {
+			campo.getCampoEntrada().setRestricciones((List<RestriccionDTO>) find(connection,
+					SQLConfiguraciones.GET_RESTRICCIONES_EDICION,
+					MapperJDBC.get(Mapper.GET_RESTRICCIONES_EDICION),
+					ValueSQL.get(idCampo, Types.BIGINT)));
+		}
+
+		// se consulta los items si el campo es una lista desplegable
+		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getCampoEntrada().getTipoCampo())) {
+			campo.getCampoEntrada().setItems((List<ItemDTO>) find(connection,
+					SQLConfiguraciones.GET_ITEMS,
+					MapperJDBC.get(Mapper.GET_ITEMS),
+					ValueSQL.get(idCampo, Types.BIGINT)));
+		}
+		return campo;
 	}
 
 	/**

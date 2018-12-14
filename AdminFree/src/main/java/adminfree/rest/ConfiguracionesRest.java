@@ -402,4 +402,22 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarCampoEntrada ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener el detalle de un campo de entrada para edicion
+	 *
+	 * @param idCampo, identificador del campo de entrada a editar
+	 * @return DTO con los datos del campo de entrada de informacion a editar
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DETALLE_CAMPO_EDITAR,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetalleCampoEntradaEdicion(@RequestParam Long idCampo) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getDetalleCampoEntradaEdicion(idCampo));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleCampoEntradaEdicion ", e.getMessage());
+		}
+	}
 }

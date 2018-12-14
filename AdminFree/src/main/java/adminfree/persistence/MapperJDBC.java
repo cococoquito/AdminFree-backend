@@ -7,6 +7,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
+import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
@@ -106,6 +107,14 @@ public class MapperJDBC {
 			case GET_ITEMS:
 				result = getItems(res);
 				break;
+
+			case GET_DETALLE_CAMPO_EDITAR:
+				result = getDetalleCampoEditar(res);
+				break;
+
+			case GET_RESTRICCIONES_EDICION:
+				result = getRestriccionesEdicion(res);
+				break;				
 		}
 		return result;
 	}
@@ -346,5 +355,48 @@ public class MapperJDBC {
 			items.add(item);
 		}
 		return items;
+	}
+
+	/**
+	 * Metodo que permite obtener el detalle del campo a editar
+	 */
+	public CampoEntradaEdicionDTO getDetalleCampoEditar(ResultSet res) throws Exception {
+		CampoEntradaEdicionDTO detalle = null;
+		if (res.next()) {
+			// se configura los datos del campo
+			CampoEntradaDTO campo = new CampoEntradaDTO();
+			campo.setId(res.getLong(Numero.UNO.value));
+			campo.setIdCliente(res.getLong(Numero.DOS.value));
+			campo.setNombre(res.getString(Numero.TRES.value));
+			campo.setDescripcion(res.getString(Numero.CUATRO.value));
+			campo.setTipoCampo(res.getInt(Numero.CINCO.value));
+
+			// se utiliza para configurar las banderas
+			Integer nomenclaturas = res.getInt(Numero.SEIS.value);
+			Integer restricciones = res.getInt(Numero.SIETE.value);
+			Integer consecutivos = res.getInt(Numero.OCHO.value);
+
+			// se configura el detalle para la edicion
+			detalle = new CampoEntradaEdicionDTO();
+			detalle.setCampoEntrada(campo);
+			detalle.setTieneNomenclaturas(!Numero.ZERO.value.equals(nomenclaturas));
+			detalle.setTieneRestricciones(!Numero.ZERO.value.equals(restricciones));
+			detalle.setTieneConsecutivos(!Numero.ZERO.value.equals(consecutivos));
+		}
+		return detalle;
+	}
+
+	/**
+	 * Metodo que permite obtener las restricciones para edicion
+	 */
+	public List<RestriccionDTO> getRestriccionesEdicion(ResultSet res) throws Exception {
+		List<RestriccionDTO> restricciones = new ArrayList<>();
+		RestriccionDTO restriccion;
+		while (res.next()) {
+			restriccion = new RestriccionDTO();
+			restriccion.setId(res.getInt(Numero.UNO.value));
+			restricciones.add(restriccion);
+		}
+		return restricciones;
 	}
 }

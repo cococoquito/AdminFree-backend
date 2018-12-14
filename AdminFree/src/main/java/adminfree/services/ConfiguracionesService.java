@@ -13,6 +13,7 @@ import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
+import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -371,6 +372,25 @@ public class ConfiguracionesService {
 
 			// se procede eliminar el campo de entrada informacion
 			new ConfiguracionesBusiness().eliminarCampoEntrada(idCampo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener el detalle de un campo de entrada para edicion
+	 *
+	 * @param idCampo, identificador del campo de entrada a editar
+	 * @return DTO con los datos del campo de entrada de informacion a editar
+	 */
+	public CampoEntradaEdicionDTO getDetalleCampoEntradaEdicion(Long idCampo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a obtener el detalle del campo para la edicion
+			return new ConfiguracionesBusiness().getDetalleCampoEntradaEdicion(idCampo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
