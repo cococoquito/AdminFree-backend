@@ -660,6 +660,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// si el tipo o nombre fueron modificados
 			if (datos.isTipoNombreEditar()) {
 
+				// se ejecuta la validacion si el campo existe para el nombre y tipo
+				validarCampoEntradaExistente(campoEditar, connection);
+
 				// el tipo del campo no se puede modificar si ya solicitaron un consecutivo
 				if (datos.isTieneConsecutivos()) {
 					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE.
@@ -667,9 +670,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 							replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
 							replace(CommonConstant.INTERROGACION_3, idCampoSQL));
 				} else {
-					// se ejecuta la validacion si el campo existe para el nombre y tipo
-					validarCampoEntradaExistente(campoEditar, connection);
-
 					// se actualiza todos los atributos del campo
 					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_ENTRADA.
 							replace(CommonConstant.INTERROGACION_1, campoEditar.getTipoCampo().toString()).
@@ -705,7 +705,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		}
 
 		// ************* 03-ACTUALIZACION DE LOS ITEMS DEL CAMPO *********************************
-		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campoEditar.getTipoCampo()) && datos.isItemsEditar()) {
+		if (datos.isItemsEditar()) {
 
 			// los items para la lista desplegable son obligatorios
 			List<ItemDTO> items = campoEditar.getItems();
