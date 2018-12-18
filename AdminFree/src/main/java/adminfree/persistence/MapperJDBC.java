@@ -276,8 +276,7 @@ public class MapperJDBC {
 		while (res.next()) {
 			restriccion = new RestriccionDTO();
 			restriccion.setId(res.getInt(Numero.UNO.value));
-			restriccion.setNombre(res.getString(Numero.DOS.value));
-			restriccion.setDescripcion(res.getString(Numero.TRES.value));
+			restriccion.setDescripcion(res.getString(Numero.DOS.value));
 			restricciones.add(restriccion);
 		}
 		return restricciones;
@@ -336,8 +335,7 @@ public class MapperJDBC {
 		if (idRestriccion != null && idRestriccion > Numero.ZERO.value) {
 			RestriccionDTO restriccion = new RestriccionDTO();
 			restriccion.setId(idRestriccion);
-			restriccion.setNombre(res.getString(Numero.SIETE.value));
-			restriccion.setDescripcion(res.getString(Numero.OCHO.value));
+			restriccion.setDescripcion(res.getString(Numero.SIETE.value));
 			campo.agregarRestriccion(restriccion);
 		}
 	}
