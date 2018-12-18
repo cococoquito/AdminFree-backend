@@ -407,40 +407,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite obtener las restricciones asociados a un tipo de campo
-	 *
-	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
-	 * @return Lista de restricciones parametrizadas en la BD
-	 */
-	@SuppressWarnings("unchecked")
-	public List<RestriccionDTO> getRestriciones(Integer tipoCampo, Connection connection) throws Exception {
-		return (List<RestriccionDTO>) find(connection,
-				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
-				MapperJDBC.get(Mapper.GET_RESTRICCIONES),
-				ValueSQL.get(tipoCampo, Types.INTEGER));
-	}
-
-	/**
-	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
-	 *
-	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
-	 */
-	public void validarCampoEntradaExistente(CampoEntradaDTO campo, Connection connection) throws Exception {
-		// se verifica que no exista otro campo con el mismo tipo y nombre
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
-				MapperJDBC.get(Mapper.COUNT),
-				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
-
-		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.value.longValue())) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
-		}
-	}
-
-	/**
 	 * Metodo que permite soportar el proceso de negocio para
 	 * la creacion del campo de entrada de informacion
 	 *
@@ -814,6 +780,40 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.value.longValue())) {
 			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite obtener las restricciones asociados a un tipo de campo
+	 *
+	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
+	 * @return Lista de restricciones parametrizadas en la BD
+	 */
+	@SuppressWarnings("unchecked")
+	private List<RestriccionDTO> getRestricionesPorTipo(Integer tipoCampo, Connection connection) throws Exception {
+		return (List<RestriccionDTO>) find(connection,
+				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
+				MapperJDBC.get(Mapper.GET_RESTRICCIONES),
+				ValueSQL.get(tipoCampo, Types.INTEGER));
+	}
+
+	/**
+	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
+	 *
+	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
+	 */
+	private void validarCampoEntradaExistente(CampoEntradaDTO campo, Connection connection) throws Exception {
+		// se verifica que no exista otro campo con el mismo tipo y nombre
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
+
+		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
 		}
 	}
 }
