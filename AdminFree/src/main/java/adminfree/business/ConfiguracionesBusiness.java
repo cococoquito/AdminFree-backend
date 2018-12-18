@@ -724,6 +724,24 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite validar los datos de campo de entrada
+	 * esto aplica para el primer paso al momento de crear o editar el campo
+	 * 
+	 * @param campo, contiene los datos del campo de entrada
+	 * @return lista restricciones asociada al tipo de campo
+	 */
+	public List<RestriccionDTO> validarDatosCampoEntrada(
+			CampoEntradaDTO campo,
+			Connection connection) throws Exception {
+
+		// se valida si el cliente ya tiene el mismo campo con el tipo y nombre
+		validarCampoEntradaExistente(campo, connection);
+
+		// si todo es OK se retorna las restricciones asociada al tipo de campo
+		return getRestricionesPorTipo(campo.getTipoCampo(), connection);
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

@@ -30,7 +30,7 @@ public class EditarCampoEntradaInformacionTest {
 	private ConfiguracionesService configuracionesService;
 
 	/**
-	 * Test
+	 * Test que permite editar los campo de entrada de informacion
 	 */
 	@Test
 	public void editarCampoEntradaInformacion() {

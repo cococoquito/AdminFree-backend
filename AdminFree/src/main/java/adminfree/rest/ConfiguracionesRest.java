@@ -400,4 +400,26 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarCampoEntradaInformacion ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite validar los datos de campo de entrada
+	 * esto aplica para el primer paso al momento de crear o editar el campo
+	 *
+	 * @param campo, contiene los datos del campo de entrada
+	 * @return lista restricciones asociada al tipo de campo
+	 */
+	@RequestMapping(
+			value = ApiRest.VALIDAR_DATOS_ENTRADA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> validarDatosCampoEntrada(@RequestBody CampoEntradaDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.validarDatosCampoEntrada(datos));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarDatosCampoEntrada ", e.getMessage());
+		}
+	}
 }

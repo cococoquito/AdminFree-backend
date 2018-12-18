@@ -15,6 +15,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -372,6 +373,26 @@ public class ConfiguracionesService {
 
 			// se procede a editar el campo de entrada de informacion
 			return new ConfiguracionesBusiness().editarCampoEntradaInformacion(datos, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite validar los datos de campo de entrada
+	 * esto aplica para el primer paso al momento de crear o editar el campo
+	 *
+	 * @param campo, contiene los datos del campo de entrada
+	 * @return lista restricciones asociada al tipo de campo
+	 */
+	public List<RestriccionDTO> validarDatosCampoEntrada(CampoEntradaDTO campo) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se valida si los datos del campo son OK
+			return new ConfiguracionesBusiness().validarDatosCampoEntrada(campo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

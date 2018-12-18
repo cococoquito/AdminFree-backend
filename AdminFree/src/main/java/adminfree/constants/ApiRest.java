@@ -28,6 +28,7 @@ public class ApiRest {
 	public static final String DELETE_CAMPO_ENTRADA = "deletecampoin";
 	public static final String GET_DETALLE_CAMPO_EDITAR = "getdtlcampoedi";
 	public static final String EDITAR_CAMPO_ENTRADA = "editarcampoin";
+	public static final String VALIDAR_DATOS_ENTRADA = "vdatosin";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";
