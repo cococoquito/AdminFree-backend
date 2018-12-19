@@ -19,6 +19,9 @@ public class RestriccionDTO implements Serializable {
 	/** Descripcion de la restriccion */
 	private String descripcion;
 
+	/** indica si la restriccion aplica para algun campo */
+	private boolean aplica;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
@@ -46,5 +49,19 @@ public class RestriccionDTO implements Serializable {
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo aplica
+	 */
+	public boolean isAplica() {
+		return aplica;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param aplica
+	 */
+	public void setAplica(boolean aplica) {
+		this.aplica = aplica;
 	}
 }
