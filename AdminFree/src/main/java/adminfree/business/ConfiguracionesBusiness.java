@@ -583,12 +583,26 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_EDITAR),
 				ValueSQL.get(idCampo, Types.BIGINT));
 
+		// se obtiene todas las restricciones por el tipo de campo
+		List<RestriccionDTO> restricciones = getRestricionesPorTipo(campo.getCampoEntrada().getTipoCampo(), connection);
+		campo.getCampoEntrada().setRestricciones(restricciones);
+
 		// si tiene restricciones se procede a consultarlas
 		if (campo.isTieneRestricciones()) {
-			campo.getCampoEntrada().setRestricciones((List<RestriccionDTO>) find(connection,
+			List<RestriccionDTO> seleccionadas = (List<RestriccionDTO>) find(connection,
 					SQLConfiguraciones.GET_RESTRICCIONES_EDICION,
 					MapperJDBC.get(Mapper.GET_RESTRICCIONES_EDICION),
-					ValueSQL.get(idCampo, Types.BIGINT)));
+					ValueSQL.get(idCampo, Types.BIGINT));
+
+			// se configuran las restricciones seleccionadas
+			for (RestriccionDTO seleccionada: seleccionadas) {
+				for (RestriccionDTO restriccion: restricciones) {
+					if (seleccionada.getId().equals(restriccion.getId())) {
+						restriccion.setAplica(true);
+						break;
+					}
+				}
+			}
 		}
 
 		// se consulta los items si el campo es una lista desplegable
