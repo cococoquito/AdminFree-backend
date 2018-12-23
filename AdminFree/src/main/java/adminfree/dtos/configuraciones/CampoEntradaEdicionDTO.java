@@ -26,9 +26,6 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	/** Indica si los datos basicas del campo se debe editar */
 	private boolean datosBasicosEditar;
 
-	/** Indica si el tipo y nombre fueron modificados */
-	private boolean tipoNombreEditar;
-
 	/** Indica si las restricciones fueron modificados */
 	private boolean restriccionesEditar;
 
@@ -138,20 +135,5 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	 */
 	public void setDatosBasicosEditar(boolean datosBasicosEditar) {
 		this.datosBasicosEditar = datosBasicosEditar;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo tipoNombreEditar
-	 */
-	public boolean isTipoNombreEditar() {
-		return tipoNombreEditar;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * tipoNombreEditar
-	 */
-	public void setTipoNombreEditar(boolean tipoNombreEditar) {
-		this.tipoNombreEditar = tipoNombreEditar;
 	}
 }

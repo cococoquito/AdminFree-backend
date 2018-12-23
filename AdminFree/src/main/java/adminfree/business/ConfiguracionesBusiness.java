@@ -636,32 +636,10 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// ************* 01-ACTUALIZACION DE LOS DATOS BASICOS DEL CAMPO *************************
 		if (datos.isDatosBasicosEditar()) {
-
-			// si el tipo o nombre fueron modificados
-			if (datos.isTipoNombreEditar()) {
-
-				// se ejecuta la validacion si el campo existe para el nombre y tipo
-				validarCampoEntradaExistente(campoEditar, connection);
-
-				// el tipo del campo no se puede modificar si ya solicitaron un consecutivo
-				if (datos.isTieneConsecutivos()) {
-					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE.
-							replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
-							replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
-							replace(CommonConstant.INTERROGACION_3, idCampoSQL));
-				} else {
-					// se actualiza todos los atributos del campo
-					dmls.add(SQLConfiguraciones.UPDATE_CAMPO_ENTRADA.
-							replace(CommonConstant.INTERROGACION_1, campoEditar.getTipoCampo().toString()).
-							replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
-							replace(CommonConstant.INTERROGACION_3, campoEditar.getDescripcion()).
-							replace(CommonConstant.INTERROGACION_4, idCampoSQL));
-				}
-			} else {
-				dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION.
-						replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
-						replace(CommonConstant.INTERROGACION_2, idCampoSQL));
-			}
+			dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE.
+					replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
+					replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
+					replace(CommonConstant.INTERROGACION_3, idCampoSQL));
 		}
 
 		// ************* 02-ACTUALIZACION DE LAS RESTRICCIONES DEL CAMPO *************************

@@ -117,12 +117,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para la edicion de las restricciones */
 	public static final String GET_RESTRICCIONES_EDICION = "SELECT RESTRICCION FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
 
-	/** DML para actualizar todos los campos de entrada para el campo */
-	public static final String UPDATE_CAMPO_ENTRADA = "UPDATE CAMPOS_ENTRADA SET TIPO_CAMPO =?1, NOMBRE ='?2', DESCRIPCION ='?3' WHERE ID_CAMPO =?4";
-
 	/** DML para actualizar la descripcion y el nombre del campo de entrada */
 	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1', NOMBRE ='?2' WHERE ID_CAMPO =?3";
-
-	/** DML para actualizar la descripcion del campo de entrada */
-	public static final String UPDATE_CAMPO_DESCRIPCION = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1' WHERE ID_CAMPO =?2";
 }

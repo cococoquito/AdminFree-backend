@@ -44,9 +44,7 @@ public class EditarCampoEntradaInformacionTest {
 			// configuracion de los datos basicos
 			detalle.getCampoEntrada().setDescripcion("prueva nro uno");
 			detalle.getCampoEntrada().setNombre("Campo uno");
-			detalle.getCampoEntrada().setTipoCampo(TipoCampo.CAMPO_FECHA.id);
 			detalle.setDatosBasicosEditar(false);
-			detalle.setTipoNombreEditar(false);
 
 			// configuracion de las restricciones
 			detalle.getCampoEntrada().setRestricciones(null);
