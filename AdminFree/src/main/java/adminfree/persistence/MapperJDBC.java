@@ -336,6 +336,7 @@ public class MapperJDBC {
 			RestriccionDTO restriccion = new RestriccionDTO();
 			restriccion.setId(idRestriccion);
 			restriccion.setDescripcion(res.getString(Numero.SIETE.value));
+			restriccion.setAplica(true);
 			campo.agregarRestriccion(restriccion);
 		}
 	}
