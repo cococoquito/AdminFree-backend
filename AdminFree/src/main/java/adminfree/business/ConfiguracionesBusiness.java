@@ -730,7 +730,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		validarCampoEntradaExistente(campo, connection);
 
 		// si todo es OK se retorna las restricciones asociada al tipo de campo
-		return getRestricionesPorTipo(campo.getTipoCampo(), connection);
+		List<RestriccionDTO> restricciones = null;
+		if (campo.isConsultarRestricciones()) {
+			restricciones = getRestricionesPorTipo(campo.getTipoCampo(), connection);
+		}
+		return restricciones;
 	}
 
 	/**

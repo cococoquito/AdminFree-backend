@@ -37,6 +37,9 @@ public class CampoEntradaDTO implements Serializable {
 	/** Son los items para este campo, solo aplica para lista desplegable */
 	private List<ItemDTO> items;
 
+	/** indica si se debe consultar las restricciones */
+	private boolean consultarRestricciones;
+
 	/**
 	 * Metodo que permite agregar una restriccion para este campo
 	 */
@@ -172,5 +175,20 @@ public class CampoEntradaDTO implements Serializable {
 	 */
 	public void setItems(List<ItemDTO> items) {
 		this.items = items;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo consultarRestricciones
+	 */
+	public boolean isConsultarRestricciones() {
+		return consultarRestricciones;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param consultarRestricciones
+	 */
+	public void setConsultarRestricciones(boolean consultarRestricciones) {
+		this.consultarRestricciones = consultarRestricciones;
 	}
 }
