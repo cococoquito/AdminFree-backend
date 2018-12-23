@@ -369,6 +369,7 @@ public class MapperJDBC {
 			campo.setNombre(res.getString(Numero.TRES.value));
 			campo.setDescripcion(res.getString(Numero.CUATRO.value));
 			campo.setTipoCampo(res.getInt(Numero.CINCO.value));
+			campo.setTipoCampoNombre(Util.getTipoCampoNombre(campo.getTipoCampo()));
 
 			// se utiliza para configurar las banderas
 			Integer nomenclaturas = res.getInt(Numero.SEIS.value);
