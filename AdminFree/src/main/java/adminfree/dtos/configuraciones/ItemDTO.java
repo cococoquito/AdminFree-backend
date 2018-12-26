@@ -23,6 +23,9 @@ public class ItemDTO implements Serializable {
 	/** indica si el item se debe borrar */
 	private boolean borrar;
 
+	/** indica si el item fue modificado */
+	private boolean modificado;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
@@ -73,10 +76,24 @@ public class ItemDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param borrar
+	 * Metodo que permite configurar el nuevo valor para el atributo @param borrar
 	 */
 	public void setBorrar(boolean borrar) {
 		this.borrar = borrar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo modificado
+	 */
+	public boolean isModificado() {
+		return modificado;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * modificado
+	 */
+	public void setModificado(boolean modificado) {
+		this.modificado = modificado;
 	}
 }
