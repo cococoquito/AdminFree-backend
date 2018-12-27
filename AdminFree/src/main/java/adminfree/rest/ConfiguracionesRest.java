@@ -144,6 +144,30 @@ public class ConfiguracionesRest {
 	}
 
 	/**
+	 * Servicio que permite validar los datos del usuario para la creacion o modificacion
+	 *
+	 * @param usuario, DTO con los datos del usuario a crear o modificar
+	 */
+	@RequestMapping(
+			value = ApiRest.VALIDAR_DATOS_USER,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> validarDatosUsuario(UsuarioDTO usuario) {
+		try {
+			// se procede a ejecutar las validaciones
+			this.configuracionesService.validarDatosUsuario(usuario);
+
+			// si llega a este punto es porque las validaciones pasaron sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarDatosUsuario ", e.getMessage());
+		}
+	}
+
+	/**
 	 * Servicio que permite crear el usuario con sus privilegios en el sistema
 	 *
 	 * @param usuario, DTO que contiene los datos del usuarios

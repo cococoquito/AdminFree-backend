@@ -153,6 +153,24 @@ public class ConfiguracionesService {
 	}
 
 	/**
+	 * Servicio que permite validar los datos del usuario para la creacion o modificacion
+	 *
+	 * @param usuario, DTO con los datos del usuario a crear o modificar
+	 */
+	public void validarDatosUsuario(UsuarioDTO usuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a validar los datos del usuario
+			new ConfiguracionesBusiness().validarDatosUsuario(usuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
 	 * Servicio que permite crear el usuario con sus privilegios en el sistema
 	 *
 	 * @param usuario, DTO que contiene los datos del usuarios

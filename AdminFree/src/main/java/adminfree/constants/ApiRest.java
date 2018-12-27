@@ -16,6 +16,7 @@ public class ApiRest {
 	public static final String MODIFICAR_CLIENTE = "modificarcliente";
 	public static final String ELIMINAR_CLIENTE = "eliminarcliente";
 	public static final String GET_CLIENTES_USUARIO = "clientesusuario";
+	public static final String VALIDAR_DATOS_USER = "validardatosuser";
 	public static final String CREAR_USUARIO = "crearuser";
 	public static final String MODIFICAR_ESTADO_USUARIO = "updatestateuser";
 	public static final String MODIFICAR_PRIVILEGIOS_USUARIO = "updateprivilegiosuser";

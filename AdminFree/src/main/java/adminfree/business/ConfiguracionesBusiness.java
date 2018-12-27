@@ -154,6 +154,16 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite validar los datos del usuario para la creacion o modificacion
+	 *
+	 * @param usuario, DTO con los datos del usuario a crear o modificar
+	 */
+	public void validarDatosUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
+		// se aplica las validaciones de negocio para el usuario de ingreso
+		validarUsuarioIngreso(usuario.getUsuarioIngreso(), connection);
+	}
+
+	/**
 	 * Metodo que permite crear el usuario con sus privilegios en el sistema
 	 *
 	 * @param usuario, DTO que contiene los datos del usuario
@@ -164,12 +174,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			UsuarioDTO usuario,
 			String securityPostPass,
 			Connection connection) throws Exception {
-
-		// se aplica las validaciones de negocio para el usuario de ingreso
-		String usuarioIngreso = usuario.getUsuarioIngreso();
-		validarUsuarioIngreso(usuarioIngreso, connection);
-
-		// bloque para la creacion del usuario con sus privilegios
 		try {
 			connection.setAutoCommit(false);
 			EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
@@ -179,6 +183,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se encripta la nueva clave para ser almacenada en la BD
 			String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
+
+			// se obtiene el valor del usuario de ingreso
+			String usuarioIngreso = usuario.getUsuarioIngreso();
 
 			// se procede a crear el USUARIO en la BD
 			insertUpdate(connection,
