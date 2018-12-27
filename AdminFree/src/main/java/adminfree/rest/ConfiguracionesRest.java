@@ -153,7 +153,7 @@ public class ConfiguracionesRest {
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
-	public ResponseEntity<Object> validarDatosUsuario(UsuarioDTO usuario) {
+	public ResponseEntity<Object> validarDatosUsuario(@RequestBody UsuarioDTO usuario) {
 		try {
 			// se procede a ejecutar las validaciones
 			this.configuracionesService.validarDatosUsuario(usuario);
