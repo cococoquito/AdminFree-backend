@@ -259,44 +259,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite modificar los privilegios de un Usuario
-	 *
-	 * @param usuario, DTO que contiene el identificador y los privilegios a modificar
-	 */
-	public void modificarPrivilegiosUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
-		// lista que contiene los DMLS a ejecutar por el batch
-		List<String> dmls = new ArrayList<>();
-
-		// se obtiene el identificador del usuario
-		String idUser = usuario.getId().toString();
-
-		// DML para eliminar los privilegios asociados al usuario que llega por parametro
-		dmls.add(SQLConfiguraciones.DELETE_PRIVILEGIOS_USER_.replace(CommonConstant.INTERROGACION, idUser));
-
-		// se configura los inserts de los nuevos privilegios asociado al user
-		List<String> privilegios = usuario.getModulosTokens();
-		if (privilegios != null && !privilegios.isEmpty()) {
-			for (String privilegio : privilegios) {
-				dmls.add(SQLConfiguraciones.INSERTAR_PRIVILEGIOS_USER_.
-						replace(CommonConstant.INTERROGACION_1, idUser).
-						replace(CommonConstant.INTERROGACION_2, privilegio));
-			}
-		}
-
-		// se procede a ejecutar los DMLS atravez del batch de JDBC
-		try {
-			connection.setAutoCommit(false);
-			batchSinInjection(connection, dmls);
-			connection.commit();
-		} catch (Exception e) {
-			connection.rollback();
-			throw e;
-		} finally {
-			connection.setAutoCommit(true);
-		}
-	}
-
-	/**
 	 * Metodo que permite generar una nueva clave de ingreso
 	 * para el usuario que llega por parametro
 	 *

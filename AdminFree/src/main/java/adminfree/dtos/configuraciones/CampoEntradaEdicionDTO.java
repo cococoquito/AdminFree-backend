@@ -23,7 +23,7 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	/** Es el identificador del campo de entrada */
 	private boolean tieneConsecutivos;
 
-	/** Indica si los datos basicas del campo se debe editar */
+	/** Indica si los datos basicos del campo se debe editar */
 	private boolean datosBasicosEditar;
 
 	/** Indica si las restricciones fueron modificados */
