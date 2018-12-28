@@ -14,6 +14,7 @@ import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
+import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
@@ -238,6 +239,57 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// este DTO contiene todos los datos del nuevo usuario en la BD
 			return nuevoUsuario;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	/**
+	 * Metodo que permite editar los datos de un usuario
+	 *
+	 * @param datos, DTO que contiene los datos a modificar
+	 */
+	public void editarUsuario(UsuarioEdicionDTO datos, Connection connection) throws Exception {
+		try {
+			connection.setAutoCommit(false);
+
+			// se obtiene los datos del usuario
+			UsuarioDTO usuario = datos.getUsuario();
+
+			// modificaciones para los datos basicos del usuario
+			if (datos.isDatosBasicosEditar()) {
+				insertUpdate(connection, SQLConfiguraciones.UPDATE_DATOS_CUENTA,
+						ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
+						ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
+						ValueSQL.get(usuario.getId(), Types.BIGINT));
+			}
+
+			// modificaciones de los modulos asignados para el usuario
+			if (datos.isModulosEditar()) {
+				List<String> dmls = new ArrayList<>();
+				String idUser = usuario.getId().toString();
+
+				// DML para eliminar los privilegios asociados al usuario que llega por parametro
+				// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
+				dmls.add(SQLConfiguraciones.DELETE_PRIVILEGIOS_USER_.replace(CommonConstant.INTERROGACION, idUser));
+
+				// se configura los inserts de los nuevos privilegios asociado al usuario
+				List<String> tokens = usuario.getModulosTokens();
+				for (String token : tokens) {
+					dmls.add(SQLConfiguraciones.INSERTAR_PRIVILEGIOS_USER_
+							.replace(CommonConstant.INTERROGACION_1, idUser)
+							.replace(CommonConstant.INTERROGACION_2, token));
+				}
+
+				// se ejecuta el batch modificando los modulos asignados
+				batchSinInjection(connection, dmls);
+			}
+
+			// se debe confirmar los cambios en BD
+			connection.commit();
 		} catch (Exception e) {
 			connection.rollback();
 			throw e;

@@ -12,7 +12,6 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
-import adminfree.enums.TipoCampo;
 import adminfree.services.ConfiguracionesService;
 
 /**

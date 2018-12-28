@@ -16,6 +16,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
+import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -184,6 +185,24 @@ public class ConfiguracionesService {
 
 			// se procede a crear el usuario con sus privilegios
 			return new ConfiguracionesBusiness().crearUsuario(usuario, this.securityPostPass, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite editar los datos de un usuario
+	 *
+	 * @param datos, DTO que contiene los datos a modificar
+	 */
+	public void editarUsuario(UsuarioEdicionDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a editar los datos del usuario
+			new ConfiguracionesBusiness().editarUsuario(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

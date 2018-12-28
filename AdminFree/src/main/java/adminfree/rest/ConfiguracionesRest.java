@@ -16,6 +16,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
 import adminfree.utilities.BusinessException;
@@ -185,6 +186,30 @@ public class ConfiguracionesRest {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearUsuario ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite editar los datos de un usuario
+	 *
+	 * @param datos, DTO que contiene los datos a modificar
+	 */
+	@RequestMapping(
+			value = ApiRest.EDITAR_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> editarUsuario(@RequestBody UsuarioEdicionDTO datos) {
+		try {
+			// se procede a editar los datos del usuario
+			this.configuracionesService.editarUsuario(datos);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarUsuario ", e.getMessage());
 		}
 	}
 
