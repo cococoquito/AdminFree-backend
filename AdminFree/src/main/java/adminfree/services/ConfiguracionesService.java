@@ -15,6 +15,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -412,6 +413,25 @@ public class ConfiguracionesService {
 
 			// se valida si los datos del campo son OK
 			return new ConfiguracionesBusiness().validarDatosCampoEntrada(campo, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener todas las nomenclaturas asociadas a un cliente
+	 *
+	 * @param idCliente, identificador del cliente quien le pertenece las nomenclaturas
+	 * @return lista de nomenclaturas con sus atributos configuradas
+	 */
+	public List<NomenclaturaDTO> getNomenclaturas(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a obtener todas las nomenclaturas asociadas a un cliente
+			return new ConfiguracionesBusiness().getNomenclaturas(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

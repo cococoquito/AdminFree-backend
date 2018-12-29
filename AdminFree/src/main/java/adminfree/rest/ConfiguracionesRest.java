@@ -448,4 +448,22 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarDatosCampoEntrada ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener todas las nomenclaturas asociadas a un cliente
+	 *
+	 * @param idCliente, identificador del cliente quien le pertenece las nomenclaturas
+	 * @return lista de nomenclaturas con sus atributos configuradas
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_NOMENCLATURAS,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getNomenclaturas(@RequestParam Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getNomenclaturas(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getNomenclaturas ", e.getMessage());
+		}
+	}
 }

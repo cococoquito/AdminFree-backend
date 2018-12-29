@@ -13,6 +13,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -756,6 +757,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			restricciones = getRestricionesPorTipo(campo.getTipoCampo(), connection);
 		}
 		return restricciones;
+	}
+
+	/**
+	 * Metodo que permite obtener todas las nomenclaturas asociadas a un cliente
+	 *
+	 * @param idCliente, identificador del cliente quien le pertenece las nomenclaturas
+	 * @return lista de nomenclaturas con sus atributos configuradas
+	 */
+	@SuppressWarnings("unchecked")
+	public List<NomenclaturaDTO> getNomenclaturas(Long idCliente, Connection connection) throws Exception {
+		return (List<NomenclaturaDTO>) find(connection,
+				SQLConfiguraciones.GET_NOMENCLATURAS,
+				MapperJDBC.get(Mapper.GET_NOMENCLATURAS),
+				ValueSQL.get(idCliente, Types.BIGINT));
 	}
 
 	/**

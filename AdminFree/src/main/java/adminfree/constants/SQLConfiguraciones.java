@@ -119,4 +119,7 @@ public class SQLConfiguraciones {
 
 	/** DML para actualizar la descripcion y el nombre del campo de entrada */
 	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1', NOMBRE ='?2' WHERE ID_CAMPO =?3";
+
+	/** Se utiliza para obtener todas las nomenclaturas asociadas a un cliente */
+	public static final String GET_NOMENCLATURAS = "SELECT ID_NOMENCLATURA, NOMENCLATURA, DESCRIPCION, CONSECUTIVO_INICIAL FROM NOMENCLATURAS WHERE CLIENTE =?";
 }

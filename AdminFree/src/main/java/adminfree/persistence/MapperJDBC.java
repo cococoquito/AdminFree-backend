@@ -10,6 +10,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -114,9 +115,30 @@ public class MapperJDBC {
 
 			case GET_RESTRICCIONES_EDICION:
 				result = getRestriccionesEdicion(res);
-				break;				
+				break;
+
+			case GET_NOMENCLATURAS:
+				result = getNomenclaturas(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Mapper para obtener las nomenclaturas
+	 */
+	private List<NomenclaturaDTO> getNomenclaturas(ResultSet res) throws Exception {
+		List<NomenclaturaDTO> resultado = new ArrayList<>();
+		NomenclaturaDTO nomenclatura;
+		while (res.next()) {
+			nomenclatura = new NomenclaturaDTO();
+			nomenclatura.setId(res.getLong(Numero.UNO.value));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+			resultado.add(nomenclatura);
+		}
+		return resultado;
 	}
 
 	/**
