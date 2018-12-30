@@ -16,6 +16,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
@@ -464,6 +465,25 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.getNomenclaturas(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getNomenclaturas ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite crear una nomenclatura
+	 *
+	 * @param datos, contiene los datos de la creacion
+	 * @return Nomenclatura con el identificador generado
+	 */
+	@RequestMapping(
+			value = ApiRest.CREAR_NOMENCLATURA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> crearNomenclatura(@RequestBody NomenclaturaCreacionDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.crearNomenclatura(datos));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearNomenclatura ", e.getMessage());
 		}
 	}
 }

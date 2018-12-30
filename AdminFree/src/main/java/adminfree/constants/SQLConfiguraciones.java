@@ -9,6 +9,9 @@ package adminfree.constants;
  */
 public class SQLConfiguraciones {
 
+	/** SQL que se utiliza para obtener el ultimo ID generado de una tabla especifica*/
+	public static final String GET_MAX_ID = "SELECT MAX(?) FROM ?";
+
 	/** SQL para obtener todos los CLIENTES del sistema */
 	public static final String LISTAR_CLIENTES = "SELECT ID_CLIENTE, TOKEN, NOMBRE, TELEFONOS, EMAILS, FECHA_ACTIVACION, FECHA_INACTIVACION, ESTADO, USUARIO FROM CLIENTES";
 
@@ -122,4 +125,10 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para obtener todas las nomenclaturas asociadas a un cliente */
 	public static final String GET_NOMENCLATURAS = "SELECT ID_NOMENCLATURA, NOMENCLATURA, DESCRIPCION, CONSECUTIVO_INICIAL FROM NOMENCLATURAS WHERE CLIENTE =?";
+
+	/** Se utiliza para crear la nomenclatura */
+	public static final String INSERT_NOMENCLATURA = "INSERT INTO NOMENCLATURAS (NOMENCLATURA, DESCRIPCION, CLIENTE, CONSECUTIVO_INICIAL) VALUES (?,?,?,?)";
+
+	/** Se utiliza para insertar los campos asociados a una nomenclatura */
+	public static final String INSERT_NOMENCLATURA_CAMPOS = "INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA (NOMENCLATURA, CAMPO) VALUES (?1,?2)";
 }

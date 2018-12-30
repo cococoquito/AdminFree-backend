@@ -13,6 +13,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
@@ -771,6 +772,69 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.GET_NOMENCLATURAS,
 				MapperJDBC.get(Mapper.GET_NOMENCLATURAS),
 				ValueSQL.get(idCliente, Types.BIGINT));
+	}
+
+	/**
+	 * Metodo que permite crear una nomenclatura
+	 *
+	 * @param datos, contiene los datos de la creacion
+	 * @return Nomenclatura con el identificador generado
+	 */
+	public NomenclaturaDTO crearNomenclatura(
+			NomenclaturaCreacionDTO datos,
+			Connection connection) throws Exception {
+		try {
+			connection.setAutoCommit(false);
+
+			// se obtiene los datos de la nomenclatura
+			NomenclaturaDTO nomenclatura = datos.getNomenclatura();
+
+			// se procede a insertar los datos de la nomenclatura
+			insertUpdate(connection, SQLConfiguraciones.INSERT_NOMENCLATURA,
+					ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
+					ValueSQL.get(nomenclatura.getDescripcion(), Types.VARCHAR),
+					ValueSQL.get(nomenclatura.getIdCliente(), Types.BIGINT),
+					ValueSQL.get(nomenclatura.getConsecutivoInicial(), Types.INTEGER));
+
+			// se obtiene el identificador de la nomenclatura
+			Long idNomenclatura = (Long) find(connection,
+					SQLConfiguraciones.GET_MAX_ID,
+					MapperJDBC.get(Mapper.GET_ID),
+					ValueSQL.get(CommonConstant.ID_NOMENCLATURA, Types.VARCHAR),
+					ValueSQL.get(CommonConstant.NOMENCLATURAS, Types.VARCHAR));
+
+			// si tiene campos asociados
+			List<Long> idsCampos = datos.getIdsCampos();
+			if (idsCampos != null && !idsCampos.isEmpty()) {
+
+				// se utiliza para la insercion de los campos
+				String idNomenclatura_ = idNomenclatura.toString();
+
+				// se recorre todos los campos para construir el DML para la insercion
+				List<String> dmls = new ArrayList<>();
+				for (Long idCampo : idsCampos) {
+					dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
+							.replace(CommonConstant.INTERROGACION_1, idNomenclatura_)
+							.replace(CommonConstant.INTERROGACION_2, idCampo.toString()));
+				}
+				batchSinInjection(connection, dmls);
+			}
+			connection.commit();
+
+			// se construye el resultado a retornar
+			NomenclaturaDTO resultado = new NomenclaturaDTO();
+			resultado.setId(idNomenclatura);
+			resultado.setNomenclatura(nomenclatura.getNomenclatura());
+			resultado.setDescripcion(nomenclatura.getDescripcion());
+			resultado.setIdCliente(nomenclatura.getIdCliente());
+			resultado.setConsecutivoInicial(nomenclatura.getConsecutivoInicial());
+			return resultado;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
 	}
 
 	/**

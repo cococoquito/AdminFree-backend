@@ -15,6 +15,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
@@ -432,6 +433,25 @@ public class ConfiguracionesService {
 
 			// se procede a obtener todas las nomenclaturas asociadas a un cliente
 			return new ConfiguracionesBusiness().getNomenclaturas(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite crear una nomenclatura
+	 *
+	 * @param datos, contiene los datos de la creacion
+	 * @return Nomenclatura con el identificador generado
+	 */
+	public NomenclaturaDTO crearNomenclatura(NomenclaturaCreacionDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a crear la nomenclatura
+			return new ConfiguracionesBusiness().crearNomenclatura(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

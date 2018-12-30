@@ -15,4 +15,6 @@ public class CommonConstant {
 	public static final String INTERROGACION_2 = "?2";
 	public static final String INTERROGACION_3 = "?3";
 	public static final String INTERROGACION_4 = "?4";
+	public static final String ID_NOMENCLATURA = "ID_NOMENCLATURA";
+	public static final String NOMENCLATURAS = "NOMENCLATURAS";
 }

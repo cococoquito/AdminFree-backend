@@ -30,6 +30,7 @@ public class ApiRest {
 	public static final String EDITAR_CAMPO_ENTRADA = "editarcampoin";
 	public static final String VALIDAR_DATOS_ENTRADA = "vdatosin";
 	public static final String GET_NOMENCLATURAS = "getnomenclaturas";
+	public static final String CREAR_NOMENCLATURA = "crearnomenclatura";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";
