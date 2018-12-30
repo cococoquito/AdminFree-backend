@@ -10,7 +10,7 @@ package adminfree.constants;
 public class SQLConfiguraciones {
 
 	/** SQL que se utiliza para obtener el ultimo ID generado de una tabla especifica*/
-	public static final String GET_MAX_ID = "SELECT MAX(?) FROM ?";
+	public static final String GET_MAX_ID = "SELECT MAX(?1) FROM ?2";
 
 	/** SQL para obtener todos los CLIENTES del sistema */
 	public static final String LISTAR_CLIENTES = "SELECT ID_CLIENTE, TOKEN, NOMBRE, TELEFONOS, EMAILS, FECHA_ACTIVACION, FECHA_INACTIVACION, ESTADO, USUARIO FROM CLIENTES";
