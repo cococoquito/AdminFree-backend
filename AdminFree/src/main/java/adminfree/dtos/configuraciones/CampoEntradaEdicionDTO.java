@@ -20,7 +20,7 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	/** indica si el campo de entrada tiene restricciones */
 	private boolean tieneRestricciones;
 
-	/** Es el identificador del campo de entrada */
+	/** Indica si el campo de entrada esta asociado algun consecutivo */
 	private boolean tieneConsecutivos;
 
 	/** Indica si los datos basicos del campo se debe editar */
