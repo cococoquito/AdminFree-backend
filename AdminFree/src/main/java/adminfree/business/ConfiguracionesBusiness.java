@@ -873,7 +873,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					if (campo.getId() == null) {
 						dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
 								.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
-								.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
+								.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString()));
 					} else {
 						// si es edicion del CAMPO
 						if (!campo.isBorrar()) {
