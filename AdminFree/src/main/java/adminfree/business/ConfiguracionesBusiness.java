@@ -777,6 +777,23 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite validar si la nomenclatura ya existe en el sistema
+	 * 
+	 * @param nomenclatura, DTO que contiene los datos para la validacion
+	 * @throws Exception, se lanza si existe la nomenclatura parametrizada en el sistema
+	 */
+	public void validarExisteNomenclatura(NomenclaturaDTO nomenclatura, Connection connection) throws Exception {
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.EXISTE_NOMENCLATURA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
+				ValueSQL.get(nomenclatura.getIdCliente(), Types.BIGINT));
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_NOMENCLAUTARA_EXISTE.value);
+		}
+	}
+
+	/**
 	 * Metodo que permite crear una nomenclatura
 	 *
 	 * @param datos, contiene los datos de la creacion

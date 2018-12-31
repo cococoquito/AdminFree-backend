@@ -17,6 +17,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
+import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -508,6 +509,30 @@ public class ConfiguracionesRest {
 			return Util.getResponseOk();
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarNomenclatura ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite validar si la nomenclatura ya existe en el sistema
+	 * 
+	 * @param nomenclatura, DTO que contiene los datos para la validacion
+	 */
+	@RequestMapping(
+			value = ApiRest.VALIDAR_EXISTE_NOMENCLATURA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> validarExisteNomenclatura(@RequestBody NomenclaturaDTO nomenclatura) {
+		try {
+			// se procede a ejecutar las validaciones
+			this.configuracionesService.validarExisteNomenclatura(nomenclatura);
+
+			// si llega a este punto es porque las validaciones pasaron sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarExisteNomenclatura ", e.getMessage());
 		}
 	}
 }

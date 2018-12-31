@@ -475,4 +475,23 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite validar si la nomenclatura ya existe en el sistema
+	 * 
+	 * @param nomenclatura, DTO que contiene los datos para la validacion
+	 * @throws Exception, se lanza si existe la nomenclatura parametrizada en el sistema
+	 */
+	public void validarExisteNomenclatura(NomenclaturaDTO nomenclatura) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se valida la existencia de la nomenclatura
+			new ConfiguracionesBusiness().validarExisteNomenclatura(nomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

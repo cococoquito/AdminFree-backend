@@ -45,7 +45,10 @@ public enum MessagesKey {
 	KEY_EXISTE_CAMPO_ENTRADA(Numero.ONCE.value.toString()),
 
 	/** 400 - El campo de entrada de información que intenta eliminar tiene una nomenclatura asociada*/
-	KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA(Numero.DOCE.value.toString());
+	KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA(Numero.DOCE.value.toString()),
+
+	/** 400 - La nomenclatura 'DA' ya se encuentra registrada en el sistema*/
+	KEY_NOMENCLAUTARA_EXISTE(Numero.TRECE.value.toString());
 
 	public final String value;
 

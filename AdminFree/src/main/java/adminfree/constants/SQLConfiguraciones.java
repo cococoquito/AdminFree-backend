@@ -141,4 +141,7 @@ public class SQLConfiguraciones {
 	/** Se utiliza para eliminar una nomenclatura campo */
 	public static final String DELETE_NOMENCLAURA_CAMPO = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE ID_NOME_CAMPO=?";
 
+	/** Se utiliza para identificar si existe la nomenclatura asociada a un cliente */
+	public static final String EXISTE_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=?";
+
 }
