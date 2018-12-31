@@ -494,4 +494,22 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite eliminar una nomenclatura del sistema
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 */
+	public void eliminarNomenclatura(Long idNomenclatura) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a eliminar la nomenclatura
+			new ConfiguracionesBusiness().eliminarNomenclatura(idNomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

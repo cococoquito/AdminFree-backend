@@ -144,4 +144,12 @@ public class SQLConfiguraciones {
 	/** Se utiliza para identificar si existe la nomenclatura asociada a un cliente */
 	public static final String EXISTE_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=?";
 
+	/** Se utiliza para validar si existe consecutivos asociados a una nomenclatura */
+	public static final String COUNT_CONSECUTIVOS_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS_SECUENCIA WHERE NOMENCLATURA=?";
+
+	/** Se utiliza para eliminar los campos asociados a la nomenclatura */
+	public static final String DELETE_NOMENCLATURA_CAMPOS = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=?";
+
+	/** Se utiliza para eliminar la nomenclatura */
+	public static final String DELETE_NOMENCLATURA = "DELETE FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
 }

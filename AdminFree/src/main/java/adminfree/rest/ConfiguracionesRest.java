@@ -535,4 +535,28 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".validarExisteNomenclatura ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite eliminar una nomenclatura del sistema
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 */
+	@RequestMapping(
+			value = ApiRest.ELIMINAR_NOMENCLATURA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> eliminarNomenclatura(@RequestBody Long idNomenclatura) {
+		try {
+			// se procede a eliminar la nomenclatura
+			this.configuracionesService.eliminarNomenclatura(idNomenclatura);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarNomenclatura ", e.getMessage());
+		}
+	}
 }

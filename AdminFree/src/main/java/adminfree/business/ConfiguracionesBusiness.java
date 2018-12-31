@@ -921,6 +921,46 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite eliminar una nomenclatura del sistema
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 */
+	public void eliminarNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
+		// se verifica que no exista un consecutivo asociada a la nomenclatura
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_CONSECUTIVOS_NOMENCLATURA,
+				MapperJDBC.get(Mapper.COUNT),
+				ValueSQL.get(idNomenclatura, Types.BIGINT));
+		if (!count.equals(Numero.ZERO.value.longValue())) {
+			throw new BusinessException(MessagesKey.KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA.value);
+		}
+
+		// bloque para la eliminacion del campo
+		try {
+			connection.setAutoCommit(false);
+			String id = idNomenclatura.toString();
+
+			// lista para enviar al batch de eliminacion
+			List<String> deletes = new ArrayList<>();
+
+			// SQL para eliminar los campos asociados
+			deletes.add(SQLConfiguraciones.DELETE_NOMENCLATURA_CAMPOS.replace(CommonConstant.INTERROGACION, id));
+
+			// SQL para eliminar la nomenclaura
+			deletes.add(SQLConfiguraciones.DELETE_NOMENCLATURA.replace(CommonConstant.INTERROGACION, id));
+
+			// se ejecuta el batch y se confirman los cambios
+			batchSinInjection(connection, deletes);
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

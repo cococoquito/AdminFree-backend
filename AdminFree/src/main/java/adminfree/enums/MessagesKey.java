@@ -48,7 +48,10 @@ public enum MessagesKey {
 	KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA(Numero.DOCE.value.toString()),
 
 	/** 400 - La nomenclatura 'DA' ya se encuentra registrada en el sistema*/
-	KEY_NOMENCLAUTARA_EXISTE(Numero.TRECE.value.toString());
+	KEY_NOMENCLAUTARA_EXISTE(Numero.TRECE.value.toString()),
+
+	/** 400 - La nomenclatura que intenta eliminar tiene un consecutivo asociado*/
+	KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA(Numero.CATORCE.value.toString());
 
 	public final String value;
 
