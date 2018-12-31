@@ -462,16 +462,15 @@ public class ConfiguracionesService {
 	 * Servicio que permite editar la nomenclatura
 	 *
 	 * @param datos, contiene los datos de la edicion
-	 * @return datos de la nomeclatura modificadas
 	 */
-	public NomenclaturaDTO editarNomenclatura(NomenclaturaEdicionDTO datos) throws Exception {
+	public void editarNomenclatura(NomenclaturaEdicionDTO datos) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede a editar la nomenclatura
-			return new ConfiguracionesBusiness().editarNomenclatura(datos, connection);
+			new ConfiguracionesBusiness().editarNomenclatura(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

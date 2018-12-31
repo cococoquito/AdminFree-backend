@@ -492,7 +492,7 @@ public class ConfiguracionesRest {
 	 * Servicio que permite editar la nomenclatura
 	 *
 	 * @param datos, contiene los datos de la edicion
-	 * @return datos de la nomeclatura modificadas
+	 * @return OK si todo el proceso se ejecuto sin problemas
 	 */
 	@RequestMapping(
 			value = ApiRest.EDITAR_NOMENCLATURA,
@@ -501,7 +501,11 @@ public class ConfiguracionesRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> editarNomenclatura(@RequestBody NomenclaturaEdicionDTO datos) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.editarNomenclatura(datos));
+			// se procede a editar la nomenclatura
+			this.configuracionesService.editarNomenclatura(datos);
+
+			// si llega a este punto es porque el proceso se ejecuto bien
+			return Util.getResponseOk();
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarNomenclatura ", e.getMessage());
 		}

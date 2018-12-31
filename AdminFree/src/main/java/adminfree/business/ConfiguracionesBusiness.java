@@ -13,6 +13,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
@@ -842,12 +843,64 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Metodo que permite editar la nomenclatura
 	 *
 	 * @param datos, contiene los datos de la edicion
-	 * @return datos de la nomeclatura modificadas
 	 */
-	public NomenclaturaDTO editarNomenclatura(
-			NomenclaturaEdicionDTO datos,
-			Connection connection) throws Exception {
-		return null;
+	public void editarNomenclatura(NomenclaturaEdicionDTO datos, Connection connection) throws Exception {
+		try {
+			connection.setAutoCommit(false);
+
+			// se obtiene los datos de la nomenclatura
+			NomenclaturaDTO nomenclatura = datos.getNomenclatura();
+
+			// modificaciones para los datos basicos de la nomenclatura
+			if (datos.isDatosBasicosEditar()) {
+				insertUpdate(connection, SQLConfiguraciones.UPDATE_NOMENCLATURA,
+						ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
+						ValueSQL.get(nomenclatura.getDescripcion(), Types.VARCHAR),
+						ValueSQL.get(nomenclatura.getConsecutivoInicial(), Types.INTEGER),
+						ValueSQL.get(nomenclatura.getId(), Types.BIGINT));
+			}
+
+			// modificaciones de los campos de entrada asociados a la nomenclatura
+			if (datos.isCamposEntradaEditar()) {
+				List<String> dmls = new ArrayList<>();
+				String idNomenclatura = nomenclatura.getId().toString();
+
+				// se recorre todas los campos
+				List<NomenclaturaCampoDTO> campos = datos.getCampos();
+				for (NomenclaturaCampoDTO campo : campos) {
+
+					// si es creacion del CAMPO
+					if (campo.getId() == null) {
+						dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
+								.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
+								.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
+					} else {
+						// si es edicion del CAMPO
+						if (!campo.isBorrar()) {
+							dmls.add(SQLConfiguraciones.UPDATE_NOMENCLAURA_CAMPO
+									.replace(CommonConstant.INTERROGACION_1, campo.getIdCampo().toString())
+									.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
+						} else {
+							// borrado del campo solo si no tiene consecutivos asociados
+							if (!datos.isTieneConsecutivos()) {
+								dmls.add(SQLConfiguraciones.DELETE_NOMENCLAURA_CAMPO.replace(CommonConstant.INTERROGACION, campo.getId().toString()));
+							}
+						}
+					}
+				}
+
+				// se ejecuta todas las sentencias construidas
+				if (!dmls.isEmpty()) {
+					batchSinInjection(connection, dmls);
+				}
+			}
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
 	}
 
 	/**

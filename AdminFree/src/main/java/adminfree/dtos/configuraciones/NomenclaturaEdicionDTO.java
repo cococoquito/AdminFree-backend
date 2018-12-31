@@ -17,13 +17,16 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	private NomenclaturaDTO nomenclatura;
 
 	/** Son los campos asociados de la nomenclatura para la edicion */
-	private List<Long> idsCampos;
+	private List<NomenclaturaCampoDTO> campos;
 
 	/** Indica si los datos basicos de la nomenclatura se debe editar */
 	private boolean datosBasicosEditar;
 
 	/** Indica si los campos de entrada se debe editar */
 	private boolean camposEntradaEditar;
+
+	/** Indica si la nomenclatura esta asociada a un consecutivo */
+	private boolean tieneConsecutivos;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo nomenclatura
@@ -33,10 +36,10 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo idsCampos
+	 * Metodo que permite obtener el valor del atributo campos
 	 */
-	public List<Long> getIdsCampos() {
-		return idsCampos;
+	public List<NomenclaturaCampoDTO> getCampos() {
+		return campos;
 	}
 
 	/**
@@ -62,11 +65,10 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * idsCampos
+	 * Metodo que permite configurar el nuevo valor para el atributo @param campos
 	 */
-	public void setIdsCampos(List<Long> idsCampos) {
-		this.idsCampos = idsCampos;
+	public void setCampos(List<NomenclaturaCampoDTO> campos) {
+		this.campos = campos;
 	}
 
 	/**
@@ -83,5 +85,20 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	 */
 	public void setCamposEntradaEditar(boolean camposEntradaEditar) {
 		this.camposEntradaEditar = camposEntradaEditar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tieneConsecutivos
+	 */
+	public boolean isTieneConsecutivos() {
+		return tieneConsecutivos;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tieneConsecutivos
+	 */
+	public void setTieneConsecutivos(boolean tieneConsecutivos) {
+		this.tieneConsecutivos = tieneConsecutivos;
 	}
 }

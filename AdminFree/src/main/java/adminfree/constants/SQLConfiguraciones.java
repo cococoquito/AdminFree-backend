@@ -131,4 +131,14 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para insertar los campos asociados a una nomenclatura */
 	public static final String INSERT_NOMENCLATURA_CAMPOS = "INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA (NOMENCLATURA, CAMPO) VALUES (?1,?2)";
+
+	/** Se utiliza para actualizar los datos basicos de la nomenclatura */
+	public static final String UPDATE_NOMENCLATURA = "UPDATE NOMENCLATURAS SET NOMENCLATURA=?, DESCRIPCION=?, CONSECUTIVO_INICIAL=? WHERE ID_NOMENCLATURA=?";
+
+	/** Se utiliza para actualizar una nomenclatura campo */
+	public static final String UPDATE_NOMENCLAURA_CAMPO = "UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET CAMPO=?1 WHERE ID_NOME_CAMPO=?2";
+
+	/** Se utiliza para eliminar una nomenclatura campo */
+	public static final String DELETE_NOMENCLAURA_CAMPO = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE ID_NOME_CAMPO=?";
+
 }
