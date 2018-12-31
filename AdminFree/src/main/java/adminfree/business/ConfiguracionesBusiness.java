@@ -15,6 +15,7 @@ import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
+import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -835,6 +836,18 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		} finally {
 			connection.setAutoCommit(true);
 		}
+	}
+
+	/**
+	 * Metodo que permite editar la nomenclatura
+	 *
+	 * @param datos, contiene los datos de la edicion
+	 * @return datos de la nomeclatura modificadas
+	 */
+	public NomenclaturaDTO editarNomenclatura(
+			NomenclaturaEdicionDTO datos,
+			Connection connection) throws Exception {
+		return null;
 	}
 
 	/**

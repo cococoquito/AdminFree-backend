@@ -17,6 +17,7 @@ import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
+import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
@@ -452,6 +453,25 @@ public class ConfiguracionesService {
 
 			// se procede a crear la nomenclatura
 			return new ConfiguracionesBusiness().crearNomenclatura(datos, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite editar la nomenclatura
+	 *
+	 * @param datos, contiene los datos de la edicion
+	 * @return datos de la nomeclatura modificadas
+	 */
+	public NomenclaturaDTO editarNomenclatura(NomenclaturaEdicionDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a editar la nomenclatura
+			return new ConfiguracionesBusiness().editarNomenclatura(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

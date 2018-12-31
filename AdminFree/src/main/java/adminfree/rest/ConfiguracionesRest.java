@@ -17,6 +17,7 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
+import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.services.ConfiguracionesService;
@@ -484,6 +485,25 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.crearNomenclatura(datos));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".crearNomenclatura ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite editar la nomenclatura
+	 *
+	 * @param datos, contiene los datos de la edicion
+	 * @return datos de la nomeclatura modificadas
+	 */
+	@RequestMapping(
+			value = ApiRest.EDITAR_NOMENCLATURA,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> editarNomenclatura(@RequestBody NomenclaturaEdicionDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.editarNomenclatura(datos));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarNomenclatura ", e.getMessage());
 		}
 	}
 }

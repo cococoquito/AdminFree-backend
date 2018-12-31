@@ -1,0 +1,42 @@
+package adminfree.configuraciones;
+
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import adminfree.services.ConfiguracionesService;
+
+/**
+ * Test para el servicio ConfiguracionesService.editarNomenclatura
+ *
+ * @author Carlos Andres Diaz
+ *
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class EditarNomenclaturaTest {
+
+	/** Service que contiene las configuraciones del sistema */
+	@Autowired
+	private ConfiguracionesService configuracionesService;
+
+	/**
+	 * Test que permite editar los datos de la nomenclatura
+	 */
+	@Test
+	public void editarNomenclatura() {
+		try {
+
+			// se modifica la nomenclatura
+			this.configuracionesService.editarNomenclatura(null);
+			assertTrue(true);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			assertTrue(false);
+		}
+	}
+}
