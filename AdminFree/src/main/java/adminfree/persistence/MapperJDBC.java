@@ -460,7 +460,7 @@ public class MapperJDBC {
 	 */
 	private void configurarCampo(NomenclaturaEdicionDTO datos, ResultSet res) throws Exception {
 		Long idNomCampo = res.getLong(Numero.SEIS.value);
-		if (idNomCampo != null) {
+		if (idNomCampo != null && idNomCampo > Numero.ZERO.value) {
 			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
 			campo.setId(idNomCampo);
 			campo.setIdCampo(res.getLong(Numero.SIETE.value));
