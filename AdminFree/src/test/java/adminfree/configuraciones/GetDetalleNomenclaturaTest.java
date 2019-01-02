@@ -31,7 +31,7 @@ public class GetDetalleNomenclaturaTest {
 	@Test
 	public void getDetalleNomenclatura() {
 		try {
-			Long idNomenclatura = 4l;
+			Long idNomenclatura = 1l;
 			NomenclaturaEdicionDTO datos = this.configuracionesService.getDetalleNomenclatura(idNomenclatura);
 
 			// debe existir el detalle del campo de ingreso

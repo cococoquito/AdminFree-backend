@@ -145,6 +145,7 @@ public class MapperJDBC {
 				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
 				datos.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
+				datos.setNomenclatura(nomenclatura);
 
 				// campo de la nomenclatura
 				configurarCampo(datos, res);
