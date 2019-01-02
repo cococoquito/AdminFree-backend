@@ -512,4 +512,23 @@ public class ConfiguracionesService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite consultar el detalle de la nomenclatura
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura 
+	 * @return, DTO con eldetalle de la nomenclatura
+	 */
+	public NomenclaturaEdicionDTO getDetalleNomenclatura(Long idNomenclatura) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar el detalle de la nomenclatura
+			return new ConfiguracionesBusiness().getDetalleNomenclatura(idNomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

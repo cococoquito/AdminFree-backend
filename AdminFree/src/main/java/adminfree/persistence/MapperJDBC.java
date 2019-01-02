@@ -10,7 +10,9 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
+import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -120,8 +122,38 @@ public class MapperJDBC {
 			case GET_NOMENCLATURAS:
 				result = getNomenclaturas(res);
 				break;
+
+			case GET_DETALLE_NOMENCLATURA:
+				result = getDetalleNomenclatura(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Mapper para obtener el detalle de la nomenclatura
+	 */
+	private Object getDetalleNomenclatura(ResultSet res) throws Exception {
+		NomenclaturaEdicionDTO datos = new NomenclaturaEdicionDTO();
+		NomenclaturaDTO nomenclatura = null;
+		while (res.next()) {
+			if (nomenclatura == null) {
+				// datos basicos de la nomenclatura
+				nomenclatura = new NomenclaturaDTO();
+				nomenclatura.setId(res.getLong(Numero.UNO.value));
+				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+				datos.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
+
+				// campo de la nomenclatura
+				configurarCampo(datos, res);
+			} else {
+				// solamente se configura el campo de la nomenclatura
+				configurarCampo(datos, res);
+			}
+		}
+		return datos;
 	}
 
 	/**
@@ -420,5 +452,20 @@ public class MapperJDBC {
 			restricciones.add(restriccion);
 		}
 		return restricciones;
+	}
+
+	/**
+	 * Invocado por detalle de la nomenclatura y permite configurar el campo de la nomenclatura
+	 */
+	private void configurarCampo(NomenclaturaEdicionDTO datos, ResultSet res) throws Exception {
+		Long idNomCampo = res.getLong(Numero.SEIS.value);
+		if (idNomCampo != null) {
+			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
+			campo.setId(idNomCampo);
+			campo.setIdCampo(res.getLong(Numero.SIETE.value));
+			campo.setNombreCampo(res.getString(Numero.OCHO.value));
+			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.NUEVE.value)));
+			datos.agregarCampos(campo);
+		}
 	}
 }

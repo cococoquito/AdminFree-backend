@@ -961,6 +961,19 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite consultar el detalle de la nomenclatura
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura 
+	 * @return, DTO con eldetalle de la nomenclatura
+	 */
+	public NomenclaturaEdicionDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
+		return (NomenclaturaEdicionDTO) find(connection,
+				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA,
+				MapperJDBC.get(Mapper.GET_DETALLE_NOMENCLATURA),
+				ValueSQL.get(idNomenclatura, Types.BIGINT));
+	}
+
+	/**
 	 * Metodo que permite generar un TOKEN unico
 	 */
 	private ValueSQL generarToken(Connection con) throws Exception {

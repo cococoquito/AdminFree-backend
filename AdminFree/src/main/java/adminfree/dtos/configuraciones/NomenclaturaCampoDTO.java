@@ -19,6 +19,12 @@ public class NomenclaturaCampoDTO implements Serializable {
 	/** identificador del campo */
 	private Long idCampo;
 
+	/** Es el nombre del campo */
+	private String nombreCampo;
+
+	/** Es el tipo de campo */
+	private String tipoCampo;
+
 	/** indica si el item se debe borrar */
 	private boolean borrar;
 
@@ -34,6 +40,20 @@ public class NomenclaturaCampoDTO implements Serializable {
 	 */
 	public Long getIdCampo() {
 		return idCampo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo nombreCampo
+	 */
+	public String getNombreCampo() {
+		return nombreCampo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tipoCampo
+	 */
+	public String getTipoCampo() {
+		return tipoCampo;
 	}
 
 	/**
@@ -58,9 +78,26 @@ public class NomenclaturaCampoDTO implements Serializable {
 	}
 
 	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * nombreCampo
+	 */
+	public void setNombreCampo(String nombreCampo) {
+		this.nombreCampo = nombreCampo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tipoCampo
+	 */
+	public void setTipoCampo(String tipoCampo) {
+		this.tipoCampo = tipoCampo;
+	}
+
+	/**
 	 * Metodo que permite configurar el nuevo valor para el atributo @param borrar
 	 */
 	public void setBorrar(boolean borrar) {
 		this.borrar = borrar;
 	}
+
 }

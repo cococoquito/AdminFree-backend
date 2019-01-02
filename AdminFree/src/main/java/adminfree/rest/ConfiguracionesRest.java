@@ -559,4 +559,22 @@ public class ConfiguracionesRest {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".eliminarNomenclatura ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite consultar el detalle de la nomenclatura
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura 
+	 * @return, DTO con eldetalle de la nomenclatura
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DETALLE_NOMENCLATURA,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetalleNomenclatura(@RequestParam Long idNomenclatura) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService.getDetalleNomenclatura(idNomenclatura));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleNomenclatura ", e.getMessage());
+		}
+	}
 }

@@ -34,6 +34,7 @@ public class ApiRest {
 	public static final String EDITAR_NOMENCLATURA = "editarnomenclatura";
 	public static final String VALIDAR_EXISTE_NOMENCLATURA = "existenomenclatura";
 	public static final String ELIMINAR_NOMENCLATURA = "deletenomenclatura";
+	public static final String GET_DETALLE_NOMENCLATURA = "getdtlnomenclatura";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";
