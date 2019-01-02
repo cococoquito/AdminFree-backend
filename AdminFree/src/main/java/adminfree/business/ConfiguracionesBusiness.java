@@ -789,7 +789,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
 				ValueSQL.get(nomenclatura.getIdCliente(), Types.BIGINT));
 		if (!count.equals(Numero.ZERO.value.longValue())) {
-			throw new BusinessException(MessagesKey.KEY_NOMENCLAUTARA_EXISTE.value);
+			throw new BusinessException(MessagesKey.KEY_NOMENCLATURA_EXISTE.value);
 		}
 	}
 
