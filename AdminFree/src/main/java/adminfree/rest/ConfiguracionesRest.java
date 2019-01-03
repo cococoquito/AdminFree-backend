@@ -543,9 +543,8 @@ public class ConfiguracionesRest {
 	 */
 	@RequestMapping(
 			value = ApiRest.ELIMINAR_NOMENCLATURA,
-			method = RequestMethod.POST,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+			method = RequestMethod.DELETE,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
 	public ResponseEntity<Object> eliminarNomenclatura(@RequestBody Long idNomenclatura) {
 		try {
 			// se procede a eliminar la nomenclatura
