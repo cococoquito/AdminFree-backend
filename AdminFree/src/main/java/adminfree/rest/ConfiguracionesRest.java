@@ -545,7 +545,7 @@ public class ConfiguracionesRest {
 			value = ApiRest.ELIMINAR_NOMENCLATURA,
 			method = RequestMethod.DELETE,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
-	public ResponseEntity<Object> eliminarNomenclatura(@RequestBody Long idNomenclatura) {
+	public ResponseEntity<Object> eliminarNomenclatura(@RequestParam Long idNomenclatura) {
 		try {
 			// se procede a eliminar la nomenclatura
 			this.configuracionesService.eliminarNomenclatura(idNomenclatura);
