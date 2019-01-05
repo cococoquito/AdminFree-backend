@@ -1,6 +1,7 @@
 package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,9 @@ public class NomenclaturaDTO implements Serializable {
 
 	/** Nro donde inicia el consecutivo a generar */
 	private Integer consecutivoInicial;
+
+	/** Son los campos asociados a la nomenclatura se utiliza para la creacion */
+	private List<Long> idsCampos;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -99,5 +103,20 @@ public class NomenclaturaDTO implements Serializable {
 	 */
 	public void setConsecutivoInicial(Integer consecutivoInicial) {
 		this.consecutivoInicial = consecutivoInicial;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idsCampos
+	 */
+	public List<Long> getIdsCampos() {
+		return idsCampos;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idsCampos
+	 */
+	public void setIdsCampos(List<Long> idsCampos) {
+		this.idsCampos = idsCampos;
 	}
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.services.ConfiguracionesService;
 
@@ -47,14 +46,10 @@ public class CrearNomenclaturaTest {
 			idsCampos.add(1l);
 			idsCampos.add(2l);
 			idsCampos.add(3l);
-
-			// DTO que se envia para la creacion
-			NomenclaturaCreacionDTO datos = new NomenclaturaCreacionDTO();
-			datos.setNomenclatura(nomenclatura);
-			datos.setIdsCampos(idsCampos);
+			nomenclatura.setIdsCampos(idsCampos);
 
 			// se procede a crear la nomenclatura
-			nomenclatura = this.configuracionesService.crearNomenclatura(datos);
+			nomenclatura = this.configuracionesService.crearNomenclatura(nomenclatura);
 			assertTrue(nomenclatura != null && nomenclatura.getId() != null);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

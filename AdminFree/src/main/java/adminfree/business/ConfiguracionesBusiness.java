@@ -14,7 +14,6 @@ import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
-import adminfree.dtos.configuraciones.NomenclaturaCreacionDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
@@ -796,17 +795,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite crear una nomenclatura
 	 *
-	 * @param datos, contiene los datos de la creacion
+	 * @param nomenclatura, contiene los datos de la creacion
 	 * @return Nomenclatura con el identificador generado
 	 */
 	public NomenclaturaDTO crearNomenclatura(
-			NomenclaturaCreacionDTO datos,
+			NomenclaturaDTO nomenclatura,
 			Connection connection) throws Exception {
 		try {
 			connection.setAutoCommit(false);
-
-			// se obtiene los datos de la nomenclatura
-			NomenclaturaDTO nomenclatura = datos.getNomenclatura();
 
 			// se procede a insertar los datos de la nomenclatura
 			insertUpdate(connection, SQLConfiguraciones.INSERT_NOMENCLATURA,
@@ -823,7 +819,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					MapperJDBC.get(Mapper.GET_ID));
 
 			// si tiene campos asociados
-			List<Long> idsCampos = datos.getIdsCampos();
+			List<Long> idsCampos = nomenclatura.getIdsCampos();
 			if (idsCampos != null && !idsCampos.isEmpty()) {
 
 				// se utiliza para la insercion de los campos
