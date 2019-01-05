@@ -40,6 +40,9 @@ public class CampoEntradaDTO implements Serializable {
 	/** indica si se debe consultar las restricciones */
 	private boolean consultarRestricciones;
 
+	/** Se utiliza al momento de crear la nomenclatura */
+	private boolean aplica;
+
 	/**
 	 * Metodo que permite agregar una restriccion para este campo
 	 */
@@ -185,10 +188,24 @@ public class CampoEntradaDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param consultarRestricciones
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * consultarRestricciones
 	 */
 	public void setConsultarRestricciones(boolean consultarRestricciones) {
 		this.consultarRestricciones = consultarRestricciones;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo aplica
+	 */
+	public boolean isAplica() {
+		return aplica;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param aplica
+	 */
+	public void setAplica(boolean aplica) {
+		this.aplica = aplica;
 	}
 }
