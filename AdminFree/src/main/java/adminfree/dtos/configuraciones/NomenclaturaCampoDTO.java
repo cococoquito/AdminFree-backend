@@ -25,9 +25,7 @@ public class NomenclaturaCampoDTO implements Serializable {
 	/** Es el tipo de campo */
 	private String tipoCampo;
 
-	/**
-	 * Identifica si este campo para la nomenclatura tiene consecutivos asociados
-	 */
+	/** Identifica si este campo para la nomenclatura tiene consecutivos asociados*/
 	private boolean tieneConsecutivo;
 
 	/**
