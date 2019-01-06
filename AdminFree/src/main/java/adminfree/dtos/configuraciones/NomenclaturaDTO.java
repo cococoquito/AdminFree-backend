@@ -1,6 +1,7 @@
 package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,20 +17,33 @@ public class NomenclaturaDTO implements Serializable {
 	/** Identificador de la nomenclatura */
 	private Long id;
 
+	/** Identificador del cliente */
+	private Long idCliente;
+
 	/** Nombre abreviado de la nomenclatura */
 	private String nomenclatura;
 
 	/** Descripcion de la nomenclatura */
 	private String descripcion;
 
-	/** Identificador del cliente */
-	private Long idCliente;
-
 	/** Nro donde inicia el consecutivo a generar */
 	private Integer consecutivoInicial;
 
-	/** Son los campos asociados a la nomenclatura se utiliza para la creacion */
-	private List<Long> idsCampos;
+	/** Indica si la nomenclatura esta asociada a un consecutivo */
+	private boolean tieneConsecutivos;
+
+	/** Son los campos asociados de la nomenclatura */
+	private List<NomenclaturaCampoDTO> campos;
+
+	/**
+	 * Metodo que permite agregar un campo
+	 */
+	public void agregarCampos(NomenclaturaCampoDTO campo) {
+		if (this.campos == null) {
+			this.campos = new ArrayList<>();
+		}
+		this.campos.add(campo);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -64,6 +78,20 @@ public class NomenclaturaDTO implements Serializable {
 	 */
 	public Integer getConsecutivoInicial() {
 		return consecutivoInicial;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tieneConsecutivos
+	 */
+	public boolean isTieneConsecutivos() {
+		return tieneConsecutivos;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo campos
+	 */
+	public List<NomenclaturaCampoDTO> getCampos() {
+		return campos;
 	}
 
 	/**
@@ -106,17 +134,17 @@ public class NomenclaturaDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo idsCampos
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tieneConsecutivos
 	 */
-	public List<Long> getIdsCampos() {
-		return idsCampos;
+	public void setTieneConsecutivos(boolean tieneConsecutivos) {
+		this.tieneConsecutivos = tieneConsecutivos;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * idsCampos
+	 * Metodo que permite configurar el nuevo valor para el atributo @param campos
 	 */
-	public void setIdsCampos(List<Long> idsCampos) {
-		this.idsCampos = idsCampos;
+	public void setCampos(List<NomenclaturaCampoDTO> campos) {
+		this.campos = campos;
 	}
 }

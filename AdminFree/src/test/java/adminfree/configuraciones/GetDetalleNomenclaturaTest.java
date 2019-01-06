@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
+import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -31,14 +31,11 @@ public class GetDetalleNomenclaturaTest {
 	@Test
 	public void getDetalleNomenclatura() {
 		try {
-			Long idNomenclatura = 1l;
-			NomenclaturaEdicionDTO datos = this.configuracionesService.getDetalleNomenclatura(idNomenclatura);
+			Long idNomenclatura = 3l;
+			NomenclaturaDTO detalle = this.configuracionesService.getDetalleNomenclatura(idNomenclatura);
 
 			// debe existir el detalle del campo de ingreso
-			assertTrue(
-					datos != null &&
-					datos.getNomenclatura() != null &&
-					datos.getNomenclatura().getId() != null);
+			assertTrue(detalle != null && detalle.getId() != null);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

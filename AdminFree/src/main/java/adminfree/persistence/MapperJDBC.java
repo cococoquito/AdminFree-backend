@@ -12,7 +12,6 @@ import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
-import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
@@ -133,8 +132,7 @@ public class MapperJDBC {
 	/**
 	 * Mapper para obtener el detalle de la nomenclatura
 	 */
-	private Object getDetalleNomenclatura(ResultSet res) throws Exception {
-		NomenclaturaEdicionDTO datos = new NomenclaturaEdicionDTO();
+	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
 		NomenclaturaDTO nomenclatura = null;
 		while (res.next()) {
 			if (nomenclatura == null) {
@@ -144,17 +142,16 @@ public class MapperJDBC {
 				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				datos.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
-				datos.setNomenclatura(nomenclatura);
+				nomenclatura.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
 
 				// campo de la nomenclatura
-				configurarCampo(datos, res);
+				configurarCampo(nomenclatura, res);
 			} else {
 				// solamente se configura el campo de la nomenclatura
-				configurarCampo(datos, res);
+				configurarCampo(nomenclatura, res);
 			}
 		}
-		return datos;
+		return nomenclatura;
 	}
 
 	/**
@@ -458,7 +455,7 @@ public class MapperJDBC {
 	/**
 	 * Invocado por detalle de la nomenclatura y permite configurar el campo de la nomenclatura
 	 */
-	private void configurarCampo(NomenclaturaEdicionDTO datos, ResultSet res) throws Exception {
+	private void configurarCampo(NomenclaturaDTO datos, ResultSet res) throws Exception {
 		Long idNomCampo = res.getLong(Numero.SEIS.value);
 		if (idNomCampo != null && idNomCampo > Numero.ZERO.value.longValue()) {
 			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
@@ -466,6 +463,7 @@ public class MapperJDBC {
 			campo.setIdCampo(res.getLong(Numero.SIETE.value));
 			campo.setNombreCampo(res.getString(Numero.OCHO.value));
 			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.NUEVE.value)));
+			campo.setTieneConsecutivo(Numero.UNO.value.equals(res.getInt(Numero.DIEZ.value)));
 			datos.agregarCampos(campo);
 		}
 	}

@@ -2,15 +2,13 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.services.ConfiguracionesService;
 
@@ -42,11 +40,15 @@ public class CrearNomenclaturaTest {
 			nomenclatura.setConsecutivoInicial(1);
 
 			// se construye los campos a insertar
-			List<Long> idsCampos = new ArrayList<>();
-			idsCampos.add(1l);
-			idsCampos.add(2l);
-			idsCampos.add(3l);
-			nomenclatura.setIdsCampos(idsCampos);
+			NomenclaturaCampoDTO campo1 = new NomenclaturaCampoDTO();
+			campo1.setIdCampo(1l);
+			NomenclaturaCampoDTO campo2 = new NomenclaturaCampoDTO();
+			campo2.setIdCampo(2l);
+			NomenclaturaCampoDTO campo3 = new NomenclaturaCampoDTO();
+			campo3.setIdCampo(3l);
+			nomenclatura.agregarCampos(campo1);
+			nomenclatura.agregarCampos(campo2);
+			nomenclatura.agregarCampos(campo3);
 
 			// se procede a crear la nomenclatura
 			nomenclatura = this.configuracionesService.crearNomenclatura(nomenclatura);

@@ -25,8 +25,10 @@ public class NomenclaturaCampoDTO implements Serializable {
 	/** Es el tipo de campo */
 	private String tipoCampo;
 
-	/** indica si el item se debe borrar */
-	private boolean borrar;
+	/**
+	 * Identifica si este campo para la nomenclatura tiene consecutivos asociados
+	 */
+	private boolean tieneConsecutivo;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -57,10 +59,10 @@ public class NomenclaturaCampoDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo borrar
+	 * Metodo que permite obtener el valor del atributo tieneConsecutivo
 	 */
-	public boolean isBorrar() {
-		return borrar;
+	public boolean isTieneConsecutivo() {
+		return tieneConsecutivo;
 	}
 
 	/**
@@ -94,10 +96,10 @@ public class NomenclaturaCampoDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param borrar
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tieneConsecutivo
 	 */
-	public void setBorrar(boolean borrar) {
-		this.borrar = borrar;
+	public void setTieneConsecutivo(boolean tieneConsecutivo) {
+		this.tieneConsecutivo = tieneConsecutivo;
 	}
-
 }

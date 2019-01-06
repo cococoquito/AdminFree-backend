@@ -819,18 +819,16 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					MapperJDBC.get(Mapper.GET_ID));
 
 			// si tiene campos asociados
-			List<Long> idsCampos = nomenclatura.getIdsCampos();
-			if (idsCampos != null && !idsCampos.isEmpty()) {
-
-				// se utiliza para la insercion de los campos
+			List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
+			if (campos != null && !campos.isEmpty()) {
 				String idNomenclatura_ = idNomenclatura.toString();
 
 				// se recorre todos los campos para construir el DML para la insercion
 				List<String> dmls = new ArrayList<>();
-				for (Long idCampo : idsCampos) {
+				for (NomenclaturaCampoDTO campo : campos) {
 					dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
 							.replace(CommonConstant.INTERROGACION_1, idNomenclatura_)
-							.replace(CommonConstant.INTERROGACION_2, idCampo.toString()));
+							.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString()));
 				}
 				batchSinInjection(connection, dmls);
 			}
@@ -878,34 +876,19 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				List<String> dmls = new ArrayList<>();
 				String idNomenclatura = nomenclatura.getId().toString();
 
-				// se recorre todas los campos
-				List<NomenclaturaCampoDTO> campos = datos.getCampos();
-				for (NomenclaturaCampoDTO campo : campos) {
+				// se eliminan todos los campos asociados a la nomenclatura que no tengan consecutivos
+				dmls.add(SQLConfiguraciones.DELETE_NOMENCLAURA_CAMPO.replace(CommonConstant.INTERROGACION, idNomenclatura));
 
-					// si es creacion del CAMPO
-					if (campo.getId() == null) {
+				// se insertan los campos seleccionados
+				List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
+				if (campos != null && !campos.isEmpty()) {
+					for (NomenclaturaCampoDTO campo : campos) {
 						dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
 								.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
 								.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString()));
-					} else {
-						// si es edicion del CAMPO
-						if (!campo.isBorrar()) {
-							dmls.add(SQLConfiguraciones.UPDATE_NOMENCLAURA_CAMPO
-									.replace(CommonConstant.INTERROGACION_1, campo.getIdCampo().toString())
-									.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
-						} else {
-							// borrado del campo solo si no tiene consecutivos asociados
-							if (!datos.isTieneConsecutivos()) {
-								dmls.add(SQLConfiguraciones.DELETE_NOMENCLAURA_CAMPO.replace(CommonConstant.INTERROGACION, campo.getId().toString()));
-							}
-						}
 					}
 				}
-
-				// se ejecuta todas las sentencias construidas
-				if (!dmls.isEmpty()) {
-					batchSinInjection(connection, dmls);
-				}
+				batchSinInjection(connection, dmls);
 			}
 			connection.commit();
 		} catch (Exception e) {
@@ -960,10 +943,10 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Metodo que permite consultar el detalle de la nomenclatura
 	 *
 	 * @param idNomenclatura, identificador de la nomenclatura 
-	 * @return, DTO con eldetalle de la nomenclatura
+	 * @return, DTO con el detalle de la nomenclatura
 	 */
-	public NomenclaturaEdicionDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
-		return (NomenclaturaEdicionDTO) find(connection,
+	public NomenclaturaDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
+		return (NomenclaturaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA,
 				MapperJDBC.get(Mapper.GET_DETALLE_NOMENCLATURA),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));

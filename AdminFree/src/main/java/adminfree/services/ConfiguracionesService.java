@@ -516,9 +516,9 @@ public class ConfiguracionesService {
 	 * Servicio que permite consultar el detalle de la nomenclatura
 	 *
 	 * @param idNomenclatura, identificador de la nomenclatura 
-	 * @return, DTO con eldetalle de la nomenclatura
+	 * @return, DTO con el detalle de la nomenclatura
 	 */
-	public NomenclaturaEdicionDTO getDetalleNomenclatura(Long idNomenclatura) throws Exception {
+	public NomenclaturaDTO getDetalleNomenclatura(Long idNomenclatura) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree

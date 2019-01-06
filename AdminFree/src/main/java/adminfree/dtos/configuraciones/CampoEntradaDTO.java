@@ -43,9 +43,6 @@ public class CampoEntradaDTO implements Serializable {
 	/** Se utiliza al momento de crear la nomenclatura */
 	private boolean aplica;
 
-	/** Cuando nomenclatura tiene asociada consecutivos el campo no puede editar */
-	private boolean soloLectura;
-
 	/**
 	 * Metodo que permite agregar una restriccion para este campo
 	 */
@@ -210,20 +207,5 @@ public class CampoEntradaDTO implements Serializable {
 	 */
 	public void setAplica(boolean aplica) {
 		this.aplica = aplica;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo soloLectura
-	 */
-	public boolean isSoloLectura() {
-		return soloLectura;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param soloLectura
-	 */
-	public void setSoloLectura(boolean soloLectura) {
-		this.soloLectura = soloLectura;
 	}
 }
