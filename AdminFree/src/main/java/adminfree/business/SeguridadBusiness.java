@@ -9,10 +9,9 @@ import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.dtos.seguridad.WelcomeDTO;
 import adminfree.enums.Estado;
-import adminfree.enums.Mapper;
 import adminfree.enums.MessagesKey;
+import adminfree.mappers.MapperSeguridad;
 import adminfree.persistence.CommonDAO;
-import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.EstrategiaCriptografica;
@@ -54,7 +53,7 @@ public class SeguridadBusiness extends CommonDAO {
 				ClienteDTO admin = (ClienteDTO) find(
 						connection,
 						SQLSeguridad.INICIAR_SESION_ADMIN,
-						MapperJDBC.get(Mapper.GET_DATOS_ADMIN_AUTH),
+						MapperSeguridad.get(MapperSeguridad.GET_DATOS_ADMIN_AUTH),
 						ValueSQL.get(token, Types.VARCHAR),
 						ValueSQL.get(usuario, Types.VARCHAR),
 						ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
@@ -115,7 +114,7 @@ public class SeguridadBusiness extends CommonDAO {
 				UsuarioDTO user = (UsuarioDTO) find(
 						connection,
 						SQLSeguridad.INICIAR_SESION_USER,
-						MapperJDBC.get(Mapper.GET_DATOS_USER_AUTH),
+						MapperSeguridad.get(MapperSeguridad.GET_DATOS_USER_AUTH),
 						ValueSQL.get(usuario, Types.VARCHAR),
 						ValueSQL.get(claveMD5, Types.VARCHAR),
 						activo, activo);

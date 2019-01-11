@@ -21,12 +21,12 @@ import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
-import adminfree.enums.Mapper;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
+import adminfree.mappers.MapperConfiguraciones;
+import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
-import adminfree.persistence.MapperJDBC;
 import adminfree.persistence.ProceduresJDBC;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.BusinessException;
@@ -62,8 +62,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(cliente.getCredenciales().getUsuario(), Types.VARCHAR));
 
 		// se retorna el cliente con sus datos registrados en el sistema
-		return (ClienteDTO) find(con, SQLConfiguraciones.GET_CLIENTE_TOKEN,
-				MapperJDBC.get(Mapper.GET_CLIENTE), 
+		return (ClienteDTO) find(con,
+				SQLConfiguraciones.GET_CLIENTE_TOKEN,
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_CLIENTE), 
 				token);
 	}
 
@@ -75,8 +76,9 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	@SuppressWarnings("unchecked")
 	public List<ClienteDTO> listarClientes(Connection connection) throws Exception {
 		return (List<ClienteDTO>) findAll(
-				connection, SQLConfiguraciones.LISTAR_CLIENTES,
-				MapperJDBC.get(Mapper.GET_CLIENTES));
+				connection,
+				SQLConfiguraciones.LISTAR_CLIENTES,
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_CLIENTES));
 	}
 
 	/**
@@ -151,7 +153,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public List<UsuarioDTO> getUsuariosCliente(ClienteDTO filtro, Connection connection) throws Exception {
 		return (List<UsuarioDTO>) find(connection,
 				SQLConfiguraciones.GET_USUARIOS_CLIENTE,
-				MapperJDBC.get(Mapper.GET_USUARIOS_CLIENTE),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_USUARIOS_CLIENTE),
 				ValueSQL.get(filtro.getId(), Types.BIGINT),
 				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(Estado.INACTIVO.id, Types.INTEGER));
@@ -203,7 +205,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// se obtiene el identificador del usuario creado
 			Long idUsuario = (Long) find(connection,
 					SQLConfiguraciones.GET_ID_USUARIO,
-					MapperJDBC.get(Mapper.GET_ID),
+					MapperTransversal.get(MapperTransversal.GET_ID),
 					ValueSQL.get(usuarioIngreso, Types.VARCHAR),
 					ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR));
 
@@ -410,7 +412,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se verifica si la contrasenia actual coincide con la clave del usuario
 		String claveUser = (String) find(connection,
 				SQLConfiguraciones.GET_CLAVE_INGRESO,
-				MapperJDBC.get(Mapper.GET_SOLO_UN_STRING),
+				MapperTransversal.get(MapperTransversal.GET_SOLO_UN_STRING),
 				ValueSQL.get(idUsuario, Types.BIGINT));
 		String claveActualMD5 = criptografica.encriptarPassword(datos.getClaveActual(), securityPostPass);
 		if (!claveUser.equals(claveActualMD5)) {
@@ -458,7 +460,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// se obtiene el identificador del campo creado
 			Long idCampo = (Long) find(connection,
 					SQLConfiguraciones.GET_ID_CAMPO_ENTRADA,
-					MapperJDBC.get(Mapper.GET_ID),
+					MapperTransversal.get(MapperTransversal.GET_ID),
 					ValueSQL.get(tipoCampo, Types.INTEGER),
 					ValueSQL.get(nombre, Types.VARCHAR),
 					ValueSQL.get(idCliente, Types.BIGINT));
@@ -520,7 +522,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente, Connection connection) throws Exception {
 		return (List<CampoEntradaDTO>) find(connection,
 				SQLConfiguraciones.GET_CAMPOS_ENTRADA_INFORMACION,
-				MapperJDBC.get(Mapper.GET_CAMPOS_ENTRADA),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_CAMPOS_ENTRADA),
 				ValueSQL.get(idCliente, Types.BIGINT));
 	}
 
@@ -535,14 +537,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se consulta los datos del campo con sus restricciones
 		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
-				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_ENTRADA),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_CAMPO_ENTRADA),
 				ValueSQL.get(idCampo, Types.BIGINT));
 
 		// se consulta los items si el campo es una lista desplegable
 		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getTipoCampo())) {
 			campo.setItems((List<ItemDTO>)find(connection,
 							SQLConfiguraciones.GET_ITEMS,
-							MapperJDBC.get(Mapper.GET_ITEMS),
+							MapperConfiguraciones.get(MapperConfiguraciones.GET_ITEMS),
 							ValueSQL.get(idCampo, Types.BIGINT)));
 		}
 		return campo;
@@ -557,7 +559,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se verifica que no exista una nomenclatura asociada al campo
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_CAMPO_NOMENCLATURA_ASOCIADA,
-				MapperJDBC.get(Mapper.COUNT),
+				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(idCampo, Types.BIGINT));
 
 		// si existe una nomenclatura asociada no se PUEDE seguir con el proceso
@@ -604,7 +606,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se consulta los datos del campo de entrada a editar
 		CampoEntradaEdicionDTO campo = (CampoEntradaEdicionDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_EDITAR,
-				MapperJDBC.get(Mapper.GET_DETALLE_CAMPO_EDITAR),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_CAMPO_EDITAR),
 				ValueSQL.get(idCampo, Types.BIGINT));
 
 		// se obtiene todas las restricciones por el tipo de campo
@@ -615,7 +617,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		if (campo.isTieneRestricciones()) {
 			List<RestriccionDTO> seleccionadas = (List<RestriccionDTO>) find(connection,
 					SQLConfiguraciones.GET_RESTRICCIONES_EDICION,
-					MapperJDBC.get(Mapper.GET_RESTRICCIONES_EDICION),
+					MapperConfiguraciones.get(MapperConfiguraciones.GET_RESTRICCIONES_EDICION),
 					ValueSQL.get(idCampo, Types.BIGINT));
 
 			// se configuran las restricciones seleccionadas
@@ -633,7 +635,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getCampoEntrada().getTipoCampo())) {
 			campo.getCampoEntrada().setItems((List<ItemDTO>) find(connection,
 					SQLConfiguraciones.GET_ITEMS,
-					MapperJDBC.get(Mapper.GET_ITEMS),
+					MapperConfiguraciones.get(MapperConfiguraciones.GET_ITEMS),
 					ValueSQL.get(idCampo, Types.BIGINT)));
 		}
 		return campo;
@@ -771,7 +773,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public List<NomenclaturaDTO> getNomenclaturas(Long idCliente, Connection connection) throws Exception {
 		return (List<NomenclaturaDTO>) find(connection,
 				SQLConfiguraciones.GET_NOMENCLATURAS,
-				MapperJDBC.get(Mapper.GET_NOMENCLATURAS),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_NOMENCLATURAS),
 				ValueSQL.get(idCliente, Types.BIGINT));
 	}
 
@@ -784,7 +786,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public void validarExisteNomenclatura(NomenclaturaDTO nomenclatura, Connection connection) throws Exception {
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.EXISTE_NOMENCLATURA,
-				MapperJDBC.get(Mapper.COUNT),
+				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
 				ValueSQL.get(nomenclatura.getIdCliente(), Types.BIGINT));
 		if (!count.equals(Numero.ZERO.value.longValue())) {
@@ -816,7 +818,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					CommonConstant.GET_MAX_ID
 							.replace(CommonConstant.INTERROGACION_1, CommonConstant.ID_NOMENCLATURA)
 							.replace(CommonConstant.INTERROGACION_2, CommonConstant.NOMENCLATURAS),
-					MapperJDBC.get(Mapper.GET_ID));
+						MapperTransversal.get(MapperTransversal.GET_ID));
 
 			// si tiene campos asociados
 			List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
@@ -908,7 +910,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se verifica que no exista un consecutivo asociada a la nomenclatura
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_CONSECUTIVOS_NOMENCLATURA,
-				MapperJDBC.get(Mapper.COUNT),
+				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
 		if (!count.equals(Numero.ZERO.value.longValue())) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA.value);
@@ -948,7 +950,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	public NomenclaturaDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
 		return (NomenclaturaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA,
-				MapperJDBC.get(Mapper.GET_DETALLE_NOMENCLATURA),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_NOMENCLATURA),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
 	}
 
@@ -960,7 +962,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
 
 		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
-		MapperJDBC mapper = MapperJDBC.get(Mapper.COUNT);
+		MapperTransversal mapper = MapperTransversal.get(MapperTransversal.COUNT);
 
 		// el TOKEN debe ser unico en el sistema
 		boolean tokenExiste = true;
@@ -1003,7 +1005,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se verifica que no exista un usuario de ingreso registrado en la BD
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
-				MapperJDBC.get(Mapper.COUNT),
+				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
 
 		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
@@ -1022,7 +1024,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	private List<RestriccionDTO> getRestricionesPorTipo(Integer tipoCampo, Connection connection) throws Exception {
 		return (List<RestriccionDTO>) find(connection,
 				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
-				MapperJDBC.get(Mapper.GET_RESTRICCIONES),
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_RESTRICCIONES),
 				ValueSQL.get(tipoCampo, Types.INTEGER));
 	}
 
@@ -1035,7 +1037,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se verifica que no exista otro campo con el mismo tipo y nombre
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
-				MapperJDBC.get(Mapper.COUNT),
+				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
 				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
 				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));

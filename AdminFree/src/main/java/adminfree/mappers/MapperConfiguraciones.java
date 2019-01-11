@@ -1,4 +1,4 @@
-package adminfree.persistence;
+package adminfree.mappers;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -15,36 +15,45 @@ import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
-import adminfree.enums.Mapper;
 import adminfree.enums.Numero;
 import adminfree.utilities.Util;
 
 /**
- * Clase que contiene los metodos MAPPER para las consultas JDBC
+ * Mapper que contiene las implementaciones JDBC para el modulo de configuraciones
  * 
  * @author Carlos Andres Diaz
  *
  */
-public class MapperJDBC {
+public class MapperConfiguraciones extends Mapper {
+
+	/** Son los tipos de mapper que soporta este modulo */
+	public static final int GET_CLIENTES = 1;
+	public static final int GET_CLIENTE = 2;
+	public static final int GET_USUARIOS_CLIENTE = 3;
+	public static final int GET_RESTRICCIONES = 4;
+	public static final int GET_CAMPOS_ENTRADA = 5;
+	public static final int GET_DETALLE_CAMPO_ENTRADA = 6;
+	public static final int GET_ITEMS = 7;
+	public static final int GET_DETALLE_CAMPO_EDITAR = 8;
+	public static final int GET_RESTRICCIONES_EDICION = 9;
+	public static final int GET_NOMENCLATURAS = 10;
+	public static final int GET_DETALLE_NOMENCLATURA = 11;
 
 	/** Objecto statica que se comporta como una unica instancia */
-	private static MapperJDBC instance;
-
-	/** Es el tipo de MAPPER a ejecutar */
-	private Mapper tipoMapper;
+	private static MapperConfiguraciones instance;
 
 	/**
-	 * Constructor del Mapper donde recibe el tipo de mapper a ejecutar
+	 * Constructor del Mapper no instanciable
 	 */
-	private MapperJDBC() {
+	private MapperConfiguraciones() {
 	}
 
 	/**
-	 * Retorna una instancia de este tipo de Clase
+	 * Retorna una instancia de este tipo de Mapper
 	 */
-	public static MapperJDBC get(Mapper tipoMapper) {
+	public static MapperConfiguraciones get(int tipoMapper) {
 		if (instance == null) {
-			instance = new MapperJDBC();
+			instance = new MapperConfiguraciones();
 		}
 		instance.tipoMapper = tipoMapper;
 		return instance;
@@ -56,129 +65,55 @@ public class MapperJDBC {
 	 * @param res, resultado de acuerdo a la consulta
 	 * @return objecto con sus datos configurado de acuerdo al Mapper
 	 */
+	@Override
 	public Object execute(ResultSet res) throws Exception {
-		// encapsula el resultado con sus atributo configurados
 		Object result = null;
-
-		// se ejecuta el metodo de acuerdo al tipo de MAPPER
 		switch (this.tipoMapper) {
-			case COUNT:
-				result = getCount(res);
-				break;
-
-			case GET_CLIENTES:
+			case MapperConfiguraciones.GET_CLIENTES:
 				result = getClientes(res);
 				break;
-
-			case GET_CLIENTE:
+	
+			case MapperConfiguraciones.GET_CLIENTE:
 				result = getCliente(res);
 				break;
 
-			case GET_DATOS_ADMIN_AUTH:
-				result = getDatosAdminAuth(res);
-				break;
-
-			case GET_DATOS_USER_AUTH:
-				result = getDatosUserAuth(res);
-				break;
-
-			case GET_USUARIOS_CLIENTE:
+			case MapperConfiguraciones.GET_USUARIOS_CLIENTE:
 				result = getUsuariosCliente(res);
 				break;
-
-			case GET_ID:
-				result = getId(res);
-				break;
-
-			case GET_SOLO_UN_STRING:
-				result = getSoloUnString(res);
-				break;
-
-			case GET_RESTRICCIONES:
+	
+			case MapperConfiguraciones.GET_RESTRICCIONES:
 				result = getRestricciones(res);
 				break;
 
-			case GET_CAMPOS_ENTRADA:
+			case MapperConfiguraciones.GET_CAMPOS_ENTRADA:
 				result = getCamposEntrada(res);
 				break;
-
-			case GET_DETALLE_CAMPO_ENTRADA:
+	
+			case MapperConfiguraciones.GET_DETALLE_CAMPO_ENTRADA:
 				result = getDetalleCampoEntrada(res);
 				break;
 
-			case GET_ITEMS:
+			case MapperConfiguraciones.GET_ITEMS:
 				result = getItems(res);
 				break;
-
-			case GET_DETALLE_CAMPO_EDITAR:
+	
+			case MapperConfiguraciones.GET_DETALLE_CAMPO_EDITAR:
 				result = getDetalleCampoEditar(res);
 				break;
 
-			case GET_RESTRICCIONES_EDICION:
+			case MapperConfiguraciones.GET_RESTRICCIONES_EDICION:
 				result = getRestriccionesEdicion(res);
 				break;
 
-			case GET_NOMENCLATURAS:
+			case MapperConfiguraciones.GET_NOMENCLATURAS:
 				result = getNomenclaturas(res);
 				break;
-
-			case GET_DETALLE_NOMENCLATURA:
+	
+			case MapperConfiguraciones.GET_DETALLE_NOMENCLATURA:
 				result = getDetalleNomenclatura(res);
 				break;
-		}
-		return result;
-	}
-
-	/**
-	 * Mapper para obtener el detalle de la nomenclatura
-	 */
-	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
-		NomenclaturaDTO nomenclatura = null;
-		while (res.next()) {
-			if (nomenclatura == null) {
-				// datos basicos de la nomenclatura
-				nomenclatura = new NomenclaturaDTO();
-				nomenclatura.setId(res.getLong(Numero.UNO.value));
-				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				nomenclatura.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
-
-				// campo de la nomenclatura
-				configurarCampo(nomenclatura, res);
-			} else {
-				// solamente se configura el campo de la nomenclatura
-				configurarCampo(nomenclatura, res);
 			}
-		}
-		return nomenclatura;
-	}
-
-	/**
-	 * Mapper para obtener las nomenclaturas
-	 */
-	private List<NomenclaturaDTO> getNomenclaturas(ResultSet res) throws Exception {
-		List<NomenclaturaDTO> resultado = new ArrayList<>();
-		NomenclaturaDTO nomenclatura;
-		while (res.next()) {
-			nomenclatura = new NomenclaturaDTO();
-			nomenclatura.setId(res.getLong(Numero.UNO.value));
-			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-			resultado.add(nomenclatura);
-		}
-		return resultado;
-	}
-
-	/**
-	 * Mapper para configurar el COUNT de un SELECT
-	 */
-	private Object getCount(ResultSet res) throws Exception {
-		if (res.next()) {
-			return res.getLong(Numero.UNO.value);
-		}
-		return Numero.ZERO.value.longValue();
+		return result;
 	}
 
 	/**
@@ -235,48 +170,6 @@ public class MapperJDBC {
 	}
 
 	/**
-	 * Mapper para obtener los datos del ADMIN cuando inicia sesion
-	 */
-	private Object getDatosAdminAuth(ResultSet res) throws Exception {
-		ClienteDTO admin = null;
-		if (res.next()) {
-			admin = new ClienteDTO();
-			admin.setId(res.getLong(Numero.UNO.value));
-			admin.setNombre(res.getString(Numero.DOS.value));
-		}
-		return admin;
-	}
-
-	/**
-	 * Mapper para obtener los datos del USUARIO cuando inicia sesion
-	 */
-	private Object getDatosUserAuth(ResultSet res) throws Exception {
-		UsuarioDTO user = null;
-		while (res.next()) {
-			if (user == null) {
-
-				// se configura los datos del USUARIO
-				user = new UsuarioDTO();
-				user.setId(res.getLong(Numero.UNO.value));
-				user.setNombre(res.getString(Numero.DOS.value));
-
-				// se configura los datos del CLIENTE
-				ClienteDTO cliente = new ClienteDTO();
-				cliente.setId(res.getLong(Numero.TRES.value));
-				cliente.setNombre(res.getString(Numero.CUATRO.value));
-				user.setCliente(cliente);
-
-				// se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.value));
-			} else {
-				// solamente se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.value));
-			}
-		}
-		return user;
-	}
-
-	/**
 	 * Mapper para obtener la lista de USUARIOS asociados a un cliente
 	 */
 	private Object getUsuariosCliente(ResultSet res) throws Exception {
@@ -297,26 +190,6 @@ public class MapperJDBC {
 			usuarios.add(usuario);
 		}
 		return usuarios;
-	}
-
-	/**
-	 * Mapper para obtener el identificador de una entidad
-	 */
-	private Long getId(ResultSet res) throws Exception {
-		if (res.next()) {
-			return res.getLong(Numero.UNO.value);
-		}
-		return null;
-	}
-
-	/**
-	 * Mapper para obtener solo un valor texto
-	 */
-	private String getSoloUnString(ResultSet res) throws Exception {
-		if (res.next()) {
-			return res.getString(Numero.UNO.value);
-		}
-		return null;
 	}
 
 	/**
@@ -450,6 +323,48 @@ public class MapperJDBC {
 			restricciones.add(restriccion);
 		}
 		return restricciones;
+	}
+
+	/**
+	 * Mapper para obtener las nomenclaturas
+	 */
+	private List<NomenclaturaDTO> getNomenclaturas(ResultSet res) throws Exception {
+		List<NomenclaturaDTO> resultado = new ArrayList<>();
+		NomenclaturaDTO nomenclatura;
+		while (res.next()) {
+			nomenclatura = new NomenclaturaDTO();
+			nomenclatura.setId(res.getLong(Numero.UNO.value));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+			resultado.add(nomenclatura);
+		}
+		return resultado;
+	}
+
+	/**
+	 * Mapper para obtener el detalle de la nomenclatura
+	 */
+	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
+		NomenclaturaDTO nomenclatura = null;
+		while (res.next()) {
+			if (nomenclatura == null) {
+				// datos basicos de la nomenclatura
+				nomenclatura = new NomenclaturaDTO();
+				nomenclatura.setId(res.getLong(Numero.UNO.value));
+				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+				nomenclatura.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
+
+				// campo de la nomenclatura
+				configurarCampo(nomenclatura, res);
+			} else {
+				// solamente se configura el campo de la nomenclatura
+				configurarCampo(nomenclatura, res);
+			}
+		}
+		return nomenclatura;
 	}
 
 	/**

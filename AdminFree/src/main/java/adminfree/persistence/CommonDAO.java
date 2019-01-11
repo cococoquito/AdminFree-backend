@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import adminfree.enums.Numero;
+import adminfree.mappers.Mapper;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -61,7 +62,7 @@ public class CommonDAO {
 	 * 
 	 * @return registro(s) de acuerdo a la consulta
 	 */
-	protected Object find(Connection con, String sql, MapperJDBC mapper, ValueSQL... where) throws Exception {
+	protected Object find(Connection con, String sql, Mapper mapper, ValueSQL... where) throws Exception {
 		PreparedStatement pst = null;
 		ResultSet res = null;
 		try {
@@ -96,7 +97,7 @@ public class CommonDAO {
 	 * 
 	 * @return registro(s) de acuerdo a la consulta
 	 */
-	protected Object findAll(Connection con, String sql, MapperJDBC mapper) throws Exception {
+	protected Object findAll(Connection con, String sql, Mapper mapper) throws Exception {
 		PreparedStatement pst = null;
 		ResultSet res = null;
 		try {
