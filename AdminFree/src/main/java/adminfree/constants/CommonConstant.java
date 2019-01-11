@@ -17,4 +17,5 @@ public class CommonConstant {
 	public static final String INTERROGACION_4 = "?4";
 	public static final String ID_NOMENCLATURA = "ID_NOMENCLATURA";
 	public static final String NOMENCLATURAS = "NOMENCLATURAS";
+	public static final String GET_MAX_ID = "SELECT MAX(?1) FROM ?2";
 }

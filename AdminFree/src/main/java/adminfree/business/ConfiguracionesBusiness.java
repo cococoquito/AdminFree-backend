@@ -813,7 +813,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene el identificador de la nomenclatura
 			Long idNomenclatura = (Long) find(connection,
-					SQLConfiguraciones.GET_MAX_ID
+					CommonConstant.GET_MAX_ID
 							.replace(CommonConstant.INTERROGACION_1, CommonConstant.ID_NOMENCLATURA)
 							.replace(CommonConstant.INTERROGACION_2, CommonConstant.NOMENCLATURAS),
 					MapperJDBC.get(Mapper.GET_ID));
