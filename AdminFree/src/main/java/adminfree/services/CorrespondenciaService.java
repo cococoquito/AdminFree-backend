@@ -1,6 +1,7 @@
 package adminfree.services;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -8,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
+import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
- * 
  * Clase que contiene todos los servicios para el modulo de Correspondencia
  * 
  * @author Carlos Andres Diaz
@@ -39,6 +40,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar el detalle de la nomenclatura
 			return new CorrespondenciaBusiness().getDetalleNomenclatura(idNomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los campos de la nomenclatura
+	 * 
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 * @return DTO con los campos de la nomenclatura
+	 */
+	public List<CampoEntradaDetalleDTO> getCamposNomenclatura(Long idNomenclatura) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los campos de la nomenclatura
+			return new CorrespondenciaBusiness().getCamposNomenclatura(idNomenclatura, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
