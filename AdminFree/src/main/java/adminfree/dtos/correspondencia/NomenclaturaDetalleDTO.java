@@ -1,6 +1,7 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,16 @@ public class NomenclaturaDetalleDTO implements Serializable {
 
 	/** Lista de campos de entrada informacion asociada a la nomenclatura */
 	private List<NomenclaturaDetalleCamposDTO> campos;
+
+	/**
+	 * Metodo que permite agregar un campo para esta nomenclatura
+	 */
+	public void agregarCampo(NomenclaturaDetalleCamposDTO campo) {
+		if (this.campos == null) {
+			this.campos = new ArrayList<>();
+		}
+		this.campos.add(campo);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id

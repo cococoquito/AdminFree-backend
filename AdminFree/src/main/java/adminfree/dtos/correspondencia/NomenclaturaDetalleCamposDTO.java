@@ -11,6 +11,9 @@ import java.io.Serializable;
 public class NomenclaturaDetalleCamposDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/** Identificador del campo */
+	private Long id;
+
 	/** Es el nombre del campo */
 	private String nombre;
 
@@ -62,5 +65,19 @@ public class NomenclaturaDetalleCamposDTO implements Serializable {
 	 */
 	public void setTipoCampo(String tipoCampo) {
 		this.tipoCampo = tipoCampo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param id
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
