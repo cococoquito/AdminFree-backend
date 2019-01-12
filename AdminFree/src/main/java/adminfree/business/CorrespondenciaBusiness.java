@@ -12,7 +12,6 @@ import adminfree.persistence.CommonDAO;
 import adminfree.persistence.ValueSQL;
 
 /**
- * 
  * Clase que contiene los procesos de negocio para el modulo de Correspondencia
  * 
  * @author Carlos Andres Diaz

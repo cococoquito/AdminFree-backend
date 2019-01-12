@@ -40,4 +40,8 @@ public class ApiRest {
 	public static final String SEGURIDAD_API = "authapi";
 	public static final String ADMIN_CLIENTES_AUTH = "adminclientesauth";
 	public static final String AUTH = "auth";
+
+	/** Constantes para los nombre de los servicios REST del modulo de correspondencia */
+	public static final String CORRESPONDENCIA_API = "corresapi";
+	public static final String GET_DTL_NOMENCLATURA = "dtlnomenclatura";
 }
