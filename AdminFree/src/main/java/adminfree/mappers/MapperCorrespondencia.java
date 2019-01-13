@@ -100,7 +100,7 @@ public class MapperCorrespondencia extends Mapper {
 	 * Metodo para configurar el detalle de la nomenclatura
 	 */
 	private NomenclaturaDetalleDTO getDtlNomenclatura(ResultSet res) throws Exception {
-		NomenclaturaDetalleDTO nomenclatura = new NomenclaturaDetalleDTO();
+		NomenclaturaDetalleDTO nomenclatura = null;
 		if (res.next()) {
 			nomenclatura = new NomenclaturaDetalleDTO();
 			nomenclatura.setId(res.getLong(Numero.UNO.value));
