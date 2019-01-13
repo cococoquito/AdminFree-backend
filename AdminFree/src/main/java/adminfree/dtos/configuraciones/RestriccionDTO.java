@@ -19,6 +19,9 @@ public class RestriccionDTO implements Serializable {
 	/** Descripcion de la restriccion */
 	private String descripcion;
 
+	/** Contiene los IDS por la cual esta restriccion no es compatible */
+	private String compatible;
+
 	/** indica si la restriccion aplica para algun campo */
 	private boolean aplica;
 
@@ -63,5 +66,20 @@ public class RestriccionDTO implements Serializable {
 	 */
 	public void setAplica(boolean aplica) {
 		this.aplica = aplica;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo compatible
+	 */
+	public String getCompatible() {
+		return compatible;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * compatible
+	 */
+	public void setCompatible(String compatible) {
+		this.compatible = compatible;
 	}
 }

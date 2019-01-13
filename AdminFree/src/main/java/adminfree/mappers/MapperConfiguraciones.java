@@ -202,6 +202,7 @@ public class MapperConfiguraciones extends Mapper {
 			restriccion = new RestriccionDTO();
 			restriccion.setId(res.getInt(Numero.UNO.value));
 			restriccion.setDescripcion(res.getString(Numero.DOS.value));
+			restriccion.setCompatible(res.getString(Numero.TRES.value));
 			restricciones.add(restriccion);
 		}
 		return restricciones;
