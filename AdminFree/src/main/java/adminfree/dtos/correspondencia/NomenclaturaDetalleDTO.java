@@ -1,8 +1,6 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Contiene el detalle de la nomenclatura para el modulo de correspondencia
@@ -27,19 +25,6 @@ public class NomenclaturaDetalleDTO implements Serializable {
 
 	/** Cantidad de consecutivos solicitados para la nomenclatura */
 	private Integer cantidadConsecutivos;
-
-	/** Lista de campos de entrada informacion asociada a la nomenclatura */
-	private List<NomenclaturaDetalleCamposDTO> campos;
-
-	/**
-	 * Metodo que permite agregar un campo para esta nomenclatura
-	 */
-	public void agregarCampo(NomenclaturaDetalleCamposDTO campo) {
-		if (this.campos == null) {
-			this.campos = new ArrayList<>();
-		}
-		this.campos.add(campo);
-	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -74,13 +59,6 @@ public class NomenclaturaDetalleDTO implements Serializable {
 	 */
 	public Integer getCantidadConsecutivos() {
 		return cantidadConsecutivos;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo campos
-	 */
-	public List<NomenclaturaDetalleCamposDTO> getCampos() {
-		return campos;
 	}
 
 	/**
@@ -120,12 +98,5 @@ public class NomenclaturaDetalleDTO implements Serializable {
 	 */
 	public void setCantidadConsecutivos(Integer cantidadConsecutivos) {
 		this.cantidadConsecutivos = cantidadConsecutivos;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param campos
-	 */
-	public void setCampos(List<NomenclaturaDetalleCamposDTO> campos) {
-		this.campos = campos;
 	}
 }

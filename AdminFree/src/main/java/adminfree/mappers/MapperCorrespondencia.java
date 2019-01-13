@@ -7,10 +7,8 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
-import adminfree.dtos.correspondencia.NomenclaturaDetalleCamposDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.enums.Numero;
-import adminfree.utilities.Util;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de correspondencia
@@ -102,38 +100,15 @@ public class MapperCorrespondencia extends Mapper {
 	 * Metodo para configurar el detalle de la nomenclatura
 	 */
 	private NomenclaturaDetalleDTO getDtlNomenclatura(ResultSet res) throws Exception {
-		NomenclaturaDetalleDTO nomenclatura = null;
-		while (res.next()) {
-			if (nomenclatura == null) {
-				// datos basicos de la nomenclatura
-				nomenclatura = new NomenclaturaDetalleDTO();
-				nomenclatura.setId(res.getLong(Numero.UNO.value));
-				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
-
-				// campos asociados a la nomenclatura
-				configurarCampo(nomenclatura, res);
-			} else {
-				configurarCampo(nomenclatura, res);
-			}
+		NomenclaturaDetalleDTO nomenclatura = new NomenclaturaDetalleDTO();
+		if (res.next()) {
+			nomenclatura = new NomenclaturaDetalleDTO();
+			nomenclatura.setId(res.getLong(Numero.UNO.value));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
 		}
 		return nomenclatura;
-	}
-
-	/**
-	 * Metodo que permite configurar la restriccion para un campo de entrada
-	 */
-	private void configurarCampo(NomenclaturaDetalleDTO nomenclatura, ResultSet res) throws Exception {
-		Long idCampo = res.getLong(Numero.SEIS.value);
-		if (idCampo != null && idCampo > Numero.ZERO.value) {
-			NomenclaturaDetalleCamposDTO campo = new NomenclaturaDetalleCamposDTO();
-			campo.setId(idCampo);
-			campo.setNombre(res.getString(Numero.SIETE.value));
-			campo.setDescripcion(res.getString(Numero.OCHO.value));
-			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.NUEVE.value)));
-			nomenclatura.agregarCampo(campo);
-		}
 	}
 }
