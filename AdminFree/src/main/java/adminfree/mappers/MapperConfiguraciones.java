@@ -380,6 +380,7 @@ public class MapperConfiguraciones extends Mapper {
 			campo.setNombreCampo(res.getString(Numero.OCHO.value));
 			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.NUEVE.value)));
 			campo.setTieneConsecutivo(Numero.UNO.value.equals(res.getInt(Numero.DIEZ.value)));
+			campo.setOrden(res.getInt(Numero.ONCE.value));
 			datos.agregarCampos(campo);
 		}
 	}

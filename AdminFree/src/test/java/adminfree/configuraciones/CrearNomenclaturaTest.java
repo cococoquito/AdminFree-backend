@@ -42,10 +42,16 @@ public class CrearNomenclaturaTest {
 			// se construye los campos a insertar
 			NomenclaturaCampoDTO campo1 = new NomenclaturaCampoDTO();
 			campo1.setIdCampo(1l);
+			campo1.setOrden(1);
+
 			NomenclaturaCampoDTO campo2 = new NomenclaturaCampoDTO();
 			campo2.setIdCampo(2l);
+			campo2.setOrden(2);
+
 			NomenclaturaCampoDTO campo3 = new NomenclaturaCampoDTO();
 			campo3.setIdCampo(3l);
+			campo3.setOrden(3);
+
 			nomenclatura.agregarCampos(campo1);
 			nomenclatura.agregarCampos(campo2);
 			nomenclatura.agregarCampos(campo3);

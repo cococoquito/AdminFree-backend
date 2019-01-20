@@ -25,7 +25,10 @@ public class NomenclaturaCampoDTO implements Serializable {
 	/** Es el tipo de campo */
 	private String tipoCampo;
 
-	/** Identifica si este campo para la nomenclatura tiene consecutivos asociados*/
+	/** Indica el orden en la que se va mostrar este campo en los modulos */
+	private Integer orden;
+
+	/** Identifica si este campo para la nomenclatura tiene consecutivos asociados */
 	private boolean tieneConsecutivo;
 
 	/**
@@ -99,5 +102,19 @@ public class NomenclaturaCampoDTO implements Serializable {
 	 */
 	public void setTieneConsecutivo(boolean tieneConsecutivo) {
 		this.tieneConsecutivo = tieneConsecutivo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo orden
+	 */
+	public Integer getOrden() {
+		return orden;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param orden
+	 */
+	public void setOrden(Integer orden) {
+		this.orden = orden;
 	}
 }

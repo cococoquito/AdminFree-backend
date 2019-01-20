@@ -830,7 +830,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				for (NomenclaturaCampoDTO campo : campos) {
 					dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
 							.replace(CommonConstant.INTERROGACION_1, idNomenclatura_)
-							.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString()));
+							.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString())
+							.replace(CommonConstant.INTERROGACION_3, campo.getOrden().toString()));
 				}
 				batchSinInjection(connection, dmls);
 			}
@@ -885,9 +886,19 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
 				if (campos != null && !campos.isEmpty()) {
 					for (NomenclaturaCampoDTO campo : campos) {
-						dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
-								.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
-								.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString()));
+
+						// si no tiene consecutivo se inserta
+						if (!campo.isTieneConsecutivo()) {
+							dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
+									.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
+									.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString())
+									.replace(CommonConstant.INTERROGACION_3, campo.getOrden().toString()));
+						} else {
+							// si tiene consecutivo solo se edita el orden
+							dmls.add(SQLConfiguraciones.UPDATE_ORDEN_NOMENCLATURA_CAMPO
+									.replace(CommonConstant.INTERROGACION_1, campo.getOrden().toString())
+									.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
+						}
 					}
 				}
 				batchSinInjection(connection, dmls);
