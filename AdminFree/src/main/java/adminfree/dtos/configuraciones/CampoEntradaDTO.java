@@ -43,9 +43,6 @@ public class CampoEntradaDTO implements Serializable {
 	/** Se utiliza al momento de crear la nomenclatura */
 	private boolean aplica;
 
-	/** Identifica si este campo para la nomenclatura tiene consecutivos asociados */
-	private boolean tieneConsecutivo;
-
 	/**
 	 * Metodo que permite agregar una restriccion para este campo
 	 */
@@ -210,20 +207,5 @@ public class CampoEntradaDTO implements Serializable {
 	 */
 	public void setAplica(boolean aplica) {
 		this.aplica = aplica;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo tieneConsecutivo
-	 */
-	public boolean isTieneConsecutivo() {
-		return tieneConsecutivo;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * tieneConsecutivo
-	 */
-	public void setTieneConsecutivo(boolean tieneConsecutivo) {
-		this.tieneConsecutivo = tieneConsecutivo;
 	}
 }
