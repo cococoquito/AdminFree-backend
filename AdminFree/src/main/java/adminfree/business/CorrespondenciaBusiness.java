@@ -10,6 +10,7 @@ import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.enums.TipoCampo;
 import adminfree.mappers.MapperConfiguraciones;
@@ -71,5 +72,23 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			}
 		}
 		return resultado;
+	}
+
+	/**
+	 * Metodo que permite obtener los datos iniciales para las
+	 * solicitudes de consecutivos de correspondencia
+	 *
+	 * @param cliente, DTO con los datos del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	public InitSolicitarConsecutivoDTO getInitSolicitarConsecutivo(Long idCliente, Connection connection) throws Exception {
+
+		// se configura el DTO de retorno
+		InitSolicitarConsecutivoDTO init = new InitSolicitarConsecutivoDTO();
+		init.setFechaActual(Calendar.getInstance().getTime());
+
+		// se configura las nomenclaturas de acuerdo al cliente
+		init.setNomenclaturas(new ConfiguracionesBusiness().getNomenclaturas(idCliente, connection));
+		return init;
 	}
 }

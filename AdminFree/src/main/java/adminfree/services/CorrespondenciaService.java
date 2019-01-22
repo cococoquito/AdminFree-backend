@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -59,6 +60,26 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los campos de la nomenclatura
 			return new CorrespondenciaBusiness().getCamposNomenclatura(idNomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los datos iniciales para las
+	 * solicitudes de consecutivos de correspondencia
+	 *
+	 * @param cliente, DTO con los datos del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	public InitSolicitarConsecutivoDTO getInitSolicitarConsecutivo(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a configurar los datos iniciales para este modulo
+			return new CorrespondenciaBusiness().getInitSolicitarConsecutivo(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

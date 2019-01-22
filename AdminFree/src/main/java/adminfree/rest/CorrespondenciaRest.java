@@ -65,4 +65,24 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getCamposNomenclatura ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los datos iniciales para las
+	 * solicitudes de consecutivos de correspondencia
+	 *
+	 * @param cliente, DTO con los datos del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	@RequestMapping(
+			value = ApiRest.INIT_CORRESPONDENCIA,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getInitSolicitarConsecutivo(@RequestParam Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getInitSolicitarConsecutivo(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getInitSolicitarConsecutivo ", e.getMessage());
+		}
+	}
 }
