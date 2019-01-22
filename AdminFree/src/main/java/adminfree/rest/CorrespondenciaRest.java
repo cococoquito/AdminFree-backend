@@ -70,7 +70,7 @@ public class CorrespondenciaRest {
 	 * Servicio que permite obtener los datos iniciales para las
 	 * solicitudes de consecutivos de correspondencia
 	 *
-	 * @param cliente, DTO con los datos del cliente autenticado
+	 * @param idCliente, identificador del cliente autenticado
 	 * @return DTO con los datos iniciales
 	 */
 	@RequestMapping(
