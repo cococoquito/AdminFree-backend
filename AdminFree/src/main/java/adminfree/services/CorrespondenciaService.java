@@ -12,6 +12,8 @@ import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
+import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
+import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -80,6 +82,26 @@ public class CorrespondenciaService {
 
 			// se procede a configurar los datos iniciales para este modulo
 			return new CorrespondenciaBusiness().getInitSolicitarConsecutivo(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite validar los campos de ingreso de informacion para el proceso de 
+	 * solicitar o editar un consecutivo de correspondencia
+	 *
+	 * @param solicitud, DTO con los datos de la solicitud
+	 * @return Lista de mensajes con los errores encontrados solo si lo hay
+	 */
+	public List<MessageResponseDTO> validarCamposIngresoInformacion(SolicitudConsecutivoDTO solicitud) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a realizar las validaciones para los campos de ingreso
+			return new CorrespondenciaBusiness().validarCamposIngresoInformacion(solicitud, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

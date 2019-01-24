@@ -12,6 +12,8 @@ import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
+import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
+import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.enums.TipoCampo;
 import adminfree.mappers.MapperConfiguraciones;
 import adminfree.mappers.MapperCorrespondencia;
@@ -90,5 +92,18 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se configura las nomenclaturas de acuerdo al cliente
 		init.setNomenclaturas(new ConfiguracionesBusiness().getNomenclaturas(idCliente, connection));
 		return init;
+	}
+
+	/**
+	 * Metodo que permite validar los campos de ingreso de informacion para el proceso de 
+	 * solicitar o editar un consecutivo de correspondencia
+	 *
+	 * @param solicitud, DTO con los datos de la solicitud
+	 * @return Lista de mensajes con los errores encontrados solo si lo hay
+	 */
+	public List<MessageResponseDTO> validarCamposIngresoInformacion(
+			SolicitudConsecutivoDTO solicitud,
+			Connection connection) throws Exception {
+		return null;
 	}
 }

@@ -3,13 +3,16 @@ package adminfree.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.services.CorrespondenciaService;
+import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
@@ -83,6 +86,28 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getInitSolicitarConsecutivo(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getInitSolicitarConsecutivo ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite validar los campos de ingreso de informacion para el proceso de 
+	 * solicitar o editar un consecutivo de correspondencia
+	 *
+	 * @param solicitud, DTO con los datos de la solicitud
+	 * @return Lista de mensajes con los errores encontrados solo si lo hay
+	 */
+	@RequestMapping(
+			value = ApiRest.VALIDAR_CAMPOS_INGRESO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> validarCamposIngresoInformacion(@RequestBody SolicitudConsecutivoDTO solicitud) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.validarCamposIngresoInformacion(solicitud));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".validarCamposIngresoInformacion ", e.getMessage());
 		}
 	}
 }
