@@ -36,9 +36,6 @@ public class SQLConfiguraciones {
 	/** SQL para la creacion del USUARIO */
 	public static final String CREAR_USUARIO = "INSERT INTO USUARIOS (NOMBRE, USUARIO_INGRESO, CLAVE_INGRESO, CLIENTE, ESTADO) VALUES (?,?,?,?,?)";
 
-	/** SQL para obtener el ID del usuario de acuerdo a sus credenciales */
-	public static final String GET_ID_USUARIO = "SELECT ID_USUARIO FROM USUARIOS WHERE USUARIO_INGRESO =? AND CLAVE_INGRESO =?";
-
 	/** SQL para insertar los privilegios de un usuario */
 	public static final String INSERTAR_PRIVILEGIOS_USER = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?,?)";
 

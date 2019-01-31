@@ -203,10 +203,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene el identificador del usuario creado
 			Long idUsuario = (Long) find(connection,
-					SQLConfiguraciones.GET_ID_USUARIO,
-					MapperTransversal.get(MapperTransversal.GET_ID),
-					ValueSQL.get(usuarioIngreso, Types.VARCHAR),
-					ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR));
+					CommonConstant.LAST_INSERT_ID,
+					MapperTransversal.get(MapperTransversal.GET_ID));
 
 			// creacion del los privilegios asignados al nuevo usuario
 			List<String> privilegios = usuario.getModulosTokens();
