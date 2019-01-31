@@ -814,10 +814,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene el identificador de la nomenclatura
 			Long idNomenclatura = (Long) find(connection,
-					CommonConstant.GET_MAX_ID
-							.replace(CommonConstant.INTERROGACION_1, CommonConstant.ID_NOMENCLATURA)
-							.replace(CommonConstant.INTERROGACION_2, CommonConstant.NOMENCLATURAS),
-						MapperTransversal.get(MapperTransversal.GET_ID));
+					CommonConstant.LAST_INSERT_ID,
+					MapperTransversal.get(MapperTransversal.GET_ID));
 
 			// si tiene campos asociados
 			List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
