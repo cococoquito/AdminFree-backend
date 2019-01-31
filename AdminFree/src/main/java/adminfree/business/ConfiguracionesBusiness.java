@@ -456,11 +456,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene el identificador del campo creado
 			Long idCampo = (Long) find(connection,
-					SQLConfiguraciones.GET_ID_CAMPO_ENTRADA,
-					MapperTransversal.get(MapperTransversal.GET_ID),
-					ValueSQL.get(tipoCampo, Types.INTEGER),
-					ValueSQL.get(nombre, Types.VARCHAR),
-					ValueSQL.get(idCliente, Types.BIGINT));
+					CommonConstant.LAST_INSERT_ID,
+					MapperTransversal.get(MapperTransversal.GET_ID));
 			String idCampoString = idCampo.toString();
 
 			// se utiliza para las inserciones para las restricciones e items si aplica

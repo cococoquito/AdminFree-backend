@@ -69,9 +69,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para la inserccion de los campos de entrada de informacion */
 	public static final String INSERTAR_CAMPO_ENTRADA = "INSERT INTO CAMPOS_ENTRADA (CLIENTE,TIPO_CAMPO,NOMBRE,DESCRIPCION) VALUES (?,?,?,?)";
 
-	/** Se utiliza para obtener el ID del campo de entrada */
-	public static final String GET_ID_CAMPO_ENTRADA = "SELECT ID_CAMPO FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO =? AND NOMBRE =? AND CLIENTE =?";
-
 	/** Se utiliza para registrar las restricciones del campo */
 	public static final String INSERTAR_RESTRICCIONES_CAMPO = "INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (?1,?2)";
 
