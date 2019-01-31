@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
@@ -52,20 +54,17 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// se procede a generar un TOKEN unico para este cliente
 		ValueSQL token = generarToken(con);
 
-		// se procede a realizar el INSERT en la BD
-		insertUpdate(con, SQLConfiguraciones.CREAR_CLIENTE, 
-				token, 
-				ValueSQL.get(cliente.getNombre(), Types.VARCHAR),
-				ValueSQL.get(cliente.getTelefonos(), Types.VARCHAR), 
-				ValueSQL.get(cliente.getEmails(), Types.VARCHAR),
-				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
-				ValueSQL.get(cliente.getCredenciales().getUsuario(), Types.VARCHAR));
+		// se procede a llamar el procedimiento para la creacion del cliente
+		String respuesta = new ProceduresJDBC().crearCliente(cliente, token.getValor().toString(), con);
 
-		// se retorna el cliente con sus datos registrados en el sistema
-		return (ClienteDTO) find(con,
-				SQLConfiguraciones.GET_CLIENTE_TOKEN,
-				MapperConfiguraciones.get(MapperConfiguraciones.GET_CLIENTE), 
-				token);
+		// si es exitoso se procede retorna el cliente con sus datos registrados en el sistema
+		if (HttpStatus.OK.getReasonPhrase().equals(respuesta)) {
+			return (ClienteDTO) find(con,
+					SQLConfiguraciones.GET_CLIENTE_TOKEN,
+					MapperConfiguraciones.get(MapperConfiguraciones.GET_CLIENTE),
+					token);
+		}
+		throw new Exception(respuesta);
 	}
 
 	/**
