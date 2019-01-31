@@ -86,6 +86,7 @@ public class MapperCorrespondencia extends Mapper {
 			campo.setDescripcion(res.getString(Numero.TRES.value));
 			campo.setTipoCampo(res.getInt(Numero.CUATRO.value));
 			restricciones = res.getString(Numero.CINCO.value);
+			campo.setIdCampoNomenclatura(res.getLong(Numero.SEIS.value));
 
 			// restricciones del campo
 			if (restricciones != null && !restricciones.isEmpty()) {

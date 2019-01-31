@@ -17,7 +17,10 @@ public class CampoEntradaValueDTO implements Serializable {
 	/** Es el valor ingresado por el usuario al momento de solicitar o editar consecutivo */
 	private Object value;
 
-	/** Son las restricciones del campo, se utiliza para hacer las validaciones correspondiente */
+	/** Identificador de la siguiente tabla NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO */
+	private Long idCampoNomenclatura;
+
+	/** Se utiliza para hacer las validaciones correspondiente al momento de editar o solicitar */
 	private List<String> restricciones;
 
 	/**
@@ -57,5 +60,20 @@ public class CampoEntradaValueDTO implements Serializable {
 	 */
 	public void setRestricciones(List<String> restricciones) {
 		this.restricciones = restricciones;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idCampoNomenclatura
+	 */
+	public Long getIdCampoNomenclatura() {
+		return idCampoNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idCampoNomenclatura
+	 */
+	public void setIdCampoNomenclatura(Long idCampoNomenclatura) {
+		this.idCampoNomenclatura = idCampoNomenclatura;
 	}
 }

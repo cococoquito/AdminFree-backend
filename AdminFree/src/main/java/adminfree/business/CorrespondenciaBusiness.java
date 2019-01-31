@@ -106,4 +106,31 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			Connection connection) throws Exception {
 		return null;
 	}
+	
+	
+	public void solicitarConsecutivo(SolicitudConsecutivoDTO solicitud, Connection connection) {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

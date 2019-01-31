@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contiene los datos de la solicitud para un consecutivo de correspondencia
+ * DTO que es utilizado para los procesos de negocio de 
+ * solicitar consecutivos de correspondencia y validar
+ * los campos de entrada de informacion (paso 2)
  *
  * @author Carlos Andres Diaz
- *
  */
 public class SolicitudConsecutivoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;

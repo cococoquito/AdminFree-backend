@@ -6,8 +6,10 @@ import java.util.List;
 import adminfree.dtos.configuraciones.ItemDTO;
 
 /**
- * Contiene el detalle de los campos de entrada de informacion
- * 
+ * DTO que se utiliza para consultar los campos relacionados
+ * a la nomenclatura seleccionada cuando se solicita o edita
+ * los consecutivos de correspondencia
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -16,6 +18,9 @@ public class CampoEntradaDetalleDTO implements Serializable {
 
 	/** Identificador del campo */
 	private Long id;
+
+	/** Identificador de la siguiente tabla NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO */
+	private Long idCampoNomenclatura;
 
 	/** nombre del campo */
 	private String nombre;
@@ -117,5 +122,20 @@ public class CampoEntradaDetalleDTO implements Serializable {
 	 */
 	public void setItems(List<ItemDTO> items) {
 		this.items = items;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idCampoNomenclatura
+	 */
+	public Long getIdCampoNomenclatura() {
+		return idCampoNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idCampoNomenclatura
+	 */
+	public void setIdCampoNomenclatura(Long idCampoNomenclatura) {
+		this.idCampoNomenclatura = idCampoNomenclatura;
 	}
 }
