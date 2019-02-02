@@ -52,9 +52,14 @@ public class CrearNomenclaturaTest {
 			campo3.setIdCampo(3l);
 			campo3.setOrden(3);
 
+			NomenclaturaCampoDTO campo4 = new NomenclaturaCampoDTO();
+			campo4.setIdCampo(4l);
+			campo4.setOrden(4);
+
 			nomenclatura.agregarCampos(campo1);
 			nomenclatura.agregarCampos(campo2);
 			nomenclatura.agregarCampos(campo3);
+			nomenclatura.agregarCampos(campo4);
 
 			// se procede a crear la nomenclatura
 			nomenclatura = this.configuracionesService.crearNomenclatura(nomenclatura);
