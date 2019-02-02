@@ -13,6 +13,7 @@ import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
+import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -102,6 +103,26 @@ public class CorrespondenciaService {
 
 			// se procede a realizar las validaciones para los campos de ingreso
 			return new CorrespondenciaBusiness().validarCamposIngresoInformacion(solicitud, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite soportar el proceso de negocio de solicitar
+	 * un consecutivo de correspondencia para una nomenclatura
+	 *
+	 * @param solicitud, DTO que contiene los datos de la solicitud
+	 * @return DTO con los datos de la respuesta
+	 */
+	public SolicitudConsecutivoResponseDTO solicitarConsecutivo(SolicitudConsecutivoDTO solicitud) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar el consecutivo de correspondencia
+			return new CorrespondenciaBusiness().solicitarConsecutivo(solicitud, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

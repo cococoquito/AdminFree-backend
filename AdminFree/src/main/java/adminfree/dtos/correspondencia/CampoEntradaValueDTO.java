@@ -17,6 +17,9 @@ public class CampoEntradaValueDTO implements Serializable {
 	/** Es el valor ingresado por el usuario al momento de solicitar o editar consecutivo */
 	private Object value;
 
+	/** Identifica el tipo de campo del value */
+	private Integer tipoCampo;
+
 	/** Identificador de la siguiente tabla NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO */
 	private Long idCampoNomenclatura;
 
@@ -75,5 +78,20 @@ public class CampoEntradaValueDTO implements Serializable {
 	 */
 	public void setIdCampoNomenclatura(Long idCampoNomenclatura) {
 		this.idCampoNomenclatura = idCampoNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tipoCampo
+	 */
+	public Integer getTipoCampo() {
+		return tipoCampo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tipoCampo
+	 */
+	public void setTipoCampo(Integer tipoCampo) {
+		this.tipoCampo = tipoCampo;
 	}
 }

@@ -110,4 +110,26 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".validarCamposIngresoInformacion ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite soportar el proceso de negocio de solicitar
+	 * un consecutivo de correspondencia para una nomenclatura
+	 *
+	 * @param solicitud, DTO que contiene los datos de la solicitud
+	 * @return DTO con los datos de la respuesta
+	 */
+	@RequestMapping(
+			value = ApiRest.SOLICITAR_CONSECUTIVO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> solicitarConsecutivo(@RequestBody SolicitudConsecutivoDTO solicitud) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.solicitarConsecutivo(solicitud));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".solicitarConsecutivo ", e.getMessage());
+		}
+	}
 }

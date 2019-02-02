@@ -21,6 +21,7 @@ public class MapperCorrespondencia extends Mapper {
 	/** Son los tipos de mapper que soporta este modulo */
 	public static final int GET_DTL_NOMENCLATURA = 1;
 	public static final int GET_DTL_NOMENCLATURA_CAMPOS = 2;
+	public static final int GET_SECUENCIA_NOMENCLATURA = 3;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -59,8 +60,24 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS:
 				result = getDtlNomenclaturaCampos(res);
 				break;
+
+			case MapperCorrespondencia.GET_SECUENCIA_NOMENCLATURA:
+				result = getSecuenciaNomenclatura(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos de la secuencia de la nomenclatura
+	 */
+	private List<Integer> getSecuenciaNomenclatura(ResultSet res) throws Exception {
+		List<Integer> respuesta = new ArrayList<>();
+		if (res.next()) {
+			respuesta.add(res.getInt(Numero.UNO.value));
+			respuesta.add(res.getInt(Numero.DOS.value));
+		}
+		return respuesta;
 	}
 
 	/**

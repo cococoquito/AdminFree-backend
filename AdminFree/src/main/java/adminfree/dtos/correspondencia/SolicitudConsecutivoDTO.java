@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DTO que es utilizado para los procesos de negocio de 
- * solicitar consecutivos de correspondencia y validar
- * los campos de entrada de informacion (paso 2)
+ * DTO que es utilizado para los procesos de negocio de solicitar consecutivos
+ * de correspondencia y validar los campos de entrada de informacion (paso 2)
  *
  * @author Carlos Andres Diaz
  */
@@ -19,6 +18,9 @@ public class SolicitudConsecutivoDTO implements Serializable {
 
 	/** Identificador de la nomenclatura seleccionada */
 	private Long idNomenclatura;
+
+	/** Identificador del usuario quien solicita el consecutivo */
+	private Long idUsuario;
 
 	/** Son los valores ingresados para la solicitud o edicion del consecutivo */
 	private List<CampoEntradaValueDTO> valores;
@@ -32,8 +34,7 @@ public class SolicitudConsecutivoDTO implements Serializable {
 		}
 		this.valores.add(valor);
 	}
-	
-	
+
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
@@ -76,5 +77,20 @@ public class SolicitudConsecutivoDTO implements Serializable {
 	 */
 	public void setValores(List<CampoEntradaValueDTO> valores) {
 		this.valores = valores;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idUsuario
+	 */
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idUsuario
+	 */
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }
