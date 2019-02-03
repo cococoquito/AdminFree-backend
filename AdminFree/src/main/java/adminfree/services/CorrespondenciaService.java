@@ -115,7 +115,7 @@ public class CorrespondenciaService {
 	 * @param solicitud, DTO que contiene los datos de la solicitud
 	 * @return DTO con los datos de la respuesta
 	 */
-	public SolicitudConsecutivoResponseDTO solicitarConsecutivo(SolicitudConsecutivoDTO solicitud) throws Exception {
+	public synchronized SolicitudConsecutivoResponseDTO solicitarConsecutivo(SolicitudConsecutivoDTO solicitud) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
