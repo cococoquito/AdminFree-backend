@@ -910,12 +910,13 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idNomenclatura, identificador de la nomenclatura
 	 */
 	public void eliminarNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
+
 		// se verifica que no exista un consecutivo asociada a la nomenclatura
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_CONSECUTIVOS_NOMENCLATURA,
-				MapperTransversal.get(MapperTransversal.COUNT),
+		Long secuencia = (Long) find(connection,
+				SQLConfiguraciones.GET_SECUENCIA_NOMENCLATURA,
+				MapperTransversal.get(MapperTransversal.GET_ID),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
-		if (!count.equals(Numero.ZERO.value.longValue())) {
+		if (secuencia != null && !secuencia.equals(Numero.ZERO.value.longValue())) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA.value);
 		}
 

@@ -133,7 +133,7 @@ public class SQLConfiguraciones {
 	public static final String EXISTE_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=?";
 
 	/** Se utiliza para validar si existe consecutivos asociados a una nomenclatura */
-	public static final String COUNT_CONSECUTIVOS_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS_SECUENCIA WHERE NOMENCLATURA=?";
+	public static final String GET_SECUENCIA_NOMENCLATURA = "SELECT SECUENCIA FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
 
 	/** Se utiliza para eliminar los campos asociados a la nomenclatura */
 	public static final String DELETE_NOMENCLATURA_CAMPOS = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=?";
