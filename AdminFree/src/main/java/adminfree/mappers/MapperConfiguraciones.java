@@ -348,6 +348,7 @@ public class MapperConfiguraciones extends Mapper {
 	 */
 	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
 		NomenclaturaDTO nomenclatura = null;
+		Integer consecutivos;
 		while (res.next()) {
 			if (nomenclatura == null) {
 				// datos basicos de la nomenclatura
@@ -356,7 +357,8 @@ public class MapperConfiguraciones extends Mapper {
 				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				nomenclatura.setTieneConsecutivos(!Numero.ZERO.value.equals(res.getInt(Numero.CINCO.value)));
+				consecutivos = res.getInt(Numero.CINCO.value);
+				nomenclatura.setTieneConsecutivos(consecutivos != null && !consecutivos.equals(Numero.ZERO.value));
 
 				// campo de la nomenclatura
 				configurarCampo(nomenclatura, res);
