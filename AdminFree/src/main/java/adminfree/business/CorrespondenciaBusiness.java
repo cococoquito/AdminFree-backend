@@ -43,9 +43,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 */
 	public NomenclaturaDetalleDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
 		return (NomenclaturaDetalleDTO) find(connection,
-				SQLCorrespondencia.GET_DTL_NOMENCLATURA.replace(
-						CommonConstant.INTERROGACION_1,
-						Calendar.getInstance().get(Calendar.YEAR) + ""),
+				SQLCorrespondencia.GET_DTL_NOMENCLATURA,
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DTL_NOMENCLATURA), 
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
 	}
