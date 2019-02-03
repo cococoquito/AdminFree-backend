@@ -42,12 +42,6 @@ public class SQLConfiguraciones {
 	/** SQL para modificar el estado del usuario */
 	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO =? WHERE ID_USUARIO =?";
 
-	/** Se utiliza para eliminar los privilegios del usuario */
-	public static final String DELETE_PRIVILEGIOS_USER_ = "DELETE FROM USUARIOS_MODULOS WHERE ID_USUARIO =?";
-
-	/** Se utiliza para insertar los privilegios del usuario sin injection */
-	public static final String INSERTAR_PRIVILEGIOS_USER_ = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?1,'?2')";
-
 	/** Se utiliza para actualizar la clave de ingreso del Usuario */
 	public static final String ACTUALIZAR_CLAVE_INGRESO = "UPDATE USUARIOS SET CLAVE_INGRESO =? WHERE ID_USUARIO =?";
 
@@ -143,4 +137,23 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza para obtener el detalle de la nomenclatura */
 	public static final String GET_DETALLE_NOMENCLATURA = "SELECT NOM.ID_NOMENCLATURA,NOM.NOMENCLATURA,NOM.DESCRIPCION,NOM.CONSECUTIVO_INICIAL,NOM.SECUENCIA,NOC.ID_NOME_CAMPO,CP.ID_CAMPO,CP.NOMBRE,CP.TIPO_CAMPO,NOC.TIENE_CONSECUTIVO,NOC.ORDEN FROM NOMENCLATURAS NOM LEFT JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOC ON (NOM.ID_NOMENCLATURA = NOC.NOMENCLATURA) LEFT JOIN CAMPOS_ENTRADA CP ON (CP.ID_CAMPO = NOC.CAMPO) WHERE NOM.ID_NOMENCLATURA=? ORDER BY NOC.ORDEN";
+
+	/**
+	 * Metodo que construye el SQL para eliminar los privilegios asociados a un usuario
+	 */
+	public static String getSQlDeletePrivilegiosUser(Long idUser) {
+		StringBuilder sql = new StringBuilder("DELETE FROM USUARIOS_MODULOS WHERE ID_USUARIO=");
+		sql.append(idUser);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para insertar los privilegios de un usuario
+	 */
+	public static String getSQLInsertPrivilegiosUser(Long idUser, String token) {
+		StringBuilder sql = new StringBuilder("INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (");
+		sql.append(idUser).append(",'");
+		sql.append(token).append("')");
+		return sql.toString();
+	}
 }

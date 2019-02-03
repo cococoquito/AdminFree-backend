@@ -260,30 +260,28 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene los datos del usuario
 			UsuarioDTO usuario = datos.getUsuario();
+			Long idUser = usuario.getId();
 
 			// modificaciones para los datos basicos del usuario
 			if (datos.isDatosBasicosEditar()) {
 				insertUpdate(connection, SQLConfiguraciones.UPDATE_DATOS_CUENTA,
 						ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
 						ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
-						ValueSQL.get(usuario.getId(), Types.BIGINT));
+						ValueSQL.get(idUser, Types.BIGINT));
 			}
 
 			// modificaciones de los modulos asignados para el usuario
 			if (datos.isModulosEditar()) {
 				List<String> dmls = new ArrayList<>();
-				String idUser = usuario.getId().toString();
 
 				// DML para eliminar los privilegios asociados al usuario que llega por parametro
 				// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
-				dmls.add(SQLConfiguraciones.DELETE_PRIVILEGIOS_USER_.replace(CommonConstant.INTERROGACION, idUser));
+				dmls.add(SQLConfiguraciones.getSQlDeletePrivilegiosUser(idUser));
 
 				// se configura los inserts de los nuevos privilegios asociado al usuario
 				List<String> tokens = usuario.getModulosTokens();
 				for (String token : tokens) {
-					dmls.add(SQLConfiguraciones.INSERTAR_PRIVILEGIOS_USER_
-							.replace(CommonConstant.INTERROGACION_1, idUser)
-							.replace(CommonConstant.INTERROGACION_2, token));
+					dmls.add(SQLConfiguraciones.getSQLInsertPrivilegiosUser(idUser, token));
 				}
 
 				// se ejecuta el batch modificando los modulos asignados
