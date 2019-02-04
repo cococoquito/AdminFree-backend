@@ -260,14 +260,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene los datos del usuario
 			UsuarioDTO usuario = datos.getUsuario();
-			Long idUser = usuario.getId();
+			String idUser_ = usuario.getId().toString();
 
 			// modificaciones para los datos basicos del usuario
 			if (datos.isDatosBasicosEditar()) {
 				insertUpdate(connection, SQLConfiguraciones.UPDATE_DATOS_CUENTA,
 						ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
 						ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
-						ValueSQL.get(idUser, Types.BIGINT));
+						ValueSQL.get(usuario.getId(), Types.BIGINT));
 			}
 
 			// modificaciones de los modulos asignados para el usuario
@@ -276,12 +276,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 				// DML para eliminar los privilegios asociados al usuario que llega por parametro
 				// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
-				dmls.add(SQLConfiguraciones.getSQlDeletePrivilegiosUser(idUser));
+				dmls.add(SQLConfiguraciones.getSQlDeletePrivilegiosUser(idUser_));
 
 				// se configura los inserts de los nuevos privilegios asociado al usuario
 				List<String> tokens = usuario.getModulosTokens();
 				for (String token : tokens) {
-					dmls.add(SQLConfiguraciones.getSQLInsertPrivilegiosUser(idUser, token));
+					dmls.add(SQLConfiguraciones.getSQLInsertPrivilegiosUser(idUser_, token));
 				}
 
 				// se ejecuta el batch modificando los modulos asignados
@@ -456,6 +456,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Long idCampo = (Long) find(connection,
 					CommonConstant.LAST_INSERT_ID,
 					MapperTransversal.get(MapperTransversal.GET_ID));
+			String idCampo_ = idCampo.toString();
 
 			// se utiliza para las inserciones para las restricciones e items si aplica
 			List<String> dmls = new ArrayList<>();
@@ -464,7 +465,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			List<RestriccionDTO> restricciones = campo.getRestricciones();
 			if (restricciones != null && !restricciones.isEmpty()) {
 				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo, restriccion.getId()));
+					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo_, restriccion.getId().toString()));
 				}
 			}
 
@@ -473,7 +474,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				List<ItemDTO> items = campo.getItems();
 				if (items != null && !items.isEmpty()) {
 					for (ItemDTO item : items) {
-						dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo, item.getValor()));
+						dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo_, item.getValor()));
 					}
 				}
 			}
@@ -543,6 +544,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCampo, identificador del campo de entrada
 	 */
 	public void eliminarCampoEntrada(Long idCampo, Connection connection) throws Exception {
+
 		// se verifica que no exista una nomenclatura asociada al campo
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_CAMPO_NOMENCLATURA_ASOCIADA,
@@ -557,19 +559,19 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// bloque para la eliminacion del campo
 		try {
 			connection.setAutoCommit(false);
-			String id = idCampo.toString();
+			String idCampo_ = idCampo.toString();
 
 			// lista para enviar al batch de eliminacion
 			List<String> deletes = new ArrayList<>();
 
 			// SQL para eliminar las restricciones
-			deletes.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo));
+			deletes.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo_));
 
 			// SQL para eliminar los items
-			deletes.add(SQLConfiguraciones.DELETE_CAMPO_ITEMS.replace(CommonConstant.INTERROGACION, id));
+			deletes.add(SQLConfiguraciones.getSQLDeleteCamposItems(idCampo_));
 
 			// SQL para eliminar el campo de entrada
-			deletes.add(SQLConfiguraciones.DELETE_CAMPO_ENTRADA.replace(CommonConstant.INTERROGACION, id));
+			deletes.add(SQLConfiguraciones.getSQLDeleteCampoEntrada(idCampo_));
 
 			// se ejecuta el batch y se confirman los cambios
 			batchSinInjection(connection, deletes);
@@ -646,6 +648,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// ID del campo entrada, se utiliza para las sentencias
 		Long idCampo = campoEditar.getId();
+		String idCampo_ = idCampo.toString();
 
 		// ************* 01-ACTUALIZACION DE LOS DATOS BASICOS DEL CAMPO *************************
 		if (datos.isDatosBasicosEditar()) {
@@ -661,7 +664,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se eliminan todas las restricciones asociadas al campo,
 			// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
-			dmls.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo));
+			dmls.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo_));
 
 			// se recorre todas las restricciones y se agrega en la lista dmls
 			List<RestriccionDTO> restricciones = campoEditar.getRestricciones();
@@ -669,7 +672,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// un campo puede quedar sin restricciones
 			if (restricciones != null && !restricciones.isEmpty()) {
 				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo, restriccion.getId()));
+					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo_, restriccion.getId().toString()));
 				}
 			}
 		}
@@ -685,15 +688,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 				// si es creacion del ITEM
 				if (item.getId() == null) {
-					dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo, item.getValor()));
+					dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo_, item.getValor()));
 				} else {
 					// si es edicion del ITEM
 					if (!item.isBorrar()) {
-						dmls.add(SQLConfiguraciones.getSQLUpdateSelectItems(item.getValor(), item.getId()));
+						dmls.add(SQLConfiguraciones.getSQLUpdateSelectItems(item.getValor(), item.getId().toString()));
 					} else {
 						// si es borrar se debe validar que no existan consecutivos asociado al campo
 						if (!datos.isTieneConsecutivos()) {
-							dmls.add(SQLConfiguraciones.getSQLDeleteSelectItems(item.getId()));
+							dmls.add(SQLConfiguraciones.getSQLDeleteSelectItems(item.getId().toString()));
 						}
 					}
 				}

@@ -1,9 +1,8 @@
 package adminfree.constants;
 
 /**
- * 
  * Clase constante que contiene los DML Y DDL para el modulo de Configuraciones
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -75,12 +74,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza si intentan eliminar un campo y esta tiene asociado una nomenclatura */
 	public static final String COUNT_CAMPO_NOMENCLATURA_ASOCIADA = "SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE CAMPO =?";
 
-	/** Se utiliza para eliminar los items de un campo de entrada */
-	public static final String DELETE_CAMPO_ITEMS = "DELETE FROM SELECT_ITEMS WHERE CAMPO =?";
-
-	/** Se utiliza para eliminar el campo de entrada de informacion */
-	public static final String DELETE_CAMPO_ENTRADA = "DELETE FROM CAMPOS_ENTRADA WHERE ID_CAMPO =?";
-
 	/** Se utiliza para obtener el detalle de un campo de entrada para editar */
 	public static final String GET_DETALLE_CAMPO_EDITAR = "SELECT CE.ID_CAMPO AS ID_CAMPO, CE.CLIENTE AS ID_CLIENTE, CE.NOMBRE AS NOMBRE_CAMPO, CE.DESCRIPCION AS DESCRIPCION_CAMPO, CE.TIPO_CAMPO AS TIPO_CAMPO, (SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA NCE WHERE NCE.CAMPO = CE.ID_CAMPO AND NCE.TIENE_CONSECUTIVO IS NULL) AS NOMENCLATURAS, (SELECT COUNT(*) FROM CAMPOS_ENTRADA_RESTRICCIONES RE WHERE RE.CAMPO = CE.ID_CAMPO) AS RESTRICCIONES, (SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA NCC WHERE NCC.CAMPO = CE.ID_CAMPO AND NCC.TIENE_CONSECUTIVO IS NOT NULL) AS CONSECUTIVOS FROM CAMPOS_ENTRADA CE WHERE CE.ID_CAMPO =?";
 
@@ -126,7 +119,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para eliminar los privilegios asociados a un usuario
 	 */
-	public static String getSQlDeletePrivilegiosUser(Long idUser) {
+	public static String getSQlDeletePrivilegiosUser(String idUser) {
 		StringBuilder sql = new StringBuilder("DELETE FROM USUARIOS_MODULOS WHERE ID_USUARIO=");
 		sql.append(idUser);
 		return sql.toString();
@@ -135,7 +128,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para insertar los privilegios de un usuario
 	 */
-	public static String getSQLInsertPrivilegiosUser(Long idUser, String token) {
+	public static String getSQLInsertPrivilegiosUser(String idUser, String token) {
 		StringBuilder sql = new StringBuilder("INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (");
 		sql.append(idUser).append(",'");
 		sql.append(token).append("')");
@@ -145,7 +138,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para insertar las restricciones de los campos de ingreso
 	 */
-	public static String getSQLInsertRestriccionesCampo(Long idCampo, Integer idRestriccion) {
+	public static String getSQLInsertRestriccionesCampo(String idCampo, String idRestriccion) {
 		StringBuilder sql = new StringBuilder("INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (");
 		sql.append(idCampo).append(",");
 		sql.append(idRestriccion).append(")");
@@ -155,7 +148,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para insertar los items para un campo lista desplegable
 	 */
-	public static String getSQLInsertSelectItems(Long idCampo, String valor) {
+	public static String getSQLInsertSelectItems(String idCampo, String valor) {
 		StringBuilder sql = new StringBuilder("INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (");
 		sql.append(idCampo).append(",'");
 		sql.append(valor).append("')");
@@ -165,7 +158,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para eliminar las restricciones de un campo de ingreso
 	 */
-	public static String getSQLDeleteCampoRestricciones(Long idCampo) {
+	public static String getSQLDeleteCampoRestricciones(String idCampo) {
 		StringBuilder sql = new StringBuilder("DELETE FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO=");
 		sql.append(idCampo);
 		return sql.toString();
@@ -174,7 +167,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para eliminar los items de una lista desplegable
 	 */
-	public static String getSQLDeleteSelectItems(Long idItem) {
+	public static String getSQLDeleteSelectItems(String idItem) {
 		StringBuilder sql = new StringBuilder("DELETE FROM SELECT_ITEMS WHERE ID_ITEM=");
 		sql.append(idItem);
 		return sql.toString();
@@ -183,10 +176,28 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para actualizar el valor de un item
 	 */
-	public static String getSQLUpdateSelectItems(String valor, Long idItem) {
+	public static String getSQLUpdateSelectItems(String valor, String idItem) {
 		StringBuilder sql = new StringBuilder("UPDATE SELECT_ITEMS SET VALOR='");
 		sql.append(valor).append("' WHERE ID_ITEM=");
 		sql.append(idItem);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar los items de un campo
+	 */
+	public static String getSQLDeleteCamposItems(String idCampo) {
+		StringBuilder sql = new StringBuilder("DELETE FROM SELECT_ITEMS WHERE CAMPO=");
+		sql.append(idCampo);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar el campo de entrada
+	 */
+	public static String getSQLDeleteCampoEntrada(String idCampo) {
+		StringBuilder sql = new StringBuilder("DELETE FROM CAMPOS_ENTRADA WHERE ID_CAMPO=");
+		sql.append(idCampo);
 		return sql.toString();
 	}
 }
