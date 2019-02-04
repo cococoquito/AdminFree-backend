@@ -24,7 +24,7 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el insert para los consecutivos
 	 * de correspondencia asociado al cliente autenticado en el sistema
 	 */
-	public static String getInsertConsecutivo(Long idCliente) {
+	public static String getInsertConsecutivo(String idCliente) {
 		StringBuilder insert = new StringBuilder("INSERT INTO CONSECUTIVOS_");
 		insert.append(idCliente);
 		insert.append("(NOMENCLATURA,CONSECUTIVO,USUARIO,FECHA_SOLICITUD,ESTADO)VALUES(?,?,?,CURDATE(),");
@@ -36,7 +36,7 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el insert para los valores del
 	 * consecutivo asociado al cliente autenticado en el sistema
 	 */
-	public static String getInsertConsecutivoValues(Long idCliente) {
+	public static String getInsertConsecutivoValues(String idCliente) {
 		StringBuilder insert = new StringBuilder("INSERT INTO CONSECUTIVOS_VALUES_");
 		insert.append(idCliente);
 		insert.append("(ID_CONSECUTIVO,CAMPO,VALOR)VALUES(?,?,?)");
@@ -46,7 +46,7 @@ public class SQLCorrespondencia {
 	/**
 	 * Metodo que permite construir el update para la secuencia asociada a una nomenclatura
 	 */
-	public static String getUpdateNomenclaturaSecuencia(Integer secuencia, Long idNomenclatura) {
+	public static String getUpdateNomenclaturaSecuencia(String secuencia, String idNomenclatura) {
 		StringBuilder update = new StringBuilder("UPDATE NOMENCLATURAS SET SECUENCIA=");
 		update.append(secuencia);
 		update.append(" WHERE ID_NOMENCLATURA=");
@@ -58,7 +58,7 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el update para actualizar la bandera "tiene consecutivos"
 	 * de la tabla NOMENCLATURAS_CAMPOS_ENTRADA asociada a la nomenclatura seleccionada
 	 */
-	public static String getUpdateCamposTieneConsecutivo(Long idNomenclatura) {
+	public static String getUpdateCamposTieneConsecutivo(String idNomenclatura) {
 		StringBuilder update = new StringBuilder("UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET TIENE_CONSECUTIVO=1 WHERE NOMENCLATURA=");
 		update.append(idNomenclatura);
 		return update.toString();

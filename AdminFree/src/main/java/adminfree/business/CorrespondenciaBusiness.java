@@ -130,6 +130,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// identificadores que se utiliza para varios procesos
 			Long idNomenclatura = solicitud.getIdNomenclatura();
 			Long idCliente = solicitud.getIdCliente();
+			String idCliente_ = idCliente.toString();
+			String idNomenclatura_ = idNomenclatura.toString();
 
 			// se procede a consultar la secuencia actual de la nomenclatura
 			List<Integer> respuesta = (List<Integer>) find(connection,
@@ -157,7 +159,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// se realiza el insert de la tabla padre CONSECUTIVOS_ID_CLIENTE
 			insertUpdate(connection,
-					SQLCorrespondencia.getInsertConsecutivo(idCliente),
+					SQLCorrespondencia.getInsertConsecutivo(idCliente_),
 					ValueSQL.get(idNomenclatura, Types.BIGINT),
 					ValueSQL.get(secuenciaFormato, Types.VARCHAR),
 					ValueSQL.get(solicitud.getIdUsuario(), Types.BIGINT));
@@ -210,17 +212,17 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				}
 
 				// se inserta los valores del consecutivo
-				batchConInjection(connection, SQLCorrespondencia.getInsertConsecutivoValues(idCliente), injections);
+				batchConInjection(connection, SQLCorrespondencia.getInsertConsecutivoValues(idCliente_), injections);
 			}
 
 			// Lista para la ejecucion de los dmls por batch sin injection
 			List<String> dmls = new ArrayList<>();
 
 			// SQL para actualizar la secuencia para la nomenclatura seleccionada
-			dmls.add(SQLCorrespondencia.getUpdateNomenclaturaSecuencia(nroSecuencia, idNomenclatura));
+			dmls.add(SQLCorrespondencia.getUpdateNomenclaturaSecuencia(nroSecuencia.toString(), idNomenclatura_));
 
 			// SQL para actualizar la bandera que indica que campos ya tienen asociado un consecutivo
-			dmls.add(SQLCorrespondencia.getUpdateCamposTieneConsecutivo(idNomenclatura));
+			dmls.add(SQLCorrespondencia.getUpdateCamposTieneConsecutivo(idNomenclatura_));
 
 			// se ejecuta el batch para estos dos actualizaciones
 			batchSinInjection(connection, dmls);
