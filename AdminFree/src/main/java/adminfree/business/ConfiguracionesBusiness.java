@@ -36,7 +36,6 @@ import adminfree.utilities.EstrategiaCriptografica;
 import adminfree.utilities.Util;
 
 /**
- *
  * Clase que contiene los procesos de negocio para el modulo de Configuraciones
  *
  * @author Carlos Andres Diaz
@@ -811,10 +810,10 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				// se recorre todos los campos para construir el DML para la insercion
 				List<String> dmls = new ArrayList<>();
 				for (NomenclaturaCampoDTO campo : campos) {
-					dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
-							.replace(CommonConstant.INTERROGACION_1, idNomenclatura_)
-							.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString())
-							.replace(CommonConstant.INTERROGACION_3, campo.getOrden().toString()));
+					dmls.add(SQLConfiguraciones.getSQLInsertCamposNomenclatura(
+							idNomenclatura_,
+							campo.getIdCampo().toString(),
+							campo.getOrden().toString()));
 				}
 				batchSinInjection(connection, dmls);
 			}
@@ -860,10 +859,10 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// modificaciones de los campos de entrada asociados a la nomenclatura
 			if (datos.isCamposEntradaEditar()) {
 				List<String> dmls = new ArrayList<>();
-				String idNomenclatura = nomenclatura.getId().toString();
+				String idNomenclatura_ = nomenclatura.getId().toString();
 
 				// se eliminan todos los campos asociados a la nomenclatura que no tengan consecutivos
-				dmls.add(SQLConfiguraciones.DELETE_NOMENCLAURA_CAMPO.replace(CommonConstant.INTERROGACION, idNomenclatura));
+				dmls.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_));
 
 				// se insertan los campos seleccionados
 				List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
@@ -872,15 +871,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 						// si no tiene consecutivo se inserta
 						if (!campo.isTieneConsecutivo()) {
-							dmls.add(SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS
-									.replace(CommonConstant.INTERROGACION_1, idNomenclatura)
-									.replace(CommonConstant.INTERROGACION_2, campo.getIdCampo().toString())
-									.replace(CommonConstant.INTERROGACION_3, campo.getOrden().toString()));
+							dmls.add(SQLConfiguraciones.getSQLInsertCamposNomenclatura(
+									idNomenclatura_,
+									campo.getIdCampo().toString(),
+									campo.getOrden().toString()));
 						} else {
 							// si tiene consecutivo solo se edita el orden
-							dmls.add(SQLConfiguraciones.UPDATE_ORDEN_NOMENCLATURA_CAMPO
-									.replace(CommonConstant.INTERROGACION_1, campo.getOrden().toString())
-									.replace(CommonConstant.INTERROGACION_2, campo.getId().toString()));
+							dmls.add(SQLConfiguraciones.getSQLUpdateOrdenCamposNomenclatura(
+									campo.getOrden().toString(),
+									campo.getId().toString()));
 						}
 					}
 				}

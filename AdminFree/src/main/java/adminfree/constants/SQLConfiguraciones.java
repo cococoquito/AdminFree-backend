@@ -89,17 +89,8 @@ public class SQLConfiguraciones {
 	/** Se utiliza para crear la nomenclatura */
 	public static final String INSERT_NOMENCLATURA = "INSERT INTO NOMENCLATURAS (NOMENCLATURA, DESCRIPCION, CLIENTE, CONSECUTIVO_INICIAL) VALUES (?,?,?,?)";
 
-	/** Se utiliza para insertar los campos asociados a una nomenclatura */
-	public static final String INSERT_NOMENCLATURA_CAMPOS = "INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA (NOMENCLATURA, CAMPO, ORDEN) VALUES (?1,?2,?3)";
-
-	/** Se utiliza para actualizar el orden de los campos que le pertenece a una nomenclatura */
-	public static final String UPDATE_ORDEN_NOMENCLATURA_CAMPO = "UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET ORDEN=?1 WHERE ID_NOME_CAMPO=?2";
-
 	/** Se utiliza para actualizar los datos basicos de la nomenclatura */
 	public static final String UPDATE_NOMENCLATURA = "UPDATE NOMENCLATURAS SET NOMENCLATURA=?, DESCRIPCION=?, CONSECUTIVO_INICIAL=? WHERE ID_NOMENCLATURA=?";
-
-	/** Se utiliza para eliminar los campos que no tengan consecutivos asociados a la nomenclatura */
-	public static final String DELETE_NOMENCLAURA_CAMPO = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=? AND TIENE_CONSECUTIVO IS NULL";
 
 	/** Se utiliza para identificar si existe la nomenclatura asociada a un cliente */
 	public static final String EXISTE_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=?";
@@ -198,6 +189,37 @@ public class SQLConfiguraciones {
 	public static String getSQLDeleteCampoEntrada(String idCampo) {
 		StringBuilder sql = new StringBuilder("DELETE FROM CAMPOS_ENTRADA WHERE ID_CAMPO=");
 		sql.append(idCampo);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para insertar los campos asociados a una nomenclatura
+	 */
+	public static String getSQLInsertCamposNomenclatura(String idNomenclatura, String idCampo, String orden) {
+		StringBuilder sql = new StringBuilder("INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA (NOMENCLATURA, CAMPO, ORDEN) VALUES (");
+		sql.append(idNomenclatura).append(",");
+		sql.append(idCampo).append(",");
+		sql.append(orden).append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar los campos asociados a una nomenclatura
+	 */
+	public static String getSQLDeleteCamposNomenclatura(String idNomenclatura) {
+		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=");
+		sql.append(idNomenclatura);
+		sql.append(" AND TIENE_CONSECUTIVO IS NULL");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para actualizar el orden un campo de una nomenclatura
+	 */
+	public static String getSQLUpdateOrdenCamposNomenclatura(String orden, String idCampoNomenclatura) {
+		StringBuilder sql = new StringBuilder("UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET ORDEN=");
+		sql.append(orden).append(" WHERE ID_NOME_CAMPO=");
+		sql.append(idCampoNomenclatura);
 		return sql.toString();
 	}
 }
