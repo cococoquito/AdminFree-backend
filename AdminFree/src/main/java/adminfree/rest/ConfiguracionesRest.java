@@ -419,13 +419,13 @@ public class ConfiguracionesRest {
 			method = RequestMethod.PUT,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> editarCampoEntradaInformacion(@RequestBody CampoEntradaEdicionDTO datos) {
+	public ResponseEntity<Object> editarCampoEntrada(@RequestBody CampoEntradaEdicionDTO datos) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.editarCampoEntradaInformacion(datos));
+			return Util.getResponseSuccessful(this.configuracionesService.editarCampoEntrada(datos));
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarCampoEntradaInformacion ", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".editarCampoEntrada ", e.getMessage());
 		}
 	}
 

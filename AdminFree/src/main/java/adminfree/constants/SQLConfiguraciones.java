@@ -63,18 +63,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para la inserccion de los campos de entrada de informacion */
 	public static final String INSERTAR_CAMPO_ENTRADA = "INSERT INTO CAMPOS_ENTRADA (CLIENTE,TIPO_CAMPO,NOMBRE,DESCRIPCION) VALUES (?,?,?,?)";
 
-	/** Se utiliza para registrar las restricciones del campo */
-	public static final String INSERTAR_RESTRICCIONES_CAMPO = "INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (?1,?2)";
-
-	/** Se utiliza para registrar los items del campo de entrada tipo lista desplegable */
-	public static final String INSERTAR_SELECT_ITEMS = "INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (?1,'?2')";
-
-	/** Se utiliza para actualizar el valor de un item*/
-	public static final String UPDATE_SELECT_ITEMS = "UPDATE SELECT_ITEMS SET VALOR = '?1' WHERE ID_ITEM = ?2";
-
-	/** Se utiliza para eliminar un item*/
-	public static final String DELETE_SELECT_ITEMS = "DELETE FROM SELECT_ITEMS WHERE ID_ITEM = ?";
-
 	/** Se utiliza para obtener los campos de entrada de informacion asociado a un cliente */
 	public static final String GET_CAMPOS_ENTRADA_INFORMACION = "SELECT ID_CAMPO, TIPO_CAMPO, NOMBRE FROM CAMPOS_ENTRADA WHERE CLIENTE =? ORDER BY TIPO_CAMPO";
 
@@ -86,9 +74,6 @@ public class SQLConfiguraciones {
 
 	/** Se utiliza si intentan eliminar un campo y esta tiene asociado una nomenclatura */
 	public static final String COUNT_CAMPO_NOMENCLATURA_ASOCIADA = "SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE CAMPO =?";
-
-	/** Se utiliza para eliminar las restricciones de un campo de entrada */
-	public static final String DELETE_CAMPO_RESTRICCIONES = "DELETE FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
 
 	/** Se utiliza para eliminar los items de un campo de entrada */
 	public static final String DELETE_CAMPO_ITEMS = "DELETE FROM SELECT_ITEMS WHERE CAMPO =?";
@@ -103,7 +88,7 @@ public class SQLConfiguraciones {
 	public static final String GET_RESTRICCIONES_EDICION = "SELECT RESTRICCION FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
 
 	/** DML para actualizar la descripcion y el nombre del campo de entrada */
-	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION ='?1', NOMBRE ='?2' WHERE ID_CAMPO =?3";
+	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION=?, NOMBRE=? WHERE ID_CAMPO=?";
 
 	/** Se utiliza para obtener todas las nomenclaturas asociadas a un cliente */
 	public static final String GET_NOMENCLATURAS = "SELECT ID_NOMENCLATURA, NOMENCLATURA, DESCRIPCION, CONSECUTIVO_INICIAL FROM NOMENCLATURAS WHERE CLIENTE =?";
@@ -154,6 +139,54 @@ public class SQLConfiguraciones {
 		StringBuilder sql = new StringBuilder("INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (");
 		sql.append(idUser).append(",'");
 		sql.append(token).append("')");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para insertar las restricciones de los campos de ingreso
+	 */
+	public static String getSQLInsertRestriccionesCampo(Long idCampo, Integer idRestriccion) {
+		StringBuilder sql = new StringBuilder("INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (");
+		sql.append(idCampo).append(",");
+		sql.append(idRestriccion).append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para insertar los items para un campo lista desplegable
+	 */
+	public static String getSQLInsertSelectItems(Long idCampo, String valor) {
+		StringBuilder sql = new StringBuilder("INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (");
+		sql.append(idCampo).append(",'");
+		sql.append(valor).append("')");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar las restricciones de un campo de ingreso
+	 */
+	public static String getSQLDeleteCampoRestricciones(Long idCampo) {
+		StringBuilder sql = new StringBuilder("DELETE FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO=");
+		sql.append(idCampo);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar los items de una lista desplegable
+	 */
+	public static String getSQLDeleteSelectItems(Long idItem) {
+		StringBuilder sql = new StringBuilder("DELETE FROM SELECT_ITEMS WHERE ID_ITEM=");
+		sql.append(idItem);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para actualizar el valor de un item
+	 */
+	public static String getSQLUpdateSelectItems(String valor, Long idItem) {
+		StringBuilder sql = new StringBuilder("UPDATE SELECT_ITEMS SET VALOR='");
+		sql.append(valor).append("' WHERE ID_ITEM=");
+		sql.append(idItem);
 		return sql.toString();
 	}
 }

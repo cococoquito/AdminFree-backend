@@ -386,14 +386,14 @@ public class ConfiguracionesService {
 	 * @param datos, DTO que contiene los datos a editar
 	 * @return DTO con los datos basico del campo
 	 */
-	public CampoEntradaDTO editarCampoEntradaInformacion(CampoEntradaEdicionDTO datos) throws Exception {
+	public CampoEntradaDTO editarCampoEntrada(CampoEntradaEdicionDTO datos) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede a editar el campo de entrada de informacion
-			return new ConfiguracionesBusiness().editarCampoEntradaInformacion(datos, connection);
+			return new ConfiguracionesBusiness().editarCampoEntrada(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

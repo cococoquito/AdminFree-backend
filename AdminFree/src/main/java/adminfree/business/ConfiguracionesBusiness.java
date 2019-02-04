@@ -456,7 +456,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Long idCampo = (Long) find(connection,
 					CommonConstant.LAST_INSERT_ID,
 					MapperTransversal.get(MapperTransversal.GET_ID));
-			String idCampoString = idCampo.toString();
 
 			// se utiliza para las inserciones para las restricciones e items si aplica
 			List<String> dmls = new ArrayList<>();
@@ -465,9 +464,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			List<RestriccionDTO> restricciones = campo.getRestricciones();
 			if (restricciones != null && !restricciones.isEmpty()) {
 				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.INSERTAR_RESTRICCIONES_CAMPO.
-							replace(CommonConstant.INTERROGACION_1, idCampoString).
-							replace(CommonConstant.INTERROGACION_2, restriccion.getId().toString()));
+					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo, restriccion.getId()));
 				}
 			}
 
@@ -476,9 +473,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				List<ItemDTO> items = campo.getItems();
 				if (items != null && !items.isEmpty()) {
 					for (ItemDTO item : items) {
-						dmls.add(SQLConfiguraciones.INSERTAR_SELECT_ITEMS.
-								replace(CommonConstant.INTERROGACION_1, idCampoString).
-								replace(CommonConstant.INTERROGACION_2, item.getValor()));
+						dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo, item.getValor()));
 					}
 				}
 			}
@@ -568,7 +563,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			List<String> deletes = new ArrayList<>();
 
 			// SQL para eliminar las restricciones
-			deletes.add(SQLConfiguraciones.DELETE_CAMPO_RESTRICCIONES.replace(CommonConstant.INTERROGACION, id));
+			deletes.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo));
 
 			// SQL para eliminar los items
 			deletes.add(SQLConfiguraciones.DELETE_CAMPO_ITEMS.replace(CommonConstant.INTERROGACION, id));
@@ -639,7 +634,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param datos, DTO que contiene los datos a editar
 	 * @return DTO con los datos basico del campo
 	 */
-	public CampoEntradaDTO editarCampoEntradaInformacion(
+	public CampoEntradaDTO editarCampoEntrada(
 			CampoEntradaEdicionDTO datos,
 			Connection connection) throws Exception {
 
@@ -650,14 +645,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		CampoEntradaDTO campoEditar = datos.getCampoEntrada();
 
 		// ID del campo entrada, se utiliza para las sentencias
-		String idCampoSQL = campoEditar.getId().toString();
+		Long idCampo = campoEditar.getId();
 
 		// ************* 01-ACTUALIZACION DE LOS DATOS BASICOS DEL CAMPO *************************
 		if (datos.isDatosBasicosEditar()) {
-			dmls.add(SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE.
-					replace(CommonConstant.INTERROGACION_1, campoEditar.getDescripcion()).
-					replace(CommonConstant.INTERROGACION_2, campoEditar.getNombre()).
-					replace(CommonConstant.INTERROGACION_3, idCampoSQL));
+			insertUpdate(connection,
+					SQLConfiguraciones.UPDATE_CAMPO_DESCRIPCION_NOMBRE,
+					ValueSQL.get(campoEditar.getDescripcion(), Types.VARCHAR),
+					ValueSQL.get(campoEditar.getNombre(), Types.VARCHAR),
+					ValueSQL.get(idCampo, Types.BIGINT));
 		}
 
 		// ************* 02-ACTUALIZACION DE LAS RESTRICCIONES DEL CAMPO *************************
@@ -665,7 +661,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se eliminan todas las restricciones asociadas al campo,
 			// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
-			dmls.add(SQLConfiguraciones.DELETE_CAMPO_RESTRICCIONES.replace(CommonConstant.INTERROGACION, idCampoSQL));
+			dmls.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo));
 
 			// se recorre todas las restricciones y se agrega en la lista dmls
 			List<RestriccionDTO> restricciones = campoEditar.getRestricciones();
@@ -673,9 +669,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// un campo puede quedar sin restricciones
 			if (restricciones != null && !restricciones.isEmpty()) {
 				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.INSERTAR_RESTRICCIONES_CAMPO.
-							replace(CommonConstant.INTERROGACION_1, idCampoSQL).
-							replace(CommonConstant.INTERROGACION_2, restriccion.getId().toString()));
+					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo, restriccion.getId()));
 				}
 			}
 		}
@@ -691,19 +685,15 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 				// si es creacion del ITEM
 				if (item.getId() == null) {
-					dmls.add(SQLConfiguraciones.INSERTAR_SELECT_ITEMS.
-							replace(CommonConstant.INTERROGACION_1, idCampoSQL).
-							replace(CommonConstant.INTERROGACION_2, item.getValor()));
+					dmls.add(SQLConfiguraciones.getSQLInsertSelectItems(idCampo, item.getValor()));
 				} else {
 					// si es edicion del ITEM
 					if (!item.isBorrar()) {
-						dmls.add(SQLConfiguraciones.UPDATE_SELECT_ITEMS.
-								replace(CommonConstant.INTERROGACION_1, item.getValor()).
-								replace(CommonConstant.INTERROGACION_2, item.getId().toString()));
+						dmls.add(SQLConfiguraciones.getSQLUpdateSelectItems(item.getValor(), item.getId()));
 					} else {
 						// si es borrar se debe validar que no existan consecutivos asociado al campo
 						if (!datos.isTieneConsecutivos()) {
-							dmls.add(SQLConfiguraciones.DELETE_SELECT_ITEMS.replace(CommonConstant.INTERROGACION, item.getId().toString()));
+							dmls.add(SQLConfiguraciones.getSQLDeleteSelectItems(item.getId()));
 						}
 					}
 				}
@@ -726,7 +716,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// el proceso se ejecuto sin problemas si llega este punto
 		CampoEntradaDTO resultado = new CampoEntradaDTO();
-		resultado.setId(campoEditar.getId());
+		resultado.setId(idCampo);
 		resultado.setNombre(campoEditar.getNombre());
 		resultado.setTipoCampo(campoEditar.getTipoCampo());
 		resultado.setTipoCampoNombre(Util.getTipoCampoNombre(campoEditar.getTipoCampo()));
