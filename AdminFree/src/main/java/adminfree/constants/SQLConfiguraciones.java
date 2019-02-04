@@ -98,12 +98,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para validar si existe consecutivos asociados a una nomenclatura */
 	public static final String GET_SECUENCIA_NOMENCLATURA = "SELECT SECUENCIA FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
 
-	/** Se utiliza para eliminar los campos asociados a la nomenclatura */
-	public static final String DELETE_NOMENCLATURA_CAMPOS = "DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=?";
-
-	/** Se utiliza para eliminar la nomenclatura */
-	public static final String DELETE_NOMENCLATURA = "DELETE FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
-
 	/** Se utiliza para obtener el detalle de la nomenclatura */
 	public static final String GET_DETALLE_NOMENCLATURA = "SELECT NOM.ID_NOMENCLATURA,NOM.NOMENCLATURA,NOM.DESCRIPCION,NOM.CONSECUTIVO_INICIAL,NOM.SECUENCIA,NOC.ID_NOME_CAMPO,CP.ID_CAMPO,CP.NOMBRE,CP.TIPO_CAMPO,NOC.TIENE_CONSECUTIVO,NOC.ORDEN FROM NOMENCLATURAS NOM LEFT JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOC ON (NOM.ID_NOMENCLATURA = NOC.NOMENCLATURA) LEFT JOIN CAMPOS_ENTRADA CP ON (CP.ID_CAMPO = NOC.CAMPO) WHERE NOM.ID_NOMENCLATURA=? ORDER BY NOC.ORDEN";
 
@@ -220,6 +214,24 @@ public class SQLConfiguraciones {
 		StringBuilder sql = new StringBuilder("UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET ORDEN=");
 		sql.append(orden).append(" WHERE ID_NOME_CAMPO=");
 		sql.append(idCampoNomenclatura);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar los campos asociados a una nomenclatura
+	 */
+	public static String getSQLDeleteCampos(String idNomenclatura) {
+		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=");
+		sql.append(idNomenclatura);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para eliminar una nomenclatura
+	 */
+	public static String getSQLDeleteNomenclatura(String idNomenclatura) {
+		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=");
+		sql.append(idNomenclatura);
 		return sql.toString();
 	}
 }

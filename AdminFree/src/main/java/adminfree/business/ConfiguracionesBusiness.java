@@ -913,16 +913,16 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// bloque para la eliminacion del campo
 		try {
 			connection.setAutoCommit(false);
-			String id = idNomenclatura.toString();
+			String idNomenclatura_ = idNomenclatura.toString();
 
 			// lista para enviar al batch de eliminacion
 			List<String> deletes = new ArrayList<>();
 
 			// SQL para eliminar los campos asociados
-			deletes.add(SQLConfiguraciones.DELETE_NOMENCLATURA_CAMPOS.replace(CommonConstant.INTERROGACION, id));
+			deletes.add(SQLConfiguraciones.getSQLDeleteCampos(idNomenclatura_));
 
 			// SQL para eliminar la nomenclaura
-			deletes.add(SQLConfiguraciones.DELETE_NOMENCLATURA.replace(CommonConstant.INTERROGACION, id));
+			deletes.add(SQLConfiguraciones.getSQLDeleteNomenclatura(idNomenclatura_));
 
 			// se ejecuta el batch y se confirman los cambios
 			batchSinInjection(connection, deletes);
