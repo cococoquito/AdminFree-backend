@@ -125,7 +125,7 @@ public class MapperCorrespondencia extends Mapper {
 			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
+			nomenclatura.setUltimoConsecutivoSolicitado(res.getInt(Numero.CINCO.value));
 		}
 		return nomenclatura;
 	}

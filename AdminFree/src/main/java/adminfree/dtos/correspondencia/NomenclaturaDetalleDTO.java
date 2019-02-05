@@ -3,8 +3,8 @@ package adminfree.dtos.correspondencia;
 import java.io.Serializable;
 
 /**
- * DTO que se utiliza para ver el detalle de la nomenclatura para los
- * procesos de negocio de solicitar o editar consecutivos de correspondencia
+ * DTO que se utiliza para ver el detalle de la nomenclatura para los procesos
+ * de negocio de solicitar o editar consecutivos de correspondencia
  * 
  * @author Carlos Andres Diaz
  *
@@ -24,8 +24,8 @@ public class NomenclaturaDetalleDTO implements Serializable {
 	/** Consecutivo inicial asociada a la nomenclatura */
 	private Integer consecutivoInicial;
 
-	/** Cantidad de consecutivos solicitados para la nomenclatura */
-	private Integer cantidadConsecutivos;
+	/** Es el ultimo consecutivo solicitado */
+	private Integer ultimoConsecutivoSolicitado;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -53,13 +53,6 @@ public class NomenclaturaDetalleDTO implements Serializable {
 	 */
 	public Integer getConsecutivoInicial() {
 		return consecutivoInicial;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo cantidadConsecutivos
-	 */
-	public Integer getCantidadConsecutivos() {
-		return cantidadConsecutivos;
 	}
 
 	/**
@@ -94,10 +87,18 @@ public class NomenclaturaDetalleDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * cantidadConsecutivos
+	 * Metodo que permite obtener el valor del atributo ultimoConsecutivoSolicitado
 	 */
-	public void setCantidadConsecutivos(Integer cantidadConsecutivos) {
-		this.cantidadConsecutivos = cantidadConsecutivos;
+	public Integer getUltimoConsecutivoSolicitado() {
+		return ultimoConsecutivoSolicitado;
 	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * ultimoConsecutivoSolicitado
+	 */
+	public void setUltimoConsecutivoSolicitado(Integer ultimoConsecutivoSolicitado) {
+		this.ultimoConsecutivoSolicitado = ultimoConsecutivoSolicitado;
+	}
+
 }
