@@ -17,7 +17,6 @@ public class CommonConstant {
 	public static final String INTERROGACION_4 = "?4";
 	public static final String ID_NOMENCLATURA = "ID_NOMENCLATURA";
 	public static final String NOMENCLATURAS = "NOMENCLATURAS";
-	public static final String DATE_FORMATO = "MM/dd/yyyy HH:mm:ss";
 	public static final String RANGO = "0000";
 	public static final String LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
 	

@@ -2,8 +2,6 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -181,8 +179,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 				// se recorre cada valor para construir el INSERT
 				List<ValueSQL> values;
-				DateFormat dateFormat = null;
-				String valorInsert = null;
 				for (CampoEntradaValueDTO value : valores) {
 					values = new ArrayList<>();
 
@@ -192,20 +188,12 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					// identificador del id del la tabla NOMENCLATURAS_CAMPOS_ENTRADA
 					values.add(ValueSQL.get(value.getIdCampoNomenclatura(), Types.BIGINT));
 
-					// dependiendo del tipo de campo se configura su valor
-					if (TipoCampo.CAMPO_FECHA.id.equals(value.getTipoCampo())) {
-						if (dateFormat == null) {
-							dateFormat = new SimpleDateFormat(CommonConstant.DATE_FORMATO);
-						}
-						valorInsert = dateFormat.format(value.getValue());
-					} else if (TipoCampo.CASILLA_VERIFICACION.id.equals(value.getTipoCampo())) {
-						valorInsert = value.getValue().toString();
-					} else {
-						valorInsert = value.getValue().toString();
-					}
-
 					// se configura el valor del campo
-					values.add(ValueSQL.get(valorInsert, Types.VARCHAR));
+					if (value.getValue() != null) {
+						values.add(ValueSQL.get(value.getValue().toString(), Types.VARCHAR));
+					} else {
+						values.add(ValueSQL.get(null, Types.VARCHAR));
+					}
 
 					// se agrega los valores para este INSERT
 					injections.add(values);
