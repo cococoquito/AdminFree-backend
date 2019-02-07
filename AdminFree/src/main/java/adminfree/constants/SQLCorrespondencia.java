@@ -39,7 +39,7 @@ public class SQLCorrespondencia {
 	public static String getInsertConsecutivoValues(String idCliente) {
 		StringBuilder insert = new StringBuilder("INSERT INTO CONSECUTIVOS_VALUES_");
 		insert.append(idCliente);
-		insert.append("(ID_CONSECUTIVO,CAMPO,VALOR)VALUES(?,?,?)");
+		insert.append("(ID_CONSECUTIVO,ID_NOME_CAMPO,VALOR)VALUES(?,?,?)");
 		return insert.toString();
 	}
 
