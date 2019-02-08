@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import adminfree.constants.BusinessMessages;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
@@ -98,8 +99,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite validar los campos de ingreso de informacion para el proceso de 
-	 * solicitar o editar un consecutivo de correspondencia
+	 * Metodo que permite validar los campos de ingreso de informacion para
+	 * el proceso de solicitar o editar un consecutivo de correspondencia
 	 *
 	 * @param solicitud, DTO con los datos de la solicitud
 	 * @return Lista de mensajes con los errores encontrados solo si lo hay
@@ -107,7 +108,67 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	public List<MessageResponseDTO> validarCamposIngresoInformacion(
 			SolicitudConsecutivoDTO solicitud,
 			Connection connection) throws Exception {
-		return null;
+
+		// contiene el valor a retornar
+		List<MessageResponseDTO> response = null;
+
+		// se obtiene los valores a validar
+		List<CampoEntradaValueDTO> valores = solicitud.getValores();
+
+		// para este proceso los valores son obligatorios
+		if (valores != null && !valores.isEmpty()) {
+
+			// se utiliza para la concatenacion de las consultas
+			String idCliente = solicitud.getIdCliente().toString();
+			String idNomenclatura = solicitud.getIdNomenclatura().toString();
+
+			// son los parametros de las consultas sql count
+			ValueSQL tipoCampoSQL = ValueSQL.get(null, Types.INTEGER);
+			ValueSQL valueSQL = ValueSQL.get(null, Types.VARCHAR);
+
+			// variables que se utilizan dentro del for
+			List<String> restricciones;
+			String countSQL;
+
+			// se recorre cada valor a validar
+			for (CampoEntradaValueDTO valor : valores) {
+				restricciones = valor.getRestricciones();
+
+				// se verifica que el campo asociado al valor si tenga restricciones
+				if (restricciones != null && !restricciones.isEmpty()) {
+					countSQL = null;
+
+					// se configura el tipo de campo y el value
+					tipoCampoSQL.setValor(valor.getTipoCampo());
+					valueSQL.setValor(valor.getValue());
+
+					// dependiendo de la restriccion se configura SQL y parametros para el count
+					if (restricciones.contains(CommonConstant.KEY_CAMPO_UNICO_NOMENCLATURA)) {
+						countSQL = SQLCorrespondencia.getTextoUnicoNomenclatura(idCliente, valor.getIdValue(), idNomenclatura);
+					} else if (restricciones.contains(CommonConstant.KEY_CAMPO_TODAS_NOMENCLATURA)) {
+						countSQL = SQLCorrespondencia.getTextoUnicoTodasNomenclatura(idCliente, valor.getIdValue());
+					}
+
+					// se verifica si hay SQL a procesar
+					if (countSQL != null) {
+
+						// se hace el count para identificar si existe otro valor igual
+						Long count = (Long) find(connection, countSQL,
+								MapperTransversal.get(MapperTransversal.COUNT),
+								tipoCampoSQL, valueSQL);
+
+						// si el count es mayor que zero es por que existe otro valor igual
+						if (count != null && count > Numero.ZERO.value.longValue()) {
+							response = (response == null) ? new ArrayList<>() : response;
+							response.add(new MessageResponseDTO(
+									BusinessMessages.getMsjValorExisteOtroConsecutivo(
+									valor.getValue().toString(), valor.getNombreCampo())));
+						}
+					}
+				}
+			}
+		}
+		return response;
 	}
 
 	/**

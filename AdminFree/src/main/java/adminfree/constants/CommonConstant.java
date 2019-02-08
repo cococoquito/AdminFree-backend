@@ -19,5 +19,8 @@ public class CommonConstant {
 	public static final String NOMENCLATURAS = "NOMENCLATURAS";
 	public static final String RANGO = "0000";
 	public static final String LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
-	
+
+	/** Constantes para las restricciones de los campos */
+	public static final String KEY_CAMPO_UNICO_NOMENCLATURA = "3";
+	public static final String KEY_CAMPO_TODAS_NOMENCLATURA = "4";
 }
