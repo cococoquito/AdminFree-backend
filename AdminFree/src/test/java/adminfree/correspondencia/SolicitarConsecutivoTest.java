@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
-import adminfree.enums.TipoCampo;
 import adminfree.services.CorrespondenciaService;
 
 /**
@@ -46,22 +45,18 @@ public class SolicitarConsecutivoTest {
 
 			// valores de la solicitud
 			CampoEntradaValueDTO campo1 = new CampoEntradaValueDTO();
-			campo1.setTipoCampo(TipoCampo.LISTA_DESPLEGABLE.id);
 			campo1.setIdCampoNomenclatura(1L);
 			campo1.setValue(1);
 
 			CampoEntradaValueDTO campo2 = new CampoEntradaValueDTO();
-			campo2.setTipoCampo(TipoCampo.CAMPO_TEXTO.id);
 			campo2.setIdCampoNomenclatura(2L);
 			campo2.setValue("Este es el valor del campo");
 
 			CampoEntradaValueDTO campo3 = new CampoEntradaValueDTO();
-			campo3.setTipoCampo(TipoCampo.CAMPO_FECHA.id);
 			campo3.setIdCampoNomenclatura(3L);
 			campo3.setValue(Calendar.getInstance().getTime());
 
 			CampoEntradaValueDTO campo4 = new CampoEntradaValueDTO();
-			campo4.setTipoCampo(TipoCampo.CASILLA_VERIFICACION.id);
 			campo4.setIdCampoNomenclatura(4L);
 			campo4.setValue(true);
 

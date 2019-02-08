@@ -119,16 +119,17 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		if (valores != null && !valores.isEmpty()) {
 
 			// se utiliza para la concatenacion de las consultas
-			String idCliente = solicitud.getIdCliente().toString();
-			String idNomenclatura = solicitud.getIdNomenclatura().toString();
+			String idCliente_ = solicitud.getIdCliente().toString();
+			String idNomenclatura_ = solicitud.getIdNomenclatura().toString();
 
 			// son los parametros de las consultas sql count
-			ValueSQL tipoCampoSQL = ValueSQL.get(null, Types.INTEGER);
+			ValueSQL idCampoSQL = ValueSQL.get(null, Types.BIGINT);
 			ValueSQL valueSQL = ValueSQL.get(null, Types.VARCHAR);
 
 			// variables que se utilizan dentro del for
 			List<String> restricciones;
 			String countSQL;
+			String value_;
 
 			// se recorre cada valor a validar
 			for (CampoEntradaValueDTO valor : valores) {
@@ -139,14 +140,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					countSQL = null;
 
 					// se configura el tipo de campo y el value
-					tipoCampoSQL.setValor(valor.getTipoCampo());
-					valueSQL.setValor(valor.getValue());
+					idCampoSQL.setValor(valor.getIdCampo());
+					value_ = valor.getValue().toString();
+					valueSQL.setValor(value_);
 
 					// dependiendo de la restriccion se configura SQL y parametros para el count
 					if (restricciones.contains(CommonConstant.KEY_CAMPO_UNICO_NOMENCLATURA)) {
-						countSQL = SQLCorrespondencia.getTextoUnicoNomenclatura(idCliente, valor.getIdValue(), idNomenclatura);
+						countSQL = SQLCorrespondencia.getSQLValorUnico(idCliente_, idNomenclatura_, valor.getIdValue());
 					} else if (restricciones.contains(CommonConstant.KEY_CAMPO_TODAS_NOMENCLATURA)) {
-						countSQL = SQLCorrespondencia.getTextoUnicoTodasNomenclatura(idCliente, valor.getIdValue());
+						countSQL = SQLCorrespondencia.getSQLValorUnico(idCliente_, null, valor.getIdValue());
 					}
 
 					// se verifica si hay SQL a procesar
@@ -155,14 +157,13 @@ public class CorrespondenciaBusiness extends CommonDAO {
 						// se hace el count para identificar si existe otro valor igual
 						Long count = (Long) find(connection, countSQL,
 								MapperTransversal.get(MapperTransversal.COUNT),
-								tipoCampoSQL, valueSQL);
+								idCampoSQL, valueSQL);
 
 						// si el count es mayor que zero es por que existe otro valor igual
 						if (count != null && count > Numero.ZERO.value.longValue()) {
 							response = (response == null) ? new ArrayList<>() : response;
 							response.add(new MessageResponseDTO(
-									BusinessMessages.getMsjValorExisteOtroConsecutivo(
-									valor.getValue().toString(), valor.getNombreCampo())));
+									BusinessMessages.getMsjValorExisteOtroConsecutivo(value_, valor.getNombreCampo())));
 						}
 					}
 				}

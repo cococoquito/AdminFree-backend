@@ -17,11 +17,11 @@ public class CampoEntradaValueDTO implements Serializable {
 	/** Es el identificador del value CONSECUTIVOS_VALUES.ID_VALUE */
 	private Long idValue;
 
+	/** Es el identificador del campo CAMPOS_ENTRADA.ID_CAMPO */
+	private Long idCampo;
+
 	/** Es el valor ingresado por el usuario al momento de solicitar o editar consecutivo */
 	private Object value;
-
-	/** Identifica el tipo de campo del value */
-	private Integer tipoCampo;
 
 	/** Es el nombre del campo, se utiliza para las validaciones */
 	private String nombreCampo;
@@ -87,21 +87,6 @@ public class CampoEntradaValueDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo tipoCampo
-	 */
-	public Integer getTipoCampo() {
-		return tipoCampo;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tipoCampo
-	 */
-	public void setTipoCampo(Integer tipoCampo) {
-		this.tipoCampo = tipoCampo;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo idValue
 	 */
 	public Long getIdValue() {
@@ -129,5 +114,20 @@ public class CampoEntradaValueDTO implements Serializable {
 	 */
 	public void setNombreCampo(String nombreCampo) {
 		this.nombreCampo = nombreCampo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idCampo
+	 */
+	public Long getIdCampo() {
+		return idCampo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idCampo
+	 */
+	public void setIdCampo(Long idCampo) {
+		this.idCampo = idCampo;
 	}
 }

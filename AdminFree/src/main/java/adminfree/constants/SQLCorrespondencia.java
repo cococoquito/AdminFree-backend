@@ -66,34 +66,22 @@ public class SQLCorrespondencia {
 	}
 
 	/**
-	 * Metodo que permite construir el SQL para validar si existe otro
-	 * texto igual para todas las nomenclatura relacionadas al cliente
+	 * Metodo que permite construir el SQL para validar si existe otro valor igual
+	 * para los consecutivos de correspondencia solicitados
 	 */
-	public static String getTextoUnicoTodasNomenclatura(String idCliente, Long idValue) {
+	public static String getSQLValorUnico(String idCliente, String idNomenclatura, Long idValue) {
 		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
 		sql.append(idCliente).append(" VL ");
 		sql.append("JOIN NOMENCLATURAS_CAMPOS_ENTRADA NCE ON(NCE.ID_NOME_CAMPO = VL.ID_NOME_CAMPO)");
-		sql.append("JOIN CAMPOS_ENTRADA CA ON(CA.ID_CAMPO = NCE.CAMPO) ");
-		sql.append("WHERE CA.TIPO_CAMPO=? AND VL.VALOR=?");
-		if (idValue != null && !idValue.equals(Numero.ZERO.value.longValue())) {
-			sql.append(" AND VL.ID_VALUE<>").append(idValue);
-		}
-		return sql.toString();
-	}
+		sql.append("WHERE NCE.CAMPO=? AND VL.VALOR=?");
 
-	/**
-	 * Metodo que permite construir el SQL para validar si existe otro
-	 * texto igual para una nomenclatura especifica relacionada al cliente
-	 */
-	public static String getTextoUnicoNomenclatura(String idCliente, Long idValue, String idNomenclatura) {
-		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
-		sql.append(idCliente).append(" VL ");
-		sql.append("JOIN CONSECUTIVOS_").append(idCliente);
-		sql.append(" CON ON(CON.ID_CONSECUTIVO = VL.ID_CONSECUTIVO)");
-		sql.append("JOIN NOMENCLATURAS_CAMPOS_ENTRADA NCE ON(NCE.ID_NOME_CAMPO = VL.ID_NOME_CAMPO)");
-		sql.append("JOIN CAMPOS_ENTRADA CA ON(CA.ID_CAMPO = NCE.CAMPO) ");
-		sql.append("WHERE CA.TIPO_CAMPO=? AND VL.VALOR=? AND CON.NOMENCLATURA=").append(idNomenclatura);
-		if (idValue != null && !idValue.equals(Numero.ZERO.value.longValue())) {
+		// se configura el identificador de la nomenclatura
+		if (idNomenclatura != null) {
+			sql.append(" AND NCE.NOMENCLATURA=").append(idNomenclatura);
+		}
+
+		// se configura el identificador del valor
+		if (idValue != null && idValue > Numero.ZERO.value.longValue()) {
 			sql.append(" AND VL.ID_VALUE<>").append(idValue);
 		}
 		return sql.toString();
