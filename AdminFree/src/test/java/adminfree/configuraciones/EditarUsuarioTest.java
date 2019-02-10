@@ -37,6 +37,7 @@ public class EditarUsuarioTest {
 			usuario.setId(2l);
 			usuario.setNombre("Nombre del usuario1");
 			usuario.setUsuarioIngreso("usuarioingreso1");
+			usuario.setCargo("nuevo cargo");
 
 			// modulos asignados para el usuario
 			usuario.agregarModuloToken("a9ee4d222a05960a00ea9b5eb6fb0a81");
