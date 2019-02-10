@@ -27,6 +27,9 @@ public class UsuarioDTO implements Serializable {
 	/** Clave de ingreso para el USER */
 	private String claveIngreso;
 
+	/** Es el cargo del usuario */
+	private String cargo;
+
 	/** Estado que se encuentra el USUARIO */
 	private Integer estado;
 
@@ -181,5 +184,20 @@ public class UsuarioDTO implements Serializable {
 	 */
 	public void setUserIngresoModificado(boolean userIngresoModificado) {
 		this.userIngresoModificado = userIngresoModificado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo cargo
+	 */
+	public String getCargo() {
+		return cargo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param cargo
+	 */
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
 	}
 }

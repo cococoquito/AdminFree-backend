@@ -184,6 +184,7 @@ public class MapperConfiguraciones extends Mapper {
 			usuario.setEstado(res.getInt(Numero.CUATRO.value));
 			usuario.setEstadoNombre(Util.getEstadoNombre(usuario.getEstado()));
 			modulos = res.getString(Numero.CINCO.value);
+			usuario.setCargo(res.getString(Numero.SEIS.value));
 			if (modulos != null) {
 				usuario.setModulosTokens(Arrays.asList(modulos.split(CommonConstant.PUNTO_COMA)));
 			}

@@ -198,7 +198,8 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					ValueSQL.get(usuarioIngreso, Types.VARCHAR),
 					ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
 					ValueSQL.get(usuario.getCliente().getId(), Types.BIGINT),
-					ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
+					ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
+					ValueSQL.get(usuario.getCargo(), Types.VARCHAR));
 
 			// se obtiene el identificador del usuario creado
 			Long idUsuario = (Long) find(connection,
@@ -228,6 +229,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			UsuarioDTO nuevoUsuario = new UsuarioDTO();
 			nuevoUsuario.setId(idUsuario);
 			nuevoUsuario.setNombre(usuario.getNombre());
+			nuevoUsuario.setCargo(usuario.getCargo());
 			nuevoUsuario.setEstado(Estado.ACTIVO.id);
 			nuevoUsuario.setEstadoNombre(Util.getEstadoNombre(nuevoUsuario.getEstado()));
 			nuevoUsuario.setCliente(usuario.getCliente());
@@ -266,6 +268,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				insertUpdate(connection, SQLConfiguraciones.UPDATE_DATOS_CUENTA,
 						ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
 						ValueSQL.get(usuario.getUsuarioIngreso(), Types.VARCHAR),
+						ValueSQL.get(usuario.getCargo(), Types.VARCHAR),
 						ValueSQL.get(usuario.getId(), Types.BIGINT));
 			}
 

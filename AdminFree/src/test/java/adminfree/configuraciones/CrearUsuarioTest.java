@@ -40,6 +40,7 @@ public class CrearUsuarioTest {
 			// se configura los datos necesarios para la insercion
 			usuarioCrear.setNombre("Cristopher Diaz");
 			usuarioCrear.setUsuarioIngreso("crisdiaz");
+			usuarioCrear.setCargo("Desarrollador de Software");
 			cliente.setId(1L);
 			usuarioCrear.agregarModuloToken("9f1124f946de506332f221a01d39c411");
 			usuarioCrear.agregarModuloToken("a9ee4d222a05960a00ea9b5eb6fb0a81");
