@@ -190,6 +190,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// identificadores que se utiliza para varios procesos
 			Long idNomenclatura = solicitud.getIdNomenclatura();
 			Long idCliente = solicitud.getIdCliente();
+			Long idUsuario = solicitud.getIdUsuario();
+			idUsuario = (idUsuario != null && idUsuario > Numero.ZERO.value.longValue()) ? idUsuario : null;
 			String idCliente_ = idCliente.toString();
 			String idNomenclatura_ = idNomenclatura.toString();
 
@@ -223,7 +225,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					SQLCorrespondencia.getInsertConsecutivo(idCliente_),
 					ValueSQL.get(idNomenclatura, Types.BIGINT),
 					ValueSQL.get(secuenciaFormato, Types.VARCHAR),
-					ValueSQL.get(solicitud.getIdUsuario(), Types.BIGINT));
+					ValueSQL.get(idUsuario, Types.BIGINT));
 
 			// se obtiene el identificador del consecutivo creado
 			Long idConsecutivo = (Long) find(connection,
@@ -268,6 +270,22 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// Lista para la ejecucion de los dmls por batch sin injection
 			List<String> dmls = new ArrayList<>();
+
+			// se configura la cantidad de consecutivos solicitados para el usuario,
+			// si el usuario es null esto significa que el administrador es de la solicitud
+			if (idUsuario != null) {
+
+				// se consulta la cantidad de consecutivos que tiene el usuario
+				Long cantidad = (Long) find(connection,
+						SQLCorrespondencia.GET_CANT_CONSECUTIVOS_USER,
+						MapperTransversal.get(MapperTransversal.GET_ID),
+						ValueSQL.get(idUsuario, Types.BIGINT));
+
+				// se configura el UPDATE para ser ejecutado en el batch 
+				final Long UNO = Numero.UNO.value.longValue();
+				cantidad = cantidad != null ? cantidad + UNO : UNO;
+				dmls.add(SQLCorrespondencia.getUpdateUsuarioCantidadConsecutivos(idUsuario.toString(), cantidad.toString()));
+			}
 
 			// se configura la cantidad de consecutivos solicitados para la nomenclatura
 			nroSolicitadosNomen = nroSolicitadosNomen != null ? nroSolicitadosNomen + Numero.UNO.value : Numero.UNO.value;

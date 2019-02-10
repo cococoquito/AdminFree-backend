@@ -21,6 +21,9 @@ public class SQLCorrespondencia {
 	/** SQL para obtener los datos de la nomenclatura para solicitar el consecutivo*/
 	public static final String GET_SECUENCIA_NOMENCLATURA = "SELECT CONSECUTIVO_INICIAL, SECUENCIA, CONSECUTIVOS_SOLICITADOS FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
 
+	/** SQL para obtener la cantidad de consecutivos del usuario*/
+	public static final String GET_CANT_CONSECUTIVOS_USER = "SELECT CONSECUTIVOS_SOLICITADOS FROM USUARIOS WHERE ID_USUARIO=?";
+
 	/**
 	 * Metodo que permite construir el insert para los consecutivos
 	 * de correspondencia asociado al cliente autenticado en el sistema
@@ -54,6 +57,17 @@ public class SQLCorrespondencia {
 		update.append(cantidadConsecutivos);
 		update.append(" WHERE ID_NOMENCLATURA=");
 		update.append(idNomenclatura);
+		return update.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el update para actualizar la cantidad de consecutivos del usuario
+	 */
+	public static String getUpdateUsuarioCantidadConsecutivos(String idUsuario, String cantidadConsecutivos) {
+		StringBuilder update = new StringBuilder("UPDATE USUARIOS SET CONSECUTIVOS_SOLICITADOS=");
+		update.append(cantidadConsecutivos);
+		update.append(" WHERE ID_USUARIO=");
+		update.append(idUsuario);
 		return update.toString();
 	}
 
