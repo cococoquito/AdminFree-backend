@@ -202,6 +202,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// se configura el nro inicial y la secuencia actual de la nomenclatura consultada
 			Integer nroInicial = respuesta.get(Numero.ZERO.value);
 			Integer nroSecuencia = respuesta.get(Numero.UNO.value);
+			Integer nroSolicitadosNomen = respuesta.get(Numero.DOS.value);
 
 			// se establece el nuevo consecutivo para la nomenclatura
 			if (nroSecuencia != null && nroSecuencia > Numero.ZERO.value) {
@@ -268,8 +269,12 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// Lista para la ejecucion de los dmls por batch sin injection
 			List<String> dmls = new ArrayList<>();
 
-			// SQL para actualizar la secuencia para la nomenclatura seleccionada
-			dmls.add(SQLCorrespondencia.getUpdateNomenclaturaSecuencia(nroSecuencia.toString(), idNomenclatura_));
+			// se configura la cantidad de consecutivos solicitados para la nomenclatura
+			nroSolicitadosNomen = nroSolicitadosNomen != null ? nroSolicitadosNomen + Numero.UNO.value : Numero.UNO.value;
+
+			// SQL para actualizar la secuencia y cantidad consecutivos para la nomenclatura seleccionada
+			dmls.add(SQLCorrespondencia.getUpdateNomenclaturaSecuenciaCantidad(
+					nroSecuencia.toString(), nroSolicitadosNomen.toString(), idNomenclatura_));
 
 			// SQL para actualizar la bandera que indica que campos ya tienen asociado un consecutivo
 			dmls.add(SQLCorrespondencia.getUpdateCamposTieneConsecutivo(idNomenclatura_));

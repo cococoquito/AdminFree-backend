@@ -76,6 +76,7 @@ public class MapperCorrespondencia extends Mapper {
 		if (res.next()) {
 			respuesta.add(res.getInt(Numero.UNO.value));
 			respuesta.add(res.getInt(Numero.DOS.value));
+			respuesta.add(res.getInt(Numero.TRES.value));
 		}
 		return respuesta;
 	}
