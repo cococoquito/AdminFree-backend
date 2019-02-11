@@ -17,6 +17,9 @@ import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
+import adminfree.dtos.correspondencia.WelcomeInitDTO;
+import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
+import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
@@ -314,5 +317,37 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		} finally {
 			connection.setAutoCommit(true);
 		}
+	}
+
+	/**
+	 * Metodo que permite obtener los datos para la pagina de bienvenida
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos de bienvenida
+	 */
+	@SuppressWarnings("unchecked")
+	public WelcomeInitDTO getDatosBienvenida(Long idCliente, Connection connection) throws Exception {
+
+		// DTO con los datos a responder
+		WelcomeInitDTO response = new WelcomeInitDTO();
+
+		// se consultan las nomenclaturas
+		List<WelcomeNomenclaturaDTO> nomenclaturas = (List<WelcomeNomenclaturaDTO>)
+				find(connection,
+				SQLCorrespondencia.GET_WELCOME_NOMENCLATURAS,
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_WELCOME_NOMENCLATURAS),
+				ValueSQL.get(idCliente, Types.BIGINT));
+
+		// se consultan los usuarios
+		List<WelcomeUsuarioDTO> usuarios = (List<WelcomeUsuarioDTO>)
+				find(connection,
+				SQLCorrespondencia.GET_WELCOME_USUARIOS,
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_WELCOME_USUARIOS),
+				ValueSQL.get(idCliente, Types.BIGINT));
+
+		// se configuran los datos en el response y se retorna
+		response.setNomenclaturas(nomenclaturas);
+		response.setUsuarios(usuarios);
+		return response;
 	}
 }

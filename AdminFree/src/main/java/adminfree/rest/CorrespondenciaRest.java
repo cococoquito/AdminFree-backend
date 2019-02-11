@@ -132,4 +132,23 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".solicitarConsecutivo ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los datos para la pagina de bienvenida
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos de bienvenida
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DATOS_WELCOME,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getDatosBienvenida(@RequestParam Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getDatosBienvenida(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getDatosBienvenida ", e.getMessage());
+		}
+	}
 }

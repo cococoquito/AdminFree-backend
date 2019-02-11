@@ -14,6 +14,7 @@ import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
+import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -123,6 +124,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar el consecutivo de correspondencia
 			return new CorrespondenciaBusiness().solicitarConsecutivo(solicitud, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los datos para la pagina de bienvenida
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos de bienvenida
+	 */
+	public WelcomeInitDTO getDatosBienvenida(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los datos de la pagina de bienvenida
+			return new CorrespondenciaBusiness().getDatosBienvenida(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

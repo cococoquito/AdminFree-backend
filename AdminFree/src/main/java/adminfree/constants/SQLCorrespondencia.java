@@ -24,6 +24,12 @@ public class SQLCorrespondencia {
 	/** SQL para obtener la cantidad de consecutivos del usuario*/
 	public static final String GET_CANT_CONSECUTIVOS_USER = "SELECT CONSECUTIVOS_SOLICITADOS FROM USUARIOS WHERE ID_USUARIO=?";
 
+	/** SQL para obtener las nomenclaturas para bienvenida*/
+	public static final String GET_WELCOME_NOMENCLATURAS = "SELECT ID_NOMENCLATURA, NOMENCLATURA, DESCRIPCION, CONSECUTIVOS_SOLICITADOS FROM NOMENCLATURAS WHERE CLIENTE=?";
+
+	/** SQL para obtener los usuarios para bienvenida*/
+	public static final String GET_WELCOME_USUARIOS = "SELECT ID_USUARIO, NOMBRE, CARGO, ESTADO, CONSECUTIVOS_SOLICITADOS FROM USUARIOS WHERE CLIENTE=?";
+
 	/**
 	 * Metodo que permite construir el insert para los consecutivos
 	 * de correspondencia asociado al cliente autenticado en el sistema

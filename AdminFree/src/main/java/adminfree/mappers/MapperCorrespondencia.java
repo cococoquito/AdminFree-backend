@@ -8,7 +8,10 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
+import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
+import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.enums.Numero;
+import adminfree.utilities.Util;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de correspondencia
@@ -22,6 +25,8 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_DTL_NOMENCLATURA = 1;
 	public static final int GET_DTL_NOMENCLATURA_CAMPOS = 2;
 	public static final int GET_SECUENCIA_NOMENCLATURA = 3;
+	public static final int GET_WELCOME_NOMENCLATURAS = 4;
+	public static final int GET_WELCOME_USUARIOS = 5;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -64,8 +69,57 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_SECUENCIA_NOMENCLATURA:
 				result = getSecuenciaNomenclatura(res);
 				break;
+
+			case MapperCorrespondencia.GET_WELCOME_NOMENCLATURAS:
+				result = getWelComeNomenclaturas(res);
+				break;
+
+			case MapperCorrespondencia.GET_WELCOME_USUARIOS:
+				result = getWelComeUsuarios(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos de los usuarios de bienvenida
+	 */
+	private Object getWelComeUsuarios(ResultSet res) throws Exception {
+		List<WelcomeUsuarioDTO> usuarios = null;
+		WelcomeUsuarioDTO usuario;
+		while (res.next()) {
+			usuario = new WelcomeUsuarioDTO();
+			usuario.setIdUsuario(res.getLong(Numero.UNO.value));
+			usuario.setNombreCompleto(res.getString(Numero.DOS.value));
+			usuario.setCargo(res.getString(Numero.TRES.value));
+			usuario.setEstado(Util.getEstadoNombre(res.getInt(Numero.CUATRO.value)));
+			usuario.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
+			if (usuarios != null) {
+				usuarios = new ArrayList<>();
+			}
+			usuarios.add(usuario);
+		}
+		return usuarios;
+	}
+
+	/**
+	 * Metodo para configurar los datos de las nomenclaturas de bienvenida
+	 */
+	private Object getWelComeNomenclaturas(ResultSet res) throws Exception {
+		List<WelcomeNomenclaturaDTO> nomenclaturas = null;
+		WelcomeNomenclaturaDTO nomenclatura;
+		while (res.next()) {
+			nomenclatura = new WelcomeNomenclaturaDTO();
+			nomenclatura.setIdNomenclatura(res.getLong(Numero.UNO.value));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
+			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CUATRO.value));
+			if (nomenclaturas != null) {
+				nomenclaturas = new ArrayList<>();
+			}
+			nomenclaturas.add(nomenclatura);
+		}
+		return nomenclaturas;
 	}
 
 	/**
