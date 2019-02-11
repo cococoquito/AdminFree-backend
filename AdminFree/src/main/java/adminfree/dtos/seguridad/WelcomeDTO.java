@@ -3,6 +3,7 @@ package adminfree.dtos.seguridad;
 import java.io.Serializable;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.correspondencia.WelcomeInitDTO;
 
 /**
  * DTO para transportar los datos de inicio cuando el user o admin se autentique
@@ -22,6 +23,9 @@ public class WelcomeDTO implements Serializable {
 
 	/** Son las credenciales del USUARIO o ADMIN */
 	private CredencialesDTO credenciales;
+
+	/** Contiene los datos de la bienvenida de la aplicacion */
+	private WelcomeInitDTO datosWelcome;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo usuario
@@ -65,5 +69,20 @@ public class WelcomeDTO implements Serializable {
 	 */
 	public void setCredenciales(CredencialesDTO credenciales) {
 		this.credenciales = credenciales;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo datosWelcome
+	 */
+	public WelcomeInitDTO getDatosWelcome() {
+		return datosWelcome;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param datosWelcome
+	 */
+	public void setDatosWelcome(WelcomeInitDTO datosWelcome) {
+		this.datosWelcome = datosWelcome;
 	}
 }

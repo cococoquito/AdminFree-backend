@@ -69,6 +69,9 @@ public class SeguridadBusiness extends CommonDAO {
 					welcome.setCredenciales(credenciales);
 					welcome.setAdministrador(admin);
 
+					// se consulta los datos de bienvenida
+					welcome.setDatosWelcome(new CorrespondenciaBusiness().getDatosBienvenida(admin.getId(), connection));
+
 					// se retorna los datos de inicio de la aplicacion
 					return welcome;
 				}
@@ -133,6 +136,9 @@ public class SeguridadBusiness extends CommonDAO {
 					// este dato se utiliza para el modulo configuracion de cuenta
 					user.setUsuarioIngreso(usuario);
 					welcome.setUsuario(user);
+
+					// se consulta los datos de bienvenida
+					welcome.setDatosWelcome(new CorrespondenciaBusiness().getDatosBienvenida(user.getCliente().getId(), connection));
 
 					// se retorna los datos de inicio de la aplicacion
 					return welcome;
