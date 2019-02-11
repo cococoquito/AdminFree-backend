@@ -94,7 +94,7 @@ public class MapperCorrespondencia extends Mapper {
 			usuario.setCargo(res.getString(Numero.TRES.value));
 			usuario.setEstado(Util.getEstadoNombre(res.getInt(Numero.CUATRO.value)));
 			usuario.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
-			if (usuarios != null) {
+			if (usuarios == null) {
 				usuarios = new ArrayList<>();
 			}
 			usuarios.add(usuario);
@@ -114,7 +114,7 @@ public class MapperCorrespondencia extends Mapper {
 			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CUATRO.value));
-			if (nomenclaturas != null) {
+			if (nomenclaturas == null) {
 				nomenclaturas = new ArrayList<>();
 			}
 			nomenclaturas.add(nomenclatura);
