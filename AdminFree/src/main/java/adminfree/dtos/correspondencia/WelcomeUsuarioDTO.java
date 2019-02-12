@@ -22,6 +22,9 @@ public class WelcomeUsuarioDTO implements Serializable {
 	/** Estado en la que se encuentra el usuario */
 	private String estado;
 
+	/** Es el identificador del estado del usuario */
+	private Integer idEstado;
+
 	/** Cantidad de consecutivos que ha solicitado este usuario */
 	private Integer cantidadConsecutivos;
 
@@ -97,5 +100,20 @@ public class WelcomeUsuarioDTO implements Serializable {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idEstado
+	 */
+	public Integer getIdEstado() {
+		return idEstado;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idEstado
+	 */
+	public void setIdEstado(Integer idEstado) {
+		this.idEstado = idEstado;
 	}
 }

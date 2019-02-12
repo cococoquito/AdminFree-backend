@@ -92,7 +92,8 @@ public class MapperCorrespondencia extends Mapper {
 			usuario.setIdUsuario(res.getLong(Numero.UNO.value));
 			usuario.setNombreCompleto(res.getString(Numero.DOS.value));
 			usuario.setCargo(res.getString(Numero.TRES.value));
-			usuario.setEstado(Util.getEstadoNombre(res.getInt(Numero.CUATRO.value)));
+			usuario.setIdEstado(res.getInt(Numero.CUATRO.value));
+			usuario.setEstado(Util.getEstadoNombre(usuario.getIdEstado()));
 			usuario.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
 			if (usuarios == null) {
 				usuarios = new ArrayList<>();
