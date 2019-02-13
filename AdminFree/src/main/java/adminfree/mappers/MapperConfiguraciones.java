@@ -339,6 +339,7 @@ public class MapperConfiguraciones extends Mapper {
 			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
+			nomenclatura.setCantConsecutivos(res.getInt(Numero.CINCO.value));
 			resultado.add(nomenclatura);
 		}
 		return resultado;

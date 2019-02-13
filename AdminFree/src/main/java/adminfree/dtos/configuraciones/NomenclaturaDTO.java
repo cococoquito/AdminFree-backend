@@ -29,6 +29,9 @@ public class NomenclaturaDTO implements Serializable {
 	/** Nro donde inicia el consecutivo a generar */
 	private Integer consecutivoInicial;
 
+	/** Es la cantidad de consecutivos solicitados para esta nomenclatura */
+	private Integer cantConsecutivos;
+
 	/** Indica si la nomenclatura esta asociada a un consecutivo */
 	private boolean tieneConsecutivos;
 
@@ -146,5 +149,20 @@ public class NomenclaturaDTO implements Serializable {
 	 */
 	public void setCampos(List<NomenclaturaCampoDTO> campos) {
 		this.campos = campos;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo cantConsecutivos
+	 */
+	public Integer getCantConsecutivos() {
+		return cantConsecutivos;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param cantConsecutivos
+	 */
+	public void setCantConsecutivos(Integer cantConsecutivos) {
+		this.cantConsecutivos = cantConsecutivos;
 	}
 }
