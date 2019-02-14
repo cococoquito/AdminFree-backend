@@ -350,7 +350,6 @@ public class MapperConfiguraciones extends Mapper {
 	 */
 	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
 		NomenclaturaDTO nomenclatura = null;
-		Integer consecutivos;
 		while (res.next()) {
 			if (nomenclatura == null) {
 				// datos basicos de la nomenclatura
@@ -359,8 +358,8 @@ public class MapperConfiguraciones extends Mapper {
 				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
 				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
 				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				consecutivos = res.getInt(Numero.CINCO.value);
-				nomenclatura.setTieneConsecutivos(consecutivos != null && !consecutivos.equals(Numero.ZERO.value));
+				nomenclatura.setSecuencia(res.getInt(Numero.CINCO.value));
+				nomenclatura.setCantConsecutivos(res.getInt(Numero.SEIS.value));
 
 				// campo de la nomenclatura
 				configurarCampo(nomenclatura, res);
@@ -376,15 +375,15 @@ public class MapperConfiguraciones extends Mapper {
 	 * Invocado por detalle de la nomenclatura y permite configurar el campo de la nomenclatura
 	 */
 	private void configurarCampo(NomenclaturaDTO datos, ResultSet res) throws Exception {
-		Long idNomCampo = res.getLong(Numero.SEIS.value);
+		Long idNomCampo = res.getLong(Numero.SIETE.value);
 		if (idNomCampo != null && idNomCampo > Numero.ZERO.value.longValue()) {
 			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
 			campo.setId(idNomCampo);
-			campo.setIdCampo(res.getLong(Numero.SIETE.value));
-			campo.setNombreCampo(res.getString(Numero.OCHO.value));
-			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.NUEVE.value)));
-			campo.setTieneConsecutivo(Numero.UNO.value.equals(res.getInt(Numero.DIEZ.value)));
-			campo.setOrden(res.getInt(Numero.ONCE.value));
+			campo.setIdCampo(res.getLong(Numero.OCHO.value));
+			campo.setNombreCampo(res.getString(Numero.NUEVE.value));
+			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.DIEZ.value)));
+			campo.setTieneConsecutivo(Numero.UNO.value.equals(res.getInt(Numero.ONCE.value)));
+			campo.setOrden(res.getInt(Numero.DOCE.value));
 			datos.agregarCampos(campo);
 		}
 	}
