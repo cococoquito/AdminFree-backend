@@ -14,7 +14,6 @@ import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
-import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
@@ -36,19 +35,6 @@ import adminfree.persistence.ValueSQL;
  *
  */
 public class CorrespondenciaBusiness extends CommonDAO {
-
-	/**
-	 * Metodo que permite obtener el detalle de una nomenclatura
-	 * 
-	 * @param idNomenclatura, identificador de la nomenclatura
-	 * @return DTO con los datos de la nomenclatura
-	 */
-	public NomenclaturaDetalleDTO getDetalleNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
-		return (NomenclaturaDetalleDTO) find(connection,
-				SQLCorrespondencia.GET_DTL_NOMENCLATURA,
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_DTL_NOMENCLATURA), 
-				ValueSQL.get(idNomenclatura, Types.BIGINT));
-	}
 
 	/**
 	 * Metodo que permite obtener los campos de la nomenclatura

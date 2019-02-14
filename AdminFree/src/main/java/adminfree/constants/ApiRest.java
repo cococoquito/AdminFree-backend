@@ -43,7 +43,6 @@ public class ApiRest {
 
 	/** Constantes para los nombre de los servicios REST del modulo de correspondencia */
 	public static final String CORRESPONDENCIA_API = "corresapi";
-	public static final String GET_DTL_NOMENCLATURA = "dtlnomenclatura";
 	public static final String GET_DTL_NOMENCLATURA_CAMPOS = "dtlnomenclaturacampos";
 	public static final String INIT_CORRESPONDENCIA = "initcorrespondencia";
 	public static final String VALIDAR_CAMPOS_INGRESO = "validcamposingreso";

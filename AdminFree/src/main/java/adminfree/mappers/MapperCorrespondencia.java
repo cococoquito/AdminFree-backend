@@ -7,7 +7,6 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
-import adminfree.dtos.correspondencia.NomenclaturaDetalleDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.enums.Numero;
@@ -22,11 +21,10 @@ import adminfree.utilities.Util;
 public class MapperCorrespondencia extends Mapper {
 
 	/** Son los tipos de mapper que soporta este modulo */
-	public static final int GET_DTL_NOMENCLATURA = 1;
-	public static final int GET_DTL_NOMENCLATURA_CAMPOS = 2;
-	public static final int GET_SECUENCIA_NOMENCLATURA = 3;
-	public static final int GET_WELCOME_NOMENCLATURAS = 4;
-	public static final int GET_WELCOME_USUARIOS = 5;
+	public static final int GET_DTL_NOMENCLATURA_CAMPOS = 1;
+	public static final int GET_SECUENCIA_NOMENCLATURA = 2;
+	public static final int GET_WELCOME_NOMENCLATURAS = 3;
+	public static final int GET_WELCOME_USUARIOS = 4;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -58,9 +56,6 @@ public class MapperCorrespondencia extends Mapper {
 	public Object execute(ResultSet res) throws Exception {
 		Object result = null;
 		switch (this.tipoMapper) {
-			case MapperCorrespondencia.GET_DTL_NOMENCLATURA:
-				result = getDtlNomenclatura(res);
-				break;
 
 			case MapperCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS:
 				result = getDtlNomenclaturaCampos(res);
@@ -168,21 +163,5 @@ public class MapperCorrespondencia extends Mapper {
 			detalle.add(campo);
 		}
 		return detalle;
-	}
-
-	/**
-	 * Metodo para configurar el detalle de la nomenclatura
-	 */
-	private NomenclaturaDetalleDTO getDtlNomenclatura(ResultSet res) throws Exception {
-		NomenclaturaDetalleDTO nomenclatura = null;
-		if (res.next()) {
-			nomenclatura = new NomenclaturaDetalleDTO();
-			nomenclatura.setId(res.getLong(Numero.UNO.value));
-			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-			nomenclatura.setUltimoConsecutivoSolicitado(res.getInt(Numero.CINCO.value));
-		}
-		return nomenclatura;
 	}
 }

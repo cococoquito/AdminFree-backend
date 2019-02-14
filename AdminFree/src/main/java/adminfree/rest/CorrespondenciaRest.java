@@ -32,25 +32,6 @@ public class CorrespondenciaRest {
 	private CorrespondenciaService correspondenciaService;
 
 	/**
-	 * Servicio que permite obtener el detalle de una nomenclatura
-	 *
-	 * @param idNomenclatura, identificador de la nomenclatura
-	 * @return DTO con los datos de la nomenclatura
-	 */
-	@RequestMapping(
-			value = ApiRest.GET_DTL_NOMENCLATURA,
-			method = RequestMethod.GET,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getDetalleNomenclatura(@RequestParam Long idNomenclatura) {
-		try {
-			return Util.getResponseSuccessful(this.correspondenciaService.getDetalleNomenclatura(idNomenclatura));
-		} catch (Exception e) {
-			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getDetalleNomenclatura ", e.getMessage());
-		}
-	}
-
-	/**
 	 * Servicio que permite obtener los campos de la nomenclatura
 	 *
 	 * @param idNomenclatura, identificador de la nomenclatura
