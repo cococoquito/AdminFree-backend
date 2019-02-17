@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
@@ -130,6 +132,32 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getDatosBienvenida(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getDatosBienvenida ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio para el cargue de documento asociado a un consecutivo
+	 *
+	 */
+	@RequestMapping(
+			value = ApiRest.CARGAR_DOCUMENTO,
+			method = RequestMethod.POST,
+			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<Object> cargarDocumento(@RequestPart("documento") MultipartFile documento) {
+		try {
+			if (documento == null) {
+				System.out.println("Esta vacio");
+			} else {
+				System.out.println("name:" + documento.getName());
+				System.out.println("OriginalFilename:" + documento.getOriginalFilename());
+				System.out.println("Size:" + documento.getSize());
+				System.out.println("Bytes length:" + documento.getBytes().length);
+				System.out.println("contente type:"+documento.getContentType());
+			}
+			return Util.getResponseOk();
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".cargarDocumento ", e.getMessage());
 		}
 	}
 }

@@ -48,4 +48,5 @@ public class ApiRest {
 	public static final String VALIDAR_CAMPOS_INGRESO = "validcamposingreso";
 	public static final String SOLICITAR_CONSECUTIVO = "solicitarconsecutivo";
 	public static final String GET_DATOS_WELCOME = "datosbienvenida";
+	public static final String CARGAR_DOCUMENTO = "cargardocumento";
 }
