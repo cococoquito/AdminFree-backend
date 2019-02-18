@@ -142,6 +142,7 @@ public class CorrespondenciaRest {
 	 * @param idCliente, se utiliza para identificar el documento
 	 * @param idConsecutivo, se utiliza para identificar el documento
 	 * nombre=idCliente_idConsecutivo_nombreDocumento.extension
+	 * @return lista de documentos asociados al consecutivo
 	 */
 	@RequestMapping(
 			value = ApiRest.CARGAR_DOCUMENTO,
@@ -168,6 +169,25 @@ public class CorrespondenciaRest {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".cargarDocumento ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio para eliminar un documento asociado al consecutivo
+	 *
+	 * @param datos, Contiene los datos del documento eliminar
+	 * @return lista de documentos asociados al consecutivo
+	 */
+	@RequestMapping(
+			value = ApiRest.ELIMINAR_DOCUMENTO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> eliminarDocumento(@RequestBody DocumentoDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.eliminarDocumento(datos));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".eliminarDocumento ", e.getMessage());
 		}
 	}
 }

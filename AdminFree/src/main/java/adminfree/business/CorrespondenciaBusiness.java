@@ -386,7 +386,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					ValueSQL.get(datos.getSizeDocumento(), Types.VARCHAR));
 
 			// se procede almacenar el documento en S3 de AWS
-			AdministracionDocumentosS3.getInstance().almacenarDocumento(contenido, nombreDocumento, idCliente, idConsecutivo);
+			AdministracionDocumentosS3.getInstance().almacenarDocumento(contenido, idCliente, idConsecutivo, nombreDocumento);
 
 			// se debe confirmar los cambios en BD
 			connection.commit();
@@ -400,7 +400,53 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se procede a consultar todos los documentos asociados al consecutivo
 		return (List<DocumentoDTO>)
 				find(connection,
-				SQLCorrespondencia.getSQListDocumento(idCliente, idConsecutivo),
+				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS));
+	}
+
+	/**
+	 * Metodo para eliminar un documento asociado al consecutivo
+	 *
+	 * @param datos, Contiene los datos del documento eliminar
+	 * @return lista de documentos asociados al consecutivo
+	 */
+	@SuppressWarnings("unchecked")
+	public List<DocumentoDTO> eliminarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
+
+		// se obtiene las variables globales para el proceso
+		String idCliente = datos.getIdCliente();
+		String idDocumento = datos.getId().toString();
+
+		// para el proceso de eliminacion debe estar bajo una transaccion
+		try {
+			connection.setAutoCommit(false);
+
+			// se obtiene los datos del documento eliminar
+			List<String> documento = (List<String>) find(connection,
+					SQLCorrespondencia.getSQLDatosDocumentoEliminar(idCliente, idDocumento),
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_DATOS_DOC_ELIMINAR));
+			String idConsecutivo = documento.get(0);
+			String nombreDocumento = documento.get(1);
+
+			// se elimina los datos del documento en BD
+			insertUpdate(connection, SQLCorrespondencia.getSQLEliminarDocumento(idCliente, idDocumento));
+
+			// se elimina el documento de AWS-S3
+			AdministracionDocumentosS3.getInstance().eliminarDocumento(idCliente, idConsecutivo, nombreDocumento);
+
+			// se debe confirmar los cambios en BD
+			connection.commit();
+
+			// se procede a consultar todos los documentos asociados al consecutivo
+			return (List<DocumentoDTO>)
+					find(connection,
+					SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS));
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
 	}
 }

@@ -49,4 +49,5 @@ public class ApiRest {
 	public static final String SOLICITAR_CONSECUTIVO = "solicitarconsecutivo";
 	public static final String GET_DATOS_WELCOME = "datosbienvenida";
 	public static final String CARGAR_DOCUMENTO = "cargardocumento";
+	public static final String ELIMINAR_DOCUMENTO = "eliminardocumento";
 }

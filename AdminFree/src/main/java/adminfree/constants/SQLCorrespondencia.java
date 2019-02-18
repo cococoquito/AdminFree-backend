@@ -132,12 +132,34 @@ public class SQLCorrespondencia {
 	/**
 	 * Metodo que permite construir el select para listar los documentos de un consecutivo
 	 */
-	public static String getSQListDocumento(String idCliente, String idConsecutivo) {
+	public static String getSQListDocumentos(String idCliente, String idConsecutivo) {
 		StringBuilder sql = 
 				new StringBuilder("SELECT ID_DOC,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO,FECHA_CARGUE FROM CONSECUTIVOS_DOCUMENTOS_");
 		sql.append(idCliente);
 		sql.append(" WHERE ID_CONSECUTIVO=");
 		sql.append(idConsecutivo);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el delete para la eliminacion de un documento
+	 */
+	public static String getSQLEliminarDocumento(String idCliente, String idDocumento) {
+		StringBuilder sql = new StringBuilder("DELETE FROM CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append(" WHERE ID_DOC=");
+		sql.append(idDocumento);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el select para obtener los datos del documento eliminar
+	 */
+	public static String getSQLDatosDocumentoEliminar(String idCliente, String idDocumento) {
+		StringBuilder sql = new StringBuilder("SELECT ID_CONSECUTIVO,NOMBRE_DOCUMENTO FROM CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append(" WHERE ID_DOC=");
+		sql.append(idDocumento);
 		return sql.toString();
 	}
 }

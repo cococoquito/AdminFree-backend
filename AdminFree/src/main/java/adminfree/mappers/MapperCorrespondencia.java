@@ -27,6 +27,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_WELCOME_NOMENCLATURAS = 3;
 	public static final int GET_WELCOME_USUARIOS = 4;
 	public static final int GET_DOCUMENTOS = 5;
+	public static final int GET_DATOS_DOC_ELIMINAR = 6;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -78,8 +79,24 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_DOCUMENTOS:
 				result = getDocumentos(res);
 				break;
+
+			case MapperCorrespondencia.GET_DATOS_DOC_ELIMINAR:
+				result = getDatosDocEliminar(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos del documento a eliminar
+	 */
+	private List<String> getDatosDocEliminar(ResultSet res) throws Exception {
+		List<String> datos = new ArrayList<>();
+		if (res.next()) {
+			datos.add(res.getLong(Numero.UNO.value) + "");
+			datos.add(res.getString(Numero.DOS.value));
+		}
+		return datos;
 	}
 
 	/**

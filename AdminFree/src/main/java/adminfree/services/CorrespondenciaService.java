@@ -147,4 +147,23 @@ public class CorrespondenciaService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio para eliminar un documento asociado al consecutivo
+	 *
+	 * @param datos, Contiene los datos del documento eliminar
+	 * @return lista de documentos asociados al consecutivo
+	 */
+	public List<DocumentoDTO> eliminarDocumento(DocumentoDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a eliminar el documento
+			return new CorrespondenciaBusiness().eliminarDocumento(datos, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

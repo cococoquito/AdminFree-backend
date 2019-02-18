@@ -37,8 +37,10 @@ public class AdministracionDocumentosS3 {
 	 * Metodo que permite almacenar un documento dentro del bucket en S3
 	 */
 	public synchronized void almacenarDocumento(
-			byte[] contenido, String nombreDocumento,
-			String idCliente, String idConsecutivo) throws Exception {
+			byte[] contenido,
+			String idCliente,
+			String idConsecutivo,
+			String nombreDocumento) throws Exception {
 
 		// se configura el nombre del documento almacenar
 		StringBuilder nombre = new StringBuilder(idCliente);
@@ -58,11 +60,11 @@ public class AdministracionDocumentosS3 {
 	 * Metodo que permite eliminar un documento dentro del bucket en S3
 	 */
 	public synchronized void eliminarDocumento(
-			String nombreDocumento,
 			String idCliente,
-			String idConsecutivo) throws Exception {
+			String idConsecutivo,
+			String nombreDocumento) throws Exception {
 
-		// se configura el nombre del documento almacenar
+		// se configura el nombre del documento eliminar
 		StringBuilder nombre = new StringBuilder(idCliente);
 		nombre.append("_").append(idConsecutivo);
 		nombre.append("_").append(nombreDocumento);
