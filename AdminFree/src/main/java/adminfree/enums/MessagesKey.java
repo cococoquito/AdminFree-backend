@@ -51,7 +51,10 @@ public enum MessagesKey {
 	KEY_NOMENCLATURA_EXISTE(Numero.TRECE.value.toString()),
 
 	/** 400 - La nomenclatura que intenta eliminar tiene un consecutivo asociado*/
-	KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA(Numero.CATORCE.value.toString());
+	KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA(Numero.CATORCE.value.toString()),
+
+	/** 400 - El consecutivo ? ya tiene asociado un documento con el nombre ?*/
+	KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE(Numero.QUINCE.value.toString());
 
 	public final String value;
 

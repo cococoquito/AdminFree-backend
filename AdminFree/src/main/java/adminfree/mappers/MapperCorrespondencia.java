@@ -7,6 +7,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.enums.Numero;
@@ -25,6 +26,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_SECUENCIA_NOMENCLATURA = 2;
 	public static final int GET_WELCOME_NOMENCLATURAS = 3;
 	public static final int GET_WELCOME_USUARIOS = 4;
+	public static final int GET_DOCUMENTOS = 5;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -72,8 +74,33 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_WELCOME_USUARIOS:
 				result = getWelComeUsuarios(res);
 				break;
+
+			case MapperCorrespondencia.GET_DOCUMENTOS:
+				result = getDocumentos(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos de los documentos de un consecutivo
+	 */
+	private List<DocumentoDTO> getDocumentos(ResultSet res) throws Exception {
+		List<DocumentoDTO> documentos = null;
+		DocumentoDTO documento;
+		while (res.next()) {
+			documento = new DocumentoDTO();
+			documento.setId(res.getLong(Numero.UNO.value));
+			documento.setNombreDocumento(res.getString(Numero.DOS.value));
+			documento.setTipoDocumento(res.getString(Numero.TRES.value));
+			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
+			documento.setFechaCargue(res.getDate(Numero.CINCO.value));
+			if (documentos == null) {
+				documentos = new ArrayList<>();
+			}
+			documentos.add(documento);
+		}
+		return documentos;
 	}
 
 	/**

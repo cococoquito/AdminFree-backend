@@ -21,6 +21,7 @@ import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
+import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
 import adminfree.mappers.MapperConfiguraciones;
@@ -28,6 +29,7 @@ import adminfree.mappers.MapperCorrespondencia;
 import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.ValueSQL;
+import adminfree.utilities.BusinessException;
 
 /**
  * Clase que contiene los procesos de negocio para el modulo de Correspondencia
@@ -344,7 +346,40 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param datos, Contiene los datos del cargue del documento
 	 * @return lista de documentos asociados al consecutivo
 	 */
+	@SuppressWarnings("unchecked")
 	public List<DocumentoDTO> cargarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
-		return null;
+
+		// se obtiene las variables globales para el proceso
+		String idCliente = datos.getIdCliente();
+		String idConsecutivo = datos.getIdConsecutivo();
+		String nombreDocumento = datos.getNombreDocumento();
+
+		// se cuenta los documentos que tiene el consecutivo con el mismo nombre
+		Long countNombre = (Long)
+				find(connection,
+				SQLCorrespondencia.getSQLCountNombreDocumento(idCliente, idConsecutivo),
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(nombreDocumento, Types.VARCHAR));
+
+		// el consecutivo no puede tener otro documento con el mismo nombre
+		if (countNombre != null && countNombre > Numero.ZERO.value.longValue()) {
+			throw new BusinessException(MessagesKey.KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE.value);
+		}
+
+		// se procede almacenar el documento en disco
+
+		// se realiza el insert de los datos del documento
+		insertUpdate(connection,
+				SQLCorrespondencia.getSQLInsertDocumento(idCliente),
+				ValueSQL.get(Long.valueOf(idConsecutivo), Types.BIGINT),
+				ValueSQL.get(nombreDocumento, Types.VARCHAR),
+				ValueSQL.get(datos.getTipoDocumento(), Types.VARCHAR),
+				ValueSQL.get(datos.getSizeDocumento(), Types.VARCHAR));
+
+		// se procede a consultar todos los documentos asociados al consecutivo
+		return (List<DocumentoDTO>)
+				find(connection,
+				SQLCorrespondencia.getSQListDocumento(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS));
 	}
 }

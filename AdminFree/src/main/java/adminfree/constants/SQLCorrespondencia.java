@@ -105,4 +105,39 @@ public class SQLCorrespondencia {
 		}
 		return sql.toString();
 	}
+
+	/**
+	 * Metodo que permite construir el SQL para validar si existe otro
+	 * documento con el mismo nombre para el mismo consecutivo
+	 */
+	public static String getSQLCountNombreDocumento(String idCliente, String idConsecutivo) {
+		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append(" WHERE ID_CONSECUTIVO=");
+		sql.append(idConsecutivo);
+		sql.append(" AND NOMBRE_DOCUMENTO=?");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el insert para los documentos asociados a un cliente
+	 */
+	public static String getSQLInsertDocumento(String idCliente) {
+		StringBuilder sql = new StringBuilder("INSERT INTO CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append("(ID_CONSECUTIVO,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO,FECHA_CARGUE)VALUES(?,?,?,?,CURDATE())");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el select para listar los documentos de un consecutivo
+	 */
+	public static String getSQListDocumento(String idCliente, String idConsecutivo) {
+		StringBuilder sql = 
+				new StringBuilder("SELECT ID_DOC,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO,FECHA_CARGUE FROM CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append(" WHERE ID_CONSECUTIVO=");
+		sql.append(idConsecutivo);
+		return sql.toString();
+	}
 }
