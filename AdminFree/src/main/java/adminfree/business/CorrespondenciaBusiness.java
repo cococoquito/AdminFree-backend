@@ -13,6 +13,7 @@ import adminfree.constants.SQLCorrespondencia;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -335,5 +336,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		response.setNomenclaturas(nomenclaturas);
 		response.setUsuarios(usuarios);
 		return response;
+	}
+
+	/**
+	 * Metodo para el cargue del documento asociado a un consecutivo
+	 *
+	 * @param datos, Contiene los datos del cargue del documento
+	 * @return lista de documentos asociados al consecutivo
+	 */
+	public List<DocumentoDTO> cargarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
+		return null;
 	}
 }

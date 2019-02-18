@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.services.CorrespondenciaService;
 import adminfree.utilities.BusinessException;
@@ -136,26 +137,35 @@ public class CorrespondenciaRest {
 	}
 
 	/**
-	 * Servicio para el cargue de documento asociado a un consecutivo
+	 * Servicio para el cargue del documento asociado a un consecutivo
 	 *
+	 * @param idCliente, se utiliza para identificar el documento
+	 * @param idConsecutivo, se utiliza para identificar el documento
+	 * nombre=idCliente_idConsecutivo_nombreDocumento.extension
 	 */
 	@RequestMapping(
 			value = ApiRest.CARGAR_DOCUMENTO,
 			method = RequestMethod.POST,
 			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> cargarDocumento(@RequestPart("documento") MultipartFile documento) {
+	public ResponseEntity<Object> cargarDocumento(
+			@RequestPart("documento") MultipartFile documento,
+			@RequestPart("idCliente") String idCliente,
+			@RequestPart("idConsecutivo") String idConsecutivo) {
 		try {
-			if (documento == null) {
-				System.out.println("Esta vacio");
-			} else {
-				System.out.println("name:" + documento.getName());
-				System.out.println("OriginalFilename:" + documento.getOriginalFilename());
-				System.out.println("Size:" + documento.getSize());
-				System.out.println("Bytes length:" + documento.getBytes().length);
-				System.out.println("contente type:"+documento.getContentType());
-			}
-			return Util.getResponseOk();
+			// se construye los datos para el cargue del documento
+			DocumentoDTO datos = new DocumentoDTO();
+			datos.setIdCliente(idCliente);
+			datos.setIdConsecutivo(idConsecutivo);
+			datos.setNombreDocumento(documento.getOriginalFilename());
+			datos.setTipoDocumento(documento.getContentType());
+			datos.setSizeDocumento(documento.getSize() + "");
+			datos.setContenido(documento.getBytes());
+
+			// se procede a realizar el cargue
+			return Util.getResponseSuccessful(this.correspondenciaService.cargarDocumento(datos));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".cargarDocumento ", e.getMessage());
 		}

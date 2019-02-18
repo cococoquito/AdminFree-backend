@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -123,6 +124,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los datos de la pagina de bienvenida
 			return new CorrespondenciaBusiness().getDatosBienvenida(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio para el cargue del documento asociado a un consecutivo
+	 *
+	 * @param datos, Contiene los datos del cargue del documento
+	 * @return lista de documentos asociados al consecutivo
+	 */
+	public List<DocumentoDTO> cargarDocumento(DocumentoDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a realizar el cargue del documento
+			return new CorrespondenciaBusiness().cargarDocumento(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
