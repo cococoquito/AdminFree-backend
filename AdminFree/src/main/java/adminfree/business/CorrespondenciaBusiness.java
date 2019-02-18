@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import adminfree.aws.AdministracionDocumentosS3;
 import adminfree.constants.BusinessMessages;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
@@ -372,15 +373,29 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			throw new BusinessException(MessagesKey.KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE.value);
 		}
 
-		// se procede almacenar el documento en disco
+		// para el proceso del cargue debe estar bajo una transaccion
+		try {
+			connection.setAutoCommit(false);
 
-		// se realiza el insert de los datos del documento
-		insertUpdate(connection,
-				SQLCorrespondencia.getSQLInsertDocumento(idCliente),
-				ValueSQL.get(Long.valueOf(idConsecutivo), Types.BIGINT),
-				ValueSQL.get(nombreDocumento, Types.VARCHAR),
-				ValueSQL.get(datos.getTipoDocumento(), Types.VARCHAR),
-				ValueSQL.get(datos.getSizeDocumento(), Types.VARCHAR));
+			// se hace el insert del documento asociado al consecutivo
+			insertUpdate(connection,
+					SQLCorrespondencia.getSQLInsertDocumento(idCliente),
+					ValueSQL.get(Long.valueOf(idConsecutivo), Types.BIGINT),
+					ValueSQL.get(nombreDocumento, Types.VARCHAR),
+					ValueSQL.get(datos.getTipoDocumento(), Types.VARCHAR),
+					ValueSQL.get(datos.getSizeDocumento(), Types.VARCHAR));
+
+			// se procede almacenar el documento en S3 de AWS
+			AdministracionDocumentosS3.getInstance().almacenarDocumento(contenido, nombreDocumento, idCliente, idConsecutivo);
+
+			// se debe confirmar los cambios en BD
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
 
 		// se procede a consultar todos los documentos asociados al consecutivo
 		return (List<DocumentoDTO>)
