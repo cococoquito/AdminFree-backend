@@ -2,6 +2,9 @@ package adminfree.correspondencia;
 
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,13 +36,20 @@ public class CargarDocumentoTest {
 	@Test
 	public void cargarDocumento() {
 		try {
+			// lectura de un PDF de prueba
+			Path pdfPath = Paths.get("/home/adminfree/Documents/AdminFree-workspace/java_programmer.pdf");
+
 			// se configura los datos del cargue
 			DocumentoDTO datos = new DocumentoDTO();
+			datos.setContenido(Files.readAllBytes(pdfPath));
 			datos.setIdCliente("1");
 			datos.setIdConsecutivo("1");
-			datos.setNombreDocumento("nombre_documento.pdf");
+			datos.setNombreDocumento("java_programmer.pdf");
 			datos.setTipoDocumento("aplication/pdf");
-			datos.setSizeDocumento("14000");
+			datos.setSizeDocumento("0");
+			if (datos.getContenido() != null) {
+				datos.setSizeDocumento(datos.getContenido().length + "");
+			}
 
 			// se hace la invocacion del cargue
 			List<DocumentoDTO> documentos = this.correspondenciaService.cargarDocumento(datos);

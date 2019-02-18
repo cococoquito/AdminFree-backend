@@ -349,6 +349,12 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	@SuppressWarnings("unchecked")
 	public List<DocumentoDTO> cargarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
 
+		// se valida que el contenido del archivo no este vacio
+		byte[] contenido = datos.getContenido();
+		if (contenido == null || !(contenido.length > Numero.ZERO.value.intValue())) {
+			throw new BusinessException(MessagesKey.KEY_DOCUMENTO_VACIO.value);
+		}
+
 		// se obtiene las variables globales para el proceso
 		String idCliente = datos.getIdCliente();
 		String idConsecutivo = datos.getIdConsecutivo();

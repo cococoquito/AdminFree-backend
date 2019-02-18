@@ -54,7 +54,10 @@ public enum MessagesKey {
 	KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA(Numero.CATORCE.value.toString()),
 
 	/** 400 - El consecutivo ? ya tiene asociado un documento con el nombre ?*/
-	KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE(Numero.QUINCE.value.toString());
+	KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE(Numero.QUINCE.value.toString()),
+
+	/** 400 - El documento que intenta cargar se encuentra vacio*/
+	KEY_DOCUMENTO_VACIO(Numero.DIECISEIS.value.toString());
 
 	public final String value;
 
