@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import adminfree.constants.CommonConstant;
+import adminfree.constants.TiposDocumentos;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
@@ -109,7 +110,7 @@ public class MapperCorrespondencia extends Mapper {
 			documento = new DocumentoDTO();
 			documento.setId(res.getLong(Numero.UNO.value));
 			documento.setNombreDocumento(res.getString(Numero.DOS.value));
-			documento.setTipoDocumento(res.getString(Numero.TRES.value));
+			documento.setTipoDocumento(TiposDocumentos.getTipoDocumento(res.getString(Numero.TRES.value)));
 			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
 			documento.setFechaCargue(res.getDate(Numero.CINCO.value));
 			if (documentos == null) {
