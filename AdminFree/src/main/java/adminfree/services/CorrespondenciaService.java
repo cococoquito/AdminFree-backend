@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -162,6 +165,47 @@ public class CorrespondenciaService {
 
 			// se procede a eliminar el documento
 			return new CorrespondenciaBusiness().eliminarDocumento(datos, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los consecutivos del anio actual de acuerdo al
+	 * filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los valores del filtro de busqueda
+	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 */
+	public List<ConsecutivoDTO> getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los consecutivos
+			return new CorrespondenciaBusiness().getConsecutivosAnioActual(filtro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los datos iniciales para el 
+	 * submodulo de Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	public InitConsecutivosAnioActualDTO getInitConsecutivosAnioActual(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los datos para el submodulo de consecutivos solicitados
+			return new CorrespondenciaBusiness().getInitConsecutivosAnioActual(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

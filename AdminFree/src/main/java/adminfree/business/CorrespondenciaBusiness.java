@@ -2,8 +2,11 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import adminfree.aws.AdministracionDocumentosS3;
@@ -14,7 +17,10 @@ import adminfree.constants.SQLCorrespondencia;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -448,5 +454,74 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		} finally {
 			connection.setAutoCommit(true);
 		}
+	}
+
+	/**
+	 * Metodo que permite obtener los consecutivos del anio actual de acuerdo al
+	 * filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los valores del filtro de busqueda
+	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ConsecutivoDTO> getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro, Connection con) throws Exception {
+
+		StringBuilder sql = SQLCorrespondencia.getSQLConsecutivosAnioActual(filtro.getIdCliente().toString());
+
+		// filtro por fecha de solicitud
+		String anioActual = Calendar.getInstance().get(Calendar.YEAR) + "";
+		String mesInicial = "01";
+		String mesFinal = "12";
+		String diaInicial = "01";
+		String diaFinal = "31";
+
+		// Fecha inicial de la solicitud
+		Date fechaSolicitudInicial = filtro.getFechaSolicitudInicial();
+		if (fechaSolicitudInicial != null) {
+			LocalDate inicial = fechaSolicitudInicial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			diaInicial = inicial.getDayOfMonth() + "";
+			mesInicial = inicial.getMonthValue() + "";
+		}
+
+		// Fecha final de la solicitud
+		Date fechaSolicitudFinal = filtro.getFechaSolicitudFinal();
+		if (fechaSolicitudFinal != null) {
+			LocalDate ffinal = fechaSolicitudFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			diaFinal = ffinal.getDayOfMonth() + "";
+			mesFinal = ffinal.getMonthValue() + "";
+		}
+
+		// filtro para la fecha inicial de la solicitud
+		sql.append(" WHERE CON.FECHA_SOLICITUD >='");
+		sql.append(anioActual).append("-");
+		sql.append(mesInicial).append("-");
+		sql.append(diaInicial).append(" 00:00:00'");
+
+		// filtro para la fecha final de la solicitud
+		sql.append(" AND CON.FECHA_SOLICITUD <='");
+		sql.append(anioActual).append("-");
+		sql.append(mesFinal).append("-");
+		sql.append(diaFinal).append(" 23:59:59'");
+		return (List<ConsecutivoDTO>) find(con, sql.toString(), MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL));
+	}
+
+	/**
+	 * Metodo que permite obtener los datos iniciales para el 
+	 * submodulo de Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	public InitConsecutivosAnioActualDTO getInitConsecutivosAnioActual(Long idCliente, Connection connection) throws Exception {
+
+		// se construye el filtro de busqueda de los consecutivos
+		FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
+		filtro.setIdCliente(idCliente);
+
+		// se construye el DTO que contiene la respuesta
+		InitConsecutivosAnioActualDTO response = new InitConsecutivosAnioActualDTO();
+		response.setConsecutivos(getConsecutivosAnioActual(filtro, connection));
+		return response;
 	}
 }

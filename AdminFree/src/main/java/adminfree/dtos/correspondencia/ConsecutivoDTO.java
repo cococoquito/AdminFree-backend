@@ -1,7 +1,6 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * DTO que contiene los atributos de un consecutivo
@@ -25,7 +24,7 @@ public class ConsecutivoDTO implements Serializable {
 	private String usuario;
 
 	/** Fecha en la que solicitaron el consecutivo */
-	private Date fechaSolicitud;
+	private String fechaSolicitud;
 
 	/** Estado en la que se encuentra el consecutivo */
 	private Integer idEstado;
@@ -56,13 +55,6 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public String getUsuario() {
 		return usuario;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo fechaSolicitud
-	 */
-	public Date getFechaSolicitud() {
-		return fechaSolicitud;
 	}
 
 	/**
@@ -106,17 +98,24 @@ public class ConsecutivoDTO implements Serializable {
 
 	/**
 	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param fechaSolicitud
-	 */
-	public void setFechaSolicitud(Date fechaSolicitud) {
-		this.fechaSolicitud = fechaSolicitud;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idEstado
 	 */
 	public void setIdEstado(Integer idEstado) {
 		this.idEstado = idEstado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo fechaSolicitud
+	 */
+	public String getFechaSolicitud() {
+		return fechaSolicitud;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param fechaSolicitud
+	 */
+	public void setFechaSolicitud(String fechaSolicitud) {
+		this.fechaSolicitud = fechaSolicitud;
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
 import adminfree.dtos.correspondencia.DocumentoDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.services.CorrespondenciaService;
 import adminfree.utilities.BusinessException;
@@ -188,6 +189,47 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.eliminarDocumento(datos));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".eliminarDocumento ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los consecutivos del anio actual de acuerdo al
+	 * filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los valores del filtro de busqueda
+	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_CONSECUTIVOS_ACTUAL,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getConsecutivosAnioActual(@RequestBody FiltroConsecutivosAnioActualDTO filtro) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getConsecutivosAnioActual(filtro));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getConsecutivosAnioActual ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los datos iniciales para el 
+	 * submodulo de Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return DTO con los datos iniciales
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_INIT_CONSECUTIVOS_ACTUAL,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getInitConsecutivosAnioActual(@RequestBody Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getInitConsecutivosAnioActual(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getInitConsecutivosAnioActual ", e.getMessage());
 		}
 	}
 }
