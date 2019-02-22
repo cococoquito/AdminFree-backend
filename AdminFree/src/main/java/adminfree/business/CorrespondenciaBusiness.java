@@ -464,7 +464,9 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @return lista de consecutivos de acuerdo al filtro de busqueda
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ConsecutivoDTO> getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro, Connection con) throws Exception {
+	public List<ConsecutivoDTO> getConsecutivosAnioActual(
+			FiltroConsecutivosAnioActualDTO filtro,
+			Connection connection) throws Exception {
 
 		StringBuilder sql = SQLCorrespondencia.getSQLConsecutivosAnioActual(filtro.getIdCliente().toString());
 
@@ -492,7 +494,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		}
 
 		// filtro para la fecha inicial de la solicitud
-		sql.append(" WHERE CON.FECHA_SOLICITUD >='");
+		sql.append("WHERE CON.FECHA_SOLICITUD >='");
 		sql.append(anioActual).append("-");
 		sql.append(mesInicial).append("-");
 		sql.append(diaInicial).append(" 00:00:00'");
@@ -502,7 +504,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		sql.append(anioActual).append("-");
 		sql.append(mesFinal).append("-");
 		sql.append(diaFinal).append(" 23:59:59'");
-		return (List<ConsecutivoDTO>) find(con, sql.toString(), MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL));
+
+		// se ordena la consulta
+		sql.append(" ORDER BY CON.FECHA_SOLICITUD DESC, NOM.NOMENCLATURA ASC, CON.CONSECUTIVO DESC");
+
+		// se procede a retornar los datos retornados por la consulta
+		return (List<ConsecutivoDTO>) find(
+				connection,
+				sql.toString(),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL));
 	}
 
 	/**
