@@ -1,7 +1,10 @@
 package adminfree.mappers;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.Numero;
 
 /**
@@ -16,6 +19,7 @@ public class MapperTransversal extends Mapper {
 	public static final int COUNT = 1;
 	public static final int GET_ID = 2;
 	public static final int GET_SOLO_UN_STRING = 3;
+	public static final int GET_ITEMS = 4;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperTransversal instance;
@@ -58,8 +62,30 @@ public class MapperTransversal extends Mapper {
 			case MapperTransversal.GET_SOLO_UN_STRING:
 				result = getSoloUnString(res);
 				break;
+
+			case MapperTransversal.GET_ITEMS:
+				result = getItems(res);
+				break;
 			}
 		return result;
+	}
+
+	/**
+	 * Mapper para configurar los items para las listas desplegables
+	 */
+	private List<SelectItemDTO> getItems(ResultSet res) throws Exception {
+		List<SelectItemDTO> items = null;
+		SelectItemDTO item;
+		while (res.next()) {
+			item = new SelectItemDTO();
+			item.setId(res.getLong(Numero.UNO.value));
+			item.setLabel(res.getString(Numero.DOS.value));
+			if (items == null) {
+				items = new ArrayList<>();
+			}
+			items.add(item);
+		}
+		return items;
 	}
 
 	/**

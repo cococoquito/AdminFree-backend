@@ -12,6 +12,7 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
 import adminfree.constants.SQLFilters;
+import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
@@ -26,6 +27,7 @@ import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
+import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
@@ -43,6 +45,7 @@ import adminfree.utilities.Util;
  * @author Carlos Andres Diaz
  *
  */
+@SuppressWarnings("unchecked")
 public class CorrespondenciaBusiness extends CommonDAO {
 
 	/**
@@ -51,7 +54,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param idNomenclatura, identificador de la nomenclatura
 	 * @return DTO con los campos de la nomenclatura
 	 */
-	@SuppressWarnings("unchecked")
 	public List<CampoEntradaDetalleDTO> getCamposNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
 
 		// se obtiene los campos asociados a la nomenclatura
@@ -177,7 +179,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param solicitud, DTO que contiene los datos de la solicitud
 	 * @return DTO con los datos de la respuesta
 	 */
-	@SuppressWarnings("unchecked")
 	public SolicitudConsecutivoResponseDTO solicitarConsecutivo(
 			SolicitudConsecutivoDTO solicitud,
 			Connection connection) throws Exception {
@@ -316,7 +317,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param idCliente, identificador del cliente autenticado
 	 * @return DTO con los datos de bienvenida
 	 */
-	@SuppressWarnings("unchecked")
 	public WelcomeInitDTO getDatosBienvenida(Long idCliente, Connection connection) throws Exception {
 
 		// DTO con los datos a responder
@@ -348,7 +348,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param datos, Contiene los datos del cargue del documento
 	 * @return lista de documentos asociados al consecutivo
 	 */
-	@SuppressWarnings("unchecked")
 	public List<DocumentoDTO> cargarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
 
 		// se valida que el contenido del archivo no este vacio
@@ -411,7 +410,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param datos, Contiene los datos del documento eliminar
 	 * @return lista de documentos asociados al consecutivo
 	 */
-	@SuppressWarnings("unchecked")
 	public List<DocumentoDTO> eliminarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
 
 		// se obtiene las variables globales para el proceso
@@ -458,7 +456,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
 	 * @return lista de consecutivos de acuerdo al filtro de busqueda
 	 */
-	@SuppressWarnings("unchecked")
 	public List<ConsecutivoDTO> getConsecutivosAnioActual(
 			FiltroConsecutivosAnioActualDTO filtro,
 			Connection connection) throws Exception {
@@ -504,13 +501,20 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 */
 	public InitConsecutivosAnioActualDTO getInitConsecutivosAnioActual(Long idCliente, Connection connection) throws Exception {
 
-		// se construye el filtro de busqueda de los consecutivos
+		// DTO con los datos iniciales para el submodulo
+		InitConsecutivosAnioActualDTO response = new InitConsecutivosAnioActualDTO();
+
+		// se procede a consultar los consecutivos del anio actual paginados
 		FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
 		filtro.setIdCliente(idCliente);
-
-		// se construye el DTO que contiene la respuesta
-		InitConsecutivosAnioActualDTO response = new InitConsecutivosAnioActualDTO();
 		response.setConsecutivos(getConsecutivosAnioActual(filtro, connection));
+
+		// se procede a consultar los usuarios para el filtro de busqueda
+		response.setUsuarios((List<SelectItemDTO>) find(
+				connection,
+				SQLTransversal.GET_ITEMS_USUARIOS,
+				MapperTransversal.get(MapperTransversal.GET_ITEMS),
+				ValueSQL.get(idCliente, Types.BIGINT)));
 		return response;
 	}
 }
