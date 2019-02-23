@@ -2,11 +2,8 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import adminfree.aws.AdministracionDocumentosS3;
@@ -14,6 +11,7 @@ import adminfree.constants.BusinessMessages;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
+import adminfree.constants.SQLFilters;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
@@ -37,6 +35,7 @@ import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.BusinessException;
+import adminfree.utilities.Util;
 
 /**
  * Clase que contiene los procesos de negocio para el modulo de Correspondencia
@@ -213,11 +212,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			}
 
 			// se configura el formato de la nueva secuencia
-			StringBuilder secuenciaFormatoB = new StringBuilder();
-			secuenciaFormatoB.append(CommonConstant.RANGO);
-			secuenciaFormatoB.delete(Numero.ZERO.value, nroSecuencia.toString().length());
-			secuenciaFormatoB.append(nroSecuencia);
-			String secuenciaFormato = secuenciaFormatoB.toString();
+			String secuenciaFormato = Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_4, nroSecuencia.toString());
 
 			// se realiza el insert de la tabla padre CONSECUTIVOS_ID_CLIENTE
 			insertUpdate(connection,
@@ -457,8 +452,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite obtener los consecutivos del anio actual de acuerdo al
-	 * filtro de busqueda
+	 * Metodo que permite obtener los consecutivos del anio actual
+	 * de acuerdo al filtro de busqueda
 	 *
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
 	 * @return lista de consecutivos de acuerdo al filtro de busqueda
@@ -468,51 +463,35 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			FiltroConsecutivosAnioActualDTO filtro,
 			Connection connection) throws Exception {
 
+		// se obtiene la consulta principal
 		StringBuilder sql = SQLCorrespondencia.getSQLConsecutivosAnioActual(filtro.getIdCliente().toString());
 
+		// son los parametros para los filtros de busqueda
+		List<ValueSQL> parametros = new ArrayList<>();
+
 		// filtro por fecha de solicitud
-		String anioActual = Calendar.getInstance().get(Calendar.YEAR) + "";
-		String mesInicial = "01";
-		String mesFinal = "12";
-		String diaInicial = "01";
-		String diaFinal = "31";
+		SQLFilters.getFilterFechaSolicitud(filtro.getFechaSolicitudInicial(), filtro.getFechaSolicitudFinal(), sql);
 
-		// Fecha inicial de la solicitud
-		Date fechaSolicitudInicial = filtro.getFechaSolicitudInicial();
-		if (fechaSolicitudInicial != null) {
-			LocalDate inicial = fechaSolicitudInicial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			diaInicial = inicial.getDayOfMonth() + "";
-			mesInicial = inicial.getMonthValue() + "";
-		}
+		// filtro por nomenclaturas
+		SQLFilters.getFilterNomenclaturas(filtro.getNomenclaturas(), parametros, sql);
 
-		// Fecha final de la solicitud
-		Date fechaSolicitudFinal = filtro.getFechaSolicitudFinal();
-		if (fechaSolicitudFinal != null) {
-			LocalDate ffinal = fechaSolicitudFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			diaFinal = ffinal.getDayOfMonth() + "";
-			mesFinal = ffinal.getMonthValue() + "";
-		}
+		// filtro por consecutivos
+		SQLFilters.getFilterConsecutivos(filtro.getConsecutivos(), parametros, sql);
 
-		// filtro para la fecha inicial de la solicitud
-		sql.append("WHERE CON.FECHA_SOLICITUD >='");
-		sql.append(anioActual).append("-");
-		sql.append(mesInicial).append("-");
-		sql.append(diaInicial).append(" 00:00:00'");
+		// filtro por usuarios
+		SQLFilters.getFilterUsuarios(filtro.getIdsUsuarios(), sql);
 
-		// filtro para la fecha final de la solicitud
-		sql.append(" AND CON.FECHA_SOLICITUD <='");
-		sql.append(anioActual).append("-");
-		sql.append(mesFinal).append("-");
-		sql.append(diaFinal).append(" 23:59:59'");
+		// filtro por estados
+		SQLFilters.getFilterEstados(filtro.getEstados(), sql);
 
 		// se ordena la consulta
 		sql.append(" ORDER BY CON.FECHA_SOLICITUD DESC, NOM.NOMENCLATURA ASC, CON.CONSECUTIVO DESC");
 
 		// se procede a retornar los datos retornados por la consulta
 		return (List<ConsecutivoDTO>) find(
-				connection,
-				sql.toString(),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL));
+				connection, sql.toString(),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL),
+				!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null);
 	}
 
 	/**

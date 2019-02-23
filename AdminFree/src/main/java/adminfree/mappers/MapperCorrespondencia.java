@@ -98,7 +98,7 @@ public class MapperCorrespondencia extends Mapper {
 	 * Metodo para configurar los consecutivos del anio actual
 	 */
 	private List<ConsecutivoDTO> getConsecutivosAnioActual(ResultSet res) throws Exception {
-		List<ConsecutivoDTO> consecutivos = new ArrayList<>();
+		List<ConsecutivoDTO> consecutivos = null;
 		ConsecutivoDTO consecutivo;
 		while (res.next()) {
 			consecutivo = new ConsecutivoDTO();
@@ -108,6 +108,9 @@ public class MapperCorrespondencia extends Mapper {
 			consecutivo.setUsuario(res.getString(Numero.CUATRO.value));
 			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.value));
 			consecutivo.setIdEstado(res.getInt(Numero.SEIS.value));
+			if (consecutivos == null) {
+				consecutivos = new ArrayList<>();
+			}
 			consecutivos.add(consecutivo);
 		}
 		return consecutivos;

@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * DTO que contiene los atributos para el filtro de busqueda de
- * los consecutivos solicitados para el anio actual
+ * DTO que contiene los atributos para el filtro de busqueda de los consecutivos
+ * solicitados para el anio actual
  * 
  * @author Carlos Andres Diaz
  *
@@ -24,7 +24,7 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	private String consecutivos;
 
 	/** Busqueda por usuarios, pueden llegar varios */
-	private List<Long> usuarios;
+	private List<Integer> idsUsuarios;
 
 	/** Busqueda por fecha de solicitud inicial */
 	private Date fechaSolicitudInicial;
@@ -47,13 +47,6 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	 */
 	public String getConsecutivos() {
 		return consecutivos;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo usuarios
-	 */
-	public List<Long> getUsuarios() {
-		return usuarios;
 	}
 
 	/**
@@ -94,13 +87,6 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param usuarios
-	 */
-	public void setUsuarios(List<Long> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	/**
 	 * Metodo que permite configurar el nuevo valor para el atributo @param
 	 * fechaSolicitudInicial
 	 */
@@ -131,10 +117,25 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param idCliente
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idCliente
 	 */
 	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idsUsuarios
+	 */
+	public List<Integer> getIdsUsuarios() {
+		return idsUsuarios;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idsUsuarios
+	 */
+	public void setIdsUsuarios(List<Integer> idsUsuarios) {
+		this.idsUsuarios = idsUsuarios;
 	}
 }

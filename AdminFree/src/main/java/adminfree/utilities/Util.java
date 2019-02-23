@@ -17,6 +17,23 @@ import adminfree.enums.TipoCampo;
 public class Util {
 
 	/**
+	 * Metodo que permite construir el formato de acuerdo al prefijo
+	 */
+	public static String setPrefijoZeros(String prefijo, String nro) {
+		StringBuilder formato = new StringBuilder(prefijo);
+		formato.delete(Numero.ZERO.value, nro.length());
+		formato.append(nro);
+		return formato.toString();
+	}
+
+	/**
+	 * Metodo que permite validar si un valor es null o vacio
+	 */
+	public static boolean isNull(String valor) {
+		return valor == null || valor.trim().length() == Numero.ZERO.value;
+	}
+
+	/**
 	 * Metodo que permite obtener el nombre de un estado de acuerdo a su ID
 	 */
 	public static String getEstadoNombre(Integer id) {

@@ -9,16 +9,20 @@ package adminfree.constants;
  *
  */
 public class CommonConstant {
+	public static final String COMA = ",";
 	public static final String PUNTO_COMA = ";";
 	public static final String INTERROGACION = "?";
+	public static final String COMA_INTERROGACION = ",?";
 	public static final String INTERROGACION_1 = "?1";
 	public static final String INTERROGACION_2 = "?2";
 	public static final String INTERROGACION_3 = "?3";
 	public static final String INTERROGACION_4 = "?4";
 	public static final String ID_NOMENCLATURA = "ID_NOMENCLATURA";
 	public static final String NOMENCLATURAS = "NOMENCLATURAS";
-	public static final String RANGO = "0000";
+	public static final String PREFIJO_ZEROS_4 = "0000";
+	public static final String PREFIJO_ZEROS_2 = "00";
 	public static final String LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
+	public static final Integer ID_ADMINISTRADOR = -1;
 
 	/** Constantes para las restricciones de los campos */
 	public static final String KEY_CAMPO_UNICO_NOMENCLATURA = "3";
