@@ -41,6 +41,7 @@ import adminfree.utilities.Util;
  * @author Carlos Andres Diaz
  *
  */
+@SuppressWarnings("unchecked")
 public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
@@ -71,7 +72,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 *
 	 * @return, lista de CLIENTES configurados
 	 */	
-	@SuppressWarnings("unchecked")
 	public List<ClienteDTO> listarClientes(Connection connection) throws Exception {
 		return (List<ClienteDTO>) findAll(
 				connection,
@@ -147,7 +147,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param filtro, contiene los datos del filtro de busqueda
 	 * @return lista de Usuarios asociados a un cliente
 	 */
-	@SuppressWarnings("unchecked")
 	public List<UsuarioDTO> getUsuariosCliente(ClienteDTO filtro, Connection connection) throws Exception {
 		return (List<UsuarioDTO>) find(connection,
 				SQLConfiguraciones.GET_USUARIOS_CLIENTE,
@@ -508,7 +507,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
 	 * @return lista DTO con la informacion de los campos de entrada
 	 */
-	@SuppressWarnings("unchecked")
 	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente, Connection connection) throws Exception {
 		return (List<CampoEntradaDTO>) find(connection,
 				SQLConfiguraciones.GET_CAMPOS_ENTRADA_INFORMACION,
@@ -522,7 +520,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCampo, identificador del campo de entrada informacion
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
-	@SuppressWarnings("unchecked")
 	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
 		// se consulta los datos del campo con sus restricciones
 		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
@@ -592,7 +589,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCampo, identificador del campo de entrada a editar
 	 * @return DTO con los datos del campo de entrada de informacion a editar
 	 */
-	@SuppressWarnings("unchecked")
 	public CampoEntradaEdicionDTO getDetalleCampoEntradaEdicion(Long idCampo, Connection connection) throws Exception {
 		// se consulta los datos del campo de entrada a editar
 		CampoEntradaEdicionDTO campo = (CampoEntradaEdicionDTO) find(connection,
@@ -756,7 +752,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param idCliente, identificador del cliente quien le pertenece las nomenclaturas
 	 * @return lista de nomenclaturas con sus atributos configuradas
 	 */
-	@SuppressWarnings("unchecked")
 	public List<NomenclaturaDTO> getNomenclaturas(Long idCliente, Connection connection) throws Exception {
 		return (List<NomenclaturaDTO>) find(connection,
 				SQLConfiguraciones.GET_NOMENCLATURAS,
@@ -1017,7 +1012,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
 	 * @return Lista de restricciones parametrizadas en la BD
 	 */
-	@SuppressWarnings("unchecked")
 	private List<RestriccionDTO> getRestricionesPorTipo(Integer tipoCampo, Connection connection) throws Exception {
 		return (List<RestriccionDTO>) find(connection,
 				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
