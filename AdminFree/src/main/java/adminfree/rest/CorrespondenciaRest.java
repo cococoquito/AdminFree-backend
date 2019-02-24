@@ -225,7 +225,7 @@ public class CorrespondenciaRest {
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
-	public ResponseEntity<Object> getInitConsecutivosAnioActual(@RequestBody Long idCliente) {
+	public ResponseEntity<Object> getInitConsecutivosAnioActual(@RequestParam Long idCliente) {
 		try {
 			return Util.getResponseSuccessful(this.correspondenciaService.getInitConsecutivosAnioActual(idCliente));
 		} catch (Exception e) {
