@@ -507,14 +507,19 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se procede a consultar los consecutivos del anio actual paginados
 		FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
 		filtro.setIdCliente(idCliente);
-		response.setConsecutivos(getConsecutivosAnioActual(filtro, connection));
+		List<ConsecutivoDTO> consecutivos = getConsecutivosAnioActual(filtro, connection);
 
-		// se procede a consultar los usuarios para el filtro de busqueda
-		response.setUsuarios((List<SelectItemDTO>) find(
-				connection,
-				SQLTransversal.GET_ITEMS_USUARIOS,
-				MapperTransversal.get(MapperTransversal.GET_ITEMS),
-				ValueSQL.get(idCliente, Types.BIGINT)));
+		// se consultan los demas datos solamente si hay consecutivos
+		if (consecutivos != null && !consecutivos.isEmpty()) {
+			response.setConsecutivos(consecutivos);
+
+			// se procede a consultar los usuarios para el filtro de busqueda
+			response.setUsuarios((List<SelectItemDTO>) find(
+					connection,
+					SQLTransversal.GET_ITEMS_USUARIOS,
+					MapperTransversal.get(MapperTransversal.GET_ITEMS),
+					ValueSQL.get(idCliente, Types.BIGINT)));
+		}
 		return response;
 	}
 }
