@@ -517,7 +517,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			response.setUsuarios((List<SelectItemDTO>) find(
 					connection,
 					SQLTransversal.GET_ITEMS_USUARIOS,
-					MapperTransversal.get(MapperTransversal.GET_ITEMS),
+					MapperTransversal.get(MapperTransversal.GET_ITEMS_USUARIOS),
 					ValueSQL.get(idCliente, Types.BIGINT)));
 		}
 		return response;

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import adminfree.constants.CommonConstant;
 import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.Numero;
 
@@ -19,7 +20,7 @@ public class MapperTransversal extends Mapper {
 	public static final int COUNT = 1;
 	public static final int GET_ID = 2;
 	public static final int GET_SOLO_UN_STRING = 3;
-	public static final int GET_ITEMS = 4;
+	public static final int GET_ITEMS_USUARIOS = 4;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperTransversal instance;
@@ -63,8 +64,8 @@ public class MapperTransversal extends Mapper {
 				result = getSoloUnString(res);
 				break;
 
-			case MapperTransversal.GET_ITEMS:
-				result = getItems(res);
+			case MapperTransversal.GET_ITEMS_USUARIOS:
+				result = getItemsUsuarios(res);
 				break;
 			}
 		return result;
@@ -72,17 +73,18 @@ public class MapperTransversal extends Mapper {
 
 	/**
 	 * Mapper para configurar los items para las listas desplegables
+	 * de los usuarios parametrizados en el sistema
 	 */
-	private List<SelectItemDTO> getItems(ResultSet res) throws Exception {
-		List<SelectItemDTO> items = null;
-		SelectItemDTO item;
+	private List<SelectItemDTO> getItemsUsuarios(ResultSet res) throws Exception {
+		List<SelectItemDTO> items = new ArrayList<>();
+		SelectItemDTO item = new SelectItemDTO();
+		item.setId(CommonConstant.ID_ADMINISTRADOR.longValue());
+		item.setLabel(CommonConstant.ADMINISTRADOR);
+		items.add(item);
 		while (res.next()) {
 			item = new SelectItemDTO();
 			item.setId(res.getLong(Numero.UNO.value));
 			item.setLabel(res.getString(Numero.DOS.value));
-			if (items == null) {
-				items = new ArrayList<>();
-			}
 			items.add(item);
 		}
 		return items;
