@@ -2,7 +2,6 @@ package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * DTO que contiene los atributos para el filtro de busqueda de los consecutivos
@@ -23,8 +22,8 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	/** Busqueda por consecutivos, separadas por comas */
 	private String consecutivos;
 
-	/** Busqueda por usuarios, pueden llegar varios */
-	private List<Integer> idsUsuarios;
+	/** Busqueda por el identificador del usuario */
+	private Integer idUsuario;
 
 	/** Busqueda por fecha de solicitud inicial */
 	private Date fechaSolicitudInicial;
@@ -32,8 +31,8 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	/** Busqueda por fecha de solicitud final */
 	private Date fechaSolicitudFinal;
 
-	/** Busqueda por estado del consecutivo, puede llegar varios */
-	private List<Integer> estados;
+	/** Busqueda por estado del consecutivo */
+	private Integer estado;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo nomenclaturas
@@ -61,13 +60,6 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	 */
 	public Date getFechaSolicitudFinal() {
 		return fechaSolicitudFinal;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo estados
-	 */
-	public List<Integer> getEstados() {
-		return estados;
 	}
 
 	/**
@@ -103,13 +95,6 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param estados
-	 */
-	public void setEstados(List<Integer> estados) {
-		this.estados = estados;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
 	public Long getIdCliente() {
@@ -125,17 +110,32 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo idsUsuarios
+	 * Metodo que permite obtener el valor del atributo idUsuario
 	 */
-	public List<Integer> getIdsUsuarios() {
-		return idsUsuarios;
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo estado
+	 */
+	public Integer getEstado() {
+		return estado;
 	}
 
 	/**
 	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param idsUsuarios
+	 * para el atributo @param idUsuario
 	 */
-	public void setIdsUsuarios(List<Integer> idsUsuarios) {
-		this.idsUsuarios = idsUsuarios;
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param estado
+	 */
+	public void setEstado(Integer estado) {
+		this.estado = estado;
 	}
 }

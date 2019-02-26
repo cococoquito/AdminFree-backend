@@ -476,10 +476,20 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		SQLFilters.getFilterConsecutivos(filtro.getConsecutivos(), parametros, sql);
 
 		// filtro por usuarios
-		SQLFilters.getFilterUsuarios(filtro.getIdsUsuarios(), sql);
+		Integer idUsuario = filtro.getIdUsuario();
+		if (idUsuario != null && idUsuario != Numero.ZERO.value) {
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			ids.add(idUsuario);
+			SQLFilters.getFilterUsuarios(ids, sql);
+		}
 
 		// filtro por estados
-		SQLFilters.getFilterEstados(filtro.getEstados(), sql);
+		Integer estado = filtro.getEstado();
+		if (estado != null && estado > Numero.ZERO.value) {
+			ArrayList<Integer> estados = new ArrayList<Integer>();
+			estados.add(estado);
+			SQLFilters.getFilterEstados(estados, sql);
+		}
 
 		// se ordena la consulta
 		sql.append(" ORDER BY CON.FECHA_SOLICITUD DESC, NOM.NOMENCLATURA ASC, CON.CONSECUTIVO DESC");
