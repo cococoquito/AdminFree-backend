@@ -1,6 +1,7 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import adminfree.dtos.transversal.SelectItemDTO;
@@ -19,6 +20,12 @@ public class InitConsecutivosAnioActualDTO implements Serializable {
 
 	/** Lista de items para mostrarlo en el componente de filtros por usuarios */
 	private List<SelectItemDTO> usuarios;
+
+	/**
+	 * Es la fecha actual del sistema, no se puede tomar directamente desde angular
+	 * ya que se tomaria la fecha de la maquina del cliente
+	 */
+	private Date fechaActual;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo consecutivos
@@ -46,5 +53,20 @@ public class InitConsecutivosAnioActualDTO implements Serializable {
 	 */
 	public void setUsuarios(List<SelectItemDTO> usuarios) {
 		this.usuarios = usuarios;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo fechaActual
+	 */
+	public Date getFechaActual() {
+		return fechaActual;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param fechaActual
+	 */
+	public void setFechaActual(Date fechaActual) {
+		this.fechaActual = fechaActual;
 	}
 }

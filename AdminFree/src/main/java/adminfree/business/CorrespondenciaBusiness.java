@@ -523,6 +523,9 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		if (consecutivos != null && !consecutivos.isEmpty()) {
 			response.setConsecutivos(consecutivos);
 
+			// se configura la fecha actual del sistema
+			response.setFechaActual(Calendar.getInstance().getTime());
+
 			// se procede a consultar los usuarios para el filtro de busqueda
 			response.setUsuarios((List<SelectItemDTO>) find(
 					connection,
