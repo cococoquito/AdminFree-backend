@@ -164,12 +164,21 @@ public class SQLCorrespondencia {
 	}
 
 	/**
-	 * Metodo que permite construir el select para obtener los consecutivos del anio actual
+	 * Metodo que permite construir el FROM para obtener los consecutivos del anio actual
 	 */
-	public static StringBuilder getSQLConsecutivosAnioActual(String idCliente) {
-		StringBuilder sql = new StringBuilder("SELECT CON.ID_CONSECUTIVO AS ID,CON.CONSECUTIVO AS NRO,NOM.NOMENCLATURA AS NOMEN,COALESCE(US.NOMBRE, 'Administrador') AS USUARIO,DATE_FORMAT(CON.FECHA_SOLICITUD,'%d - %b - %Y') AS FECHA_SOLI, CON.ESTADO FROM CONSECUTIVOS_");
+	public static StringBuilder getSQLFromConsecutivosAnioActual(String idCliente) {
+		StringBuilder sql = new StringBuilder(" FROM CONSECUTIVOS_");
 		sql.append(idCliente);
 		sql.append(" CON LEFT JOIN NOMENCLATURAS NOM ON(NOM.ID_NOMENCLATURA = CON.NOMENCLATURA)LEFT JOIN USUARIOS US ON(US.ID_USUARIO = CON.USUARIO) WHERE");
+		return sql;
+	}
+
+	/**
+	 * Metodo que permite construir el SQL para obtener los consecutivos del anio actual
+	 */
+	public static StringBuilder getSQLSelectConsecutivosAnioActual(StringBuilder from) {
+		StringBuilder sql = new StringBuilder("SELECT CON.ID_CONSECUTIVO AS ID,CON.CONSECUTIVO AS NRO,NOM.NOMENCLATURA AS NOMEN,COALESCE(US.NOMBRE, 'Administrador') AS USUARIO,DATE_FORMAT(CON.FECHA_SOLICITUD,'%d - %b - %Y') AS FECHA_SOLI, CON.ESTADO");
+		sql.append(from);
 		return sql;
 	}
 }

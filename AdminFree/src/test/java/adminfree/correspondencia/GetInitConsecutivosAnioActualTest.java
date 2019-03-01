@@ -40,7 +40,10 @@ public class GetInitConsecutivosAnioActualTest {
 			InitConsecutivosAnioActualDTO init = this.correspondenciaService.getInitConsecutivosAnioActual(idCliente);
 
 			// debe existir los consecutivos
-			assertTrue(init != null && !init.getConsecutivos().isEmpty());
+			assertTrue(init != null &&
+					init.getConsecutivos() != null &&
+					init.getConsecutivos().getCantidadTotal() != null &&
+					init.getConsecutivos().getCantidadTotal() > 0l);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

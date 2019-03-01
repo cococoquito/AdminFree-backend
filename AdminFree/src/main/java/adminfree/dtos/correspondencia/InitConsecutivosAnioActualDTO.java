@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.dtos.transversal.SelectItemDTO;
 
 /**
@@ -15,8 +16,8 @@ import adminfree.dtos.transversal.SelectItemDTO;
 public class InitConsecutivosAnioActualDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Lista de consecutivos que se muestra al momento de entrar al submodulo */
-	private List<ConsecutivoDTO> consecutivos;
+	/** Es el reponse inicial de los consecutivos paginados **/
+    private PaginadorResponseDTO consecutivos;
 
 	/** Lista de items para mostrarlo en el componente de filtros por usuarios */
 	private List<SelectItemDTO> usuarios;
@@ -30,15 +31,8 @@ public class InitConsecutivosAnioActualDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo consecutivos
 	 */
-	public List<ConsecutivoDTO> getConsecutivos() {
+	public PaginadorResponseDTO getConsecutivos() {
 		return consecutivos;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo consecutivos
-	 */
-	public void setConsecutivos(List<ConsecutivoDTO> consecutivos) {
-		this.consecutivos = consecutivos;
 	}
 
 	/**
@@ -49,17 +43,26 @@ public class InitConsecutivosAnioActualDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param usuarios
-	 */
-	public void setUsuarios(List<SelectItemDTO> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo fechaActual
 	 */
 	public Date getFechaActual() {
 		return fechaActual;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param consecutivos
+	 */
+	public void setConsecutivos(PaginadorResponseDTO consecutivos) {
+		this.consecutivos = consecutivos;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param usuarios
+	 */
+	public void setUsuarios(List<SelectItemDTO> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	/**

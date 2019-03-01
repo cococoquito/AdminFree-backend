@@ -3,6 +3,8 @@ package adminfree.dtos.correspondencia;
 import java.io.Serializable;
 import java.util.Date;
 
+import adminfree.dtos.transversal.PaginadorDTO;
+
 /**
  * DTO que contiene los atributos para el filtro de busqueda de los consecutivos
  * solicitados para el anio actual
@@ -12,6 +14,9 @@ import java.util.Date;
  */
 public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	/** paginador para la consulta los consecutivos **/
+	private PaginadorDTO paginador;
 
 	/** Es el cliente autenticado o el cliente asociado al user autenticado */
 	private Long idCliente;
@@ -137,5 +142,20 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	 */
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo paginador
+	 */
+	public PaginadorDTO getPaginador() {
+		return paginador;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param paginador
+	 */
+	public void setPaginador(PaginadorDTO paginador) {
+		this.paginador = paginador;
 	}
 }

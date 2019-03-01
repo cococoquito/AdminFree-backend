@@ -11,12 +11,10 @@ import adminfree.constants.BusinessMessages;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
-import adminfree.constants.SQLFilters;
 import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
-import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -27,6 +25,8 @@ import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
+import adminfree.dtos.transversal.PaginadorDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
@@ -454,33 +454,33 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * de acuerdo al filtro de busqueda
 	 *
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
-	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 * @return DTO con la lista de consecutivos paginados y su cantidad total
 	 */
-	public List<ConsecutivoDTO> getConsecutivosAnioActual(
+	public PaginadorResponseDTO getConsecutivosAnioActual(
 			FiltroConsecutivosAnioActualDTO filtro,
 			Connection connection) throws Exception {
 
-		// se obtiene la consulta principal
-		StringBuilder sql = SQLCorrespondencia.getSQLConsecutivosAnioActual(filtro.getIdCliente().toString());
+		// se obtiene el from de la consulta
+		StringBuilder from = SQLCorrespondencia.getSQLFromConsecutivosAnioActual(filtro.getIdCliente().toString());
 
 		// son los parametros para los filtros de busqueda
 		List<ValueSQL> parametros = new ArrayList<>();
 
 		// filtro por fecha de solicitud
-		SQLFilters.getFilterFechaSolicitud(filtro.getFechaSolicitudInicial(), filtro.getFechaSolicitudFinal(), sql);
+		SQLTransversal.getFilterFechaSolicitud(filtro.getFechaSolicitudInicial(), filtro.getFechaSolicitudFinal(), from);
 
 		// filtro por nomenclaturas
-		SQLFilters.getFilterNomenclaturas(filtro.getNomenclaturas(), parametros, sql);
+		SQLTransversal.getFilterNomenclaturas(filtro.getNomenclaturas(), parametros, from);
 
 		// filtro por consecutivos
-		SQLFilters.getFilterConsecutivos(filtro.getConsecutivos(), parametros, sql);
+		SQLTransversal.getFilterConsecutivos(filtro.getConsecutivos(), parametros, from);
 
 		// filtro por usuarios
 		Integer idUsuario = filtro.getIdUsuario();
 		if (idUsuario != null && idUsuario != Numero.ZERO.value) {
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			ids.add(idUsuario);
-			SQLFilters.getFilterUsuarios(ids, sql);
+			SQLTransversal.getFilterUsuarios(ids, from);
 		}
 
 		// filtro por estados
@@ -488,17 +488,44 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		if (estado != null && estado > Numero.ZERO.value) {
 			ArrayList<Integer> estados = new ArrayList<Integer>();
 			estados.add(estado);
-			SQLFilters.getFilterEstados(estados, sql);
+			SQLTransversal.getFilterEstados(estados, from);
 		}
 
-		// se ordena la consulta
-		sql.append(" ORDER BY CON.FECHA_SOLICITUD DESC, NOM.NOMENCLATURA ASC, CON.CONSECUTIVO DESC");
+		// se utiliza para obtener los datos del paginador
+		PaginadorDTO paginador = filtro.getPaginador();
 
-		// se procede a retornar los datos retornados por la consulta
-		return (List<ConsecutivoDTO>) find(
-				connection, sql.toString(),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL),
-				!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null);
+		// se utiliza para encapsular la respuesta de esta peticion
+		PaginadorResponseDTO response = new PaginadorResponseDTO();
+
+		// se valida si se debe contar los consecutivos
+		response.setCantidadTotal(paginador.getCantidadTotal());
+		if (response.getCantidadTotal() == null) {
+			response.setCantidadTotal((Long) find(connection,
+					SQLTransversal.getSQLCount(from),
+					MapperTransversal.get(MapperTransversal.COUNT),
+					!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null));
+		}
+
+		// solo se consultan los registros solo si existen de acuerdo al filtro
+		if (response.getCantidadTotal() != null &&
+			response.getCantidadTotal() > Numero.ZERO.value.longValue()) {
+
+			// se obtiene la consulta principal
+			StringBuilder sql = SQLCorrespondencia.getSQLSelectConsecutivosAnioActual(from);
+
+			// se ordena la consulta
+			sql.append(" ORDER BY CON.FECHA_SOLICITUD DESC, NOM.NOMENCLATURA ASC, CON.CONSECUTIVO DESC");
+
+			// se configura la paginacion de la consulta
+			SQLTransversal.getLimitSQL(paginador.getSkip(), paginador.getRowsPage(), sql);
+
+			// se procede a consultar los registros
+			response.setRegistros(find(connection,
+					sql.toString(),
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL),
+					!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null));
+		}
+		return response;
 	}
 
 	/**
@@ -514,14 +541,22 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// DTO con los datos iniciales para el submodulo
 		InitConsecutivosAnioActualDTO response = new InitConsecutivosAnioActualDTO();
 
-		// se procede a consultar los consecutivos del anio actual paginados
+		// se procede a configurar el filtro para los consecutivos iniciales a mostrar
 		FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
 		filtro.setIdCliente(idCliente);
-		List<ConsecutivoDTO> consecutivos = getConsecutivosAnioActual(filtro, connection);
+		PaginadorDTO paginador = new PaginadorDTO();
+		paginador.setSkip(CommonConstant.SKIP_DEFAULT);
+		paginador.setRowsPage(CommonConstant.ROWS_PAGE_DEFAULT);
+		filtro.setPaginador(paginador);
+
+		// se procede a consultar y configurar los consecutivos del anio actual paginados
+		PaginadorResponseDTO consecutivos = getConsecutivosAnioActual(filtro, connection);
+		response.setConsecutivos(consecutivos);
 
 		// se consultan los demas datos solamente si hay consecutivos
-		if (consecutivos != null && !consecutivos.isEmpty()) {
-			response.setConsecutivos(consecutivos);
+		if (consecutivos != null &&
+			consecutivos.getCantidadTotal() != null &&
+			consecutivos.getCantidadTotal() > Numero.ZERO.value.longValue()) {
 
 			// se configura la fecha actual del sistema
 			response.setFechaActual(Calendar.getInstance().getTime());

@@ -197,7 +197,7 @@ public class CorrespondenciaRest {
 	 * filtro de busqueda
 	 *
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
-	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 * @return DTO con la lista de consecutivos paginados y su cantidad total
 	 */
 	@RequestMapping(
 			value = ApiRest.GET_CONSECUTIVOS_ACTUAL,

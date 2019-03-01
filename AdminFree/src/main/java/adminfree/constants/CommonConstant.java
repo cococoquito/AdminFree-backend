@@ -28,4 +28,9 @@ public class CommonConstant {
 	/** Constantes para las restricciones de los campos */
 	public static final String KEY_CAMPO_UNICO_NOMENCLATURA = "3";
 	public static final String KEY_CAMPO_TODAS_NOMENCLATURA = "4";
+
+	/** Constantes para los paginadores - inicio */
+	public static final String ROWS_PAGE_DEFAULT = "10";
+	public static final String SKIP_DEFAULT = "0";
+	/** Constantes para los paginadores - final */
 }

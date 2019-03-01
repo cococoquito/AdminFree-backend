@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
-import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -19,6 +18,7 @@ import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -175,9 +175,9 @@ public class CorrespondenciaService {
 	 * filtro de busqueda
 	 *
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
-	 * @return lista de consecutivos de acuerdo al filtro de busqueda
+	 * @return DTO con la lista de consecutivos paginados y su cantidad total
 	 */
-	public List<ConsecutivoDTO> getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro) throws Exception {
+	public PaginadorResponseDTO getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree

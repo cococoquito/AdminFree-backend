@@ -3,7 +3,6 @@ package adminfree.correspondencia;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.constants.CommonConstant;
-import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.transversal.PaginadorDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.enums.Estado;
 import adminfree.services.CorrespondenciaService;
 
@@ -49,18 +49,20 @@ public class GetConsecutivosAnioActualTest {
 			// filtro por fecha inicial de solicitud
 			Calendar fechaInicial = Calendar.getInstance();
 			fechaInicial.set(Calendar.DATE, 1);
+			fechaInicial.set(Calendar.MONTH, Calendar.FEBRUARY);
 			filtro.setFechaSolicitudInicial(fechaInicial.getTime());
 
 			// filtro por fecha final de solicitud
 			Calendar fechaFinal = Calendar.getInstance();
 			fechaFinal.set(Calendar.DATE, 28);
+			fechaFinal.set(Calendar.MONTH, Calendar.FEBRUARY);
 			filtro.setFechaSolicitudFinal(fechaFinal.getTime());
 
 			// filtro por nomenclaturas
-			filtro.setNomenclaturas("circulares");
+			filtro.setNomenclaturas("da");
 
 			// filtro por consecutivos
-			filtro.setConsecutivos("3,2");
+			filtro.setConsecutivos("1");
 
 			// filtro por usuarios quien solicito el consecutivo
 			filtro.setIdUsuario(CommonConstant.ID_ADMINISTRADOR);
@@ -68,11 +70,18 @@ public class GetConsecutivosAnioActualTest {
 			// filtro por estados del consecutivo
 			filtro.setEstado(Estado.ACTIVO.id);
 
+			// se configura el paginador para la consulta
+			PaginadorDTO paginador = new PaginadorDTO();
+			paginador.setSkip("0");
+			paginador.setRowsPage("5");
+			paginador.setCantidadTotal(11L);
+			filtro.setPaginador(paginador);
+
 			// se procede a invocar el servicio para obtener los consecutivos
-			List<ConsecutivoDTO> consecutivos = this.correspondenciaService.getConsecutivosAnioActual(filtro);
+			PaginadorResponseDTO response = this.correspondenciaService.getConsecutivosAnioActual(filtro);
 
 			// debe existir los consecutivos
-			assertTrue(consecutivos != null && !consecutivos.isEmpty());
+			assertTrue(response != null && response.getCantidadTotal() > 0l);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);
