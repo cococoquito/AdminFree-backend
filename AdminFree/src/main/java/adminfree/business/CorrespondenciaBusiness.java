@@ -491,6 +491,9 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			SQLTransversal.getFilterEstados(estados, from);
 		}
 
+		// se configura los parametros en array para las consultas
+		ValueSQL[] parametrosArray = !parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null;
+
 		// se utiliza para obtener los datos del paginador
 		PaginadorDTO paginador = filtro.getPaginador();
 
@@ -503,7 +506,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			response.setCantidadTotal((Long) find(connection,
 					SQLTransversal.getSQLCount(from),
 					MapperTransversal.get(MapperTransversal.COUNT),
-					!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null));
+					parametrosArray));
 		}
 
 		// solo se consultan los registros solo si existen de acuerdo al filtro
@@ -523,7 +526,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			response.setRegistros(find(connection,
 					sql.toString(),
 					MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL),
-					!parametros.isEmpty() ? parametros.toArray(new ValueSQL[parametros.size()]) : null));
+					parametrosArray));
 		}
 		return response;
 	}
