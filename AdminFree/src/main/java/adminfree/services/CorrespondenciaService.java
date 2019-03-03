@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -206,6 +207,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los datos para el submodulo de consecutivos solicitados
 			return new CorrespondenciaBusiness().getInitConsecutivosAnioActual(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite consultar el detalle de un consecutivo
+	 *
+	 * @param filtro, DTO que contiene los identificadores del cliente y del consecutivo
+	 * @return DTO con los datos del consecutivo
+	 */
+	public ConsecutivoDetalleDTO getDetalleConsecutivo(ConsecutivoDetalleDTO filtro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar el detalle del consecutivo
+			return new CorrespondenciaBusiness().getDetalleConsecutivo(filtro, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

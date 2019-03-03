@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
@@ -230,6 +231,25 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getInitConsecutivosAnioActual(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getInitConsecutivosAnioActual ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite consultar el detalle de un consecutivo
+	 *
+	 * @param filtro, DTO que contiene los identificadores del cliente y del consecutivo
+	 * @return DTO con los datos del consecutivo
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DETALLE_CONSECUTIVO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getDetalleConsecutivo(@RequestBody ConsecutivoDetalleDTO filtro) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getDetalleConsecutivo(filtro));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getDetalleConsecutivo ", e.getMessage());
 		}
 	}
 }

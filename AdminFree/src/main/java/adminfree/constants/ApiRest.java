@@ -52,4 +52,5 @@ public class ApiRest {
 	public static final String ELIMINAR_DOCUMENTO = "eliminardocumento";
 	public static final String GET_CONSECUTIVOS_ACTUAL = "getconsecutivosactual";
 	public static final String GET_INIT_CONSECUTIVOS_ACTUAL = "getinitconsecutivosactual";
+	public static final String GET_DETALLE_CONSECUTIVO = "getdetalleconsecutivo";
 }

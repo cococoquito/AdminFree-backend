@@ -17,7 +17,7 @@ public class InitConsecutivosAnioActualDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** Es el reponse inicial de los consecutivos paginados **/
-    private PaginadorResponseDTO consecutivos;
+	private PaginadorResponseDTO consecutivos;
 
 	/** Lista de items para mostrarlo en el componente de filtros por usuarios */
 	private List<SelectItemDTO> usuarios;

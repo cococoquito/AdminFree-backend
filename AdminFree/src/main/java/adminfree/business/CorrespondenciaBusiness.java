@@ -15,6 +15,7 @@ import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -572,5 +573,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					ValueSQL.get(idCliente, Types.BIGINT)));
 		}
 		return response;
+	}
+
+	/**
+	 * Metodo que permite consultar el detalle de un consecutivo
+	 *
+	 * @param filtro, DTO que contiene los identificadores del cliente y del consecutivo
+	 * @return DTO con los datos del consecutivo
+	 */
+	public ConsecutivoDetalleDTO getDetalleConsecutivo(ConsecutivoDetalleDTO filtro, Connection connection) throws Exception {
+		return null;
 	}
 }
