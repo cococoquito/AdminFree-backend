@@ -20,6 +20,9 @@ public class ConsecutivoDTO implements Serializable {
 	/** Nombre de la nomenclatura */
 	private String nomenclatura;
 
+	/** Es la descripcion de la nomenclatura */
+	private String nomenclaturaDesc;
+
 	/** nombre del usuario quien solicito el consecutivo */
 	private String usuario;
 
@@ -117,5 +120,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setFechaSolicitud(String fechaSolicitud) {
 		this.fechaSolicitud = fechaSolicitud;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo nomenclaturaDesc
+	 */
+	public String getNomenclaturaDesc() {
+		return nomenclaturaDesc;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param nomenclaturaDesc
+	 */
+	public void setNomenclaturaDesc(String nomenclaturaDesc) {
+		this.nomenclaturaDesc = nomenclaturaDesc;
 	}
 }

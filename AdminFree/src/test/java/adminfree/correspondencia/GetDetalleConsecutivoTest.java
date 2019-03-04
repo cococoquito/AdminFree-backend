@@ -13,7 +13,7 @@ import adminfree.services.CorrespondenciaService;
 
 /**
  * Test para el servicio CorrespondenciaService.getDetalleConsecutivo
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
