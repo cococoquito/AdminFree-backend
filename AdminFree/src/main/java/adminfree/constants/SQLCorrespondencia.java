@@ -181,4 +181,15 @@ public class SQLCorrespondencia {
 		sql.append(from);
 		return sql;
 	}
+
+	/**
+	 * Metodo que permite construir el SQL para obtener los datos generales del consecutivo
+	 */
+	public static String getSQLConsecutivo(String idCliente, String idConsecutivo) {
+		StringBuilder sql = new StringBuilder("SELECT CON.ID_CONSECUTIVO AS ID,CON.CONSECUTIVO AS NRO,NOM.NOMENCLATURA AS NOMEN,COALESCE(US.NOMBRE, 'Administrador') AS USUARIO,DATE_FORMAT(CON.FECHA_SOLICITUD,'%d - %b - %Y') AS FECHA_SOLI, CON.ESTADO FROM CONSECUTIVOS_");
+		sql.append(idCliente);
+		sql.append(" CON LEFT JOIN NOMENCLATURAS NOM ON(NOM.ID_NOMENCLATURA = CON.NOMENCLATURA)LEFT JOIN USUARIOS US ON(US.ID_USUARIO = CON.USUARIO) WHERE CON.ID_CONSECUTIVO=");
+		sql.append(idConsecutivo);
+		return sql.toString();
+	}
 }

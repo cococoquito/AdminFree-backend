@@ -15,6 +15,7 @@ import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
@@ -582,6 +583,23 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @return DTO con los datos del consecutivo
 	 */
 	public ConsecutivoDetalleDTO getDetalleConsecutivo(ConsecutivoDetalleDTO filtro, Connection connection) throws Exception {
-		return null;
+
+		// DTO que contiene los datos a retornar
+		ConsecutivoDetalleDTO detalle = new ConsecutivoDetalleDTO();
+
+		// se configura los identificadores del cliente y consecutivo
+		String idCliente = filtro.getIdCliente().toString();
+		String idConsecutivo = filtro.getIdConsecutivo().toString();
+
+		// se configura los datos generales del consecutivo
+		detalle.setConsecutivo((ConsecutivoDTO) find(connection,
+				SQLCorrespondencia.getSQLConsecutivo(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO)));
+
+		// se configura los documentos asociados a este consecutivo
+		detalle.setDocumentos((List<DocumentoDTO>)find(connection,
+				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS)));
+		return detalle;
 	}
 }

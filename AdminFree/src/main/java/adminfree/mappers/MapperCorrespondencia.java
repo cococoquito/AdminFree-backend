@@ -31,6 +31,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_DOCUMENTOS = 5;
 	public static final int GET_DATOS_DOC_ELIMINAR = 6;
 	public static final int GET_CONSECUTIVOS_ANIO_ACTUAL = 7;
+	public static final int GET_CONSECUTIVO = 8;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -90,8 +91,29 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_CONSECUTIVOS_ANIO_ACTUAL:
 				result = getConsecutivosAnioActual(res);
 				break;
+
+			case MapperCorrespondencia.GET_CONSECUTIVO:
+				result = getConsecutivo(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos generales de un consecutivo
+	 */
+	private ConsecutivoDTO getConsecutivo(ResultSet res) throws Exception {
+		ConsecutivoDTO consecutivo = null;
+		if (res.next()) {
+			consecutivo = new ConsecutivoDTO();
+			consecutivo.setIdConsecutivo(res.getLong(Numero.UNO.value));
+			consecutivo.setConsecutivo(res.getString(Numero.DOS.value));
+			consecutivo.setNomenclatura(res.getString(Numero.TRES.value));
+			consecutivo.setUsuario(res.getString(Numero.CUATRO.value));
+			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.value));
+			consecutivo.setIdEstado(res.getInt(Numero.SEIS.value));
+		}
+		return consecutivo;
 	}
 
 	/**
