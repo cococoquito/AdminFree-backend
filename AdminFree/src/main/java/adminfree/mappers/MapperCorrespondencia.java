@@ -8,6 +8,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.TiposDocumentos;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
@@ -32,6 +33,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_DATOS_DOC_ELIMINAR = 6;
 	public static final int GET_CONSECUTIVOS_ANIO_ACTUAL = 7;
 	public static final int GET_CONSECUTIVO = 8;
+	public static final int GET_CONSECUTIVO_VALUES = 9;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -95,8 +97,32 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_CONSECUTIVO:
 				result = getConsecutivo(res);
 				break;
+
+			case MapperCorrespondencia.GET_CONSECUTIVO_VALUES:
+				result = getConsecutivoValues(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los valores asociado a un consecutivo
+	 */
+	private List<CampoEntradaValueDTO> getConsecutivoValues(ResultSet res) throws Exception {
+		List<CampoEntradaValueDTO> values = null;
+		CampoEntradaValueDTO value;
+		while (res.next()) {
+			value = new CampoEntradaValueDTO();
+			value.setIdValue(res.getLong(Numero.UNO.value));
+			value.setNombreCampo(res.getString(Numero.DOS.value));
+			value.setDescripcionCampo(res.getString(Numero.TRES.value));
+			value.setValue(res.getString(Numero.CUATRO.value));
+			if (values == null) {
+				values = new ArrayList<>();
+			}
+			values.add(value);
+		}
+		return values;
 	}
 
 	/**

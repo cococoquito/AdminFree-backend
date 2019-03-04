@@ -600,6 +600,11 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		detalle.setDocumentos((List<DocumentoDTO>)find(connection,
 				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS)));
+
+		// se configura los valores del consecutivo
+		detalle.setValores((List<CampoEntradaValueDTO>)find(connection,
+				SQLCorrespondencia.getSQLConsecutivoValues(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO_VALUES)));
 		return detalle;
 	}
 }

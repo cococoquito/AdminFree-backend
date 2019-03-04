@@ -26,6 +26,9 @@ public class CampoEntradaValueDTO implements Serializable {
 	/** Es el nombre del campo, se utiliza para las validaciones */
 	private String nombreCampo;
 
+	/** Es la descripcion del campo */
+	private String descripcionCampo;
+
 	/** Identificador de la siguiente tabla NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO */
 	private Long idCampoNomenclatura;
 
@@ -129,5 +132,20 @@ public class CampoEntradaValueDTO implements Serializable {
 	 */
 	public void setIdCampo(Long idCampo) {
 		this.idCampo = idCampo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo descripcionCampo
+	 */
+	public String getDescripcionCampo() {
+		return descripcionCampo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param descripcionCampo
+	 */
+	public void setDescripcionCampo(String descripcionCampo) {
+		this.descripcionCampo = descripcionCampo;
 	}
 }
