@@ -2,7 +2,6 @@ package adminfree.constants;
 
 import adminfree.enums.Estado;
 import adminfree.enums.Numero;
-import adminfree.enums.TipoCampo;
 
 /**
  *
@@ -198,9 +197,9 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para obtener los valores del consecutivo
 	 */
 	public static String getSQLConsecutivoValues(String idCliente, String idConsecutivo) {
-		StringBuilder sql = new StringBuilder("SELECT CV.ID_VALUE,CA.NOMBRE,CA.DESCRIPCION,CASE WHEN CA.TIPO_CAMPO=");
-		sql.append(TipoCampo.LISTA_DESPLEGABLE.id);
-		sql.append(" THEN(SELECT I.VALOR FROM SELECT_ITEMS I WHERE I.ID_ITEM=CV.VALOR)ELSE CV.VALOR END AS VALOR FROM CONSECUTIVOS_VALUES_");
+		StringBuilder sql = new StringBuilder("SELECT CV.ID_VALUE,CA.NOMBRE,CA.DESCRIPCION,");
+		SQLTransversal.getSQLSelectCampoValue(sql);
+		sql.append(" FROM CONSECUTIVOS_VALUES_");
 		sql.append(idCliente);
 		sql.append(" CV LEFT JOIN NOMENCLATURAS_CAMPOS_ENTRADA NC ON(NC.ID_NOME_CAMPO=CV.ID_NOME_CAMPO)LEFT JOIN CAMPOS_ENTRADA CA ON(CA.ID_CAMPO=NC.CAMPO)WHERE CV.ID_CONSECUTIVO=");
 		sql.append(idConsecutivo);

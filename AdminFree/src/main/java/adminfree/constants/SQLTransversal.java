@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import adminfree.enums.Numero;
+import adminfree.enums.TipoCampo;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.Util;
 
@@ -224,5 +225,17 @@ public class SQLTransversal {
 			}
 			sql.append(")");
 		}
+	}
+
+	/**
+	 * Metodo que permite construir el SELECT para los values de la informacion del consecutivo
+	 */
+	public static void getSQLSelectCampoValue(StringBuilder sql) {
+		sql.append("CASE ");
+		sql.append("WHEN CA.TIPO_CAMPO=").append(TipoCampo.LISTA_DESPLEGABLE.id);
+		sql.append(" THEN(SELECT I.VALOR FROM SELECT_ITEMS I WHERE I.ID_ITEM=CV.VALOR)");
+		sql.append("WHEN CA.TIPO_CAMPO=").append(TipoCampo.CASILLA_VERIFICACION.id);
+		sql.append(" THEN(CASE WHEN CV.VALOR='1' THEN 'SI' ELSE 'NO' END)");
+		sql.append("ELSE CV.VALOR END AS VALOR");
 	}
 }
