@@ -32,6 +32,9 @@ public class ConsecutivoDTO implements Serializable {
 	/** Estado en la que se encuentra el consecutivo */
 	private Integer idEstado;
 
+	/** Nombre del Estado en la que se encuentra el consecutivo */
+	private String estado;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo idConsecutivo
 	 */
@@ -135,5 +138,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setNomenclaturaDesc(String nomenclaturaDesc) {
 		this.nomenclaturaDesc = nomenclaturaDesc;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param estado
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 }
