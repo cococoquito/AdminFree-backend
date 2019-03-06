@@ -407,6 +407,46 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que soporta el proceso de negocio para la descarga
+	 * de un documento de correspondencia en AWS-S3
+	 *
+	 * @param idCliente, se utiliza para identificar el cliente que tiene el documento
+	 * @param idDocumento, se utiliza para consultar los datos del documento
+	 * @return DTO con los datos del documento incluyendo el contenido
+	 */
+	public DocumentoDTO descargarDocumento(
+			String idCliente,
+			String idDocumento,
+			Connection connection) throws Exception {
+
+		// se obtiene los datos del documento
+		DocumentoDTO documento = (DocumentoDTO)find(connection,
+				SQLCorrespondencia.getSQLDatosDocumentoDescargar(idCliente, idDocumento),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_DATOS_DOCUMENTO_DESCARGAR));
+
+		// los datos del documento deben existir en BD
+		if (documento != null &&
+			documento.getIdConsecutivo() != null &&
+			documento.getNombreDocumento() != null &&
+			documento.getTipoDocumento() != null &&
+			documento.getSizeDocumento() != null) {
+
+			// se procede a descargar el contenido del documento (AWS-S3)
+			documento.setContenido(AdministracionDocumentosS3.getInstance()
+					.descargarDocumento(
+							idCliente,
+							documento.getIdConsecutivo(),
+							documento.getNombreDocumento()));
+
+			// En este punto el documento ya esta construido para ser retornado
+			return documento;
+		}
+
+		// si llega a esta punto es porque el documento no existe
+		throw new BusinessException(MessagesKey.DOCUMENTO_NO_EXISTE.value);
+	}
+
+	/**
 	 * Metodo para eliminar un documento asociado al consecutivo
 	 *
 	 * @param datos, Contiene los datos del documento eliminar

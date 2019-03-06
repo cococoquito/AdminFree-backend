@@ -64,6 +64,15 @@ public class Util {
 	}
 
 	/**
+	 * Metodo que permite construir el attachment para la descarga de documentos
+	 */
+	public static String getAttachmentDocument(String name) {
+		StringBuilder attachment = new StringBuilder("attachment;filename=");
+		attachment.append(name);
+		return attachment.toString();
+	}
+
+	/**
 	 * Metodo que permite construir el response de respuesta exitoso
 	 */
 	public static ResponseEntity<Object> getResponseSuccessful(Object body) {

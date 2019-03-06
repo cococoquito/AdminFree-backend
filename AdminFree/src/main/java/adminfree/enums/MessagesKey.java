@@ -57,7 +57,10 @@ public enum MessagesKey {
 	KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE(Numero.QUINCE.value.toString()),
 
 	/** 400 - El documento que intenta cargar se encuentra vacio*/
-	KEY_DOCUMENTO_VACIO(Numero.DIECISEIS.value.toString());
+	KEY_DOCUMENTO_VACIO(Numero.DIECISEIS.value.toString()),
+
+	/** 400 - El documento que intenta descargar no existe en el sistema*/
+	DOCUMENTO_NO_EXISTE(Numero.DIECISIETE.value.toString());
 
 	public final String value;
 

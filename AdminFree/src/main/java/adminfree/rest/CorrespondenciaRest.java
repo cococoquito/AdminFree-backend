@@ -1,6 +1,7 @@
 package adminfree.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -171,6 +172,33 @@ public class CorrespondenciaRest {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".cargarDocumento ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que soporta el proceso de negocio para la descarga
+	 * de un documento de correspondencia en AWS-S3
+	 *
+	 * @param idCliente, se utiliza para identificar el cliente que tiene el documento
+	 * @param idDocumento, se utiliza para consultar los datos del documento
+	 * @return Documento descargado con todos sus atributos
+	 */
+	@RequestMapping(value = ApiRest.DESCARGAR_DOCUMENTO, method = RequestMethod.GET)
+	public ResponseEntity<Object> descargarDocumento(@RequestParam String idCliente, @RequestParam String idDocumento) {
+		try {
+			// se procede obtener los datos del documento
+			DocumentoDTO documento = this.correspondenciaService.descargarDocumento(idCliente, idDocumento);
+
+			// se envia el documento al cliente
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_DISPOSITION, Util.getAttachmentDocument(documento.getNombreDocumento()))
+					.contentType(MediaType.parseMediaType(documento.getTipoDocumento()))
+					.contentLength(Long.valueOf(documento.getSizeDocumento()))
+					.body(documento.getContenido());
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".descargarDocumento ", e.getMessage());
 		}
 	}
 

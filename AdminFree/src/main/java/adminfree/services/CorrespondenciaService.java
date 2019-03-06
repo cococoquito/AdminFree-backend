@@ -153,6 +153,27 @@ public class CorrespondenciaService {
 	}
 
 	/**
+	 * Servicio que soporta el proceso de negocio para la descarga
+	 * de un documento de correspondencia en AWS-S3
+	 *
+	 * @param idCliente, se utiliza para identificar el cliente que tiene el documento
+	 * @param idDocumento, se utiliza para consultar los datos del documento
+	 * @return DTO con los datos del documento incluyendo el contenido
+	 */
+	public DocumentoDTO descargarDocumento(String idCliente, String idDocumento) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a descargar del documento
+			return new CorrespondenciaBusiness().descargarDocumento(idCliente, idDocumento, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
 	 * Servicio para eliminar un documento asociado al consecutivo
 	 *
 	 * @param datos, Contiene los datos del documento eliminar

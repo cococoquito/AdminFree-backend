@@ -210,4 +210,15 @@ public class SQLCorrespondencia {
 		sql.append(" ORDER BY NC.ORDEN");
 		return sql.toString();
 	}
+
+	/**
+	 * Metodo que permite construir el SQL para obtener los datos del documento a descargar
+	 */
+	public static String getSQLDatosDocumentoDescargar(String idCliente, String idDocumento) {
+		StringBuilder sql = new StringBuilder("SELECT ID_CONSECUTIVO,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO FROM CONSECUTIVOS_DOCUMENTOS_");
+		sql.append(idCliente);
+		sql.append(" WHERE ID_DOC=");
+		sql.append(idDocumento);
+		return sql.toString();
+	}
 }

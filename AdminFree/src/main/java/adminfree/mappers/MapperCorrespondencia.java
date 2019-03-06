@@ -34,6 +34,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_CONSECUTIVOS_ANIO_ACTUAL = 7;
 	public static final int GET_CONSECUTIVO = 8;
 	public static final int GET_CONSECUTIVO_VALUES = 9;
+	public static final int GET_DATOS_DOCUMENTO_DESCARGAR = 10;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -101,8 +102,27 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_CONSECUTIVO_VALUES:
 				result = getConsecutivoValues(res);
 				break;
+
+			case MapperCorrespondencia.GET_DATOS_DOCUMENTO_DESCARGAR:
+				result = getDatosDocumentoDescargar(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los datos del documento a descargar
+	 */
+	private DocumentoDTO getDatosDocumentoDescargar(ResultSet res) throws Exception {
+		DocumentoDTO documento = null;
+		if (res.next()) {
+			documento = new DocumentoDTO();
+			documento.setIdConsecutivo(Long.toString(res.getLong(Numero.UNO.value)));
+			documento.setNombreDocumento(res.getString(Numero.DOS.value));
+			documento.setTipoDocumento(res.getString(Numero.TRES.value));
+			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
+		}
+		return documento;
 	}
 
 	/**
