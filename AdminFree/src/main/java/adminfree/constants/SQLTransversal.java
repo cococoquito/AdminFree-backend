@@ -236,6 +236,9 @@ public class SQLTransversal {
 		sql.append(" THEN(SELECT I.VALOR FROM SELECT_ITEMS I WHERE I.ID_ITEM=CV.VALOR)");
 		sql.append("WHEN CA.TIPO_CAMPO=").append(TipoCampo.CASILLA_VERIFICACION.id);
 		sql.append(" THEN(CASE WHEN CV.VALOR='1' THEN 'SI' ELSE 'NO' END)");
-		sql.append("ELSE CV.VALOR END AS VALOR");
+		sql.append("WHEN CA.TIPO_CAMPO=").append(TipoCampo.CAMPO_FECHA.id);
+		sql.append(" THEN(DATE_FORMAT(CV.VALOR,'");
+		sql.append(CommonConstant.FORMATO_FECHA_MSYQL);
+		sql.append("'))ELSE CV.VALOR END AS VALOR");
 	}
 }
