@@ -210,7 +210,7 @@ public class MapperCorrespondencia extends Mapper {
 			documento.setNombreDocumento(res.getString(Numero.DOS.value));
 			documento.setTipoDocumento(TiposDocumentos.getTipoDocumento(res.getString(Numero.TRES.value)));
 			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
-			documento.setFechaCargue(res.getDate(Numero.CINCO.value));
+			documento.setFechaCargue(res.getString(Numero.CINCO.value));
 			if (documentos == null) {
 				documentos = new ArrayList<>();
 			}

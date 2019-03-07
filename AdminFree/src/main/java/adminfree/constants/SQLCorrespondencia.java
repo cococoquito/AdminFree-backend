@@ -133,8 +133,9 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el select para listar los documentos de un consecutivo
 	 */
 	public static String getSQListDocumentos(String idCliente, String idConsecutivo) {
-		StringBuilder sql = 
-				new StringBuilder("SELECT ID_DOC,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO,FECHA_CARGUE FROM CONSECUTIVOS_DOCUMENTOS_");
+		StringBuilder sql = new StringBuilder("SELECT ID_DOC,NOMBRE_DOCUMENTO,TIPO_DOCUMENTO,SIZE_DOCUMENTO,DATE_FORMAT(FECHA_CARGUE,'");
+		sql.append(CommonConstant.FORMATO_FECHA_MSYQL);
+		sql.append("')AS FECH FROM CONSECUTIVOS_DOCUMENTOS_");
 		sql.append(idCliente);
 		sql.append(" WHERE ID_CONSECUTIVO=");
 		sql.append(idConsecutivo);

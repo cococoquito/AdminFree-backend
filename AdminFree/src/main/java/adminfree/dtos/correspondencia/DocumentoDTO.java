@@ -1,7 +1,6 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * DTO que contiene los atributos de un documento para el cargue o lectura de
@@ -35,7 +34,7 @@ public class DocumentoDTO implements Serializable {
 	private byte[] contenido;
 
 	/** Fecha en la que se realizo el cargue del documento */
-	private Date fechaCargue;
+	private String fechaCargue;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
@@ -145,7 +144,7 @@ public class DocumentoDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo fechaCargue
 	 */
-	public Date getFechaCargue() {
+	public String getFechaCargue() {
 		return fechaCargue;
 	}
 
@@ -153,7 +152,7 @@ public class DocumentoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param fechaCargue
 	 */
-	public void setFechaCargue(Date fechaCargue) {
+	public void setFechaCargue(String fechaCargue) {
 		this.fechaCargue = fechaCargue;
 	}
 }
