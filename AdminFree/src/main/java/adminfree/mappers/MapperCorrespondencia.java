@@ -192,7 +192,7 @@ public class MapperCorrespondencia extends Mapper {
 	private List<String> getDatosDocEliminar(ResultSet res) throws Exception {
 		List<String> datos = new ArrayList<>();
 		if (res.next()) {
-			datos.add(res.getLong(Numero.UNO.value) + "");
+			datos.add(Long.toString(res.getLong(Numero.UNO.value)));
 			datos.add(res.getString(Numero.DOS.value));
 		}
 		return datos;
