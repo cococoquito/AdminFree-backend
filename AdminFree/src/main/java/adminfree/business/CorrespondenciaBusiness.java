@@ -15,6 +15,7 @@ import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
@@ -646,5 +647,18 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				SQLCorrespondencia.getSQLConsecutivoValues(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO_VALUES)));
 		return detalle;
+	}
+
+	/**
+	 * Metodo que permite obtener los campos para los filtros de busqueda
+	 *
+	 * @param idCliente, identificador del cliente que tiene los campos
+	 * @return Lista de campos con sus atributos configurados
+	 */
+	public List<CampoFiltroDTO> getCamposFiltro(Long idCliente, Connection connection) throws Exception {
+		return (List<CampoFiltroDTO>) find(connection,
+				SQLCorrespondencia.GET_CAMPOS_FILTRO,
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CAMPOS_FILTRO),
+				ValueSQL.get(idCliente, Types.BIGINT));
 	}
 }

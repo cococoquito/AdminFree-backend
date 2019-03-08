@@ -9,6 +9,7 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.TiposDocumentos;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
+import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
@@ -35,6 +36,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_CONSECUTIVO = 8;
 	public static final int GET_CONSECUTIVO_VALUES = 9;
 	public static final int GET_DATOS_DOCUMENTO_DESCARGAR = 10;
+	public static final int GET_CAMPOS_FILTRO = 11;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -106,8 +108,31 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_DATOS_DOCUMENTO_DESCARGAR:
 				result = getDatosDocumentoDescargar(res);
 				break;
+
+			case MapperCorrespondencia.GET_CAMPOS_FILTRO:
+				result = getCamposFiltro(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los campos para los filtros de busqueda
+	 */
+	private List<CampoFiltroDTO> getCamposFiltro(ResultSet res) throws Exception {
+		List<CampoFiltroDTO> campos = null;
+		CampoFiltroDTO campo;
+		while (res.next()) {
+			campo = new CampoFiltroDTO();
+			campo.setIdCampo(res.getLong(Numero.UNO.value));
+			campo.setNombreCampo(res.getString(Numero.DOS.value));
+			campo.setTipoCampo(res.getInt(Numero.TRES.value));
+			if (campos == null) {
+				campos = new ArrayList<>();
+			}
+			campos.add(campo);
+		}
+		return campos;
 	}
 
 	/**

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
+import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
@@ -247,6 +248,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar el detalle del consecutivo
 			return new CorrespondenciaBusiness().getDetalleConsecutivo(filtro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los campos para los filtros de busqueda
+	 *
+	 * @param idCliente, identificador del cliente que tiene los campos
+	 * @return Lista de campos con sus atributos configurados
+	 */
+	public List<CampoFiltroDTO> getCamposFiltro(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los campos filtro
+			return new CorrespondenciaBusiness().getCamposFiltro(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

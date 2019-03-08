@@ -280,4 +280,23 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getDetalleConsecutivo ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los campos para los filtros de busqueda
+	 *
+	 * @param idCliente, identificador del cliente que tiene los campos
+	 * @return Lista de campos con sus atributos configurados
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_CAMPOS_FILTRO,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getCamposFiltro(@RequestParam Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getCamposFiltro(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getCamposFiltro ", e.getMessage());
+		}
+	}
 }
