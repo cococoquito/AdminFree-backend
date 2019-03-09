@@ -225,4 +225,14 @@ public class SQLCorrespondencia {
 		sql.append(idDocumento);
 		return sql.toString();
 	}
+
+	/**
+	 * Metodo que permite construir el SQL para obtener los items para los campos filtro busqueda
+	 */
+	public static String getSQLItemsFiltro(String parametrosJDBC) {
+		StringBuilder sql = new StringBuilder("SELECT ID_ITEM,CAMPO,VALOR FROM SELECT_ITEMS WHERE CAMPO IN(");
+		sql.append(parametrosJDBC);
+		sql.append(")ORDER BY CAMPO,VALOR ASC");
+		return sql.toString();
+	}
 }

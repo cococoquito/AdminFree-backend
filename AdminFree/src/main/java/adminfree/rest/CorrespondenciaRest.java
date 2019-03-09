@@ -1,5 +1,7 @@
 package adminfree.rest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -297,6 +299,25 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getCamposFiltro(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getCamposFiltro ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los items para los filtros tipo LISTA DESPLEGABLE
+	 *
+	 * @param idsCampos, lista de identificadores de los campos a consultar sus items
+	 * @return lista de items con sus atributos construido
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_ITEMS_SELECT_FILTRO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getItemsSelectFiltro(@RequestBody List<Long> idsCampos) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getItemsSelectFiltro(idsCampos));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getItemsSelectFiltro ", e.getMessage());
 		}
 	}
 }

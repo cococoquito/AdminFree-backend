@@ -661,4 +661,40 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_CAMPOS_FILTRO),
 				ValueSQL.get(idCliente, Types.BIGINT));
 	}
+
+	/**
+	 * Metodo que permite obtener los items para los filtros tipo LISTA DESPLEGABLE
+	 *
+	 * @param idsCampos, lista de identificadores de los campos a consultar sus items
+	 * @return lista de items con sus atributos construido
+	 */
+	public List<ItemDTO> getItemsSelectFiltro(List<Long> idsCampos, Connection connection) throws Exception {
+
+		// debe existir los identificadores de los campos
+		if (idsCampos != null && !idsCampos.isEmpty()) {
+
+			// variables necesarias para la solicitud
+			final Integer ZERO = Numero.ZERO.value;
+			List<ValueSQL> parametros = new ArrayList<>();
+			StringBuilder parametrosJDBC = new StringBuilder();
+
+			// se recorre cada identificador
+			for (Long id : idsCampos) {
+
+				// se agrega el parametro SQL
+				parametros.add(ValueSQL.get(id, Types.BIGINT));
+
+				// se agrega el parametro JDBC
+				parametrosJDBC.append(parametrosJDBC.length() == ZERO
+						? CommonConstant.INTERROGACION : CommonConstant.COMA_INTERROGACION);
+			}
+
+			// se procede a consultar todos los items ordenados por campo y nombre
+			return (List<ItemDTO>) find(connection,
+					SQLCorrespondencia.getSQLItemsFiltro(parametrosJDBC.toString()),
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_ITEMS_SELECT_FILTRO),
+					parametros.toArray(new ValueSQL[parametros.size()]));
+		}
+		return null;
+	}
 }

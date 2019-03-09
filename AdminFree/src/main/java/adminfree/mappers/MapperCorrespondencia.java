@@ -7,6 +7,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.TiposDocumentos;
+import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
@@ -37,6 +38,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_CONSECUTIVO_VALUES = 9;
 	public static final int GET_DATOS_DOCUMENTO_DESCARGAR = 10;
 	public static final int GET_CAMPOS_FILTRO = 11;
+	public static final int GET_ITEMS_SELECT_FILTRO = 12;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -112,8 +114,31 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_CAMPOS_FILTRO:
 				result = getCamposFiltro(res);
 				break;
+
+			case MapperCorrespondencia.GET_ITEMS_SELECT_FILTRO:
+				result = getItemsSelectFiltro(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los items para los select filtro
+	 */
+	private List<ItemDTO> getItemsSelectFiltro(ResultSet res) throws Exception {
+		List<ItemDTO> items = null;
+		ItemDTO item;
+		while (res.next()) {
+			item = new ItemDTO();
+			item.setId(res.getLong(Numero.UNO.value));
+			item.setIdCampo(res.getLong(Numero.DOS.value));
+			item.setValor(res.getString(Numero.TRES.value));
+			if (items == null) {
+				items = new ArrayList<>();
+			}
+			items.add(item);
+		}
+		return items;
 	}
 
 	/**

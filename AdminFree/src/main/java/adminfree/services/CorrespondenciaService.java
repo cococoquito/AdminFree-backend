@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
+import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
@@ -267,6 +268,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los campos filtro
 			return new CorrespondenciaBusiness().getCamposFiltro(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los items para los filtros tipo LISTA DESPLEGABLE
+	 *
+	 * @param idsCampos, lista de identificadores de los campos a consultar sus items
+	 * @return lista de items con sus atributos construido
+	 */
+	public List<ItemDTO> getItemsSelectFiltro(List<Long> idsCampos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los items
+			return new CorrespondenciaBusiness().getItemsSelectFiltro(idsCampos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
