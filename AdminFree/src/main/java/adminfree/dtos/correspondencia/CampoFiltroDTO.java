@@ -2,9 +2,6 @@ package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import adminfree.dtos.configuraciones.ItemDTO;
 
 /**
  * Contiene los valores de un campo que se utiliza en los
@@ -32,9 +29,6 @@ public class CampoFiltroDTO implements Serializable {
 
 	/** es la fecha final para el componente fecha */
 	private Date dateFinal;
-
-	/** Son los items para los campos select items */
-	private List<ItemDTO> items;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idCampo
@@ -103,13 +97,6 @@ public class CampoFiltroDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo items
-	 */
-	public List<ItemDTO> getItems() {
-		return items;
-	}
-
-	/**
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param inputValue
 	 */
@@ -131,13 +118,5 @@ public class CampoFiltroDTO implements Serializable {
 	 */
 	public void setDateFinal(Date dateFinal) {
 		this.dateFinal = dateFinal;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param items
-	 */
-	public void setItems(List<ItemDTO> items) {
-		this.items = items;
 	}
 }
