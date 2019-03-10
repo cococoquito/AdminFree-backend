@@ -25,6 +25,7 @@ public class CommonConstant {
 	public static final Integer ID_ADMINISTRADOR = -1;
 	public static final String ADMINISTRADOR = "Administrador";
 	public static final String FORMATO_FECHA_MSYQL = "%d/%M/%Y";
+	public static final String FORMATO_FECHA_SQL = "'%Y-%m-%d'";
 	public static final char WITH_LIKE = '*';
 
 	/** Constantes para las restricciones de los campos */

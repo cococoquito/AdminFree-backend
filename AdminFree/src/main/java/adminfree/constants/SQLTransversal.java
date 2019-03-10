@@ -300,8 +300,50 @@ public class SQLTransversal {
 	/**
 	 * Metodo que permite construir el filtro para un valor de tipo DATE
 	 */
-	public static void getFilterDateValue(CampoFiltroDTO dateValue) {
+	public static void getFilterDateValue(CampoFiltroDTO dateValue, String idCliente, StringBuilder sql) {
 
+		// se obtiene la fecha inicial y final
+		Date dateInicial = dateValue.getDateInicial();
+		Date dateFinal = dateValue.getDateFinal();
+
+		// debe existir alguno de las dos fechas
+		if (dateInicial != null || dateFinal != null) {
+			StringBuilder sqlDate = new StringBuilder();
+
+			// filtro para la fecha inicial
+			if (dateInicial != null) {
+				sqlDate.append(" AND STR_TO_DATE(CV.VALOR,");
+				sqlDate.append(CommonConstant.FORMATO_FECHA_SQL);
+				sqlDate.append(")>='");
+				LocalDate inicial = dateInicial.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, inicial.getYear() + "")).append("-");
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, inicial.getMonthValue() + "")).append("-");
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, inicial.getDayOfMonth() + "")).append(" 00:00:00'");
+			}
+
+			// filtro para la fecha final
+			if (dateFinal != null) {
+				sqlDate.append(" AND STR_TO_DATE(CV.VALOR,");
+				sqlDate.append(CommonConstant.FORMATO_FECHA_SQL);
+				sqlDate.append(")<='");
+				LocalDate ffinal = dateFinal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, ffinal.getYear() + "")).append("-");
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, ffinal.getMonthValue() + "")).append("-");
+				sqlDate.append(Util.setPrefijoZeros(CommonConstant.PREFIJO_ZEROS_2, ffinal.getDayOfMonth() + "")).append(" 23:59:59'");
+			}
+
+			// se construye el subquery
+			sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+			sql.append(idCliente);
+			sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
+			sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO = NOMC.CAMPO)");
+			sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
+			sql.append(" AND CE.ID_CAMPO=");
+			sql.append(dateValue.getIdCampo());
+
+			// se concatena el AND de las fechas
+			sql.append(sqlDate).append(")>0");
+		}
 	}
 
 	/**

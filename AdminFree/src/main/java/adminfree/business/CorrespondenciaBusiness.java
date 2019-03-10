@@ -551,7 +551,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				} else if (TipoCampo.LISTA_DESPLEGABLE.id.equals(tipoCampo)) {
 					SQLTransversal.getFilterSelectValue(filtroAgregado, idCliente, from);
 				} else if (TipoCampo.CAMPO_FECHA.id.equals(tipoCampo)) {
-
+					SQLTransversal.getFilterDateValue(filtroAgregado, idCliente, from);
 				}
 			}
 		}
