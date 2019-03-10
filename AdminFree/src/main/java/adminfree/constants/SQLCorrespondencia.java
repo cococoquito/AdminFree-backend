@@ -2,6 +2,7 @@ package adminfree.constants;
 
 import adminfree.enums.Estado;
 import adminfree.enums.Numero;
+import adminfree.enums.TipoCampo;
 
 /**
  *
@@ -28,7 +29,7 @@ public class SQLCorrespondencia {
 	public static final String GET_WELCOME_USUARIOS = "SELECT ID_USUARIO, NOMBRE, CARGO, ESTADO, CONSECUTIVOS_SOLICITADOS FROM USUARIOS WHERE CLIENTE=? ORDER BY NOMBRE";
 
 	/** SQL para obtener los campos de entrada informacion para los filtros de busqueda*/
-	public static final String GET_CAMPOS_FILTRO = "SELECT ID_CAMPO,NOMBRE,TIPO_CAMPO FROM CAMPOS_ENTRADA WHERE CLIENTE=? ORDER BY NOMBRE ASC";
+	public static final String GET_CAMPOS_FILTRO = "SELECT ID_CAMPO,NOMBRE,TIPO_CAMPO FROM CAMPOS_ENTRADA WHERE CLIENTE=? AND TIPO_CAMPO<>" + TipoCampo.CASILLA_VERIFICACION.id + " ORDER BY NOMBRE ASC";
 
 	/**
 	 * Metodo que permite construir el insert para los consecutivos
