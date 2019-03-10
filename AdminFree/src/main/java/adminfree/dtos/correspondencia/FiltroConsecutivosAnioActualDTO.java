@@ -2,6 +2,7 @@ package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import adminfree.dtos.transversal.PaginadorDTO;
 
@@ -38,6 +39,9 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 
 	/** Busqueda por estado del consecutivo */
 	private Integer estado;
+
+	/** lista de otros filtros agregados */
+	private List<CampoFiltroDTO> filtrosAgregados;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo nomenclaturas
@@ -157,5 +161,20 @@ public class FiltroConsecutivosAnioActualDTO implements Serializable {
 	 */
 	public void setPaginador(PaginadorDTO paginador) {
 		this.paginador = paginador;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo filtrosAgregados
+	 */
+	public List<CampoFiltroDTO> getFiltrosAgregados() {
+		return filtrosAgregados;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param filtrosAgregados
+	 */
+	public void setFiltrosAgregados(List<CampoFiltroDTO> filtrosAgregados) {
+		this.filtrosAgregados = filtrosAgregados;
 	}
 }

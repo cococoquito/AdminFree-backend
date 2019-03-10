@@ -503,8 +503,11 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			FiltroConsecutivosAnioActualDTO filtro,
 			Connection connection) throws Exception {
 
+		// cada cliente tiene sus propias tablas, se utiliza para identificar que tabla tomar
+		String idCliente = filtro.getIdCliente().toString();
+
 		// se obtiene el from de la consulta
-		StringBuilder from = SQLCorrespondencia.getSQLFromConsecutivosAnioActual(filtro.getIdCliente().toString());
+		StringBuilder from = SQLCorrespondencia.getSQLFromConsecutivosAnioActual(idCliente);
 
 		// son los parametros para los filtros de busqueda
 		List<ValueSQL> parametros = new ArrayList<>();
@@ -532,6 +535,25 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			ArrayList<Integer> estados = new ArrayList<Integer>();
 			estados.add(estado);
 			SQLTransversal.getFilterEstados(estados, from);
+		}
+
+		// se valida si hay filtros agregados
+		List<CampoFiltroDTO> filtrosAgregados = filtro.getFiltrosAgregados();
+		if (filtrosAgregados != null && !filtrosAgregados.isEmpty()) {
+
+			// se recorre todos los filtros agregados
+			for (CampoFiltroDTO filtroAgregado : filtrosAgregados) {
+
+				// se identifica que tipo de campos es
+				Integer tipoCampo = filtroAgregado.getTipoCampo();
+				if (TipoCampo.CAMPO_TEXTO.id.equals(tipoCampo)) {
+					SQLTransversal.getFilterInputValue(parametros, filtroAgregado, idCliente, from);
+				} else if (TipoCampo.LISTA_DESPLEGABLE.id.equals(tipoCampo)) {
+
+				} else if (TipoCampo.CAMPO_FECHA.id.equals(tipoCampo)) {
+
+				}
+			}
 		}
 
 		// se configura los parametros en array para las consultas

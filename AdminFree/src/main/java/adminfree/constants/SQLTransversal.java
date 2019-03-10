@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
 import adminfree.persistence.ValueSQL;
@@ -225,6 +226,71 @@ public class SQLTransversal {
 			}
 			sql.append(")");
 		}
+	}
+
+	/**
+	 * Metodo que permite construir el filtro para un valor de tipo INPUT
+	 */
+	public static void getFilterInputValue(
+			List<ValueSQL> parametros,
+			CampoFiltroDTO inputValue,
+			String idCliente,
+			StringBuilder sql) {
+
+		// el valor para los INPUT son tipo String
+		String value = (String) inputValue.getInputValue();
+
+		// se verifica que si exista el valor
+		if (value != null) {
+
+			// se verifica que no contenga solo espacios
+			value = value.trim();
+			if (value.length() > Numero.ZERO.value) {
+
+				// se verifica si el valor es con LIKE
+				boolean isWithLike = false;
+				if (value.charAt(Numero.ZERO.value) == CommonConstant.WITH_LIKE) {
+					isWithLike = true;
+					value = value.substring(Numero.UNO.value, value.length()).trim();
+					if (value.length() == Numero.ZERO.value) {
+						return;
+					}
+				}
+
+				// se construye el subquery
+				sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+				sql.append(idCliente);
+				sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
+				sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO = NOMC.CAMPO)");
+				sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
+				sql.append(" AND CE.ID_CAMPO=");
+				sql.append(inputValue.getIdCampo());
+				sql.append(" AND CV.VALOR ");
+
+				// se verifica si el query es con LIKE o ==
+				if (isWithLike) {
+					sql.append("LIKE ?)>0");
+					parametros.add(ValueSQL.get("%" + value + "%", Types.VARCHAR));
+				} else {
+					sql.append("=?)>0");
+					parametros.add(ValueSQL.get(value, Types.VARCHAR));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Metodo que permite construir el filtro para un valor de tipo SELECT
+	 */
+	public static void getFilterSelectValue(CampoFiltroDTO selectValue) {
+
+	}
+
+	/**
+	 * Metodo que permite construir el filtro para un valor de tipo DATE
+	 */
+	public static void getFilterDateValue(CampoFiltroDTO dateValue) {
+
 	}
 
 	/**
