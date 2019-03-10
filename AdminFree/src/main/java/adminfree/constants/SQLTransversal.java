@@ -282,8 +282,19 @@ public class SQLTransversal {
 	/**
 	 * Metodo que permite construir el filtro para un valor de tipo SELECT
 	 */
-	public static void getFilterSelectValue(CampoFiltroDTO selectValue) {
+	public static void getFilterSelectValue(CampoFiltroDTO selectValue, String idCliente, StringBuilder sql) {
 
+		// el valor para los SELECT es el identificador del item
+		Object idItem = selectValue.getInputValue();
+
+		// se construye el subquery si hay algun valor seleccionado
+		if (idItem != null) {
+			sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+			sql.append(idCliente);
+			sql.append(" CV WHERE CV.VALOR='");
+			sql.append(idItem);
+			sql.append("')>0");
+		}
 	}
 
 	/**
