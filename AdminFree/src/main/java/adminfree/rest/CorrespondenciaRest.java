@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import adminfree.constants.ApiRest;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
-import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.services.CorrespondenciaService;
 import adminfree.utilities.BusinessException;
@@ -235,7 +235,7 @@ public class CorrespondenciaRest {
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
-	public ResponseEntity<Object> getConsecutivosAnioActual(@RequestBody FiltroConsecutivosAnioActualDTO filtro) {
+	public ResponseEntity<Object> getConsecutivosAnioActual(@RequestBody FiltroConsecutivosDTO filtro) {
 		try {
 			return Util.getResponseSuccessful(this.correspondenciaService.getConsecutivosAnioActual(filtro));
 		} catch (Exception e) {

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
-import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.transversal.PaginadorDTO;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.enums.Estado;
@@ -45,7 +45,7 @@ public class GetConsecutivosAnioActualTest {
 	public void getConsecutivosAnioActual() {
 		try {
 			// se construye el filtro para la busqueda de los consecutivos
-			FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
+			FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
 
 			// filtro por cliente
 			filtro.setIdCliente(1l);
@@ -97,7 +97,7 @@ public class GetConsecutivosAnioActualTest {
 	/**
 	 * Metodo que permite agregar los valores filtros
 	 */
-	private void agregarFiltroValues(FiltroConsecutivosAnioActualDTO filtro) {
+	private void agregarFiltroValues(FiltroConsecutivosDTO filtro) {
 
 		// campo de texto con valor uno
 		CampoFiltroDTO input = new CampoFiltroDTO();

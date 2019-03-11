@@ -19,7 +19,7 @@ import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
-import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
@@ -499,9 +499,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
 	 * @return DTO con la lista de consecutivos paginados y su cantidad total
 	 */
-	public PaginadorResponseDTO getConsecutivosAnioActual(
-			FiltroConsecutivosAnioActualDTO filtro,
-			Connection connection) throws Exception {
+	public PaginadorResponseDTO getConsecutivosAnioActual(FiltroConsecutivosDTO filtro, Connection connection) throws Exception {
 
 		// cada cliente tiene sus propias tablas, se utiliza para identificar que tabla tomar
 		String idCliente = filtro.getIdCliente().toString();
@@ -610,7 +608,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		InitConsecutivosAnioActualDTO response = new InitConsecutivosAnioActualDTO();
 
 		// se procede a configurar el filtro para los consecutivos iniciales a mostrar
-		FiltroConsecutivosAnioActualDTO filtro = new FiltroConsecutivosAnioActualDTO();
+		FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
 		filtro.setIdCliente(idCliente);
 		PaginadorDTO paginador = new PaginadorDTO();
 		paginador.setSkip(CommonConstant.SKIP_DEFAULT);

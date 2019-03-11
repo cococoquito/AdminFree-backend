@@ -14,7 +14,7 @@ import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
-import adminfree.dtos.correspondencia.FiltroConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
@@ -201,7 +201,7 @@ public class CorrespondenciaService {
 	 * @param filtro, DTO que contiene los valores del filtro de busqueda
 	 * @return DTO con la lista de consecutivos paginados y su cantidad total
 	 */
-	public PaginadorResponseDTO getConsecutivosAnioActual(FiltroConsecutivosAnioActualDTO filtro) throws Exception {
+	public PaginadorResponseDTO getConsecutivosAnioActual(FiltroConsecutivosDTO filtro) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree

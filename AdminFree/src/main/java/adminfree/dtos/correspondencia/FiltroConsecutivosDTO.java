@@ -7,13 +7,13 @@ import java.util.List;
 import adminfree.dtos.transversal.PaginadorDTO;
 
 /**
- * DTO que contiene los atributos para el filtro de busqueda de los consecutivos
- * solicitados para el anio actual
+ * DTO que contiene los atributos para los filtros de busqueda
+ * de los consecutivos de correspondencia en el sistema
  * 
  * @author Carlos Andres Diaz
  *
  */
-public class FiltroConsecutivosAnioActualDTO implements Serializable {
+public class FiltroConsecutivosDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** paginador para la consulta los consecutivos **/
