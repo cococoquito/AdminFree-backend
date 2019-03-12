@@ -18,9 +18,6 @@ public class DocumentoDTO implements Serializable {
 	/** Identificador del cliente */
 	private String idCliente;
 
-	/** Identificador del consecutivo */
-	private String idConsecutivo;
-
 	/** Nombre del documento */
 	private String nombreDocumento;
 
@@ -30,11 +27,15 @@ public class DocumentoDTO implements Serializable {
 	/** Es el tamanio del documento */
 	private String sizeDocumento;
 
+	/** Fecha en la que se realizo el cargue del documento */
+	private String fechaCargue;
+
+	/** ATRIBUTOS UTILIZADOS SOLAMENTE PARA JAVA - NO SE ENVIA ANGULAR */
 	/** Contenido del archivo */
 	private byte[] contenido;
 
-	/** Fecha en la que se realizo el cargue del documento */
-	private String fechaCargue;
+	/** Identificador del consecutivo */
+	private String idConsecutivo;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
