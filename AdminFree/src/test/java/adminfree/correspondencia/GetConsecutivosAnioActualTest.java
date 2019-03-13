@@ -115,7 +115,7 @@ public class GetConsecutivosAnioActualTest {
 		// campo select
 		CampoFiltroDTO select = new CampoFiltroDTO();
 		select.setTipoCampo(TipoCampo.LISTA_DESPLEGABLE.id);
-		select.setInputValue(2L);
+		select.setInputValue("2");
 
 		// se agrega los otros filtros agregados
 		List<CampoFiltroDTO> filtrosAgregados = new ArrayList<>();
