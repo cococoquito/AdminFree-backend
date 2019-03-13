@@ -22,7 +22,7 @@ public class CampoFiltroDTO implements Serializable {
 	private Integer tipoCampo;
 
 	/** es el valor ingresado para los componentes input o select item */
-	private Object inputValue;
+	private String inputValue;
 
 	/** es la fecha inicial para el componente fecha */
 	private Date dateInicial;
@@ -76,13 +76,6 @@ public class CampoFiltroDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo inputValue
-	 */
-	public Object getInputValue() {
-		return inputValue;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo dateInicial
 	 */
 	public Date getDateInicial() {
@@ -94,14 +87,6 @@ public class CampoFiltroDTO implements Serializable {
 	 */
 	public Date getDateFinal() {
 		return dateFinal;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param inputValue
-	 */
-	public void setInputValue(Object inputValue) {
-		this.inputValue = inputValue;
 	}
 
 	/**
@@ -118,5 +103,20 @@ public class CampoFiltroDTO implements Serializable {
 	 */
 	public void setDateFinal(Date dateFinal) {
 		this.dateFinal = dateFinal;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo inputValue
+	 */
+	public String getInputValue() {
+		return inputValue;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param inputValue
+	 */
+	public void setInputValue(String inputValue) {
+		this.inputValue = inputValue;
 	}
 }

@@ -229,16 +229,16 @@ public class SQLTransversal {
 	}
 
 	/**
-	 * Metodo que permite construir el filtro para un valor de tipo INPUT
+	 * Metodo que permite construir el filtro para los valores de tipo INPUT-SELECT
 	 */
-	public static void getFilterInputValue(
+	public static void getFilterInputSelectValue(
 			List<ValueSQL> parametros,
-			CampoFiltroDTO inputValue,
+			CampoFiltroDTO inputSelectValue,
 			String idCliente,
 			StringBuilder sql) {
 
-		// el valor para los INPUT son tipo String
-		String value = (String) inputValue.getInputValue();
+		// el valor para los INPUT y SELECT son tipo String
+		String value = inputSelectValue.getInputValue();
 
 		// se verifica que si exista el valor
 		if (value != null) {
@@ -264,7 +264,7 @@ public class SQLTransversal {
 				sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO = NOMC.CAMPO)");
 				sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
 				sql.append(" AND CE.ID_CAMPO=");
-				sql.append(inputValue.getIdCampo());
+				sql.append(inputSelectValue.getIdCampo());
 				sql.append(" AND CV.VALOR ");
 
 				// se verifica si el query es con LIKE o ==
@@ -276,24 +276,6 @@ public class SQLTransversal {
 					parametros.add(ValueSQL.get(value, Types.VARCHAR));
 				}
 			}
-		}
-	}
-
-	/**
-	 * Metodo que permite construir el filtro para un valor de tipo SELECT
-	 */
-	public static void getFilterSelectValue(CampoFiltroDTO selectValue, String idCliente, StringBuilder sql) {
-
-		// el valor para los SELECT es el identificador del item
-		Object idItem = selectValue.getInputValue();
-
-		// se construye el subquery si hay algun valor seleccionado
-		if (idItem != null) {
-			sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
-			sql.append(idCliente);
-			sql.append(" CV WHERE CV.VALOR='");
-			sql.append(idItem);
-			sql.append("')>0");
 		}
 	}
 
