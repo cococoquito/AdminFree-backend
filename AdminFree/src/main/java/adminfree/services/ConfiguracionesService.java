@@ -54,7 +54,7 @@ public class ConfiguracionesService {
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede a crear el cliente en BD
-			return new ConfiguracionesBusiness().crearCliente(cliente, connection);
+			return new ConfiguracionesBusiness().crearCliente(cliente, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

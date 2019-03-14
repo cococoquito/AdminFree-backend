@@ -48,21 +48,59 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Business que permite crear un cliente en el sistema
 	 *
 	 * @param cliente, DTO con los datos del cliente a crear
+	 * @param securityPostPass, se utiliza para encriptar el token del cliente
 	 * @return el nuevo cliente con el token, id y demas atributos
 	 */
-	public ClienteDTO crearCliente(ClienteDTO cliente, Connection con) throws Exception {
-		// se procede a generar un TOKEN unico para este cliente
-		ValueSQL token = generarToken(con);
+	public ClienteDTO crearCliente(
+			ClienteDTO cliente,
+			String securityPostPass,
+			Connection connection) throws Exception {
+
+		// se utilizan para guardar los valores del TOKEN y el TOKEN encriptado
+		String token = null;
+		String tokenEncriptada = null;
+		ValueSQL tokenEncriptadaSQL = ValueSQL.get(null, Types.VARCHAR);
+
+		// se utiliza para verificar si el TOKEN generado ya existe en otro usuario
+		MapperTransversal mapperCount = MapperTransversal.get(MapperTransversal.COUNT);
+
+		// se utiliza para la generacion y encriptacion del TOKEN
+		EstrategiaCriptografica strategia = EstrategiaCriptografica.get();
+
+		// se genera el TOKEN y este debe ser unico entre todos los clientes
+		boolean tokenExiste = true;
+		while (tokenExiste) {
+
+			// se solicita un TOKEN y se procede a encriptarlo
+			token = strategia.generarToken();
+			tokenEncriptada = strategia.encriptarPassword(token, securityPostPass);
+
+			// se utiliza para hacer el COUNT
+			tokenEncriptadaSQL.setValor(tokenEncriptada);
+
+			// se procede a contar los registros que contenga este TOKEN encriptado
+			Long count = (Long) find(connection,
+					SQLConfiguraciones.COUNT_CLIENTE_TOKEN,
+					mapperCount,
+					tokenEncriptadaSQL);
+
+			// valida si el TOKEN es unico entre todos los clientes
+			if (count.equals(Numero.ZERO.value.longValue())) {
+				tokenExiste = false;
+			}
+		}
 
 		// se procede a llamar el procedimiento para la creacion del cliente
-		String respuesta = new ProceduresJDBC().crearCliente(cliente, token.getValor().toString(), con);
+		String respuesta = new ProceduresJDBC().crearCliente(cliente, tokenEncriptada, connection);
 
 		// si es exitoso se procede retorna el cliente con sus datos registrados en el sistema
 		if (HttpStatus.OK.getReasonPhrase().equals(respuesta)) {
-			return (ClienteDTO) find(con,
+			ClienteDTO nuevoCliente = (ClienteDTO) find(connection,
 					SQLConfiguraciones.GET_CLIENTE_TOKEN,
 					MapperConfiguraciones.get(MapperConfiguraciones.GET_CLIENTE),
-					token);
+					tokenEncriptadaSQL);
+			nuevoCliente.getCredenciales().setToken(token);
+			return nuevoCliente;
 		}
 		throw new Exception(respuesta);
 	}
@@ -944,34 +982,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA,
 				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_NOMENCLATURA),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
-	}
-
-	/**
-	 * Metodo que permite generar un TOKEN unico
-	 */
-	private ValueSQL generarToken(Connection con) throws Exception {
-		// es el valor del nuevo TOKEN a retornar
-		ValueSQL token = ValueSQL.get(null, Types.VARCHAR);
-
-		// es el MAPPER para obtener el count de los clientes asociados a un TOKEN
-		MapperTransversal mapper = MapperTransversal.get(MapperTransversal.COUNT);
-
-		// el TOKEN debe ser unico en el sistema
-		boolean tokenExiste = true;
-		while (tokenExiste) {
-
-			// se solicita un nuevo TOKEN
-			token.setValor(EstrategiaCriptografica.get().generarToken());
-
-			// se procede a contar los registros que contenga este TOKEN
-			Long count = (Long)find(con, SQLConfiguraciones.COUNT_CLIENTE_TOKEN, mapper, token);
-
-			// valida si el TOKEN es unico en el sistema
-			if (count.equals(Numero.ZERO.value.longValue())) {
-				tokenExiste = false;
-			}
-		}
-		return token;
 	}
 
 	/**
