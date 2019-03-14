@@ -130,15 +130,14 @@ public class MapperConfiguraciones extends Mapper {
 
 			// se configura los atributos del cliente
 			cliente.setId(res.getLong(Numero.UNO.value));
-			credenciales.setToken(res.getString(Numero.DOS.value));
-			cliente.setNombre(res.getString(Numero.TRES.value));
-			cliente.setTelefonos(res.getString(Numero.CUATRO.value));
-			cliente.setEmails(res.getString(Numero.CINCO.value));
-			cliente.setFechaActivacion(res.getDate(Numero.SEIS.value));
-			cliente.setFechaInactivacion(res.getDate(Numero.SIETE.value));
-			cliente.setEstado(res.getInt(Numero.OCHO.value));
+			cliente.setNombre(res.getString(Numero.DOS.value));
+			cliente.setTelefonos(res.getString(Numero.TRES.value));
+			cliente.setEmails(res.getString(Numero.CUATRO.value));
+			cliente.setFechaActivacion(res.getDate(Numero.CINCO.value));
+			cliente.setFechaInactivacion(res.getDate(Numero.SEIS.value));
+			cliente.setEstado(res.getInt(Numero.SIETE.value));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
-			credenciales.setUsuario(res.getString(Numero.NUEVE.value));
+			credenciales.setUsuario(res.getString(Numero.OCHO.value));
 			resultado.add(cliente);
 		}
 		return resultado;
