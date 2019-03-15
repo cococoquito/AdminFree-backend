@@ -15,11 +15,11 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
-import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -229,20 +229,20 @@ public class ConfiguracionesService {
 	}
 
 	/**
-	 * Servicio que permite generar una nueva clave de ingreso
-	 * para el usuario que llega por parametro
+	 * Servicio que permite generar un nuevo TOKEN de ingreso
+	 * para el usuario o cliente que llega por parametro
 	 *
-	 * @param usuario, DTO con el identificador del usuario
-	 * @return DTO con la clave de ingreso generada
+	 * @param parametro, DTO que contiene el id del cliente o usuario
+	 * @return DTO con el TOKEN de ingreso generada
 	 */
-	public CredencialesDTO generarClaveIngreso(UsuarioDTO usuario) throws Exception {
+	public GenerarTokenIngresoDTO generarClaveIngreso(GenerarTokenIngresoDTO parametro) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
-			// se procede a generar una nueva clave de ingreso para el usuario
-			return new ConfiguracionesBusiness().generarClaveIngreso(usuario, this.securityPostPass, connection);
+			// se procede a generar una nueva clave de ingreso para el usuario o cliente
+			return new ConfiguracionesBusiness().generarClaveIngreso(parametro, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

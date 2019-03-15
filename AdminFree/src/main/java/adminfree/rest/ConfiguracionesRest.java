@@ -16,6 +16,7 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
@@ -239,20 +240,20 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Servicio que permite generar una nueva clave
-	 * de ingreso para el usuario que llega por parametro
+	 * Servicio que permite generar un nuevo TOKEN de ingreso
+	 * para el usuario o cliente que llega por parametro
 	 *
-	 * @param usuario, DTO con el identificador del usuario
-	 * @return DTO con la clave de ingreso generada
+	 * @param parametro, DTO que contiene el id del cliente o usuario
+	 * @return DTO con el TOKEN de ingreso generada
 	 */
 	@RequestMapping(
-			value = ApiRest.GENERAR_CLAVE_USUARIO,
+			value = ApiRest.GENERAR_CLAVE_INGRESO,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> generarClaveIngreso(@RequestBody UsuarioDTO usuario) {
+	public ResponseEntity<Object> generarClaveIngreso(@RequestBody GenerarTokenIngresoDTO parametro) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.generarClaveIngreso(usuario));
+			return Util.getResponseSuccessful(this.configuracionesService.generarClaveIngreso(parametro));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".generarClaveIngreso ", e.getMessage());
 		}

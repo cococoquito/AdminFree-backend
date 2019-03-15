@@ -41,8 +41,11 @@ public class SQLConfiguraciones {
 	/** SQL para modificar el estado del usuario */
 	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO =? WHERE ID_USUARIO =?";
 
-	/** Se utiliza para actualizar la clave de ingreso del Usuario */
-	public static final String ACTUALIZAR_CLAVE_INGRESO = "UPDATE USUARIOS SET CLAVE_INGRESO =? WHERE ID_USUARIO =?";
+	/** Se utiliza para actualizar la clave de ingreso del USUARIO */
+	public static final String ACTUALIZAR_TOKEN_USUARIO = "UPDATE USUARIOS SET CLAVE_INGRESO=? WHERE ID_USUARIO=?";
+
+	/** Se utiliza para actualizar la clave de ingreso del CLIENTE */
+	public static final String ACTUALIZAR_TOKEN_CLIENTE = "UPDATE CLIENTES SET TOKEN=? WHERE ID_CLIENTE=?";
 
 	/** Se utiliza para actualizar la cuenta del usuario */
 	public static final String UPDATE_DATOS_CUENTA = "UPDATE USUARIOS SET NOMBRE=?, USUARIO_INGRESO=?, CARGO=? WHERE ID_USUARIO=?";

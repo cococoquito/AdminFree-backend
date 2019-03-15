@@ -19,7 +19,7 @@ public class ApiRest {
 	public static final String CREAR_USUARIO = "crearuser";
 	public static final String EDITAR_USUARIO = "editaruser";
 	public static final String MODIFICAR_ESTADO_USUARIO = "updatestateuser";
-	public static final String GENERAR_CLAVE_USUARIO = "generarclaveuser";
+	public static final String GENERAR_CLAVE_INGRESO = "generarclavein";
 	public static final String MODIFICAR_DATOS_CUENTA = "updateaccount";
 	public static final String MODIFICAR_CLAVE = "updateclaveuser";
 	public static final String CREAR_CAMPO_ENTRADA = "crearcampoin";

@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import adminfree.dtos.seguridad.CredencialesDTO;
-import adminfree.dtos.seguridad.UsuarioDTO;
+import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -32,18 +31,16 @@ public class GenerarClaveIngresoTest {
 	@Test
 	public void generarClaveIngreso() {
 		try {
-			// es el usuario a generar la nueva clave de ingreso
-			UsuarioDTO user = new UsuarioDTO();
-			user.setId(1L);
+			// es el usuario o cliente a generar la nueva clave de ingreso
+			GenerarTokenIngresoDTO parametro = new GenerarTokenIngresoDTO();
+			parametro.setIdCliente(1);
+			parametro.setIdUsuario(1);
 
 			// se procede a generar la nueva clave de ingreso
-			CredencialesDTO credenciales = this.configuracionesService.generarClaveIngreso(user);
+			parametro = this.configuracionesService.generarClaveIngreso(parametro);
 
 			// el servicio debe retornar una nueva clave de ingreso
-			assertTrue(
-					credenciales != null &&
-					credenciales.getClave() != null &&
-					credenciales.getClave().length() > 20);
+			assertTrue(parametro != null && parametro.getToken() != null);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

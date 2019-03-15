@@ -14,13 +14,13 @@ import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
+import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
-import adminfree.dtos.seguridad.CredencialesDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
 import adminfree.enums.MessagesKey;
@@ -350,37 +350,53 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite generar una nueva clave de ingreso
-	 * para el usuario que llega por parametro
+	 * Metodo que permite generar un nuevo TOKEN de ingreso
+	 * para el usuario o cliente que llega por parametro
 	 *
-	 * @param usuario, DTO con el identificador del usuario
+	 * @param parametro, DTO que contiene el id del cliente o usuario
 	 * @param securityPostPass, se utiliza para encriptar la clave
-	 * @return DTO con la clave de ingreso generada
+	 * @return DTO con el TOKEN de ingreso generada
 	 */
-	public CredencialesDTO generarClaveIngreso(
-			UsuarioDTO usuario,
+	public GenerarTokenIngresoDTO generarClaveIngreso(
+			GenerarTokenIngresoDTO parametro,
 			String securityPostPass,
 			Connection connection) throws Exception {
 
-		// se utiliza para encriptar la clave de ingreso
-		EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
+		// se toma los identificadores de las entidades
+		Integer idCliente = parametro.getIdCliente();
+		Integer idUsuario = parametro.getIdUsuario();
 
-		// se genera una nueva clave para el usuario
-		String claveIngreso = criptografica.generarToken();
+		// debe existir alguno de los dos identificadores de las entidades
+		if (idCliente != null || idUsuario != null) {
 
-		// se encripta la nueva clave para ser almacenada en la BD
-		String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
+			// se utiliza para encriptar la clave de ingreso
+			EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
 
-		// actualiza la clave de ingreso en la BD
-		insertUpdate(connection,
-				SQLConfiguraciones.ACTUALIZAR_CLAVE_INGRESO,
-				ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
-				ValueSQL.get(usuario.getId(), Types.BIGINT));
+			// se genera un nuevo TOKEN para el usuario o cliente
+			String claveIngreso = criptografica.generarToken();
 
-		// se retorna las credenciales con la nueva clave
-		CredencialesDTO credenciales = new CredencialesDTO();
-		credenciales.setClave(claveIngreso);
-		return credenciales;
+			// se encripta la nueva clave para ser almacenada en la BD
+			String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
+
+			// actualiza la nueva clave de ingreso en la BD dependiendo de la entidad
+			if (idUsuario != null) {
+				insertUpdate(connection,
+						SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
+						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
+						ValueSQL.get(idUsuario, Types.INTEGER));
+			} else if (idCliente != null) {
+				insertUpdate(connection,
+						SQLConfiguraciones.ACTUALIZAR_TOKEN_CLIENTE,
+						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
+						ValueSQL.get(idCliente, Types.INTEGER));
+			}
+
+			// se retorna el nuevo TOKEN generado
+			GenerarTokenIngresoDTO nuevoToken = new GenerarTokenIngresoDTO();
+			nuevoToken.setToken(claveIngreso);
+			return nuevoToken;
+		}
+		return null;
 	}
 
 	/**
@@ -461,7 +477,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// actualiza la clave de ingreso en la BD
 		insertUpdate(connection,
-				SQLConfiguraciones.ACTUALIZAR_CLAVE_INGRESO,
+				SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
 				ValueSQL.get(nuevaClaveMD5, Types.VARCHAR),
 				ValueSQL.get(idUsuario, Types.BIGINT));
 	}

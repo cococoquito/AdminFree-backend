@@ -68,7 +68,8 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 		String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
 
 		// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
-		registry.addInterceptor(this.interceptorAdminFree).addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
+		registry.addInterceptor(this.interceptorAdminFree)
+				.addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
 				.excludePathPatterns(grantSecurity);
 
 		// se registra el interceptor de la autenticacion
