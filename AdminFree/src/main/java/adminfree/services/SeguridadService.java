@@ -112,7 +112,11 @@ public class SeguridadService {
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede a iniciar sesion como ADMINISTRADOR
-			return new SeguridadBusiness().iniciarSesionAdmin(credenciales, this.securityPostToken, connection);
+			return new SeguridadBusiness().iniciarSesionAdmin(
+					credenciales,
+					this.securityPostToken,
+					this.securityPostPass,
+					connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

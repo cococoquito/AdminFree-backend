@@ -30,13 +30,16 @@ public class SeguridadBusiness extends CommonDAO {
 	 * Metodo que permite iniciar sesion como ADMINISTRADOR
 	 *
 	 * @param credenciales, DTO que contiene los datos de ingreso
-	 * @param securityPostToken, se utiliza para encriptar el token
+	 * @param securityPostToken, se utiliza para encriptar el TOKEN
+	 * @param securityPostPass, se utiliza para encriptar el TOKEN para
+	 * verificar que si exista este TOKEN en BD
 	 *
 	 * @return datos de inicio de la aplicacion
 	 */
 	public WelcomeDTO iniciarSesionAdmin(
 			CredencialesDTO credenciales,
 			String securityPostToken,
+			String securityPostPass,
 			Connection connection) throws Exception {
 
 		// se valida la nulalidad de las credenciales
@@ -49,12 +52,15 @@ public class SeguridadBusiness extends CommonDAO {
 			// se verifica la nulalidad del user y token
 			if (token != null && usuario != null) {
 
+				// se encripta el TOKEN de acuerdo al negocio
+				String tokenMD5 = EstrategiaCriptografica.get().encriptarPassword(token, securityPostPass);
+
 				// se procede a buscar el ADMINISTRADOR de acuerdo a sus credenciales
 				ClienteDTO admin = (ClienteDTO) find(
 						connection,
 						SQLSeguridad.INICIAR_SESION_ADMIN,
 						MapperSeguridad.get(MapperSeguridad.GET_DATOS_ADMIN_AUTH),
-						ValueSQL.get(token, Types.VARCHAR),
+						ValueSQL.get(tokenMD5, Types.VARCHAR),
 						ValueSQL.get(usuario, Types.VARCHAR),
 						ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER));
 
@@ -62,7 +68,8 @@ public class SeguridadBusiness extends CommonDAO {
 				if (admin != null && admin.getId() != null) {
 
 					// se genera y se configura el TOKEN
-					credenciales.setToken(EstrategiaCriptografica.get().generarTokenAuth(usuario, token, securityPostToken));
+					credenciales.setToken(EstrategiaCriptografica.get().generarTokenAuth(usuario, tokenMD5, securityPostToken));
+					credenciales.setClave(tokenMD5);
 
 					// se construye la respuesta a retornar
 					WelcomeDTO welcome = new WelcomeDTO();
