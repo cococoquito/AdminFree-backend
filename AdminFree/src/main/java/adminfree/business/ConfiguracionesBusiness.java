@@ -379,12 +379,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
 
 			// actualiza la nueva clave de ingreso en la BD dependiendo de la entidad
-			if (idUsuario != null) {
+			if (idUsuario != null && idUsuario > Numero.ZERO.value) {
 				insertUpdate(connection,
 						SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
 						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
 						ValueSQL.get(idUsuario, Types.INTEGER));
-			} else if (idCliente != null) {
+			} else if (idCliente != null && idCliente > Numero.ZERO.value) {
 				insertUpdate(connection,
 						SQLConfiguraciones.ACTUALIZAR_TOKEN_CLIENTE,
 						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * DTO que se utiliza para la creacion de nuevos TOKENs para el ingreso en el
  * sistema tanto para usuarios o clientes
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
