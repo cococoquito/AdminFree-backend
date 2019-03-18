@@ -8,13 +8,13 @@ import adminfree.dtos.transversal.PaginadorResponseDTO;
 /**
  * Clase que contiene los datos iniciales al momento de entrar al
  * submodulo de mis consecutivos solicitados para el anio actual
- * 
+ *
  * @author Carlos Andres Diaz
  */
 public class InitMisConsecutivosDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Es el reponse inicial de los consecutivos paginados **/
+	/** Es el response inicial de los consecutivos paginados **/
 	private PaginadorResponseDTO consecutivos;
 
 	/**

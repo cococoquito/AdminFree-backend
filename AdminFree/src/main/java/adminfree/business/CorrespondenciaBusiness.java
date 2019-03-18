@@ -639,7 +639,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite obtener los datos iniciales para el 
+	 * Metodo que permite obtener los datos iniciales para el
 	 * submodulo de Mis Consecutivos de correspondencia solicitados
 	 * para el anio actual
 	 *

@@ -265,7 +265,7 @@ public class CorrespondenciaRest {
 	}
 
 	/**
-	 * Servicio que permite obtener los datos iniciales para el 
+	 * Servicio que permite obtener los datos iniciales para el
 	 * submodulo de Mis Consecutivos de correspondencia solicitados
 	 * para el anio actual
 	 *

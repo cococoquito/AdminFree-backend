@@ -9,7 +9,7 @@ import adminfree.dtos.configuraciones.NomenclaturaDTO;
 /**
  * Clase que contiene los datos iniciales al momento de entrar al submodulo de
  * solicitar consecutivos de correspondencia
- * 
+ *
  * @author Carlos Andres Diaz
  */
 public class InitSolicitarConsecutivoDTO implements Serializable {
