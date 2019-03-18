@@ -16,6 +16,7 @@ import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.InitMisConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -230,6 +231,28 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los datos para el submodulo de consecutivos solicitados
 			return new CorrespondenciaBusiness().getInitConsecutivosAnioActual(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los datos iniciales para el 
+	 * submodulo de Mis Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente asociado al usuario
+	 * @param idUsuario, identificador del usuario autenticado en el sistema
+	 * @return DTO con los datos iniciales
+	 */
+	public InitMisConsecutivosDTO getInitMisConsecutivos(Long idCliente, Integer idUsuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los datos para el submodulo de mis consecutivos solicitados
+			return new CorrespondenciaBusiness().getInitMisConsecutivos(idCliente, idUsuario, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

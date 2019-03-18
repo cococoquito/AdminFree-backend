@@ -21,6 +21,7 @@ import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
+import adminfree.dtos.correspondencia.InitMisConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
@@ -608,6 +609,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se procede a configurar el filtro para los consecutivos iniciales a mostrar
 		FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
 		filtro.setIdCliente(idCliente);
+
+		// el paginador debe empezar de 0-10 por default
 		PaginadorDTO paginador = new PaginadorDTO();
 		paginador.setSkip(CommonConstant.SKIP_DEFAULT);
 		paginador.setRowsPage(CommonConstant.ROWS_PAGE_DEFAULT);
@@ -631,6 +634,46 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					SQLTransversal.GET_ITEMS_USUARIOS,
 					MapperTransversal.get(MapperTransversal.GET_ITEMS_USUARIOS),
 					ValueSQL.get(idCliente, Types.BIGINT)));
+		}
+		return response;
+	}
+
+	/**
+	 * Metodo que permite obtener los datos iniciales para el 
+	 * submodulo de Mis Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente asociado al usuario
+	 * @param idUsuario, identificador del usuario autenticado en el sistema
+	 * @return DTO con los datos iniciales
+	 */
+	public InitMisConsecutivosDTO getInitMisConsecutivos(Long idCliente, Integer idUsuario, Connection connection) throws Exception {
+
+		// DTO con los datos iniciales para el submodulo
+		InitMisConsecutivosDTO response = new InitMisConsecutivosDTO();
+
+		// se construye el filtro de busqueda para obtener los consecutivos del usuario
+		FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
+		filtro.setIdCliente(idCliente);
+		filtro.setIdUsuario(idUsuario);
+
+		// el paginador debe empezar de 0-10 por default
+		PaginadorDTO paginador = new PaginadorDTO();
+		paginador.setSkip(CommonConstant.SKIP_DEFAULT);
+		paginador.setRowsPage(CommonConstant.ROWS_PAGE_DEFAULT);
+		filtro.setPaginador(paginador);
+
+		// se procede a consultar y configurar los consecutivos del usuario
+		PaginadorResponseDTO consecutivos = getConsecutivosAnioActual(filtro, connection);
+		response.setConsecutivos(consecutivos);
+
+		// se consultan los demas datos solamente si hay consecutivos
+		if (consecutivos != null &&
+			consecutivos.getCantidadTotal() != null &&
+			consecutivos.getCantidadTotal() > Numero.ZERO.value.longValue()) {
+
+			// se configura la fecha actual del sistema
+			response.setFechaActual(Calendar.getInstance().getTime());
 		}
 		return response;
 	}

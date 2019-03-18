@@ -265,6 +265,28 @@ public class CorrespondenciaRest {
 	}
 
 	/**
+	 * Servicio que permite obtener los datos iniciales para el 
+	 * submodulo de Mis Consecutivos de correspondencia solicitados
+	 * para el anio actual
+	 *
+	 * @param idCliente, identificador del cliente asociado al usuario
+	 * @param idUsuario, identificador del usuario autenticado en el sistema
+	 * @return DTO con los datos iniciales
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_INIT_MIS_CONSECUTIVOS,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getInitMisConsecutivos(@RequestParam Long idCliente, Integer idUsuario) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getInitMisConsecutivos(idCliente, idUsuario));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getInitMisConsecutivos ", e.getMessage());
+		}
+	}
+
+	/**
 	 * Servicio que permite consultar el detalle de un consecutivo
 	 *
 	 * @param filtro, DTO que contiene los identificadores del cliente y del consecutivo
