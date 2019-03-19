@@ -210,6 +210,7 @@ public class MapperCorrespondencia extends Mapper {
 			consecutivo.setIdEstado(res.getInt(Numero.SEIS.value));
 			consecutivo.setEstado(Util.getEstadoNombre(consecutivo.getIdEstado()));
 			consecutivo.setNomenclaturaDesc(res.getString(Numero.SIETE.value));
+			consecutivo.setFechaAnulacion(res.getString(Numero.OCHO.value));
 		}
 		return consecutivo;
 	}

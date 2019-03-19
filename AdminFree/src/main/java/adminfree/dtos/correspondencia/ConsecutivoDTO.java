@@ -29,6 +29,9 @@ public class ConsecutivoDTO implements Serializable {
 	/** Fecha en la que solicitaron el consecutivo */
 	private String fechaSolicitud;
 
+	/** Fecha en la que anularon el consecutivo (si aplica) */
+	private String fechaAnulacion;
+
 	/** Estado en la que se encuentra el consecutivo */
 	private Integer idEstado;
 
@@ -153,5 +156,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo fechaAnulacion
+	 */
+	public String getFechaAnulacion() {
+		return fechaAnulacion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param fechaAnulacion
+	 */
+	public void setFechaAnulacion(String fechaAnulacion) {
+		this.fechaAnulacion = fechaAnulacion;
 	}
 }

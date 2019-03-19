@@ -47,7 +47,7 @@ import adminfree.utilities.Util;
 
 /**
  * Clase que contiene los procesos de negocio para el modulo de Correspondencia
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
