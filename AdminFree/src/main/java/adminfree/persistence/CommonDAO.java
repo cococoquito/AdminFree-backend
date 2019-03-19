@@ -27,7 +27,7 @@ public class CommonDAO {
 	 * @param dml, es la sentencia DML a ejecutar
 	 * @param valores, valores a insertar o actualizar en la tabla
 	 */
-	protected void insertUpdate(Connection con, String dml, ValueSQL... valores) throws Exception {
+	protected int insertUpdate(Connection con, String dml, ValueSQL... valores) throws Exception {
 		PreparedStatement pst = null;
 		try {
 			// se establece el PreparedStatement
@@ -47,7 +47,7 @@ public class CommonDAO {
 			}
 
 			// se ejecuta la inserción
-			pst.executeUpdate();
+			return pst.executeUpdate();
 		} finally {
 			CerrarRecursos.closePreparedStatement(pst);
 		}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.correspondencia.ActivarAnularConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
@@ -340,6 +341,30 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getItemsSelectFiltro(idsCampos));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getItemsSelectFiltro ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite ACTIVAR o ANULAR un consecutivo de correspondencia
+	 *
+	 * @param parametro, DTO que contiene los datos necesarios para el proceso
+	 */
+	@RequestMapping(
+			value = ApiRest.ACTIVAR_ANULAR_CONSECUTIVO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> activarAnularConsecutivo(@RequestBody ActivarAnularConsecutivoDTO parametro) {
+		try {
+			// se procede activar o anular el consecutivo
+			this.correspondenciaService.activarAnularConsecutivo(parametro);
+
+			// si llega a este punto es porque el update se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".activarAnularConsecutivo ", e.getMessage());
 		}
 	}
 }

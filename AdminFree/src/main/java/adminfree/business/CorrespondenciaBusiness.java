@@ -13,6 +13,7 @@ import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
 import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.correspondencia.ActivarAnularConsecutivoDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
@@ -32,6 +33,7 @@ import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.dtos.transversal.PaginadorDTO;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.dtos.transversal.SelectItemDTO;
+import adminfree.enums.Estado;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
@@ -757,5 +759,47 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					parametros.toArray(new ValueSQL[parametros.size()]));
 		}
 		return null;
+	}
+
+	/**
+	 * Metodo que permite ACTIVAR o ANULAR un consecutivo de correspondencia
+	 *
+	 * @param parametro, DTO que contiene los datos necesarios para el proceso
+	 */
+	public void activarAnularConsecutivo(ActivarAnularConsecutivoDTO parametro, Connection connection) throws Exception {
+
+		// se obtiene los datos necesarios para el proceso
+		Integer idEstado = parametro.getIdEstado();
+		Long idConsecutivo = parametro.getIdConsecutivo();
+
+		// se configura el where sentence dependiendo del estado
+		StringBuilder where = new StringBuilder();
+		if (Estado.ACTIVO.id.equals(idEstado)) {
+			where.append(",FECHA_ANULACION=NULL WHERE ID_CONSECUTIVO=").append(idConsecutivo);
+		} else if (Estado.ANULADO.id.equals(idEstado)) {
+			where.append(",FECHA_ANULACION=CURDATE() WHERE ID_CONSECUTIVO=").append(idConsecutivo);
+		}
+
+		// si hay un where sentence es por que el estado es VALIDO
+		if (where.length() > Numero.ZERO.value) {
+
+			// se complementa el DML a ejecutar
+			StringBuilder update = new StringBuilder("UPDATE CONSECUTIVOS_");
+			update.append(parametro.getIdCliente());
+			update.append(" SET ESTADO=");
+			update.append(idEstado);
+			update.append(where);
+
+			// se ejecuta el update sobre el estado del consecutivo
+			int resultado = insertUpdate(connection, update.toString());
+
+			// EL proceso no se ejecuto satisfactoriamente
+			if (resultado <= Numero.ZERO.value) {
+				throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+			}
+		} else {
+			// estado no es permitido para el consecutivo, debe ser ACTIVO o ANULADO
+			throw new BusinessException(MessagesKey.ESTADO_NO_PERMITIDO.value);			
+		}
 	}
 }

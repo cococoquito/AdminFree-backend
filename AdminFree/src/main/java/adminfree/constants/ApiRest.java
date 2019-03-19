@@ -57,4 +57,5 @@ public class ApiRest {
 	public static final String GET_DETALLE_CONSECUTIVO = "getdetalleconsecutivo";
 	public static final String GET_CAMPOS_FILTRO = "getcamposfiltro";
 	public static final String GET_ITEMS_SELECT_FILTRO = "getitemsfiltro";
+	public static final String ACTIVAR_ANULAR_CONSECUTIVO = "activaranularconse";
 }

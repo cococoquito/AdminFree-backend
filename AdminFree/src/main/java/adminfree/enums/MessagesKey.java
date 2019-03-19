@@ -60,7 +60,13 @@ public enum MessagesKey {
 	KEY_DOCUMENTO_VACIO(Numero.DIECISEIS.value.toString()),
 
 	/** 400 - El documento que intenta descargar no existe en el sistema*/
-	DOCUMENTO_NO_EXISTE(Numero.DIECISIETE.value.toString());
+	DOCUMENTO_NO_EXISTE(Numero.DIECISIETE.value.toString()),
+
+	/** 400 - El nuevo estado no es permitido para el consecutivo debe ser ACTIVO o ANULADO*/
+	ESTADO_NO_PERMITIDO(Numero.DIECIOCHO.value.toString()),
+
+	/** 400 - EL proceso no se ejecutó satisfactoriamente, por favor inténtalo de nuevo*/
+	PROCESO_NO_EJECUTADO(Numero.DIECINUEVE.value.toString());
 
 	public final String value;
 

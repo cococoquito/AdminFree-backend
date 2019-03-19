@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.CorrespondenciaBusiness;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.correspondencia.ActivarAnularConsecutivoDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
@@ -310,6 +311,24 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los items
 			return new CorrespondenciaBusiness().getItemsSelectFiltro(idsCampos, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite ACTIVAR o ANULAR un consecutivo de correspondencia
+	 *
+	 * @param parametro, DTO que contiene los datos necesarios para el proceso
+	 */
+	public void activarAnularConsecutivo(ActivarAnularConsecutivoDTO parametro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a cambiar el estado del consecutivo
+			new CorrespondenciaBusiness().activarAnularConsecutivo(parametro, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
