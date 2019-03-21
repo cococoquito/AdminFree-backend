@@ -20,6 +20,7 @@ import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
+import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
 import adminfree.services.CorrespondenciaService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
@@ -365,6 +366,25 @@ public class CorrespondenciaRest {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".activarAnularConsecutivo ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite transferir un consecutivo hacia otro usuario
+	 *
+	 * @param parametro, DTO con los datos necesarios para el proceso
+	 * @return DTO con los consecutivos paginado de acuerdo al filtro
+	 */
+	@RequestMapping(
+			value = ApiRest.TRANSFERIR_CONSECUTIVO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> transferirConsecutivo(@RequestBody TransferirConsecutivoDTO parametro) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.transferirConsecutivo(parametro));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".transferirConsecutivo ", e.getMessage());
 		}
 	}
 }

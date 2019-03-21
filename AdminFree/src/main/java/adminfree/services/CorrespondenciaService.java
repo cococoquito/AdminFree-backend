@@ -21,6 +21,7 @@ import adminfree.dtos.correspondencia.InitMisConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
+import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
@@ -329,6 +330,25 @@ public class CorrespondenciaService {
 
 			// se procede a cambiar el estado del consecutivo
 			new CorrespondenciaBusiness().activarAnularConsecutivo(parametro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite transferir un consecutivo hacia otro usuario
+	 *
+	 * @param parametro, DTO con los datos necesarios para el proceso
+	 * @return DTO con los consecutivos paginado de acuerdo al filtro
+	 */
+	public TransferirConsecutivoDTO transferirConsecutivo(TransferirConsecutivoDTO parametro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a transferir el consecutivo
+			return new CorrespondenciaBusiness().transferirConsecutivo(parametro, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

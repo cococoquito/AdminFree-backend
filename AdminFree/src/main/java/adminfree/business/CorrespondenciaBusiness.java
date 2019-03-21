@@ -26,6 +26,7 @@ import adminfree.dtos.correspondencia.InitMisConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
+import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
@@ -801,5 +802,17 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// estado no es permitido para el consecutivo, debe ser ACTIVO o ANULADO
 			throw new BusinessException(MessagesKey.ESTADO_NO_PERMITIDO.value);			
 		}
+	}
+
+	/**
+	 * Metodo que permite transferir un consecutivo hacia otro usuario
+	 *
+	 * @param parametro, DTO con los datos necesarios para el proceso
+	 * @return DTO con los consecutivos paginado de acuerdo al filtro
+	 */
+	public TransferirConsecutivoDTO transferirConsecutivo(
+			TransferirConsecutivoDTO parametro,
+			Connection connection) throws Exception {
+		return null;
 	}
 }
