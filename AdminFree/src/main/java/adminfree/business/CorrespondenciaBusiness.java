@@ -823,10 +823,10 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			connection.setAutoCommit(false);
 
 			// se obtiene las variables necesarias para el proceso
-			String idCliente = parametro.getIdCliente();
-			String idConsecutivo = parametro.getIdConsecutivo();
-			String idUsuario = parametro.getIdUsuario();
-			String idUsuarioTransferir = parametro.getIdUsuarioTransferir();
+			String idCliente = parametro.getIdCliente().toString();
+			String idConsecutivo = parametro.getIdConsecutivo().toString();
+			String idUsuario = parametro.getIdUsuario().toString();
+			String idUsuarioTransferir = parametro.getIdUsuarioTransferir().toString();
 
 			// El ADMIN no tiene ID por lo tanto debe ser NULL
 			final String ID_ADMIN = CommonConstant.ID_ADMINISTRADOR.toString();

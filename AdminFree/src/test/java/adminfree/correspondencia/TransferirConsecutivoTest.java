@@ -38,10 +38,10 @@ public class TransferirConsecutivoTest {
 		try {
 			// se construye los parametros
 			TransferirConsecutivoDTO parametro = new TransferirConsecutivoDTO();
-			parametro.setIdCliente("1");
-			parametro.setIdConsecutivo("3");
-			parametro.setIdUsuario("2");
-			parametro.setIdUsuarioTransferir("-1");
+			parametro.setIdCliente(1);
+			parametro.setIdConsecutivo(3l);
+			parametro.setIdUsuario(2);
+			parametro.setIdUsuarioTransferir(CommonConstant.ID_ADMINISTRADOR);
 
 			// se construye el filtro de busqueda
 			FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
