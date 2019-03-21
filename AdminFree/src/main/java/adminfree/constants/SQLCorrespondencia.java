@@ -32,7 +32,7 @@ public class SQLCorrespondencia {
 	public static final String GET_CAMPOS_FILTRO = "SELECT ID_CAMPO,NOMBRE,TIPO_CAMPO FROM CAMPOS_ENTRADA WHERE CLIENTE=? AND TIPO_CAMPO<>" + TipoCampo.CASILLA_VERIFICACION.id + " ORDER BY NOMBRE ASC";
 
 	/** SQL para obtener los usuarios para transferir consecutivos*/
-	public static final String GET_USUARIOS_TRANFERIR = "SELECT ID_USUARIO,NOMBRE FROM USUARIOS WHERE CLIENTE=? AND ESTADO=? AND ID_USUARIO<>?";
+	public static final String GET_USUARIOS_TRANFERIR = "SELECT ID_USUARIO,NOMBRE FROM USUARIOS WHERE CLIENTE=? AND ESTADO=? AND ID_USUARIO<>? ORDER BY NOMBRE";
 
 	/**
 	 * Metodo que permite construir el insert para los consecutivos
@@ -225,16 +225,12 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para listar las transferencia realizadas para un consecutivo
 	 */
 	public static String getSQListTransferencias(String idCliente, String idConsecutivo) {
-		StringBuilder sql = new StringBuilder("SELECT CON.CONSECUTIVO,NOM.NOMENCLATURA,COALESCE(US.NOMBRE, 'Administrador')AS USUARIO,DATE_FORMAT(TR.FECHA_TRANSFERIDO,'");
+		StringBuilder sql = new StringBuilder("SELECT COALESCE(US.NOMBRE,'Administrador')AS USER,DATE_FORMAT(TR.FECHA_TRANSFERIDO,'");
 		sql.append(CommonConstant.FORMATO_FECHA_MSYQL);
 		sql.append("')AS FE FROM CONSECUTIVOS_TRANS_");
 		sql.append(idCliente);
-		sql.append(" TR JOIN CONSECUTIVOS_");
-		sql.append(idCliente);
-		sql.append(" CON ON(CON.ID_CONSECUTIVO = TR.ID_CONSECUTIVO)");
-		sql.append("JOIN NOMENCLATURAS NOM ON(NOM.ID_NOMENCLATURA = CON.NOMENCLATURA)");
-		sql.append("LEFT JOIN USUARIOS US ON(US.ID_USUARIO = TR.USUARIO)");
-		sql.append("WHERE TR.ID_CONSECUTIVO=").append(idConsecutivo);
+		sql.append(" TR LEFT JOIN USUARIOS US ON(US.ID_USUARIO = TR.USUARIO)");
+		sql.append("WHERE TR.ID_CONSECUTIVO=").append(idConsecutivo).append(" ORDER BY TR.ID_TRANS ASC");
 		return sql.toString();
 	}
 

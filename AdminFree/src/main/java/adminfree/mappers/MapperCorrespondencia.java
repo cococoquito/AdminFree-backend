@@ -136,10 +136,8 @@ public class MapperCorrespondencia extends Mapper {
 		TransferenciaDTO transferencia;
 		while (res.next()) {
 			transferencia = new TransferenciaDTO();
-			transferencia.setConsecutivo(res.getString(Numero.UNO.value));
-			transferencia.setNomenclatura(res.getString(Numero.DOS.value));
-			transferencia.setUsuario(res.getString(Numero.TRES.value));
-			transferencia.setFechaTransferido(res.getString(Numero.CUATRO.value));
+			transferencia.setUsuario(res.getString(Numero.UNO.value));
+			transferencia.setFechaTransferido(res.getString(Numero.DOS.value));
 			if (transferencias == null) {
 				transferencias = new ArrayList<>();
 			}

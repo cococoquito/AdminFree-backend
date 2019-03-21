@@ -11,31 +11,12 @@ import java.io.Serializable;
 public class TransferenciaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** Es el consecutivo en la cual se hizo la transferencia */
-	private String consecutivo;
-
-	/** Nomenclatura asociada al consecutivo */
-	private String nomenclatura;
-
 	/** Es el nombre del usuario quien era o es duenio del consecutivo */
 	private String usuario;
 
 	/** Es la fecha que se hizo la transferencia */
 	private String fechaTransferido;
 
-	/**
-	 * Metodo que permite obtener el valor del atributo consecutivo
-	 */
-	public String getConsecutivo() {
-		return consecutivo;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo nomenclatura
-	 */
-	public String getNomenclatura() {
-		return nomenclatura;
-	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo usuario
@@ -49,22 +30,6 @@ public class TransferenciaDTO implements Serializable {
 	 */
 	public String getFechaTransferido() {
 		return fechaTransferido;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param consecutivo
-	 */
-	public void setConsecutivo(String consecutivo) {
-		this.consecutivo = consecutivo;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param nomenclatura
-	 */
-	public void setNomenclatura(String nomenclatura) {
-		this.nomenclatura = nomenclatura;
 	}
 
 	/**
