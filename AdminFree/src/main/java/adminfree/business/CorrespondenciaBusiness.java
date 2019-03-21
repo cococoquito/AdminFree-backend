@@ -824,8 +824,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// El ADMIN no tiene ID por lo tanto debe ser NULL
 			final String ID_ADMIN = CommonConstant.ID_ADMINISTRADOR.toString();
-			idUsuario = idUsuario.equals(ID_ADMIN) ? null : idUsuario;
-			idUsuarioTransferir = idUsuarioTransferir.equals(ID_ADMIN) ? null : idUsuarioTransferir;
+			idUsuario = ID_ADMIN.equals(idUsuario) ? null : idUsuario;
+			idUsuarioTransferir = ID_ADMIN.equals(idUsuarioTransferir) ? null : idUsuarioTransferir;
 
 			// se construye SQL para contar las transferencia realizadas para este consecutivo
 			StringBuilder countSQL = new StringBuilder ("SELECT COUNT(*) FROM CONSECUTIVOS_TRANS_")
