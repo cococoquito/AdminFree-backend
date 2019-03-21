@@ -14,19 +14,16 @@ public class TransferirConsecutivoDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** Identificador del cliente que contiene la tabla donde esta el consecutivo */
-	private Integer idCliente;
+	private String idCliente;
 
 	/** Identificador del consecutivo a transferir */
-	private Long idConsecutivo;
+	private String idConsecutivo;
 
 	/** Identificador del usuario quien tiene actualmente el consecutivo */
-	private Integer idUsuario;
+	private String idUsuario;
 
 	/** Identificador del usuario a quien se va transferir */
-	private Integer idUsuarioTransferir;
-
-	/** La fecha de transferido es la fecha de solicitud para el primer usuario */
-	private String fechaSolicitudConsecutivo;
+	private String idUsuarioTransferir;
 
 	/** Se utiliza para consultar los consecutivos de acuerdo al filtro establecido */
 	private FiltroConsecutivosDTO filtro;
@@ -37,36 +34,29 @@ public class TransferirConsecutivoDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
-	public Integer getIdCliente() {
+	public String getIdCliente() {
 		return idCliente;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idConsecutivo
 	 */
-	public Long getIdConsecutivo() {
+	public String getIdConsecutivo() {
 		return idConsecutivo;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idUsuario
 	 */
-	public Integer getIdUsuario() {
+	public String getIdUsuario() {
 		return idUsuario;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idUsuarioTransferir
 	 */
-	public Integer getIdUsuarioTransferir() {
+	public String getIdUsuarioTransferir() {
 		return idUsuarioTransferir;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo fechaSolicitudConsecutivo
-	 */
-	public String getFechaSolicitudConsecutivo() {
-		return fechaSolicitudConsecutivo;
 	}
 
 	/**
@@ -87,7 +77,7 @@ public class TransferirConsecutivoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idCliente
 	 */
-	public void setIdCliente(Integer idCliente) {
+	public void setIdCliente(String idCliente) {
 		this.idCliente = idCliente;
 	}
 
@@ -95,7 +85,7 @@ public class TransferirConsecutivoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idConsecutivo
 	 */
-	public void setIdConsecutivo(Long idConsecutivo) {
+	public void setIdConsecutivo(String idConsecutivo) {
 		this.idConsecutivo = idConsecutivo;
 	}
 
@@ -103,7 +93,7 @@ public class TransferirConsecutivoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idUsuario
 	 */
-	public void setIdUsuario(Integer idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
@@ -111,16 +101,8 @@ public class TransferirConsecutivoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idUsuarioTransferir
 	 */
-	public void setIdUsuarioTransferir(Integer idUsuarioTransferir) {
+	public void setIdUsuarioTransferir(String idUsuarioTransferir) {
 		this.idUsuarioTransferir = idUsuarioTransferir;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param fechaSolicitudConsecutivo
-	 */
-	public void setFechaSolicitudConsecutivo(String fechaSolicitudConsecutivo) {
-		this.fechaSolicitudConsecutivo = fechaSolicitudConsecutivo;
 	}
 
 	/**

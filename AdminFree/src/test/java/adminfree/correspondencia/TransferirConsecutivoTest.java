@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import adminfree.constants.CommonConstant;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
+import adminfree.dtos.transversal.PaginadorDTO;
 import adminfree.services.CorrespondenciaService;
 
 /**
@@ -36,15 +38,21 @@ public class TransferirConsecutivoTest {
 		try {
 			// se construye los parametros
 			TransferirConsecutivoDTO parametro = new TransferirConsecutivoDTO();
-			parametro.setIdCliente(1);
-			parametro.setIdConsecutivo(1L);
-			parametro.setIdUsuario(1);
-			parametro.setIdUsuarioTransferir(2);
-			parametro.setFechaSolicitudConsecutivo("01/marzo/2019");
+			parametro.setIdCliente("1");
+			parametro.setIdConsecutivo("3");
+			parametro.setIdUsuario("2");
+			parametro.setIdUsuarioTransferir("-1");
 
-			// se construyel el filtro de busqueda
+			// se construye el filtro de busqueda
 			FiltroConsecutivosDTO filtro = new FiltroConsecutivosDTO();
+			filtro.setIdCliente(1L);
 			filtro.setIdUsuario(1);
+
+			// el paginador debe empezar de 0-10 por default
+			PaginadorDTO paginador = new PaginadorDTO();
+			paginador.setSkip(CommonConstant.SKIP_DEFAULT);
+			paginador.setRowsPage(CommonConstant.ROWS_PAGE_DEFAULT);
+			filtro.setPaginador(paginador);
 			parametro.setFiltro(filtro);
 
 			// se ejecuta el proceso de negocio

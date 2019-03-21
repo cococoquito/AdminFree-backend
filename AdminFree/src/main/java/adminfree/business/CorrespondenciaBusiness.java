@@ -813,6 +813,100 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	public TransferirConsecutivoDTO transferirConsecutivo(
 			TransferirConsecutivoDTO parametro,
 			Connection connection) throws Exception {
-		return null;
+		try {
+			connection.setAutoCommit(false);
+
+			// se obtiene las variables necesarias para el proceso
+			String idCliente = parametro.getIdCliente();
+			String idConsecutivo = parametro.getIdConsecutivo();
+			String idUsuario = parametro.getIdUsuario();
+			String idUsuarioTransferir = parametro.getIdUsuarioTransferir();
+
+			// El ADMIN no tiene ID por lo tanto debe ser NULL
+			final String ID_ADMIN = CommonConstant.ID_ADMINISTRADOR.toString();
+			idUsuario = idUsuario.equals(ID_ADMIN) ? null : idUsuario;
+			idUsuarioTransferir = idUsuarioTransferir.equals(ID_ADMIN) ? null : idUsuarioTransferir;
+
+			// se construye SQL para contar las transferencia realizadas para este consecutivo
+			StringBuilder countSQL = new StringBuilder ("SELECT COUNT(*) FROM CONSECUTIVOS_TRANS_")
+					.append(idCliente)
+					.append(" WHERE ID_CONSECUTIVO=")
+					.append(idConsecutivo);
+
+			// se obtiene la cantidad de transferencia realizadas para este consecutivo
+			Long transferencias = (Long) find(connection, countSQL.toString(), MapperTransversal.get(MapperTransversal.COUNT));
+
+			// se utiliza para encapsular todos los dmls para ser ejecutado por el batch
+			List<String> dmls = new ArrayList<>();
+
+			// si el consecutivo no tiene transferencia se debe insertar el user actual
+			if (transferencias == Numero.ZERO.value.longValue()) {
+
+				// la fecha transferido es la fecha de la solicitud del consecutivo
+				StringBuilder fechaSolicitud = new StringBuilder("(SELECT CON.FECHA_SOLICITUD FROM CONSECUTIVOS_")
+						.append(idCliente)
+						.append(" CON WHERE CON.ID_CONSECUTIVO=")
+						.append(idConsecutivo)
+						.append(")");
+
+				// se construye el INSERT para este USUARIO
+				dmls.add(getInsertTransferencia(idCliente, idConsecutivo, idUsuario, fechaSolicitud.toString()));
+			}
+
+			// se construye el INSERT para el nuevo usuario
+			dmls.add(getInsertTransferencia(idCliente, idConsecutivo, idUsuarioTransferir, "CURDATE()"));
+
+			// se construye el UPDATE del consecutivo para el nuevo usuario
+			StringBuilder updateUser = new StringBuilder("UPDATE CONSECUTIVOS_")
+					.append(idCliente)
+					.append(" SET USUARIO=")
+					.append(idUsuarioTransferir)
+					.append(" WHERE ID_CONSECUTIVO=")
+					.append(idConsecutivo);
+			dmls.add(updateUser.toString());
+
+			// se ejecuta el batch con los dmls construidos
+			batchSinInjection(connection, dmls);
+
+			// se debe confirmar los cambios en BD
+			connection.commit();
+
+			// se construye el response con sus consecutivos
+			TransferirConsecutivoDTO response = new TransferirConsecutivoDTO();
+			response.setResponseConsecutivos(getConsecutivosAnioActual(parametro.getFiltro(), connection));
+			return response;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
+	}
+
+	/**
+	 * Metodo que permite construir el SQL para el INSERT de la
+	 * tabla de transferencia de consecutivos e usuarios
+	 */
+	private String getInsertTransferencia(
+			String idCliente, String idConsecutivo,
+			String idUsuario, String fechaTransferido) {
+
+		// dependiento de la nulalidad del usuario se procede a construir el INSERT
+		StringBuilder insert = new StringBuilder("INSERT INTO CONSECUTIVOS_TRANS_");
+		if (idUsuario != null) {
+			insert.append(idCliente)
+			.append("(ID_CONSECUTIVO,USUARIO,FECHA_TRANSFERIDO)VALUES(")
+			.append(idConsecutivo).append(",")
+			.append(idUsuario).append(",")
+			.append(fechaTransferido)
+			.append(")");
+		} else {
+			insert.append(idCliente)
+			.append("(ID_CONSECUTIVO,FECHA_TRANSFERIDO)VALUES(")
+			.append(idConsecutivo).append(",")
+			.append(fechaTransferido)
+			.append(")");
+		}
+		return insert.toString();
 	}
 }
