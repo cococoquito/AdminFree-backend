@@ -387,4 +387,24 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".transferirConsecutivo ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener los usuarios para el proceso de transferir consecutivo
+	 *
+	 * @param idCliente, identificador del cliente asociado a los usuarios
+	 * @param idUsuario, se deben consultar todos los usuarios activos excepto este usuario
+	 * @return Lista de usuarios activos en el sistema
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_USERS_TRANSFERIR,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> getUsuariosTransferir(@RequestParam Integer idCliente, @RequestParam Integer idUsuario) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getUsuariosTransferir(idCliente, idUsuario));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getUsuariosTransferir ", e.getMessage());
+		}
+	}
 }

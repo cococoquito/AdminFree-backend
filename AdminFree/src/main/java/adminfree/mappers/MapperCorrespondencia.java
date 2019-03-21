@@ -13,6 +13,7 @@ import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
+import adminfree.dtos.correspondencia.TransferenciaDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.enums.Numero;
@@ -39,6 +40,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_DATOS_DOCUMENTO_DESCARGAR = 10;
 	public static final int GET_CAMPOS_FILTRO = 11;
 	public static final int GET_ITEMS_SELECT_FILTRO = 12;
+	public static final int GET_TRANSFERENCIAS = 13;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -118,8 +120,32 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_ITEMS_SELECT_FILTRO:
 				result = getItemsSelectFiltro(res);
 				break;
+
+			case MapperCorrespondencia.GET_TRANSFERENCIAS:
+				result = getTransferencias(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar las transferencias de un consecutivo
+	 */
+	private List<TransferenciaDTO> getTransferencias(ResultSet res) throws Exception {
+		List<TransferenciaDTO> transferencias = null;
+		TransferenciaDTO transferencia;
+		while (res.next()) {
+			transferencia = new TransferenciaDTO();
+			transferencia.setConsecutivo(res.getString(Numero.UNO.value));
+			transferencia.setNomenclatura(res.getString(Numero.DOS.value));
+			transferencia.setUsuario(res.getString(Numero.TRES.value));
+			transferencia.setFechaTransferido(res.getString(Numero.CUATRO.value));
+			if (transferencias == null) {
+				transferencias = new ArrayList<>();
+			}
+			transferencias.add(transferencia);
+		}
+		return transferencias;
 	}
 
 	/**

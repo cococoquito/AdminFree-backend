@@ -27,6 +27,9 @@ public class ConsecutivoDetalleDTO implements Serializable {
 	/** Documentos asociados al consecutivos */
 	private List<DocumentoDTO> documentos;
 
+	/** Lista de transferencias que se han realizado para este consecutivo */
+	private List<TransferenciaDTO> transferencias;
+
 	/**
 	 * Metodo que permite obtener el valor del atributo consecutivo
 	 */
@@ -100,5 +103,20 @@ public class ConsecutivoDetalleDTO implements Serializable {
 	 */
 	public void setIdConsecutivo(Long idConsecutivo) {
 		this.idConsecutivo = idConsecutivo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo transferencias
+	 */
+	public List<TransferenciaDTO> getTransferencias() {
+		return transferencias;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param transferencias
+	 */
+	public void setTransferencias(List<TransferenciaDTO> transferencias) {
+		this.transferencias = transferencias;
 	}
 }

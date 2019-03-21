@@ -25,6 +25,7 @@ import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.transversal.MessageResponseDTO;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
+import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -349,6 +350,26 @@ public class CorrespondenciaService {
 
 			// se procede a transferir el consecutivo
 			return new CorrespondenciaBusiness().transferirConsecutivo(parametro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite obtener los usuarios para el proceso de transferir consecutivo
+	 *
+	 * @param idCliente, identificador del cliente asociado a los usuarios
+	 * @param idUsuario, se deben consultar todos los usuarios activos excepto este usuario
+	 * @return Lista de usuarios activos en el sistema
+	 */
+	public List<SelectItemDTO> getUsuariosTransferir(Integer idCliente, Integer idUsuario) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los usuarios ACTIVOS
+			return new CorrespondenciaBusiness().getUsuariosTransferir(idCliente, idUsuario, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

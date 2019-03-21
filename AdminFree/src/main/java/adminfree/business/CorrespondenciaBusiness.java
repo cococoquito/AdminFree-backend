@@ -26,6 +26,7 @@ import adminfree.dtos.correspondencia.InitMisConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitSolicitarConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoResponseDTO;
+import adminfree.dtos.correspondencia.TransferenciaDTO;
 import adminfree.dtos.correspondencia.TransferirConsecutivoDTO;
 import adminfree.dtos.correspondencia.WelcomeInitDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
@@ -710,6 +711,11 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		detalle.setValores((List<CampoEntradaValueDTO>)find(connection,
 				SQLCorrespondencia.getSQLConsecutivoValues(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO_VALUES)));
+
+		// se configura las transferencias que se han realizado a este consecutivo
+		detalle.setTransferencias((List<TransferenciaDTO>)find(connection,
+				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 		return detalle;
 	}
 
@@ -908,5 +914,30 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			.append(")");
 		}
 		return insert.toString();
+	}
+
+	/**
+	 * Metodo que permite obtener los usuarios para el proceso de transferir consecutivo
+	 *
+	 * @param idCliente, identificador del cliente asociado a los usuarios
+	 * @param idUsuario, se deben consultar todos los usuarios activos excepto este usuario
+	 * @return Lista de usuarios activos en el sistema
+	 */
+	public List<SelectItemDTO> getUsuariosTransferir(Integer idCliente, Integer idUsuario, Connection connection) throws Exception {
+
+		// se procede a consultar los usuarios activos en el sistema
+		List<SelectItemDTO> usuarios = (List<SelectItemDTO>) find(
+				connection,
+				SQLCorrespondencia.GET_USUARIOS_TRANFERIR,
+				MapperTransversal.get(MapperTransversal.GET_ITEMS_USUARIOS),
+				ValueSQL.get(idCliente, Types.INTEGER),
+				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
+				ValueSQL.get(idUsuario, Types.INTEGER));
+
+		// para el administrador no se debe mostrar su propio ITEM
+		if (CommonConstant.ID_ADMINISTRADOR.equals(idUsuario)) {
+			usuarios.remove(0);
+		}
+		return usuarios;
 	}
 }
