@@ -10,7 +10,7 @@ import adminfree.enums.Numero;
 
 /**
  * Mapper transversal que contiene las implementaciones JDBC comunes
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */

@@ -22,7 +22,7 @@ import adminfree.utilities.Util;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de correspondencia
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
@@ -151,10 +151,11 @@ public class MapperCorrespondencia extends Mapper {
 
 	/**
 	 * Metodo para configurar los usuarios a transferir
+	 * @param parametro, lista de usuarios previamente configurados
 	 */
 	@SuppressWarnings("unchecked")
-	private List<SelectItemDTO> getUsuariosTransferir(ResultSet res, Object parametro) throws Exception {
-		List<SelectItemDTO> items = (List<SelectItemDTO>) parametro;
+	private List<SelectItemDTO> getUsuariosTransferir(ResultSet res, Object usuarios) throws Exception {
+		List<SelectItemDTO> items = (List<SelectItemDTO>) usuarios;
 		SelectItemDTO item = null;
 		while (res.next()) {
 			item = new SelectItemDTO();

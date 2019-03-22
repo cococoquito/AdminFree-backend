@@ -8,7 +8,7 @@ import adminfree.enums.Numero;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de seguridad
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */

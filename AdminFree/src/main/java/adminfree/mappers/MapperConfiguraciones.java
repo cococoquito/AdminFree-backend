@@ -20,7 +20,7 @@ import adminfree.utilities.Util;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de configuraciones
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
