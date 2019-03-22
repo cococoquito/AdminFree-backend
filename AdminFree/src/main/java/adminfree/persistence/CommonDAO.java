@@ -58,6 +58,43 @@ public class CommonDAO {
 	 * 
 	 * @param sql, SQL con la consulta configurada
 	 * @param mapper, identifica que objecto especifico se debe mappear
+	 * @param parametros que necesita el mapper para ser procesado
+	 * @param where, contiene los valores para el whereSentence
+	 * 
+	 * @return registro(s) de acuerdo a la consulta
+	 */
+	protected Object findParams(Connection con, String sql, Mapper mapper, Object parametros, ValueSQL... where) throws Exception {
+		PreparedStatement pst = null;
+		ResultSet res = null;
+		try {
+			// se establece el PreparedStatement
+			pst = con.prepareStatement(sql);
+
+			// se configura los parametros para el wheresentence
+			if (where != null && where.length > Numero.ZERO.value) {
+				int posicion = Numero.UNO.value;
+				for (ValueSQL valor : where) {
+					setValorNotNull(pst, valor, posicion);
+					posicion++;
+				}
+			}
+
+			// se ejecuta la consulta y se encapsula el resultado
+			res = pst.executeQuery();
+
+			// se configura el resultado en el mapper especifico
+			return mapper.executeParams(res, parametros);
+		} finally {
+			CerrarRecursos.closeResultSet(res);
+			CerrarRecursos.closePreparedStatement(pst);
+		}
+	}
+
+	/**
+	 * Metodo utilitario para las consultas de SELECT con JDBC
+	 * 
+	 * @param sql, SQL con la consulta configurada
+	 * @param mapper, identifica que objecto especifico se debe mappear
 	 * @param where, contiene los valores para el whereSentence
 	 * 
 	 * @return registro(s) de acuerdo a la consulta

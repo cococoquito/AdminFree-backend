@@ -16,6 +16,7 @@ import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.TransferenciaDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
+import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.Numero;
 import adminfree.utilities.Util;
 
@@ -41,6 +42,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_CAMPOS_FILTRO = 11;
 	public static final int GET_ITEMS_SELECT_FILTRO = 12;
 	public static final int GET_TRANSFERENCIAS = 13;
+	public static final int GET_USUARIOS_TRANSFERIR = 14;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -60,6 +62,25 @@ public class MapperCorrespondencia extends Mapper {
 		}
 		instance.tipoMapper = tipoMapper;
 		return instance;
+	}
+
+	/**
+	 * Metodo que es ejecutado para MAPPEAR los datos de acuerdo a un ResultSet
+	 *
+	 * @param res, resultado de acuerdo a la consulta
+	 * @param parametros que necesita el mapper para ser procesado
+	 * @return objecto con sus datos configurado de acuerdo al Mapper
+	 */
+	@Override
+	public Object executeParams(ResultSet res, Object parametros) throws Exception {
+		Object result = null;
+		switch (this.tipoMapper) {
+
+			case MapperCorrespondencia.GET_USUARIOS_TRANSFERIR:
+				result = getUsuariosTransferir(res, parametros);
+				break;
+		}
+		return result;
 	}
 
 	/**
@@ -126,6 +147,23 @@ public class MapperCorrespondencia extends Mapper {
 				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los usuarios a transferir
+	 */
+	@SuppressWarnings("unchecked")
+	private List<SelectItemDTO> getUsuariosTransferir(ResultSet res, Object parametro) throws Exception {
+		List<SelectItemDTO> items = (List<SelectItemDTO>) parametro;
+		SelectItemDTO item = null;
+		while (res.next()) {
+			item = new SelectItemDTO();
+			item.setId(res.getLong(Numero.UNO.value));
+			item.setLabel(res.getString(Numero.DOS.value));
+			item.setDescripcion(res.getString(Numero.TRES.value));
+			items.add(item);
+		}
+		return items;
 	}
 
 	/**

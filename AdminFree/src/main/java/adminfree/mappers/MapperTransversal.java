@@ -46,6 +46,18 @@ public class MapperTransversal extends Mapper {
 	 * Metodo que es ejecutado para MAPPEAR los datos de acuerdo a un ResultSet
 	 *
 	 * @param res, resultado de acuerdo a la consulta
+	 * @param parametros que necesita el mapper para ser procesado
+	 * @return objecto con sus datos configurado de acuerdo al Mapper
+	 */
+	@Override
+	public Object executeParams(ResultSet res, Object parametros) throws Exception {
+		return null;
+	}
+
+	/**
+	 * Metodo que es ejecutado para MAPPEAR los datos de acuerdo a un ResultSet
+	 *
+	 * @param res, resultado de acuerdo a la consulta
 	 * @return objecto con sus datos configurado de acuerdo al Mapper
 	 */
 	@Override

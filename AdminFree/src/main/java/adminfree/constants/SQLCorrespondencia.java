@@ -32,7 +32,7 @@ public class SQLCorrespondencia {
 	public static final String GET_CAMPOS_FILTRO = "SELECT ID_CAMPO,NOMBRE,TIPO_CAMPO FROM CAMPOS_ENTRADA WHERE CLIENTE=? AND TIPO_CAMPO<>" + TipoCampo.CASILLA_VERIFICACION.id + " ORDER BY NOMBRE ASC";
 
 	/** SQL para obtener los usuarios para transferir consecutivos*/
-	public static final String GET_USUARIOS_TRANFERIR = "SELECT ID_USUARIO,NOMBRE FROM USUARIOS WHERE CLIENTE=? AND ESTADO=? AND ID_USUARIO<>? ORDER BY NOMBRE";
+	public static final String GET_USUARIOS_TRANSFERIR = "SELECT ID_USUARIO,NOMBRE,CARGO FROM USUARIOS WHERE CLIENTE=? AND ESTADO=? AND ID_USUARIO<>? ORDER BY NOMBRE";
 
 	/**
 	 * Metodo que permite construir el insert para los consecutivos

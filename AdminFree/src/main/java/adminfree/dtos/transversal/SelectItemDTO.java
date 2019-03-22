@@ -13,8 +13,11 @@ public class SelectItemDTO implements Serializable {
 	/** Identificador del item */
 	private Long id;
 
-	/** Nombre o descripcion del item a mostrar en el componente */
+	/** Nombre del item a mostrar en el componente */
 	private String label;
+
+	/** descripcion del item, valor opcional */
+	private String descripcion;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
@@ -42,5 +45,20 @@ public class SelectItemDTO implements Serializable {
 	 */
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo descripcion
+	 */
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param descripcion
+	 */
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 }

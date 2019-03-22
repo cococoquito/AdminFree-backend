@@ -925,19 +925,25 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 */
 	public List<SelectItemDTO> getUsuariosTransferir(Integer idCliente, Integer idUsuario, Connection connection) throws Exception {
 
+		// lista de usuarios a retornar
+		List<SelectItemDTO> usuarios = new ArrayList<>();
+
+		// si el usuario autenticado no es el ADMIN se debe configurar el item del ADMIN
+		if (!CommonConstant.ID_ADMINISTRADOR.equals(idUsuario)) {
+			SelectItemDTO item = new SelectItemDTO();
+			item.setId(CommonConstant.ID_ADMINISTRADOR.longValue());
+			item.setLabel(CommonConstant.ADMINISTRADOR);
+			usuarios.add(item);
+		}
+
 		// se procede a consultar los usuarios activos en el sistema
-		List<SelectItemDTO> usuarios = (List<SelectItemDTO>) find(
-				connection,
-				SQLCorrespondencia.GET_USUARIOS_TRANFERIR,
-				MapperTransversal.get(MapperTransversal.GET_ITEMS_USUARIOS),
+		findParams(connection,
+				SQLCorrespondencia.GET_USUARIOS_TRANSFERIR,
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_USUARIOS_TRANSFERIR),
+				usuarios,
 				ValueSQL.get(idCliente, Types.INTEGER),
 				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(idUsuario, Types.INTEGER));
-
-		// para el administrador no se debe mostrar su propio ITEM
-		if (CommonConstant.ID_ADMINISTRADOR.equals(idUsuario)) {
-			usuarios.remove(0);
-		}
 		return usuarios;
 	}
 }
