@@ -15,7 +15,7 @@ import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.services.CorrespondenciaService;
 
 /**
- * Test para el servicio CorrespondenciaService.getUsuariosTransferir
+ * Test para el  servicio CorrespondenciaService.getUsuariosTransferir
  *
  * @author Carlos Andres Diaz
  *
