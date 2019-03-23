@@ -22,7 +22,7 @@ import adminfree.utilities.Util;
 public class SQLTransversal {
 
 	/** SQL para obtener los usuarios para las listas desplegables */
-	public static final String GET_ITEMS_USUARIOS = "SELECT ID_USUARIO,NOMBRE FROM USUARIOS WHERE CLIENTE=?";
+	public static final String GET_ITEMS_USUARIOS = "SELECT ID_USUARIO,NOMBRE FROM USUARIOS WHERE CLIENTE=? ORDER BY NOMBRE";
 
 	/**
 	 * Metodo que permite construir el LIMIT para las consultas paginadas
