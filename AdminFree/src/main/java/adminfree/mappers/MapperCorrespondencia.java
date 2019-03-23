@@ -176,7 +176,12 @@ public class MapperCorrespondencia extends Mapper {
 		while (res.next()) {
 			transferencia = new TransferenciaDTO();
 			transferencia.setUsuario(res.getString(Numero.UNO.value));
-			transferencia.setFechaTransferido(res.getString(Numero.DOS.value));
+			if (CommonConstant.ADMINISTRADOR.equals(transferencia.getUsuario())) {
+				transferencia.setUsuarioCargo(CommonConstant.ADMINISTRADOR_CARGO);
+			} else {
+				transferencia.setUsuarioCargo(res.getString(Numero.DOS.value));
+			}
+			transferencia.setFechaTransferido(res.getString(Numero.TRES.value));
 			if (transferencias == null) {
 				transferencias = new ArrayList<>();
 			}

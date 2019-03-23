@@ -933,6 +933,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			SelectItemDTO item = new SelectItemDTO();
 			item.setId(CommonConstant.ID_ADMINISTRADOR.longValue());
 			item.setLabel(CommonConstant.ADMINISTRADOR);
+			item.setDescripcion(CommonConstant.ADMINISTRADOR_CARGO);
 			usuarios.add(item);
 		}
 

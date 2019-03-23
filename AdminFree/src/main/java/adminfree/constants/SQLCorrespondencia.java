@@ -225,7 +225,7 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para listar las transferencia realizadas para un consecutivo
 	 */
 	public static String getSQListTransferencias(String idCliente, String idConsecutivo) {
-		StringBuilder sql = new StringBuilder("SELECT COALESCE(US.NOMBRE,'Administrador')AS USER,DATE_FORMAT(TR.FECHA_TRANSFERIDO,'");
+		StringBuilder sql = new StringBuilder("SELECT COALESCE(US.NOMBRE,'Administrador')AS USER,US.CARGO,DATE_FORMAT(TR.FECHA_TRANSFERIDO,'");
 		sql.append(CommonConstant.FORMATO_FECHA_MSYQL);
 		sql.append("')AS FE FROM CONSECUTIVOS_TRANS_");
 		sql.append(idCliente);
