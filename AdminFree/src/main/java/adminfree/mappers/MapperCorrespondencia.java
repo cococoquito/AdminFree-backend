@@ -279,6 +279,11 @@ public class MapperCorrespondencia extends Mapper {
 			consecutivo.setEstado(Util.getEstadoNombre(consecutivo.getIdEstado()));
 			consecutivo.setNomenclaturaDesc(res.getString(Numero.SIETE.value));
 			consecutivo.setFechaAnulacion(res.getString(Numero.OCHO.value));
+			if (CommonConstant.ADMINISTRADOR.equals(consecutivo.getUsuario())) {
+				consecutivo.setUsuarioCargo(CommonConstant.ADMINISTRADOR_CARGO);	
+			} else {
+				consecutivo.setUsuarioCargo(res.getString(Numero.NUEVE.value));	
+			}
 		}
 		return consecutivo;
 	}

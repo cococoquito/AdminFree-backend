@@ -26,6 +26,9 @@ public class ConsecutivoDTO implements Serializable {
 	/** nombre del usuario quien solicito el consecutivo */
 	private String usuario;
 
+	/** Es el cargo del usuario */
+	private String usuarioCargo;
+
 	/** Fecha en la que solicitaron el consecutivo */
 	private String fechaSolicitud;
 
@@ -171,5 +174,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setFechaAnulacion(String fechaAnulacion) {
 		this.fechaAnulacion = fechaAnulacion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo usuarioCargo
+	 */
+	public String getUsuarioCargo() {
+		return usuarioCargo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param usuarioCargo
+	 */
+	public void setUsuarioCargo(String usuarioCargo) {
+		this.usuarioCargo = usuarioCargo;
 	}
 }
