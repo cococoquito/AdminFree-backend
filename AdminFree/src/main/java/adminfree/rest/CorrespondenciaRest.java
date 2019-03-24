@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import adminfree.constants.ApiRest;
 import adminfree.dtos.correspondencia.ActivarAnularConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.SolicitudConsecutivoDTO;
@@ -405,6 +406,25 @@ public class CorrespondenciaRest {
 			return Util.getResponseSuccessful(this.correspondenciaService.getUsuariosTransferir(idCliente, idUsuario));
 		} catch (Exception e) {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getUsuariosTransferir ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite consultar y retornar los datos del consecutivo para su edicion
+	 *
+	 * @param filtro, DTO que contiene los valores para el filtro de busqueda
+	 * @return DTO Con los atributos del consecutivo configurados
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_CONSECUTIVO_EDICION,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getConsecutivoEdicion(@RequestBody ConsecutivoEdicionDTO filtro) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.getConsecutivoEdicion(filtro));
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getConsecutivoEdicion ", e.getMessage());
 		}
 	}
 }

@@ -14,6 +14,7 @@ import adminfree.dtos.correspondencia.ActivarAnularConsecutivoDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -370,6 +371,25 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los usuarios ACTIVOS
 			return new CorrespondenciaBusiness().getUsuariosTransferir(idCliente, idUsuario, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite consultar y retornar los datos del consecutivo para su edicion
+	 *
+	 * @param filtro, DTO que contiene los valores para el filtro de busqueda
+	 * @return DTO Con los atributos del consecutivo configurados
+	 */
+	public ConsecutivoEdicionDTO getConsecutivoEdicion(ConsecutivoEdicionDTO filtro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los atributos del consecutivo para su edicion
+			return new CorrespondenciaBusiness().getConsecutivoEdicion(filtro, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

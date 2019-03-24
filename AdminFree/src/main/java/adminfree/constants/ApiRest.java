@@ -60,4 +60,5 @@ public class ApiRest {
 	public static final String ACTIVAR_ANULAR_CONSECUTIVO = "activaranularconse";
 	public static final String TRANSFERIR_CONSECUTIVO = "transferirconse";
 	public static final String GET_USERS_TRANSFERIR = "getusertransferir";
+	public static final String GET_CONSECUTIVO_EDICION = "getconsedicion";
 }

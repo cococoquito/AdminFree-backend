@@ -19,6 +19,7 @@ import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -946,5 +947,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				ValueSQL.get(Estado.ACTIVO.id, Types.INTEGER),
 				ValueSQL.get(idUsuario, Types.INTEGER));
 		return usuarios;
+	}
+
+	/**
+	 * Metodo que permite consultar y retornar los datos del consecutivo para su edicion
+	 *
+	 * @param filtro, DTO que contiene los valores para el filtro de busqueda
+	 * @return DTO Con los atributos del consecutivo configurados
+	 */
+	public ConsecutivoEdicionDTO getConsecutivoEdicion(ConsecutivoEdicionDTO filtro, Connection connection) throws Exception {
+		return null;
 	}
 }
