@@ -1,6 +1,7 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DTO que contiene los atributos de un consecutivo
@@ -40,6 +41,9 @@ public class ConsecutivoDTO implements Serializable {
 
 	/** Nombre del Estado en la que se encuentra el consecutivo */
 	private String estado;
+
+	/** Lista de transferencias que se han realizado para este consecutivo */
+	private List<TransferenciaDTO> transferencias;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idConsecutivo
@@ -189,5 +193,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setUsuarioCargo(String usuarioCargo) {
 		this.usuarioCargo = usuarioCargo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo transferencias
+	 */
+	public List<TransferenciaDTO> getTransferencias() {
+		return transferencias;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param transferencias
+	 */
+	public void setTransferencias(List<TransferenciaDTO> transferencias) {
+		this.transferencias = transferencias;
 	}
 }

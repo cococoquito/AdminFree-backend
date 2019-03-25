@@ -25,9 +25,6 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	/** Documentos asociados al consecutivos */
 	private List<DocumentoDTO> documentos;
 
-	/** Lista de transferencias que se han realizado para este consecutivo */
-	private List<TransferenciaDTO> transferencias;
-
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
@@ -54,13 +51,6 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	 */
 	public List<DocumentoDTO> getDocumentos() {
 		return documentos;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo transferencias
-	 */
-	public List<TransferenciaDTO> getTransferencias() {
-		return transferencias;
 	}
 
 	/**
@@ -93,13 +83,5 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	 */
 	public void setDocumentos(List<DocumentoDTO> documentos) {
 		this.documentos = documentos;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param transferencias
-	 */
-	public void setTransferencias(List<TransferenciaDTO> transferencias) {
-		this.transferencias = transferencias;
 	}
 }
