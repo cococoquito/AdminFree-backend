@@ -189,7 +189,7 @@ public class CorrespondenciaRest {
 	 * @return Documento descargado con todos sus atributos
 	 */
 	@RequestMapping(value = ApiRest.DESCARGAR_DOCUMENTO, method = RequestMethod.GET)
-	public ResponseEntity<Object> descargarDocumento(@RequestParam String idCliente, @RequestParam String idDocumento) {
+	public ResponseEntity<Object> descargarDocumento(@RequestParam Integer idCliente, @RequestParam Long idDocumento) {
 		try {
 			// se procede obtener los datos del documento
 			DocumentoDTO documento = this.correspondenciaService.descargarDocumento(idCliente, idDocumento);

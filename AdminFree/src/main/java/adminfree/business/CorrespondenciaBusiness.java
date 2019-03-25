@@ -421,15 +421,14 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 * @param idDocumento, se utiliza para consultar los datos del documento
 	 * @return DTO con los datos del documento incluyendo el contenido
 	 */
-	public DocumentoDTO descargarDocumento(
-			String idCliente,
-			String idDocumento,
-			Connection connection) throws Exception {
+	public DocumentoDTO descargarDocumento(Integer idCliente, Long idDocumento, Connection connection) throws Exception {
 
 		// se obtiene los datos del documento
+		String idCliente_ = idCliente.toString();
 		DocumentoDTO documento = (DocumentoDTO)find(connection,
-				SQLCorrespondencia.getSQLDatosDocumentoDescargar(idCliente, idDocumento),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_DATOS_DOCUMENTO_DESCARGAR));
+				SQLCorrespondencia.getSQLDatosDocumentoDescargar(idCliente_),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_DATOS_DOCUMENTO_DESCARGAR),
+				ValueSQL.get(idDocumento, Types.BIGINT));
 
 		// los datos del documento deben existir en BD
 		if (documento != null &&
@@ -441,7 +440,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// se procede a descargar el contenido del documento (AWS-S3)
 			documento.setContenido(AdministracionDocumentosS3.getInstance()
 					.descargarDocumento(
-							idCliente,
+							idCliente_,
 							documento.getIdConsecutivo(),
 							documento.getNombreDocumento()));
 

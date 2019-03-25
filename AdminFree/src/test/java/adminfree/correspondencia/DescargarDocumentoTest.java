@@ -32,8 +32,8 @@ public class DescargarDocumentoTest {
 	public void descargarDocumento() {
 		try {
 			// identificadores necesarios para la descarga
-			String idCliente = "1";
-			String idDocumento = "1";
+			Integer idCliente = 1;
+			Long idDocumento = 1l;
 
 			// se procede a descargar el documento
 			DocumentoDTO documento = this.correspondenciaService.descargarDocumento(idCliente, idDocumento);

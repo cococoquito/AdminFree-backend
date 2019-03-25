@@ -167,7 +167,7 @@ public class CorrespondenciaService {
 	 * @param idDocumento, se utiliza para consultar los datos del documento
 	 * @return DTO con los datos del documento incluyendo el contenido
 	 */
-	public DocumentoDTO descargarDocumento(String idCliente, String idDocumento) throws Exception {
+	public DocumentoDTO descargarDocumento(Integer idCliente, Long idDocumento) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
