@@ -698,9 +698,15 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		String idConsecutivo = filtro.getIdConsecutivo().toString();
 
 		// se configura los datos generales del consecutivo
-		detalle.setConsecutivo((ConsecutivoDTO) find(connection,
+		ConsecutivoDTO consecutivo = (ConsecutivoDTO) find(connection,
 				SQLCorrespondencia.getSQLConsecutivo(idCliente, idConsecutivo),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO)));
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO));
+		detalle.setConsecutivo(consecutivo);
+
+		// se configura las transferencias que se han realizado a este consecutivo
+		consecutivo.setTransferencias((List<TransferenciaDTO>)find(connection,
+				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 
 		// se configura los documentos asociados a este consecutivo
 		detalle.setDocumentos((List<DocumentoDTO>)find(connection,
@@ -711,11 +717,6 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		detalle.setValores((List<CampoEntradaValueDTO>)find(connection,
 				SQLCorrespondencia.getSQLConsecutivoValues(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO_VALUES)));
-
-		// se configura las transferencias que se han realizado a este consecutivo
-		detalle.setTransferencias((List<TransferenciaDTO>)find(connection,
-				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 		return detalle;
 	}
 
@@ -964,19 +965,20 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		String idConsecutivo = filtro.getIdConsecutivo().toString();
 
 		// se configura los datos generales del consecutivo
-		consecutivo.setConsecutivo((ConsecutivoDTO) find(connection,
+		ConsecutivoDTO consecutivoDatos = (ConsecutivoDTO) find(connection,
 				SQLCorrespondencia.getSQLConsecutivo(idCliente, idConsecutivo),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO)));
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO));
+		consecutivo.setConsecutivo(consecutivoDatos);
+
+		// se configura las transferencias que se han realizado a este consecutivo
+		consecutivoDatos.setTransferencias((List<TransferenciaDTO>)find(connection,
+				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 
 		// se configura los documentos asociados a este consecutivo
 		consecutivo.setDocumentos((List<DocumentoDTO>)find(connection,
 				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS)));
-
-		// se configura las transferencias que se han realizado a este consecutivo
-		consecutivo.setTransferencias((List<TransferenciaDTO>)find(connection,
-				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
-				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 		return consecutivo;
 	}
 }
