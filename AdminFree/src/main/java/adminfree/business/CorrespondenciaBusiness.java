@@ -958,27 +958,27 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	public ConsecutivoEdicionDTO getConsecutivoEdicion(ConsecutivoEdicionDTO filtro, Connection connection) throws Exception {
 
 		// DTO que contiene los datos a retornar
-		ConsecutivoEdicionDTO consecutivo = new ConsecutivoEdicionDTO();
+		ConsecutivoEdicionDTO response = new ConsecutivoEdicionDTO();
 
 		// se configura los identificadores del cliente y consecutivo
 		String idCliente = filtro.getIdCliente().toString();
 		String idConsecutivo = filtro.getIdConsecutivo().toString();
 
 		// se configura los datos generales del consecutivo
-		ConsecutivoDTO consecutivoDatos = (ConsecutivoDTO) find(connection,
+		ConsecutivoDTO consecutivo = (ConsecutivoDTO) find(connection,
 				SQLCorrespondencia.getSQLConsecutivo(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_CONSECUTIVO));
-		consecutivo.setConsecutivo(consecutivoDatos);
+		response.setConsecutivo(consecutivo);
 
 		// se configura las transferencias que se han realizado a este consecutivo
-		consecutivoDatos.setTransferencias((List<TransferenciaDTO>)find(connection,
+		consecutivo.setTransferencias((List<TransferenciaDTO>)find(connection,
 				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 
 		// se configura los documentos asociados a este consecutivo
-		consecutivo.setDocumentos((List<DocumentoDTO>)find(connection,
+		response.setDocumentos((List<DocumentoDTO>)find(connection,
 				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS)));
-		return consecutivo;
+		return response;
 	}
 }
