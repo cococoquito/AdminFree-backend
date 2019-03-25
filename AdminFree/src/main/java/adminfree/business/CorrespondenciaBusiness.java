@@ -366,7 +366,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		}
 
 		// se obtiene las variables globales para el proceso
-		String idCliente = datos.getIdCliente();
+		String idCliente = datos.getIdCliente().toString();
 		String idConsecutivo = datos.getIdConsecutivo();
 		String nombreDocumento = datos.getNombreDocumento();
 
@@ -461,7 +461,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	public List<DocumentoDTO> eliminarDocumento(DocumentoDTO datos, Connection connection) throws Exception {
 
 		// se obtiene las variables globales para el proceso
-		String idCliente = datos.getIdCliente();
+		String idCliente = datos.getIdCliente().toString();
 		String idDocumento = datos.getId().toString();
 
 		// para el proceso de eliminacion debe estar bajo una transaccion

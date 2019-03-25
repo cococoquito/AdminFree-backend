@@ -164,7 +164,7 @@ public class CorrespondenciaRest {
 		try {
 			// se construye los datos para el cargue del documento
 			DocumentoDTO datos = new DocumentoDTO();
-			datos.setIdCliente(idCliente);
+			datos.setIdCliente(Integer.valueOf(idCliente));
 			datos.setIdConsecutivo(idConsecutivo);
 			datos.setNombreDocumento(documento.getOriginalFilename());
 			datos.setTipoDocumento(documento.getContentType());

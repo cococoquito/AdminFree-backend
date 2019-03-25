@@ -16,7 +16,7 @@ public class DocumentoDTO implements Serializable {
 	private Long id;
 
 	/** Identificador del cliente */
-	private String idCliente;
+	private Integer idCliente;
 
 	/** Nombre del documento */
 	private String nombreDocumento;
@@ -40,7 +40,7 @@ public class DocumentoDTO implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
-	public String getIdCliente() {
+	public Integer getIdCliente() {
 		return idCliente;
 	}
 
@@ -83,7 +83,7 @@ public class DocumentoDTO implements Serializable {
 	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param idCliente
 	 */
-	public void setIdCliente(String idCliente) {
+	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
 

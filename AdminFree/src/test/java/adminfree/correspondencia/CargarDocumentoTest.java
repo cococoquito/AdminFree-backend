@@ -42,7 +42,7 @@ public class CargarDocumentoTest {
 			// se configura los datos del cargue
 			DocumentoDTO datos = new DocumentoDTO();
 			datos.setContenido(Files.readAllBytes(pdfPath));
-			datos.setIdCliente("1");
+			datos.setIdCliente(1);
 			datos.setIdConsecutivo("1");
 			datos.setNombreDocumento("java_programmer.pdf");
 			datos.setTipoDocumento("aplication/pdf");

@@ -35,7 +35,7 @@ public class EliminarDocumentoTest {
 		try {
 			// se configura los datos del cargue
 			DocumentoDTO datos = new DocumentoDTO();
-			datos.setIdCliente("1");
+			datos.setIdCliente(1);
 			datos.setId(1L);
 
 			// se hace la invocacion del cargue
