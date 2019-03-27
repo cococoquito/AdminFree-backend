@@ -286,7 +286,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 						ValueSQL.get(idUsuario, Types.BIGINT));
 
 				// se configura el UPDATE para ser ejecutado en el batch 
-				final Long UNO = Numero.UNO.valueL.longValue();
+				final Long UNO = Numero.UNO.valueL;
 				cantidad = cantidad != null ? cantidad + UNO : UNO;
 				dmls.add(SQLCorrespondencia.getUpdateUsuarioCantidadConsecutivos(idUsuario.toString(), cantidad.toString()));
 			}
@@ -756,8 +756,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				parametros.add(ValueSQL.get(id, Types.BIGINT));
 
 				// se agrega el parametro JDBC
-				parametrosJDBC.append(parametrosJDBC.length() == ZERO
-						? CommonConstant.INTERROGACION : CommonConstant.COMA_INTERROGACION);
+				parametrosJDBC.append(parametrosJDBC.length() == ZERO ? CommonConstant.INTERROGACION : CommonConstant.COMA_INTERROGACION);
 			}
 
 			// se procede a consultar todos los items ordenados por campo y nombre

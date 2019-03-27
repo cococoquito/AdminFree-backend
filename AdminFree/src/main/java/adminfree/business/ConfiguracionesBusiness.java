@@ -958,7 +958,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.GET_SECUENCIA_NOMENCLATURA,
 				MapperTransversal.get(MapperTransversal.GET_ID),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
-		if (!secuencia.equals(Numero.ZERO.valueL)) {
+		if (secuencia != null && !secuencia.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA.value);
 		}
 

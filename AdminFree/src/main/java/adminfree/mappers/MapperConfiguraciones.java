@@ -269,7 +269,7 @@ public class MapperConfiguraciones extends Mapper {
 	 */
 	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
 		Integer idRestriccion = res.getInt(Numero.SEIS.valueI);
-		if (idRestriccion != null && idRestriccion > Numero.ZERO.valueI) {
+		if (idRestriccion != null && idRestriccion.intValue() > Numero.ZERO.valueI.intValue()) {
 			RestriccionDTO restriccion = new RestriccionDTO();
 			restriccion.setId(idRestriccion);
 			restriccion.setDescripcion(res.getString(Numero.SIETE.valueI));
