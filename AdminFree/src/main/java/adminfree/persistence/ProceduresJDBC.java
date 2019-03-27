@@ -37,28 +37,28 @@ public class ProceduresJDBC {
 			callStatement = con.prepareCall(PR_CREAR_CLIENTE);
 
 			// parametro TOKEN
-			callStatement.setString(Numero.UNO.value, token);
+			callStatement.setString(Numero.UNO.valueI, token);
 
 			// parametro NOMBRE
-			callStatement.setString(Numero.DOS.value, cliente.getNombre());
+			callStatement.setString(Numero.DOS.valueI, cliente.getNombre());
 
 			// parametro TELEFONO
-			callStatement.setString(Numero.TRES.value, cliente.getTelefonos());
+			callStatement.setString(Numero.TRES.valueI, cliente.getTelefonos());
 
 			// parametro EMAIL
-			callStatement.setString(Numero.CUATRO.value, cliente.getEmails());
+			callStatement.setString(Numero.CUATRO.valueI, cliente.getEmails());
 
 			// parametro USER
-			callStatement.setString(Numero.CINCO.value, cliente.getCredenciales().getUsuario());
+			callStatement.setString(Numero.CINCO.valueI, cliente.getCredenciales().getUsuario());
 
 			// se registra el tipo de retorno
-			callStatement.registerOutParameter(Numero.SEIS.value, Types.VARCHAR);
+			callStatement.registerOutParameter(Numero.SEIS.valueI, Types.VARCHAR);
 
 			// se ejecuta el procedimiento
 			callStatement.execute();
 
 			// se obtiene el resultado del procedimiento CREAR CLIENTE
-			return callStatement.getString(Numero.SEIS.value);
+			return callStatement.getString(Numero.SEIS.valueI);
 		} finally {
 			CerrarRecursos.closeStatement(callStatement);
 		}
@@ -78,16 +78,16 @@ public class ProceduresJDBC {
 			callStatement = con.prepareCall(PR_ELIMINAR_CLIENTE);
 
 			// para el procedimiento se necesita el id del cliente
-			callStatement.setLong(Numero.UNO.value, idCliente);
+			callStatement.setLong(Numero.UNO.valueI, idCliente);
 
 			// se registra el tipo de retorno
-			callStatement.registerOutParameter(Numero.DOS.value, Types.VARCHAR);
+			callStatement.registerOutParameter(Numero.DOS.valueI, Types.VARCHAR);
 
 			// se ejecuta el procedimiento
 			callStatement.execute();
 
 			// se obtiene el resultado del procedimiento ELIMINAR CLIENTE
-			return callStatement.getString(Numero.DOS.value);
+			return callStatement.getString(Numero.DOS.valueI);
 		} finally {
 			CerrarRecursos.closeStatement(callStatement);
 		}

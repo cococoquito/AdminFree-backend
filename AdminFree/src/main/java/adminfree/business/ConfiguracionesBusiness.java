@@ -85,7 +85,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					tokenEncriptadaSQL);
 
 			// valida si el TOKEN es unico entre todos los clientes
-			if (count.equals(Numero.ZERO.value.longValue())) {
+			if (count.equals(Numero.ZERO.valueL)) {
 				tokenExiste = false;
 			}
 		}
@@ -379,12 +379,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			String claveIngresoEncriptada = criptografica.encriptarPassword(claveIngreso, securityPostPass);
 
 			// actualiza la nueva clave de ingreso en la BD dependiendo de la entidad
-			if (idUsuario != null && idUsuario > Numero.ZERO.value) {
+			if (idUsuario != null && !idUsuario.equals(Numero.ZERO.valueI)) {
 				insertUpdate(connection,
 						SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
 						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
 						ValueSQL.get(idUsuario, Types.INTEGER));
-			} else if (idCliente != null && idCliente > Numero.ZERO.value) {
+			} else if (idCliente != null && !idCliente.equals(Numero.ZERO.valueI)) {
 				insertUpdate(connection,
 						SQLConfiguraciones.ACTUALIZAR_TOKEN_CLIENTE,
 						ValueSQL.get(claveIngresoEncriptada, Types.VARCHAR),
@@ -450,7 +450,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		}
 
 		// la nueva contrasenia debe tener minimo la cantidad permitida
-		if (nuevaClave.length() < Numero.DOCE.value) {
+		if (nuevaClave.length() < Numero.DOCE.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.KEY_CLAVE_LONGITUD_NO_PERMITIDA.value);
 		}
 
@@ -605,7 +605,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(idCampo, Types.BIGINT));
 
 		// si existe una nomenclatura asociada no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.value.longValue())) {
+		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA.value);
 		}
 
@@ -825,7 +825,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
 				ValueSQL.get(nomenclatura.getIdCliente(), Types.BIGINT));
-		if (!count.equals(Numero.ZERO.value.longValue())) {
+		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_NOMENCLATURA_EXISTE.value);
 		}
 	}
@@ -958,7 +958,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				SQLConfiguraciones.GET_SECUENCIA_NOMENCLATURA,
 				MapperTransversal.get(MapperTransversal.GET_ID),
 				ValueSQL.get(idNomenclatura, Types.BIGINT));
-		if (secuencia != null && !secuencia.equals(Numero.ZERO.value.longValue())) {
+		if (!secuencia.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_NOMENCLATURA_CONSECUTIVO_ASOCIADA.value);
 		}
 
@@ -1011,7 +1011,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Connection connection) throws Exception {
 
 		// se verifica la longitud del usuario de ingreso
-		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.value) {
+		if (usuarioIngreso == null  || usuarioIngreso.length() < Numero.DIEZ.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.KEY_USER_INGRESO_LONGITUD_NO_PERMITIDA.value);
 		}
 
@@ -1027,7 +1027,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
 
 		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.value.longValue())) {
+		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
 		}
 	}
@@ -1060,7 +1060,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
 
 		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.value.longValue())) {
+		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
 		}
 	}

@@ -159,9 +159,9 @@ public class MapperCorrespondencia extends Mapper {
 		SelectItemDTO item = null;
 		while (res.next()) {
 			item = new SelectItemDTO();
-			item.setId(res.getLong(Numero.UNO.value));
-			item.setLabel(res.getString(Numero.DOS.value));
-			item.setDescripcion(res.getString(Numero.TRES.value));
+			item.setId(res.getLong(Numero.UNO.valueI));
+			item.setLabel(res.getString(Numero.DOS.valueI));
+			item.setDescripcion(res.getString(Numero.TRES.valueI));
 			items.add(item);
 		}
 		return items;
@@ -175,13 +175,13 @@ public class MapperCorrespondencia extends Mapper {
 		TransferenciaDTO transferencia;
 		while (res.next()) {
 			transferencia = new TransferenciaDTO();
-			transferencia.setUsuario(res.getString(Numero.UNO.value));
+			transferencia.setUsuario(res.getString(Numero.UNO.valueI));
 			if (CommonConstant.ADMINISTRADOR.equals(transferencia.getUsuario())) {
 				transferencia.setUsuarioCargo(CommonConstant.ADMINISTRADOR_CARGO);
 			} else {
-				transferencia.setUsuarioCargo(res.getString(Numero.DOS.value));
+				transferencia.setUsuarioCargo(res.getString(Numero.DOS.valueI));
 			}
-			transferencia.setFechaTransferido(res.getString(Numero.TRES.value));
+			transferencia.setFechaTransferido(res.getString(Numero.TRES.valueI));
 			if (transferencias == null) {
 				transferencias = new ArrayList<>();
 			}
@@ -198,9 +198,9 @@ public class MapperCorrespondencia extends Mapper {
 		ItemDTO item;
 		while (res.next()) {
 			item = new ItemDTO();
-			item.setId(res.getLong(Numero.UNO.value));
-			item.setIdCampo(res.getLong(Numero.DOS.value));
-			item.setValor(res.getString(Numero.TRES.value));
+			item.setId(res.getLong(Numero.UNO.valueI));
+			item.setIdCampo(res.getLong(Numero.DOS.valueI));
+			item.setValor(res.getString(Numero.TRES.valueI));
 			if (items == null) {
 				items = new ArrayList<>();
 			}
@@ -217,9 +217,9 @@ public class MapperCorrespondencia extends Mapper {
 		CampoFiltroDTO campo;
 		while (res.next()) {
 			campo = new CampoFiltroDTO();
-			campo.setIdCampo(res.getLong(Numero.UNO.value));
-			campo.setNombreCampo(res.getString(Numero.DOS.value));
-			campo.setTipoCampo(res.getInt(Numero.TRES.value));
+			campo.setIdCampo(res.getLong(Numero.UNO.valueI));
+			campo.setNombreCampo(res.getString(Numero.DOS.valueI));
+			campo.setTipoCampo(res.getInt(Numero.TRES.valueI));
 			if (campos == null) {
 				campos = new ArrayList<>();
 			}
@@ -235,10 +235,10 @@ public class MapperCorrespondencia extends Mapper {
 		DocumentoDTO documento = null;
 		if (res.next()) {
 			documento = new DocumentoDTO();
-			documento.setIdConsecutivo(Long.toString(res.getLong(Numero.UNO.value)));
-			documento.setNombreDocumento(res.getString(Numero.DOS.value));
-			documento.setTipoDocumento(res.getString(Numero.TRES.value));
-			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
+			documento.setIdConsecutivo(Long.toString(res.getLong(Numero.UNO.valueI)));
+			documento.setNombreDocumento(res.getString(Numero.DOS.valueI));
+			documento.setTipoDocumento(res.getString(Numero.TRES.valueI));
+			documento.setSizeDocumento(res.getString(Numero.CUATRO.valueI));
 		}
 		return documento;
 	}
@@ -251,10 +251,10 @@ public class MapperCorrespondencia extends Mapper {
 		CampoEntradaValueDTO value;
 		while (res.next()) {
 			value = new CampoEntradaValueDTO();
-			value.setIdValue(res.getLong(Numero.UNO.value));
-			value.setNombreCampo(res.getString(Numero.DOS.value));
-			value.setDescripcionCampo(res.getString(Numero.TRES.value));
-			value.setValue(res.getString(Numero.CUATRO.value));
+			value.setIdValue(res.getLong(Numero.UNO.valueI));
+			value.setNombreCampo(res.getString(Numero.DOS.valueI));
+			value.setDescripcionCampo(res.getString(Numero.TRES.valueI));
+			value.setValue(res.getString(Numero.CUATRO.valueI));
 			if (values == null) {
 				values = new ArrayList<>();
 			}
@@ -270,19 +270,19 @@ public class MapperCorrespondencia extends Mapper {
 		ConsecutivoDTO consecutivo = null;
 		if (res.next()) {
 			consecutivo = new ConsecutivoDTO();
-			consecutivo.setIdConsecutivo(res.getLong(Numero.UNO.value));
-			consecutivo.setConsecutivo(res.getString(Numero.DOS.value));
-			consecutivo.setNomenclatura(res.getString(Numero.TRES.value));
-			consecutivo.setUsuario(res.getString(Numero.CUATRO.value));
-			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.value));
-			consecutivo.setIdEstado(res.getInt(Numero.SEIS.value));
+			consecutivo.setIdConsecutivo(res.getLong(Numero.UNO.valueI));
+			consecutivo.setConsecutivo(res.getString(Numero.DOS.valueI));
+			consecutivo.setNomenclatura(res.getString(Numero.TRES.valueI));
+			consecutivo.setUsuario(res.getString(Numero.CUATRO.valueI));
+			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.valueI));
+			consecutivo.setIdEstado(res.getInt(Numero.SEIS.valueI));
 			consecutivo.setEstado(Util.getEstadoNombre(consecutivo.getIdEstado()));
-			consecutivo.setNomenclaturaDesc(res.getString(Numero.SIETE.value));
-			consecutivo.setFechaAnulacion(res.getString(Numero.OCHO.value));
+			consecutivo.setNomenclaturaDesc(res.getString(Numero.SIETE.valueI));
+			consecutivo.setFechaAnulacion(res.getString(Numero.OCHO.valueI));
 			if (CommonConstant.ADMINISTRADOR.equals(consecutivo.getUsuario())) {
 				consecutivo.setUsuarioCargo(CommonConstant.ADMINISTRADOR_CARGO);	
 			} else {
-				consecutivo.setUsuarioCargo(res.getString(Numero.NUEVE.value));	
+				consecutivo.setUsuarioCargo(res.getString(Numero.NUEVE.valueI));	
 			}
 		}
 		return consecutivo;
@@ -296,12 +296,12 @@ public class MapperCorrespondencia extends Mapper {
 		ConsecutivoDTO consecutivo;
 		while (res.next()) {
 			consecutivo = new ConsecutivoDTO();
-			consecutivo.setIdConsecutivo(res.getLong(Numero.UNO.value));
-			consecutivo.setConsecutivo(res.getString(Numero.DOS.value));
-			consecutivo.setNomenclatura(res.getString(Numero.TRES.value));
-			consecutivo.setUsuario(res.getString(Numero.CUATRO.value));
-			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.value));
-			consecutivo.setIdEstado(res.getInt(Numero.SEIS.value));
+			consecutivo.setIdConsecutivo(res.getLong(Numero.UNO.valueI));
+			consecutivo.setConsecutivo(res.getString(Numero.DOS.valueI));
+			consecutivo.setNomenclatura(res.getString(Numero.TRES.valueI));
+			consecutivo.setUsuario(res.getString(Numero.CUATRO.valueI));
+			consecutivo.setFechaSolicitud(res.getString(Numero.CINCO.valueI));
+			consecutivo.setIdEstado(res.getInt(Numero.SEIS.valueI));
 			if (consecutivos == null) {
 				consecutivos = new ArrayList<>();
 			}
@@ -316,8 +316,8 @@ public class MapperCorrespondencia extends Mapper {
 	private List<String> getDatosDocEliminar(ResultSet res) throws Exception {
 		List<String> datos = new ArrayList<>();
 		if (res.next()) {
-			datos.add(Long.toString(res.getLong(Numero.UNO.value)));
-			datos.add(res.getString(Numero.DOS.value));
+			datos.add(Long.toString(res.getLong(Numero.UNO.valueI)));
+			datos.add(res.getString(Numero.DOS.valueI));
 		}
 		return datos;
 	}
@@ -330,11 +330,11 @@ public class MapperCorrespondencia extends Mapper {
 		DocumentoDTO documento;
 		while (res.next()) {
 			documento = new DocumentoDTO();
-			documento.setId(res.getLong(Numero.UNO.value));
-			documento.setNombreDocumento(res.getString(Numero.DOS.value));
-			documento.setTipoDocumento(TiposDocumentos.getTipoDocumento(res.getString(Numero.TRES.value)));
-			documento.setSizeDocumento(res.getString(Numero.CUATRO.value));
-			documento.setFechaCargue(res.getString(Numero.CINCO.value));
+			documento.setId(res.getLong(Numero.UNO.valueI));
+			documento.setNombreDocumento(res.getString(Numero.DOS.valueI));
+			documento.setTipoDocumento(TiposDocumentos.getTipoDocumento(res.getString(Numero.TRES.valueI)));
+			documento.setSizeDocumento(res.getString(Numero.CUATRO.valueI));
+			documento.setFechaCargue(res.getString(Numero.CINCO.valueI));
 			if (documentos == null) {
 				documentos = new ArrayList<>();
 			}
@@ -351,12 +351,12 @@ public class MapperCorrespondencia extends Mapper {
 		WelcomeUsuarioDTO usuario;
 		while (res.next()) {
 			usuario = new WelcomeUsuarioDTO();
-			usuario.setIdUsuario(res.getLong(Numero.UNO.value));
-			usuario.setNombreCompleto(res.getString(Numero.DOS.value));
-			usuario.setCargo(res.getString(Numero.TRES.value));
-			usuario.setIdEstado(res.getInt(Numero.CUATRO.value));
+			usuario.setIdUsuario(res.getLong(Numero.UNO.valueI));
+			usuario.setNombreCompleto(res.getString(Numero.DOS.valueI));
+			usuario.setCargo(res.getString(Numero.TRES.valueI));
+			usuario.setIdEstado(res.getInt(Numero.CUATRO.valueI));
 			usuario.setEstado(Util.getEstadoNombre(usuario.getIdEstado()));
-			usuario.setCantidadConsecutivos(res.getInt(Numero.CINCO.value));
+			usuario.setCantidadConsecutivos(res.getInt(Numero.CINCO.valueI));
 			if (usuarios == null) {
 				usuarios = new ArrayList<>();
 			}
@@ -373,10 +373,10 @@ public class MapperCorrespondencia extends Mapper {
 		WelcomeNomenclaturaDTO nomenclatura;
 		while (res.next()) {
 			nomenclatura = new WelcomeNomenclaturaDTO();
-			nomenclatura.setIdNomenclatura(res.getLong(Numero.UNO.value));
-			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CUATRO.value));
+			nomenclatura.setIdNomenclatura(res.getLong(Numero.UNO.valueI));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.valueI));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.valueI));
+			nomenclatura.setCantidadConsecutivos(res.getInt(Numero.CUATRO.valueI));
 			if (nomenclaturas == null) {
 				nomenclaturas = new ArrayList<>();
 			}
@@ -391,9 +391,9 @@ public class MapperCorrespondencia extends Mapper {
 	private List<Integer> getSecuenciaNomenclatura(ResultSet res) throws Exception {
 		List<Integer> respuesta = new ArrayList<>();
 		if (res.next()) {
-			respuesta.add(res.getInt(Numero.UNO.value));
-			respuesta.add(res.getInt(Numero.DOS.value));
-			respuesta.add(res.getInt(Numero.TRES.value));
+			respuesta.add(res.getInt(Numero.UNO.valueI));
+			respuesta.add(res.getInt(Numero.DOS.valueI));
+			respuesta.add(res.getInt(Numero.TRES.valueI));
 		}
 		return respuesta;
 	}
@@ -416,12 +416,12 @@ public class MapperCorrespondencia extends Mapper {
 
 			// datos basicos del campo
 			campo = new CampoEntradaDetalleDTO();
-			campo.setId(res.getLong(Numero.UNO.value));
-			campo.setNombre(res.getString(Numero.DOS.value));
-			campo.setDescripcion(res.getString(Numero.TRES.value));
-			campo.setTipoCampo(res.getInt(Numero.CUATRO.value));
-			restricciones = res.getString(Numero.CINCO.value);
-			campo.setIdCampoNomenclatura(res.getLong(Numero.SEIS.value));
+			campo.setId(res.getLong(Numero.UNO.valueI));
+			campo.setNombre(res.getString(Numero.DOS.valueI));
+			campo.setDescripcion(res.getString(Numero.TRES.valueI));
+			campo.setTipoCampo(res.getInt(Numero.CUATRO.valueI));
+			restricciones = res.getString(Numero.CINCO.valueI);
+			campo.setIdCampoNomenclatura(res.getLong(Numero.SEIS.valueI));
 
 			// restricciones del campo
 			if (restricciones != null && !restricciones.isEmpty()) {

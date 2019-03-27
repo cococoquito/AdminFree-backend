@@ -141,15 +141,15 @@ public class MapperConfiguraciones extends Mapper {
 			cliente.setCredenciales(credenciales);
 
 			// se configura los atributos del cliente
-			cliente.setId(res.getLong(Numero.UNO.value));
-			cliente.setNombre(res.getString(Numero.DOS.value));
-			cliente.setTelefonos(res.getString(Numero.TRES.value));
-			cliente.setEmails(res.getString(Numero.CUATRO.value));
-			cliente.setFechaActivacion(res.getDate(Numero.CINCO.value));
-			cliente.setFechaInactivacion(res.getDate(Numero.SEIS.value));
-			cliente.setEstado(res.getInt(Numero.SIETE.value));
+			cliente.setId(res.getLong(Numero.UNO.valueI));
+			cliente.setNombre(res.getString(Numero.DOS.valueI));
+			cliente.setTelefonos(res.getString(Numero.TRES.valueI));
+			cliente.setEmails(res.getString(Numero.CUATRO.valueI));
+			cliente.setFechaActivacion(res.getDate(Numero.CINCO.valueI));
+			cliente.setFechaInactivacion(res.getDate(Numero.SEIS.valueI));
+			cliente.setEstado(res.getInt(Numero.SIETE.valueI));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
-			credenciales.setUsuario(res.getString(Numero.OCHO.value));
+			credenciales.setUsuario(res.getString(Numero.OCHO.valueI));
 			resultado.add(cliente);
 		}
 		return resultado;
@@ -167,14 +167,14 @@ public class MapperConfiguraciones extends Mapper {
 			cliente.setCredenciales(credenciales);
 
 			// se configura los atributos del cliente
-			cliente.setId(res.getLong(Numero.UNO.value));
-			cliente.setNombre(res.getString(Numero.DOS.value));
-			cliente.setTelefonos(res.getString(Numero.TRES.value));
-			cliente.setEmails(res.getString(Numero.CUATRO.value));
-			cliente.setFechaActivacion(res.getDate(Numero.CINCO.value));
-			cliente.setEstado(res.getInt(Numero.SEIS.value));
+			cliente.setId(res.getLong(Numero.UNO.valueI));
+			cliente.setNombre(res.getString(Numero.DOS.valueI));
+			cliente.setTelefonos(res.getString(Numero.TRES.valueI));
+			cliente.setEmails(res.getString(Numero.CUATRO.valueI));
+			cliente.setFechaActivacion(res.getDate(Numero.CINCO.valueI));
+			cliente.setEstado(res.getInt(Numero.SEIS.valueI));
 			cliente.setEstadoNombre(Util.getEstadoNombre(cliente.getEstado()));
-			credenciales.setUsuario(res.getString(Numero.SIETE.value));
+			credenciales.setUsuario(res.getString(Numero.SIETE.valueI));
 		}
 		return cliente;
 	}
@@ -188,13 +188,13 @@ public class MapperConfiguraciones extends Mapper {
 		String modulos;
 		while (res.next()) {
 			usuario = new UsuarioDTO();
-			usuario.setId(res.getLong(Numero.UNO.value));
-			usuario.setNombre(res.getString(Numero.DOS.value));
-			usuario.setUsuarioIngreso(res.getString(Numero.TRES.value));
-			usuario.setEstado(res.getInt(Numero.CUATRO.value));
+			usuario.setId(res.getLong(Numero.UNO.valueI));
+			usuario.setNombre(res.getString(Numero.DOS.valueI));
+			usuario.setUsuarioIngreso(res.getString(Numero.TRES.valueI));
+			usuario.setEstado(res.getInt(Numero.CUATRO.valueI));
 			usuario.setEstadoNombre(Util.getEstadoNombre(usuario.getEstado()));
-			modulos = res.getString(Numero.CINCO.value);
-			usuario.setCargo(res.getString(Numero.SEIS.value));
+			modulos = res.getString(Numero.CINCO.valueI);
+			usuario.setCargo(res.getString(Numero.SEIS.valueI));
 			if (modulos != null) {
 				usuario.setModulosTokens(Arrays.asList(modulos.split(CommonConstant.PUNTO_COMA)));
 			}
@@ -211,9 +211,9 @@ public class MapperConfiguraciones extends Mapper {
 		RestriccionDTO restriccion;
 		while (res.next()) {
 			restriccion = new RestriccionDTO();
-			restriccion.setId(res.getInt(Numero.UNO.value));
-			restriccion.setDescripcion(res.getString(Numero.DOS.value));
-			restriccion.setCompatible(res.getString(Numero.TRES.value));
+			restriccion.setId(res.getInt(Numero.UNO.valueI));
+			restriccion.setDescripcion(res.getString(Numero.DOS.valueI));
+			restriccion.setCompatible(res.getString(Numero.TRES.valueI));
 			restricciones.add(restriccion);
 		}
 		return restricciones;
@@ -227,10 +227,10 @@ public class MapperConfiguraciones extends Mapper {
 		CampoEntradaDTO campo;
 		while (res.next()) {
 			campo = new CampoEntradaDTO();
-			campo.setId(res.getLong(Numero.UNO.value));
-			campo.setTipoCampo(res.getInt(Numero.DOS.value));
+			campo.setId(res.getLong(Numero.UNO.valueI));
+			campo.setTipoCampo(res.getInt(Numero.DOS.valueI));
 			campo.setTipoCampoNombre(Util.getTipoCampoNombre(campo.getTipoCampo()));
-			campo.setNombre(res.getString(Numero.TRES.value));
+			campo.setNombre(res.getString(Numero.TRES.valueI));
 			campos.add(campo);
 		}
 		return campos;
@@ -247,11 +247,11 @@ public class MapperConfiguraciones extends Mapper {
 
 				// se configura los datos basicos
 				campoEntrada = new CampoEntradaDTO();
-				campoEntrada.setId(res.getLong(Numero.UNO.value));
-				campoEntrada.setIdCliente(res.getLong(Numero.DOS.value));
-				campoEntrada.setNombre(res.getString(Numero.TRES.value));
-				campoEntrada.setDescripcion(res.getString(Numero.CUATRO.value));
-				campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.value));
+				campoEntrada.setId(res.getLong(Numero.UNO.valueI));
+				campoEntrada.setIdCliente(res.getLong(Numero.DOS.valueI));
+				campoEntrada.setNombre(res.getString(Numero.TRES.valueI));
+				campoEntrada.setDescripcion(res.getString(Numero.CUATRO.valueI));
+				campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.valueI));
 				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
 
 				// se configura las restricciones para este campo
@@ -268,11 +268,11 @@ public class MapperConfiguraciones extends Mapper {
 	 * Metodo que permite configurar la restriccion para un campo de entrada
 	 */
 	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
-		Integer idRestriccion = res.getInt(Numero.SEIS.value);
-		if (idRestriccion != null && idRestriccion > Numero.ZERO.value) {
+		Integer idRestriccion = res.getInt(Numero.SEIS.valueI);
+		if (idRestriccion != null && idRestriccion > Numero.ZERO.valueI) {
 			RestriccionDTO restriccion = new RestriccionDTO();
 			restriccion.setId(idRestriccion);
-			restriccion.setDescripcion(res.getString(Numero.SIETE.value));
+			restriccion.setDescripcion(res.getString(Numero.SIETE.valueI));
 			restriccion.setAplica(true);
 			campo.agregarRestriccion(restriccion);
 		}
@@ -286,8 +286,8 @@ public class MapperConfiguraciones extends Mapper {
 		ItemDTO item;
 		while (res.next()) {
 			item = new ItemDTO();
-			item.setId(res.getLong(Numero.UNO.value));
-			item.setValor(res.getString(Numero.DOS.value));
+			item.setId(res.getLong(Numero.UNO.valueI));
+			item.setValor(res.getString(Numero.DOS.valueI));
 			items.add(item);
 		}
 		return items;
@@ -301,24 +301,24 @@ public class MapperConfiguraciones extends Mapper {
 		if (res.next()) {
 			// se configura los datos del campo
 			CampoEntradaDTO campo = new CampoEntradaDTO();
-			campo.setId(res.getLong(Numero.UNO.value));
-			campo.setIdCliente(res.getLong(Numero.DOS.value));
-			campo.setNombre(res.getString(Numero.TRES.value));
-			campo.setDescripcion(res.getString(Numero.CUATRO.value));
-			campo.setTipoCampo(res.getInt(Numero.CINCO.value));
+			campo.setId(res.getLong(Numero.UNO.valueI));
+			campo.setIdCliente(res.getLong(Numero.DOS.valueI));
+			campo.setNombre(res.getString(Numero.TRES.valueI));
+			campo.setDescripcion(res.getString(Numero.CUATRO.valueI));
+			campo.setTipoCampo(res.getInt(Numero.CINCO.valueI));
 			campo.setTipoCampoNombre(Util.getTipoCampoNombre(campo.getTipoCampo()));
 
 			// se utiliza para configurar las banderas
-			Integer nomenclaturas = res.getInt(Numero.SEIS.value);
-			Integer restricciones = res.getInt(Numero.SIETE.value);
-			Integer consecutivos = res.getInt(Numero.OCHO.value);
+			Integer nomenclaturas = res.getInt(Numero.SEIS.valueI);
+			Integer restricciones = res.getInt(Numero.SIETE.valueI);
+			Integer consecutivos = res.getInt(Numero.OCHO.valueI);
 
 			// se configura el detalle para la edicion
 			detalle = new CampoEntradaEdicionDTO();
 			detalle.setCampoEntrada(campo);
-			detalle.setTieneNomenclaturas(!Numero.ZERO.value.equals(nomenclaturas));
-			detalle.setTieneRestricciones(!Numero.ZERO.value.equals(restricciones));
-			detalle.setTieneConsecutivos(!Numero.ZERO.value.equals(consecutivos));
+			detalle.setTieneNomenclaturas(!Numero.ZERO.valueI.equals(nomenclaturas));
+			detalle.setTieneRestricciones(!Numero.ZERO.valueI.equals(restricciones));
+			detalle.setTieneConsecutivos(!Numero.ZERO.valueI.equals(consecutivos));
 		}
 		return detalle;
 	}
@@ -331,7 +331,7 @@ public class MapperConfiguraciones extends Mapper {
 		RestriccionDTO restriccion;
 		while (res.next()) {
 			restriccion = new RestriccionDTO();
-			restriccion.setId(res.getInt(Numero.UNO.value));
+			restriccion.setId(res.getInt(Numero.UNO.valueI));
 			restricciones.add(restriccion);
 		}
 		return restricciones;
@@ -345,11 +345,11 @@ public class MapperConfiguraciones extends Mapper {
 		NomenclaturaDTO nomenclatura;
 		while (res.next()) {
 			nomenclatura = new NomenclaturaDTO();
-			nomenclatura.setId(res.getLong(Numero.UNO.value));
-			nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-			nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-			nomenclatura.setCantConsecutivos(res.getInt(Numero.CINCO.value));
+			nomenclatura.setId(res.getLong(Numero.UNO.valueI));
+			nomenclatura.setNomenclatura(res.getString(Numero.DOS.valueI));
+			nomenclatura.setDescripcion(res.getString(Numero.TRES.valueI));
+			nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.valueI));
+			nomenclatura.setCantConsecutivos(res.getInt(Numero.CINCO.valueI));
 			resultado.add(nomenclatura);
 		}
 		return resultado;
@@ -364,12 +364,12 @@ public class MapperConfiguraciones extends Mapper {
 			if (nomenclatura == null) {
 				// datos basicos de la nomenclatura
 				nomenclatura = new NomenclaturaDTO();
-				nomenclatura.setId(res.getLong(Numero.UNO.value));
-				nomenclatura.setNomenclatura(res.getString(Numero.DOS.value));
-				nomenclatura.setDescripcion(res.getString(Numero.TRES.value));
-				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.value));
-				nomenclatura.setSecuencia(res.getInt(Numero.CINCO.value));
-				nomenclatura.setCantConsecutivos(res.getInt(Numero.SEIS.value));
+				nomenclatura.setId(res.getLong(Numero.UNO.valueI));
+				nomenclatura.setNomenclatura(res.getString(Numero.DOS.valueI));
+				nomenclatura.setDescripcion(res.getString(Numero.TRES.valueI));
+				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.valueI));
+				nomenclatura.setSecuencia(res.getInt(Numero.CINCO.valueI));
+				nomenclatura.setCantConsecutivos(res.getInt(Numero.SEIS.valueI));
 
 				// campo de la nomenclatura
 				configurarCampo(nomenclatura, res);
@@ -385,15 +385,15 @@ public class MapperConfiguraciones extends Mapper {
 	 * Invocado por detalle de la nomenclatura y permite configurar el campo de la nomenclatura
 	 */
 	private void configurarCampo(NomenclaturaDTO datos, ResultSet res) throws Exception {
-		Long idNomCampo = res.getLong(Numero.SIETE.value);
-		if (idNomCampo != null && idNomCampo > Numero.ZERO.value.longValue()) {
+		Long idNomCampo = res.getLong(Numero.SIETE.valueI);
+		if (idNomCampo != null && idNomCampo.longValue() > Numero.ZERO.valueL.longValue()) {
 			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
 			campo.setId(idNomCampo);
-			campo.setIdCampo(res.getLong(Numero.OCHO.value));
-			campo.setNombreCampo(res.getString(Numero.NUEVE.value));
-			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.DIEZ.value)));
-			campo.setTieneConsecutivo(Numero.UNO.value.equals(res.getInt(Numero.ONCE.value)));
-			campo.setOrden(res.getInt(Numero.DOCE.value));
+			campo.setIdCampo(res.getLong(Numero.OCHO.valueI));
+			campo.setNombreCampo(res.getString(Numero.NUEVE.valueI));
+			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.DIEZ.valueI)));
+			campo.setTieneConsecutivo(Numero.UNO.valueI.equals(res.getInt(Numero.ONCE.valueI)));
+			campo.setOrden(res.getInt(Numero.DOCE.valueI));
 			datos.agregarCampos(campo);
 		}
 	}

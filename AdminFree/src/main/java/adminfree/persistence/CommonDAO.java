@@ -34,7 +34,7 @@ public class CommonDAO {
 			pst = con.prepareStatement(dml);
 
 			// se recorre cada valor para configurarlo en el PreparedStatement
-			int posicion = Numero.UNO.value;
+			int posicion = Numero.UNO.valueI.intValue();
 			for (ValueSQL valueSQL : valores) {
 
 				// se valida si se debe configurar NULL en el PreparedStatement
@@ -71,8 +71,8 @@ public class CommonDAO {
 			pst = con.prepareStatement(sql);
 
 			// se configura los parametros para el wheresentence
-			if (where != null && where.length > Numero.ZERO.value) {
-				int posicion = Numero.UNO.value;
+			if (where != null && where.length > Numero.ZERO.valueI.intValue()) {
+				int posicion = Numero.UNO.valueI.intValue();
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -107,8 +107,8 @@ public class CommonDAO {
 			pst = con.prepareStatement(sql);
 
 			// se configura los parametros para el wheresentence
-			if (where != null && where.length > Numero.ZERO.value) {
-				int posicion = Numero.UNO.value;
+			if (where != null && where.length > Numero.ZERO.valueI.intValue()) {
+				int posicion = Numero.UNO.valueI.intValue();
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -161,13 +161,13 @@ public class CommonDAO {
 		PreparedStatement pst = null;
 		try {
 			// el where sentence es obligatorio
-			if (where != null && where.length > Numero.ZERO.value) {
+			if (where != null && where.length > Numero.ZERO.valueI.intValue()) {
 
 				// se establece el PreparedStatement
 				pst = con.prepareStatement(deleteSQL);
 
 				// se recorre cada valor para configurarlo en el PreparedStatement
-				int posicion = Numero.UNO.value;
+				int posicion = Numero.UNO.valueI.intValue();
 				for (ValueSQL valor : where) {
 					setValorNotNull(pst, valor, posicion);
 					posicion++;
@@ -194,9 +194,9 @@ public class CommonDAO {
 			pst = con.prepareStatement(dml);
 
 			// constante numerico para el proceso
-			final Integer ZERO = Numero.ZERO.value;
-			final Integer UNO = Numero.UNO.value;
-			final Integer MIL = Numero.MIL.value;
+			final int ZERO = Numero.ZERO.valueI.intValue();
+			final Integer UNO = Numero.UNO.valueI;
+			final Integer MIL = Numero.MIL.valueI;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;
@@ -223,8 +223,7 @@ public class CommonDAO {
 				countDML++;
 
 				// se valida si se debe ejecutar el BATCH
-				if (!UNO.equals(countDML) && 
-					(countDML % MIL == ZERO)) {
+				if (!UNO.equals(countDML) && (countDML % MIL == ZERO)) {
 					pst.executeBatch();
 				}
 			}
@@ -248,9 +247,9 @@ public class CommonDAO {
 			stm = con.createStatement();
 
 			// constante numerico para el proceso
-			final Integer ZERO = Numero.ZERO.value;
-			final Integer UNO = Numero.UNO.value;
-			final Integer MIL = Numero.MIL.value;
+			final int ZERO = Numero.ZERO.valueI.intValue();
+			final Integer UNO = Numero.UNO.valueI;
+			final Integer MIL = Numero.MIL.valueI;
 
 			// lleva la cuenta de DML agregados en el BATCH
 			int countDML = ZERO;
@@ -263,8 +262,7 @@ public class CommonDAO {
 				countDML++;
 
 				// se valida si se debe ejecutar el BATCH
-				if (!UNO.equals(countDML) && 
-					(countDML % MIL == ZERO)) {
+				if (!UNO.equals(countDML) && (countDML % MIL == ZERO)) {
 					stm.executeBatch();
 				}
 			}

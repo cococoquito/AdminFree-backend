@@ -78,8 +78,8 @@ public class MapperSeguridad extends Mapper {
 		ClienteDTO admin = null;
 		if (res.next()) {
 			admin = new ClienteDTO();
-			admin.setId(res.getLong(Numero.UNO.value));
-			admin.setNombre(res.getString(Numero.DOS.value));
+			admin.setId(res.getLong(Numero.UNO.valueI));
+			admin.setNombre(res.getString(Numero.DOS.valueI));
 		}
 		return admin;
 	}
@@ -94,20 +94,20 @@ public class MapperSeguridad extends Mapper {
 
 				// se configura los datos del USUARIO
 				user = new UsuarioDTO();
-				user.setId(res.getLong(Numero.UNO.value));
-				user.setNombre(res.getString(Numero.DOS.value));
+				user.setId(res.getLong(Numero.UNO.valueI));
+				user.setNombre(res.getString(Numero.DOS.valueI));
 
 				// se configura los datos del CLIENTE
 				ClienteDTO cliente = new ClienteDTO();
-				cliente.setId(res.getLong(Numero.TRES.value));
-				cliente.setNombre(res.getString(Numero.CUATRO.value));
+				cliente.setId(res.getLong(Numero.TRES.valueI));
+				cliente.setNombre(res.getString(Numero.CUATRO.valueI));
 				user.setCliente(cliente);
 
 				// se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.value));
+				user.agregarModuloToken(res.getString(Numero.CINCO.valueI));
 			} else {
 				// solamente se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.value));
+				user.agregarModuloToken(res.getString(Numero.CINCO.valueI));
 			}
 		}
 		return user;

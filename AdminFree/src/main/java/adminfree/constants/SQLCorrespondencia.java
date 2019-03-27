@@ -107,7 +107,7 @@ public class SQLCorrespondencia {
 		}
 
 		// se configura el identificador del valor
-		if (idValue != null && idValue > Numero.ZERO.value.longValue()) {
+		if (idValue != null && idValue.longValue() > Numero.ZERO.valueL.longValue()) {
 			sql.append(" AND VL.ID_VALUE<>").append(idValue);
 		}
 		return sql.toString();

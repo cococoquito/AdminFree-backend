@@ -45,7 +45,7 @@ public class InterceptorAuthAdminFree extends InterceptorCommon {
 			}
 
 			// constante para validar el tamano de cada parametro header
-			final Integer TREINTA = Numero.TREINTA.value;
+			final int TREINTA = Numero.TREINTA.valueI.intValue();
 
 			// se obtiene y se valida la nulalidad del USUARIO
 			String user = request.getHeader(Security.SECURITY_HUSER.value);
@@ -64,7 +64,7 @@ public class InterceptorAuthAdminFree extends InterceptorCommon {
 						if (postAngular.equals(this.securityPostAngularAuth)) {
 
 							// se valida que todos los parametros coincidan con la seguridad
-							String soloToken = token.substring(Numero.ZERO.value, token.length() - this.securityPostAngularAuth.length());
+							String soloToken = token.substring(Numero.ZERO.valueI, token.length() - this.securityPostAngularAuth.length());
 							if (user.equals(this.securityAuthUser) &&
 								pass.equals(this.securityAuthPass) &&
 								soloToken.equals(this.securityAuthToken)) {

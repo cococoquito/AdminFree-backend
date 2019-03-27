@@ -95,8 +95,8 @@ public class MapperTransversal extends Mapper {
 		items.add(item);
 		while (res.next()) {
 			item = new SelectItemDTO();
-			item.setId(res.getLong(Numero.UNO.value));
-			item.setLabel(res.getString(Numero.DOS.value));
+			item.setId(res.getLong(Numero.UNO.valueI));
+			item.setLabel(res.getString(Numero.DOS.valueI));
 			items.add(item);
 		}
 		return items;
@@ -107,9 +107,9 @@ public class MapperTransversal extends Mapper {
 	 */
 	private Object getCount(ResultSet res) throws Exception {
 		if (res.next()) {
-			return res.getLong(Numero.UNO.value);
+			return res.getLong(Numero.UNO.valueI);
 		}
-		return Numero.ZERO.value.longValue();
+		return Numero.ZERO.valueL;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class MapperTransversal extends Mapper {
 	 */
 	private Long getId(ResultSet res) throws Exception {
 		if (res.next()) {
-			return res.getLong(Numero.UNO.value);
+			return res.getLong(Numero.UNO.valueI);
 		}
 		return null;
 	}
@@ -127,7 +127,7 @@ public class MapperTransversal extends Mapper {
 	 */
 	private String getSoloUnString(ResultSet res) throws Exception {
 		if (res.next()) {
-			return res.getString(Numero.UNO.value);
+			return res.getString(Numero.UNO.valueI);
 		}
 		return null;
 	}

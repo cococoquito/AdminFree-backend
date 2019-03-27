@@ -21,7 +21,7 @@ public class Util {
 	 */
 	public static String setPrefijoZeros(String prefijo, String nro) {
 		StringBuilder formato = new StringBuilder(prefijo);
-		formato.delete(Numero.ZERO.value, nro.length());
+		formato.delete(Numero.ZERO.valueI, nro.length());
 		formato.append(nro);
 		return formato.toString();
 	}
@@ -30,7 +30,7 @@ public class Util {
 	 * Metodo que permite validar si un valor es null o vacio
 	 */
 	public static boolean isNull(String valor) {
-		return valor == null || valor.trim().length() == Numero.ZERO.value;
+		return valor == null || valor.trim().length() == Numero.ZERO.valueI.intValue();
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class Util {
 	 * @param error, mensaje de la exception lanzada
 	 */
 	public static ResponseEntity<Object> getResponseError(String metodo, String error) {
-		if (error == null || error.trim().length() == Numero.ZERO.value) {
+		if (error == null || error.trim().length() == Numero.ZERO.valueI.intValue()) {
 			error = "Exception lanzada por NullPointerException.";
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponseDTO(metodo + error));

@@ -42,11 +42,11 @@ public class InterceptorAdminFree extends InterceptorCommon {
 			}
 
 			// constante para validar el tamano de cada parametro header
-			final Integer TREINTA = Numero.TREINTA.value;
+			final int TREINTA = Numero.TREINTA.valueI.intValue();
 
 			// se obtiene y se valida la nulalidad del USUARIO
 			String user = request.getHeader(Security.SECURITY_HUSER.value);
-			if (user != null && user.length() > Numero.ZERO.value) {
+			if (user != null && user.length() > Numero.ZERO.valueI.intValue()) {
 
 				// se obtiene y se valida la nulalidad del PASSWORD
 				String pass = request.getHeader(Security.SECURITY_HPASS.value);
@@ -62,7 +62,7 @@ public class InterceptorAdminFree extends InterceptorCommon {
 
 							// se valida si el TOKEN es valido
 							String tokenValidar = EstrategiaCriptografica.get().generarTokenAuth(user, pass, this.securityPostToken);
-							String soloToken = token.substring(Numero.ZERO.value, token.length() - this.securityPostAngular.length());
+							String soloToken = token.substring(Numero.ZERO.valueI, token.length() - this.securityPostAngular.length());
 							if (tokenValidar.equals(soloToken)) {
 								return true;
 							}

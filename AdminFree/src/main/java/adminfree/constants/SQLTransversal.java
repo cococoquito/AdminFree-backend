@@ -106,7 +106,7 @@ public class SQLTransversal {
 
 				// El valor de la nomenclatura no puede ser vacia
 				nomenclatura = nomenclatura.trim();
-				if (nomenclatura.length() > Numero.ZERO.value) {
+				if (nomenclatura.length() > Numero.ZERO.valueI.intValue()) {
 
 					// se configura el valor ingresado
 					if (isPrimero) {
@@ -145,7 +145,7 @@ public class SQLTransversal {
 
 				// El valor del consecutivo no puede ser vacia
 				consecutivo = consecutivo.trim();
-				if (consecutivo.length() > Numero.ZERO.value) {
+				if (consecutivo.length() > Numero.ZERO.valueI.intValue()) {
 
 					// se configura el valor ingresado
 					if (isPrimero) {
@@ -245,14 +245,14 @@ public class SQLTransversal {
 
 			// se verifica que no contenga solo espacios
 			value = value.trim();
-			if (value.length() > Numero.ZERO.value) {
+			if (value.length() > Numero.ZERO.valueI.intValue()) {
 
 				// se verifica si el valor es con LIKE
 				boolean isWithLike = false;
-				if (value.charAt(Numero.ZERO.value) == CommonConstant.WITH_LIKE) {
+				if (value.charAt(Numero.ZERO.valueI) == CommonConstant.WITH_LIKE) {
 					isWithLike = true;
-					value = value.substring(Numero.UNO.value, value.length()).trim();
-					if (value.length() == Numero.ZERO.value) {
+					value = value.substring(Numero.UNO.valueI, value.length()).trim();
+					if (value.length() == Numero.ZERO.valueI.intValue()) {
 						return;
 					}
 				}

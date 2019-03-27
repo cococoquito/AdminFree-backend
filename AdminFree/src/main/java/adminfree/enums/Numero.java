@@ -9,18 +9,20 @@ package adminfree.enums;
  */
 public enum Numero {
 
-	ZERO(0), UNO(1), DOS(2),
-	TRES(3), CUATRO(4), CINCO(5),
-	SEIS(6), SIETE(7), OCHO(8),
-	NUEVE(9), DIEZ(10), ONCE(11),
-	DOCE(12), TRECE(13), CATORCE(14),
-	QUINCE(15), DIECISEIS(16), DIECISIETE(17),
-	DIECIOCHO(18), DIECINUEVE(19), VEINTE(20),
-	TREINTA(30), MIL(1000);
+	ZERO(0,0l), UNO(1,1l), DOS(2,2l),
+	TRES(3,3l), CUATRO(4,4l), CINCO(5,5l),
+	SEIS(6,6l), SIETE(7,7l), OCHO(8,8l),
+	NUEVE(9,9l), DIEZ(10,10l), ONCE(11,11l),
+	DOCE(12,12l), TRECE(13,13l), CATORCE(14,14l),
+	QUINCE(15,15l), DIECISEIS(16,16l), DIECISIETE(17,17l),
+	DIECIOCHO(18,18l), DIECINUEVE(19,19l), VEINTE(20,20l),
+	TREINTA(30,30l), MIL(1000,1000l);
 
-	public final Integer value;
+	public final Integer valueI;
+	public final Long valueL;
 
-	private Numero(Integer value) {
-		this.value = value;
+	private Numero(Integer valueI, Long valueL) {
+		this.valueI = valueI;
+		this.valueL = valueL;
 	}
 }

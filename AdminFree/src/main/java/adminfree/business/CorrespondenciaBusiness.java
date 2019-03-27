@@ -169,7 +169,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 								idCampoSQL, valueSQL);
 
 						// si el count es mayor que zero es por que existe otro valor igual
-						if (count != null && count > Numero.ZERO.value.longValue()) {
+						if (!count.equals(Numero.ZERO.valueL)) {
 							response = (response == null) ? new ArrayList<>() : response;
 							response.add(new MessageResponseDTO(
 									BusinessMessages.getMsjValorExisteOtroConsecutivo(value_, valor.getNombreCampo())));
@@ -199,7 +199,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			Long idNomenclatura = solicitud.getIdNomenclatura();
 			Long idCliente = solicitud.getIdCliente();
 			Long idUsuario = solicitud.getIdUsuario();
-			idUsuario = (idUsuario != null && idUsuario > Numero.ZERO.value.longValue()) ? idUsuario : null;
+			idUsuario = (idUsuario != null && idUsuario.longValue() > Numero.ZERO.valueL.longValue()) ? idUsuario : null;
 			String idCliente_ = idCliente.toString();
 			String idNomenclatura_ = idNomenclatura.toString();
 
@@ -210,13 +210,13 @@ public class CorrespondenciaBusiness extends CommonDAO {
 					ValueSQL.get(idNomenclatura, Types.BIGINT));
 
 			// se configura el nro inicial y la secuencia actual de la nomenclatura consultada
-			Integer nroInicial = respuesta.get(Numero.ZERO.value);
-			Integer nroSecuencia = respuesta.get(Numero.UNO.value);
-			Integer nroSolicitadosNomen = respuesta.get(Numero.DOS.value);
+			Integer nroInicial = respuesta.get(Numero.ZERO.valueI);
+			Integer nroSecuencia = respuesta.get(Numero.UNO.valueI);
+			Integer nroSolicitadosNomen = respuesta.get(Numero.DOS.valueI);
 
 			// se establece el nuevo consecutivo para la nomenclatura
-			if (nroSecuencia != null && nroSecuencia > Numero.ZERO.value) {
-				nroSecuencia = nroSecuencia + Numero.UNO.value;
+			if (nroSecuencia != null && !nroSecuencia.equals(Numero.ZERO.valueI)) {
+				nroSecuencia = nroSecuencia + Numero.UNO.valueI;
 			} else {
 				nroSecuencia = nroInicial;
 			}
@@ -286,13 +286,13 @@ public class CorrespondenciaBusiness extends CommonDAO {
 						ValueSQL.get(idUsuario, Types.BIGINT));
 
 				// se configura el UPDATE para ser ejecutado en el batch 
-				final Long UNO = Numero.UNO.value.longValue();
+				final Long UNO = Numero.UNO.valueL.longValue();
 				cantidad = cantidad != null ? cantidad + UNO : UNO;
 				dmls.add(SQLCorrespondencia.getUpdateUsuarioCantidadConsecutivos(idUsuario.toString(), cantidad.toString()));
 			}
 
 			// se configura la cantidad de consecutivos solicitados para la nomenclatura
-			nroSolicitadosNomen = nroSolicitadosNomen != null ? nroSolicitadosNomen + Numero.UNO.value : Numero.UNO.value;
+			nroSolicitadosNomen = nroSolicitadosNomen != null ? nroSolicitadosNomen + Numero.UNO.valueI : Numero.UNO.valueI;
 
 			// SQL para actualizar la secuencia y cantidad consecutivos para la nomenclatura seleccionada
 			dmls.add(SQLCorrespondencia.getUpdateNomenclaturaSecuenciaCantidad(
@@ -361,7 +361,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 		// se valida que el contenido del archivo no este vacio
 		byte[] contenido = datos.getContenido();
-		if (contenido == null || !(contenido.length > Numero.ZERO.value.intValue())) {
+		if (contenido == null || contenido.length == Numero.ZERO.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.KEY_DOCUMENTO_VACIO.value);
 		}
 
@@ -378,7 +378,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				ValueSQL.get(nombreDocumento, Types.VARCHAR));
 
 		// el consecutivo no puede tener otro documento con el mismo nombre
-		if (countNombre != null && countNombre > Numero.ZERO.value.longValue()) {
+		if (!countNombre.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE.value);
 		}
 
@@ -526,7 +526,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 		// filtro por usuarios
 		Integer idUsuario = filtro.getIdUsuario();
-		if (idUsuario != null && idUsuario != Numero.ZERO.value) {
+		if (idUsuario != null && !idUsuario.equals(Numero.ZERO.valueI)) {
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			ids.add(idUsuario);
 			SQLTransversal.getFilterUsuarios(ids, from);
@@ -534,7 +534,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 		// filtro por estados
 		Integer estado = filtro.getEstado();
-		if (estado != null && estado > Numero.ZERO.value) {
+		if (estado != null && !estado.equals(Numero.ZERO.valueI)) {
 			ArrayList<Integer> estados = new ArrayList<Integer>();
 			estados.add(estado);
 			SQLTransversal.getFilterEstados(estados, from);
@@ -577,7 +577,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 		// solo se consultan los registros solo si existen de acuerdo al filtro
 		if (response.getCantidadTotal() != null &&
-			response.getCantidadTotal() > Numero.ZERO.value.longValue()) {
+			!response.getCantidadTotal().equals(Numero.ZERO.valueL)) {
 
 			// se obtiene la consulta principal
 			StringBuilder sql = SQLCorrespondencia.getSQLSelectConsecutivosAnioActual(from);
@@ -627,7 +627,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se consultan los demas datos solamente si hay consecutivos
 		if (consecutivos != null &&
 			consecutivos.getCantidadTotal() != null &&
-			consecutivos.getCantidadTotal() > Numero.ZERO.value.longValue()) {
+			!consecutivos.getCantidadTotal().equals(Numero.ZERO.valueL)) {
 
 			// se configura la fecha actual del sistema
 			response.setFechaActual(Calendar.getInstance().getTime());
@@ -674,7 +674,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// se consultan los demas datos solamente si hay consecutivos
 		if (consecutivos != null &&
 			consecutivos.getCantidadTotal() != null &&
-			consecutivos.getCantidadTotal() > Numero.ZERO.value.longValue()) {
+			!consecutivos.getCantidadTotal().equals(Numero.ZERO.valueL)) {
 
 			// se configura la fecha actual del sistema
 			response.setFechaActual(Calendar.getInstance().getTime());
@@ -745,7 +745,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		if (idsCampos != null && !idsCampos.isEmpty()) {
 
 			// variables necesarias para la solicitud
-			final Integer ZERO = Numero.ZERO.value;
+			final int ZERO = Numero.ZERO.valueI.intValue();
 			List<ValueSQL> parametros = new ArrayList<>();
 			StringBuilder parametrosJDBC = new StringBuilder();
 
@@ -789,7 +789,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		}
 
 		// si hay un where sentence es por que el estado es VALIDO
-		if (where.length() > Numero.ZERO.value) {
+		if (where.length() > Numero.ZERO.valueI.intValue()) {
 
 			// se complementa el DML a ejecutar
 			StringBuilder update = new StringBuilder("UPDATE CONSECUTIVOS_");
@@ -802,7 +802,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			int resultado = insertUpdate(connection, update.toString());
 
 			// EL proceso no se ejecuto satisfactoriamente
-			if (resultado <= Numero.ZERO.value) {
+			if (resultado <= Numero.ZERO.valueI.intValue()) {
 				throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
 			}
 		} else {
@@ -847,7 +847,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			List<String> dmls = new ArrayList<>();
 
 			// si el consecutivo no tiene transferencia se debe insertar el user actual
-			if (transferencias == Numero.ZERO.value.longValue()) {
+			if (transferencias.equals(Numero.ZERO.valueL)) {
 
 				// la fecha transferido es la fecha de la solicitud del consecutivo
 				StringBuilder fechaSolicitud = new StringBuilder("(SELECT CON.FECHA_SOLICITUD FROM CONSECUTIVOS_")

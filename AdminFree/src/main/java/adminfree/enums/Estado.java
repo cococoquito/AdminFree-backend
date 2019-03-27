@@ -9,19 +9,19 @@ package adminfree.enums;
 public enum Estado {
 
 	/** Constante que representa el ESTADO ACTIVO */
-	ACTIVO(Numero.UNO.value, "Activo"),
+	ACTIVO(Numero.UNO.valueI, "Activo"),
 
 	/** Constante que representa el ESTADO INACTIVO */
-	INACTIVO(Numero.DOS.value, "Inactivo"),
+	INACTIVO(Numero.DOS.valueI, "Inactivo"),
 
 	/** Constante que representa el ESTADO ANULADO */
-	ANULADO(Numero.TRES.value, "Anulado"),
+	ANULADO(Numero.TRES.valueI, "Anulado"),
 
 	/** Constante que representa el ESTADO BORRADO */
-	BORRADO(Numero.CUATRO.value, "Borrado"),
+	BORRADO(Numero.CUATRO.valueI, "Borrado"),
 
 	/** Constante que representa el ESTADO CERRADO */
-	CERRADO(Numero.CINCO.value, "Cerrado");
+	CERRADO(Numero.CINCO.valueI, "Cerrado");
 
 	public final Integer id;
 	public final String nombre;

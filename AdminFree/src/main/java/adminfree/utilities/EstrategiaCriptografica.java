@@ -76,7 +76,7 @@ public class EstrategiaCriptografica {
 		byte[] messageDigest = md.digest(entrada.getBytes());
 		BigInteger number = new BigInteger(1, messageDigest);
 		String hashtext = number.toString(16);
-		final String ZERO = Numero.ZERO.value.toString();
+		final String ZERO = Numero.ZERO.valueI.toString();
 		while (hashtext.length() < 32) {
 			hashtext = ZERO + hashtext;
 		}
