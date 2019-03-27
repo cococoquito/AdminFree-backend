@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import adminfree.dtos.configuraciones.ItemDTO;
 import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.services.CorrespondenciaService;
 
@@ -35,9 +36,17 @@ public class GetCamposNomenclaturaTest {
 	@Test
 	public void getCamposNomenclatura() {
 		try {
-			Long idNomenclatura = 1l;
+			Long idNomenclatura = 9l;
 			List<CampoEntradaDetalleDTO> campos = 
 					this.correspondenciaService.getCamposNomenclatura(idNomenclatura);
+
+			for(CampoEntradaDetalleDTO campo :campos) {
+				System.out.println("*****************************************************");
+				System.out.println("Nombre:"+campo.getNombre() + " ID:"+campo.getId());
+				for(ItemDTO i:campo.getItems()) {
+					System.out.println("Item:"+i.getValor() + " ID:" + i.getId() + " ID Campo:" + i.getIdCampo());
+				}
+			}
 
 			// debe existir campos asociados a la nomenclatura
 			assertTrue(campos != null && !campos.isEmpty());

@@ -9,7 +9,6 @@ import java.util.List;
 import adminfree.aws.AdministracionDocumentosS3;
 import adminfree.constants.BusinessMessages;
 import adminfree.constants.CommonConstant;
-import adminfree.constants.SQLConfiguraciones;
 import adminfree.constants.SQLCorrespondencia;
 import adminfree.constants.SQLTransversal;
 import adminfree.dtos.configuraciones.ItemDTO;
@@ -40,7 +39,6 @@ import adminfree.enums.Estado;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
-import adminfree.mappers.MapperConfiguraciones;
 import adminfree.mappers.MapperCorrespondencia;
 import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
@@ -59,30 +57,50 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite obtener los campos de la nomenclatura
-	 * 
+	 *
 	 * @param idNomenclatura, identificador de la nomenclatura
 	 * @return DTO con los campos de la nomenclatura
 	 */
 	public List<CampoEntradaDetalleDTO> getCamposNomenclatura(Long idNomenclatura, Connection connection) throws Exception {
 
 		// se obtiene los campos asociados a la nomenclatura
-		List<CampoEntradaDetalleDTO> resultado = (List<CampoEntradaDetalleDTO>)
-				find(connection,
-						SQLCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS,
-						MapperCorrespondencia.get(MapperCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS),
-						ValueSQL.get(idNomenclatura, Types.BIGINT));
+		List<CampoEntradaDetalleDTO> resultado = (List<CampoEntradaDetalleDTO>) find(connection,
+				SQLCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS,
+				MapperCorrespondencia.get(MapperCorrespondencia.GET_DTL_NOMENCLATURA_CAMPOS),
+				ValueSQL.get(idNomenclatura, Types.BIGINT));
 
 		// se recorre todos los campos en busqueda de los select-items
 		if (resultado != null && !resultado.isEmpty()) {
-			for (CampoEntradaDetalleDTO campo : resultado) {
 
-				// se consulta los items para esta lista desplegable
+			// se obtiene los IDs de los campos tipo SELECT-ITEMS
+			List<Long> idsCampos = null;
+			for (CampoEntradaDetalleDTO campo : resultado) {
 				if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getTipoCampo())) {
-					campo.setItems((List<ItemDTO>)
-							find(connection,
-									SQLConfiguraciones.GET_ITEMS,
-									MapperConfiguraciones.get(MapperConfiguraciones.GET_ITEMS),
-									ValueSQL.get(campo.getId(), Types.BIGINT)));
+					if (idsCampos == null) {
+						idsCampos = new ArrayList<>();
+					}
+					idsCampos.add(campo.getId());
+				}
+			}
+
+			// si hay IDs de SELECT-ITEMS
+			if (idsCampos != null) {
+
+				// se procede a consultar los items de todos los SELECT-ITEMS
+				List<ItemDTO> items = getItemsSelectFiltro(idsCampos, connection);
+
+				// solo aplica si hay items consultados
+				if (items != null && !items.isEmpty()) {
+
+					// se busca el SELECT-ITEM que le pertenece a este item 
+					for (ItemDTO item : items) {
+						for (CampoEntradaDetalleDTO campo : resultado) {
+							if (item.getIdCampo().equals(campo.getId())) {
+								campo.agregarItem(item);
+								break;
+							}
+						}
+					}
 				}
 			}
 		}

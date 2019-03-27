@@ -1,6 +1,7 @@
 package adminfree.dtos.correspondencia;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ItemDTO;
@@ -36,6 +37,16 @@ public class CampoEntradaDetalleDTO implements Serializable {
 
 	/** Son los items para este campo, solo aplica para lista desplegable */
 	private List<ItemDTO> items;
+
+	/**
+	 * Metodo que permite agregar un item para este campo tipo SELECT-ITEM
+	 */
+	public void agregarItem(ItemDTO item) {
+		if (this.items == null) {
+			this.items = new ArrayList<>();
+		}
+		this.items.add(item);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
