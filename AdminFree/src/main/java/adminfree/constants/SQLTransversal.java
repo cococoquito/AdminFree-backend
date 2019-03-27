@@ -261,9 +261,8 @@ public class SQLTransversal {
 				sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
 				sql.append(idCliente);
 				sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
-				sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO = NOMC.CAMPO)");
 				sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
-				sql.append(" AND CE.ID_CAMPO=");
+				sql.append(" AND NOMC.CAMPO=");
 				sql.append(inputSelectValue.getIdCampo());
 				sql.append(" AND CV.VALOR ");
 
@@ -318,9 +317,8 @@ public class SQLTransversal {
 			sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
 			sql.append(idCliente);
 			sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
-			sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO = NOMC.CAMPO)");
 			sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
-			sql.append(" AND CE.ID_CAMPO=");
+			sql.append(" AND NOMC.CAMPO=");
 			sql.append(dateValue.getIdCampo());
 
 			// se concatena el AND de las fechas
