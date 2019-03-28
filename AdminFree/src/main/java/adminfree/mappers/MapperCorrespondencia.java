@@ -12,12 +12,14 @@ import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoEntradaValueDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionValueDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.TransferenciaDTO;
 import adminfree.dtos.correspondencia.WelcomeNomenclaturaDTO;
 import adminfree.dtos.correspondencia.WelcomeUsuarioDTO;
 import adminfree.dtos.transversal.SelectItemDTO;
 import adminfree.enums.Numero;
+import adminfree.enums.TipoCampo;
 import adminfree.utilities.Util;
 
 /**
@@ -43,6 +45,7 @@ public class MapperCorrespondencia extends Mapper {
 	public static final int GET_ITEMS_SELECT_FILTRO = 12;
 	public static final int GET_TRANSFERENCIAS = 13;
 	public static final int GET_USUARIOS_TRANSFERIR = 14;
+	public static final int GET_VALUES_EDICION = 15;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperCorrespondencia instance;
@@ -145,8 +148,39 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_TRANSFERENCIAS:
 				result = getTransferencias(res);
 				break;
+
+			case MapperCorrespondencia.GET_VALUES_EDICION:
+				result = getValuesEdicion(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo para configurar los values de un consecutivo para su edicion
+	 */
+	private List<ConsecutivoEdicionValueDTO> getValuesEdicion(ResultSet res) throws Exception {
+		List<ConsecutivoEdicionValueDTO> values = null;
+		ConsecutivoEdicionValueDTO value;
+		Integer tipoCampo;
+		while (res.next()) {
+			value = new ConsecutivoEdicionValueDTO();
+			value.setIdValue(res.getLong(Numero.UNO.valueI));
+			value.setIdCampoNomenclatura(res.getLong(Numero.DOS.valueI));
+			tipoCampo = res.getInt(Numero.TRES.valueI);
+			if (TipoCampo.CAMPO_FECHA.id.equals(tipoCampo)) {
+				value.setValue(res.getDate(Numero.CUATRO.valueI));
+			} else if (TipoCampo.CASILLA_VERIFICACION.id.equals(tipoCampo)) {
+				value.setValue(CommonConstant.SI.equals(res.getString(Numero.CUATRO.valueI)) ? true : false);
+			} else {
+				value.setValue(res.getString(Numero.CUATRO.valueI));
+			}
+			if (values == null) {
+				values = new ArrayList<>();
+			}
+			values.add(value);
+		}
+		return values;
 	}
 
 	/**
@@ -284,6 +318,7 @@ public class MapperCorrespondencia extends Mapper {
 			} else {
 				consecutivo.setUsuarioCargo(res.getString(Numero.NUEVE.valueI));	
 			}
+			consecutivo.setIdNomenclatura(res.getLong(Numero.DIEZ.valueI));
 		}
 		return consecutivo;
 	}

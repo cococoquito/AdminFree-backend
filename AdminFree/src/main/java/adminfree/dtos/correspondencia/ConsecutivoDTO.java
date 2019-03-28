@@ -18,6 +18,9 @@ public class ConsecutivoDTO implements Serializable {
 	/** Nro del consecutivo */
 	private String consecutivo;
 
+	/** Identificador de la nomenclatura */
+	private Long idNomenclatura;
+
 	/** Nombre de la nomenclatura */
 	private String nomenclatura;
 
@@ -208,5 +211,20 @@ public class ConsecutivoDTO implements Serializable {
 	 */
 	public void setTransferencias(List<TransferenciaDTO> transferencias) {
 		this.transferencias = transferencias;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idNomenclatura
+	 */
+	public Long getIdNomenclatura() {
+		return idNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idNomenclatura
+	 */
+	public void setIdNomenclatura(Long idNomenclatura) {
+		this.idNomenclatura = idNomenclatura;
 	}
 }

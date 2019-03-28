@@ -22,6 +22,9 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	/** Contiene los valores generales del consecutivo */
 	private ConsecutivoDTO consecutivo;
 
+	/** Son los valores a editar de este consecutivo */
+	private List<ConsecutivoEdicionValueDTO> values;
+
 	/** Documentos asociados al consecutivos */
 	private List<DocumentoDTO> documentos;
 
@@ -83,5 +86,20 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	 */
 	public void setDocumentos(List<DocumentoDTO> documentos) {
 		this.documentos = documentos;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo values
+	 */
+	public List<ConsecutivoEdicionValueDTO> getValues() {
+		return values;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param values
+	 */
+	public void setValues(List<ConsecutivoEdicionValueDTO> values) {
+		this.values = values;
 	}
 }

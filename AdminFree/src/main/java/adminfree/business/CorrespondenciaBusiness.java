@@ -19,6 +19,7 @@ import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionValueDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -992,10 +993,72 @@ public class CorrespondenciaBusiness extends CommonDAO {
 				SQLCorrespondencia.getSQListTransferencias(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_TRANSFERENCIAS)));
 
+		// se configura los values de este consecutivo para editar
+		response.setValues(getValuesEditar(idCliente, idConsecutivo, consecutivo.getIdNomenclatura(), connection));
+
 		// se configura los documentos asociados a este consecutivo
 		response.setDocumentos((List<DocumentoDTO>)find(connection,
 				SQLCorrespondencia.getSQListDocumentos(idCliente, idConsecutivo),
 				MapperCorrespondencia.get(MapperCorrespondencia.GET_DOCUMENTOS)));
 		return response;
+	}
+
+	/**
+	 * Metodo que permite consultar y configurar los valores de un consecutivo para su edicion
+	 */
+	private List<ConsecutivoEdicionValueDTO> getValuesEditar(
+			String idCliente,
+			String idConsecutivo,
+			Long idNomenclatura,
+			Connection connection) throws Exception {
+
+		// se consulta los campos de la nomenclatura asociada al consecutivo
+		List<CampoEntradaDetalleDTO> campos = getCamposNomenclatura(idNomenclatura, connection);
+
+		// puede existir consecutivos sin campos asociados
+		if (campos != null && !campos.isEmpty()) {
+
+			// lista con los valores a retornar
+			List<ConsecutivoEdicionValueDTO> response = new ArrayList<>();
+
+			// se consultan los valores ingresados de este consecutivo
+			List<ConsecutivoEdicionValueDTO> values =
+					(List<ConsecutivoEdicionValueDTO>) find(connection,
+					SQLCorrespondencia.getSQLValuesEdicion(idCliente, idConsecutivo),
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_VALUES_EDICION));
+
+			// puede existir consecutivos sin valores aunque tengan campos asociados
+			boolean hayValues = values != null && !values.isEmpty();
+
+			// se recorre todos los campos de la nomenclatura asociada al consecutivo
+			ConsecutivoEdicionValueDTO valueResponse;
+			for (CampoEntradaDetalleDTO campo : campos) {
+
+				// se configura el detalle del campo en el response
+				valueResponse = new ConsecutivoEdicionValueDTO();
+				valueResponse.setCampo(campo);
+
+				// si hay values para este consecutivo se busca su respectivo campo
+				if (hayValues) {
+
+					// // se recorre cada valor en busqueda del campo correspondiente
+					for (ConsecutivoEdicionValueDTO value : values) {
+
+						// si tiene el mismo NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO es porque es su campo
+						if (value.getIdCampoNomenclatura() != null &&
+							value.getIdCampoNomenclatura().equals(campo.getIdCampoNomenclatura())) {
+
+							// se configura el ID value con su valor para este campo
+							valueResponse.setIdValue(value.getIdValue());
+							valueResponse.setValue(value.getValue());
+							break;
+						}
+					}
+				}
+				response.add(valueResponse);
+			}
+			return response;
+		}
+		return null;
 	}
 }
