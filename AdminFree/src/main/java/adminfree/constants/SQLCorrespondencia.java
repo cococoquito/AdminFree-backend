@@ -267,6 +267,7 @@ public class SQLCorrespondencia {
 		sql.append(" VL JOIN NOMENCLATURAS_CAMPOS_ENTRADA NC ON(NC.ID_NOME_CAMPO=VL.ID_NOME_CAMPO)");
 		sql.append("JOIN CAMPOS_ENTRADA CE ON(CE.ID_CAMPO=NC.CAMPO) WHERE VL.ID_CONSECUTIVO=");
 		sql.append(idConsecutivo);
+		sql.append(" ORDER BY NC.ORDEN");
 		return sql.toString();
 	}
 }
