@@ -207,10 +207,12 @@ public class MapperCorrespondencia extends Mapper {
 					else if (TipoCampo.LISTA_DESPLEGABLE.id.equals(tipoCampo)) {
 						idItem = res.getLong(Numero.TRES.valueI);
 						items = campo.getItems();
-						for (ItemDTO item : items) {
-							if (idItem.equals(item.getId())) {
-								value.setValue(item);
-								break;
+						if (items != null && !items.isEmpty()) {
+							for (ItemDTO item : items) {
+								if (idItem.equals(item.getId())) {
+									value.setValue(item);
+									break;
+								}
 							}
 						}
 					} 
