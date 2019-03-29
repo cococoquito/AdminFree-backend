@@ -38,6 +38,9 @@ public class CampoEntradaDetalleDTO implements Serializable {
 	/** Son los items para este campo, solo aplica para lista desplegable */
 	private List<ItemDTO> items;
 
+	/** Se utiliza solamente en JAVA, y permite saber si este campo tiene un valor asociado */
+	private boolean tieneValor;	
+
 	/**
 	 * Metodo que permite agregar un item para este campo tipo SELECT-ITEM
 	 */
@@ -148,5 +151,20 @@ public class CampoEntradaDetalleDTO implements Serializable {
 	 */
 	public void setIdCampoNomenclatura(Long idCampoNomenclatura) {
 		this.idCampoNomenclatura = idCampoNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tieneValor
+	 */
+	public boolean isTieneValor() {
+		return tieneValor;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tieneValor
+	 */
+	public void setTieneValor(boolean tieneValor) {
+		this.tieneValor = tieneValor;
 	}
 }

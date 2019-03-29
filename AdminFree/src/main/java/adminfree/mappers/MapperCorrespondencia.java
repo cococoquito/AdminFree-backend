@@ -82,6 +82,10 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_USUARIOS_TRANSFERIR:
 				result = getUsuariosTransferir(res, parametros);
 				break;
+
+			case MapperCorrespondencia.GET_VALUES_EDICION:
+				result = getValuesEdicion(res, parametros);
+				break;
 		}
 		return result;
 	}
@@ -148,44 +152,90 @@ public class MapperCorrespondencia extends Mapper {
 			case MapperCorrespondencia.GET_TRANSFERENCIAS:
 				result = getTransferencias(res);
 				break;
-
-			case MapperCorrespondencia.GET_VALUES_EDICION:
-				result = getValuesEdicion(res);
-				break;
 		}
 		return result;
 	}
 
 	/**
 	 * Metodo para configurar los values de un consecutivo para su edicion
+	 *
+	 * @param campos, lista de los detalle de los campos asociados al consecutivo
 	 */
-	private List<ConsecutivoEdicionValueDTO> getValuesEdicion(ResultSet res) throws Exception {
-		List<ConsecutivoEdicionValueDTO> values = null;
+	@SuppressWarnings("unchecked")
+	private List<ConsecutivoEdicionValueDTO> getValuesEdicion(ResultSet res, Object campos) throws Exception {
+
+		// lista del detalle de los campos
+		List<CampoEntradaDetalleDTO> camposDetalle = (List<CampoEntradaDetalleDTO>) campos;
+
+		// lista de values a retornar
+		List<ConsecutivoEdicionValueDTO> valuesResponse = new ArrayList<>();
+
+		// variables que se utilizan en el while
 		ConsecutivoEdicionValueDTO value;
+		Long idCampoNomenclatura;
 		Integer tipoCampo;
+		List<ItemDTO> items;
+		Long idItem;
+
+		// se recorre cada valor
 		while (res.next()) {
+
+			// se configuran los identificadores del value y campo-nomenclatura
 			value = new ConsecutivoEdicionValueDTO();
 			value.setIdValue(res.getLong(Numero.UNO.valueI));
-			value.setIdCampoNomenclatura(res.getLong(Numero.DOS.valueI));
-			tipoCampo = res.getInt(Numero.TRES.valueI);
-			if (TipoCampo.CAMPO_FECHA.id.equals(tipoCampo)) {
-				value.setValue(res.getDate(Numero.CUATRO.valueI));
-			} else if (TipoCampo.CASILLA_VERIFICACION.id.equals(tipoCampo)) {
-				value.setValue(CommonConstant.SI.equals(res.getString(Numero.CUATRO.valueI)) ? true : false);
-			} else {
-				value.setValue(res.getString(Numero.CUATRO.valueI));
+			idCampoNomenclatura = res.getLong(Numero.DOS.valueI);
+
+			// se procede a buscar el campo asociado a este valor
+			for (CampoEntradaDetalleDTO campo : camposDetalle) {
+
+				// son iguales solo si tienen el mismo identificador campo-nomenclatura
+				if (idCampoNomenclatura.equals(campo.getIdCampoNomenclatura())) {
+
+					// se indica que este campo tiene un valor asociado
+					campo.setTieneValor(true);
+					value.setCampo(campo);
+
+					// se configura el valor dependiendo del tipo de campo
+					tipoCampo = campo.getTipoCampo();
+
+					// para el campo de texto siempre va ser String
+					if (TipoCampo.CAMPO_TEXTO.id.equals(tipoCampo)) {
+						value.setValue(res.getString(Numero.TRES.valueI));
+					} 
+
+					// para lista desplegable se debe buscar su ITEM.dto
+					else if (TipoCampo.LISTA_DESPLEGABLE.id.equals(tipoCampo)) {
+						idItem = res.getLong(Numero.TRES.valueI);
+						items = campo.getItems();
+						for (ItemDTO item : items) {
+							if (idItem.equals(item.getId())) {
+								value.setValue(item);
+								break;
+							}
+						}
+					} 
+
+					// para casilla de verificacion se debe retornar un boolean (1=true, contrario=false)
+					else if (TipoCampo.CASILLA_VERIFICACION.id.equals(tipoCampo)) {
+						value.setValue(CommonConstant.SI.equals(res.getString(Numero.TRES.valueI)) ? true : false);
+					}
+
+					// para campo de fecha se hace la conversion a DATE
+					else if (TipoCampo.CAMPO_FECHA.id.equals(tipoCampo)) {
+						value.setValue(res.getDate(Numero.TRES.valueI));
+					}
+					break;
+				}
 			}
-			if (values == null) {
-				values = new ArrayList<>();
-			}
-			values.add(value);
+			valuesResponse.add(value);
 		}
-		return values;
+		return valuesResponse;
 	}
 
 	/**
 	 * Metodo para configurar los usuarios a transferir
-	 * @param parametro, lista de usuarios previamente configurados
+	 *
+	 * @param usuarios, lista de usuarios previamente configurados
 	 */
 	@SuppressWarnings("unchecked")
 	private List<SelectItemDTO> getUsuariosTransferir(ResultSet res, Object usuarios) throws Exception {

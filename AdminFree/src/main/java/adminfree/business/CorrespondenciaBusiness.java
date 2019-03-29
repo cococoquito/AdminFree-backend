@@ -1018,46 +1018,28 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		// puede existir consecutivos sin campos asociados
 		if (campos != null && !campos.isEmpty()) {
 
-			// lista con los valores a retornar
-			List<ConsecutivoEdicionValueDTO> response = new ArrayList<>();
-
 			// se consultan los valores ingresados de este consecutivo
 			List<ConsecutivoEdicionValueDTO> values =
-					(List<ConsecutivoEdicionValueDTO>) find(connection,
+					(List<ConsecutivoEdicionValueDTO>) findParams(connection,
 					SQLCorrespondencia.getSQLValuesEdicion(idCliente, idConsecutivo),
-					MapperCorrespondencia.get(MapperCorrespondencia.GET_VALUES_EDICION));
+					MapperCorrespondencia.get(MapperCorrespondencia.GET_VALUES_EDICION),
+					campos);
 
-			// puede existir consecutivos sin valores aunque tengan campos asociados
-			boolean hayValues = values != null && !values.isEmpty();
+			// si la cantidad de campos y valores son diferentes es porque hay campos sin valores
+			int cantidadCampos = campos.size();
+			int cantidadValues = values.size();
+			if (cantidadCampos != cantidadValues) {
 
-			// se recorre todos los campos de la nomenclatura asociada al consecutivo
-			ConsecutivoEdicionValueDTO valueResponse;
-			for (CampoEntradaDetalleDTO campo : campos) {
-
-				// se configura el detalle del campo en el response
-				valueResponse = new ConsecutivoEdicionValueDTO();
-				valueResponse.setCampo(campo);
-
-				// si hay values para este consecutivo se busca su respectivo campo
-				if (hayValues) {
-
-					// // se recorre cada valor en busqueda del campo correspondiente
-					for (ConsecutivoEdicionValueDTO value : values) {
-
-						// si tiene el mismo NOMENCLATURAS_CAMPOS_ENTRADA.ID_NOME_CAMPO es porque es su campo
-						if (value.getIdCampoNomenclatura() != null &&
-							value.getIdCampoNomenclatura().equals(campo.getIdCampoNomenclatura())) {
-
-							// se configura el ID value con su valor para este campo
-							valueResponse.setIdValue(value.getIdValue());
-							valueResponse.setValue(value.getValue());
-							break;
-						}
+				// se busca los campos que no tiene valores
+				for (CampoEntradaDetalleDTO campo : campos) {
+					if (!campo.isTieneValor()) {
+						ConsecutivoEdicionValueDTO valueResponse = new ConsecutivoEdicionValueDTO();
+						valueResponse.setCampo(campo);
+						values.add(valueResponse);
 					}
 				}
-				response.add(valueResponse);
 			}
-			return response;
+			return values;
 		}
 		return null;
 	}

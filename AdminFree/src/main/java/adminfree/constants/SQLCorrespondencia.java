@@ -258,7 +258,7 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para obtener los values de un consecutivo para su edicion
 	 */
 	public static String getSQLValuesEdicion(String idCliente, String idConsecutivo) {
-		StringBuilder sql = new StringBuilder("SELECT VL.ID_VALUE,VL.ID_NOME_CAMPO,CE.TIPO_CAMPO,CASE WHEN CE.TIPO_CAMPO=");
+		StringBuilder sql = new StringBuilder("SELECT VL.ID_VALUE,VL.ID_NOME_CAMPO,CASE WHEN CE.TIPO_CAMPO=");
 		sql.append(TipoCampo.CAMPO_FECHA.id);
 		sql.append(" THEN (STR_TO_DATE(VL.VALOR,");
 		sql.append(CommonConstant.FORMATO_FECHA_SQL);

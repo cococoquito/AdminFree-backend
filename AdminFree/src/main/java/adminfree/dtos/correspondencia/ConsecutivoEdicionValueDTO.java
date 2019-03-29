@@ -18,9 +18,6 @@ public class ConsecutivoEdicionValueDTO implements Serializable {
 	/** Es el valor ingresado a editar, este valor puede ser nulo */
 	private Object value;
 
-	/** Identificador de la relacion entre la nomenclatura y el campo */
-	private Long idCampoNomenclatura;
-
 	/** Es el detalle del campo, tipo, nombre, ayuda restricciones */
 	private CampoEntradaDetalleDTO campo;
 
@@ -36,13 +33,6 @@ public class ConsecutivoEdicionValueDTO implements Serializable {
 	 */
 	public Object getValue() {
 		return value;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo idCampoNomenclatura
-	 */
-	public Long getIdCampoNomenclatura() {
-		return idCampoNomenclatura;
 	}
 
 	/**
@@ -66,14 +56,6 @@ public class ConsecutivoEdicionValueDTO implements Serializable {
 	 */
 	public void setValue(Object value) {
 		this.value = value;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param idCampoNomenclatura
-	 */
-	public void setIdCampoNomenclatura(Long idCampoNomenclatura) {
-		this.idCampoNomenclatura = idCampoNomenclatura;
 	}
 
 	/**
