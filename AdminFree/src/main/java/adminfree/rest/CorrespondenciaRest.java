@@ -427,4 +427,26 @@ public class CorrespondenciaRest {
 			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".getConsecutivoEdicion ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite editar los valores de un consecutivo
+	 *
+	 * @param datos, contiene todos los valores a editar
+	 * @return valores asociados al consecutivo con las modificaciones realizadas
+	 * @throws Exception, Errores encontrados para cada validacion de los campos
+	 */
+	@RequestMapping(
+			value = ApiRest.EDITAR_CONSECUTIVO_VALUES,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> editarConsecutivoValores(@RequestBody ConsecutivoEdicionDTO datos) {
+		try {
+			return Util.getResponseSuccessful(this.correspondenciaService.editarConsecutivoValores(datos));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(CorrespondenciaRest.class.getSimpleName() + ".editarConsecutivoValores ", e.getMessage());
+		}
+	}
 }

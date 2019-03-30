@@ -1043,4 +1043,18 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		}
 		return null;
 	}
+
+	/**
+	 * Metodo que permite editar los valores de un consecutivo
+	 *
+	 * @param datos, contiene todos los valores a editar
+	 * @return valores asociados al consecutivo con las modificaciones realizadas
+	 * @throws Exception, Errores encontrados para cada validacion de los campos
+	 */
+	public List<ConsecutivoEdicionValueDTO> editarConsecutivoValores(
+			ConsecutivoEdicionDTO datos,
+			Connection connection)
+			throws Exception {
+		return null;
+	}
 }

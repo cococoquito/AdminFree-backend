@@ -15,6 +15,7 @@ import adminfree.dtos.correspondencia.CampoEntradaDetalleDTO;
 import adminfree.dtos.correspondencia.CampoFiltroDTO;
 import adminfree.dtos.correspondencia.ConsecutivoDetalleDTO;
 import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
+import adminfree.dtos.correspondencia.ConsecutivoEdicionValueDTO;
 import adminfree.dtos.correspondencia.DocumentoDTO;
 import adminfree.dtos.correspondencia.FiltroConsecutivosDTO;
 import adminfree.dtos.correspondencia.InitConsecutivosAnioActualDTO;
@@ -390,6 +391,26 @@ public class CorrespondenciaService {
 
 			// se procede a consultar los atributos del consecutivo para su edicion
 			return new CorrespondenciaBusiness().getConsecutivoEdicion(filtro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite editar los valores de un consecutivo
+	 *
+	 * @param datos, contiene todos los valores a editar
+	 * @return valores asociados al consecutivo con las modificaciones realizadas
+	 * @throws Exception, Errores encontrados para cada validacion de los campos
+	 */
+	public List<ConsecutivoEdicionValueDTO> editarConsecutivoValores(ConsecutivoEdicionDTO datos) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a editar los valores
+			return new CorrespondenciaBusiness().editarConsecutivoValores(datos, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

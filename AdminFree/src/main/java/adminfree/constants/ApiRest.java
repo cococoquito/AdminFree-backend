@@ -61,4 +61,5 @@ public class ApiRest {
 	public static final String TRANSFERIR_CONSECUTIVO = "transferirconse";
 	public static final String GET_USERS_TRANSFERIR = "getusertransferir";
 	public static final String GET_CONSECUTIVO_EDICION = "getconsedicion";
+	public static final String EDITAR_CONSECUTIVO_VALUES = "editconsevalues";
 }
