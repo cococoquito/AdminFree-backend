@@ -34,8 +34,16 @@ public class EditarConsecutivoValoresTest {
 	@Test
 	public void editarConsecutivoValores() {
 		try {
+			// se construye el filtro para consultar el consecutivo para su edicion
+			ConsecutivoEdicionDTO filtro = new ConsecutivoEdicionDTO();
+			filtro.setIdCliente(1L);
+			filtro.setIdConsecutivo(1L);
+
 			// se configura los datos necesarios para el proceso
-			ConsecutivoEdicionDTO datos = new ConsecutivoEdicionDTO();
+			ConsecutivoEdicionDTO datos = this.correspondenciaService.getConsecutivoEdicion(filtro);
+			datos.setIdCliente(1L);
+			datos.setIdConsecutivo(1L);
+			datos.setIdNomenclatura(1L);
 
 			// se hace la invocacion del proceso
 			List<ConsecutivoEdicionValueDTO> valores = this.correspondenciaService.editarConsecutivoValores(datos);

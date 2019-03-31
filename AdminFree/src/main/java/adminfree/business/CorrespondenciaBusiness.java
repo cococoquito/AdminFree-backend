@@ -1055,6 +1055,99 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			ConsecutivoEdicionDTO datos,
 			Connection connection)
 			throws Exception {
-		return null;
+
+		// variables necesarias para el proceso
+		Long idCliente = datos.getIdCliente();
+		Long idConsecutivo = datos.getIdConsecutivo();
+		Long idNomenclatura = datos.getIdNomenclatura();
+
+		// se obtiene los valores a validar a nivel de negocio dependiendo sus restricciones
+		List<CampoEntradaValueDTO> valoresValidar = datos.getValoresValidar();
+
+		// puede llegar nulo, no todas las validaciones se aplican a nivel de negocio
+		if (valoresValidar != null && !valoresValidar.isEmpty()) {
+
+			// se construye la solicitud para invocar el validador
+			SolicitudConsecutivoDTO solicitud = new SolicitudConsecutivoDTO();
+			solicitud.setValores(valoresValidar);
+			solicitud.setIdCliente(idCliente);
+			solicitud.setIdNomenclatura(idNomenclatura);
+
+			// se invoca el validador retornando una lista de errores encontrados
+			List<MessageResponseDTO> errores = validarCamposIngresoInformacion(solicitud, connection);
+
+			// si hay errores el proceso termina aqui, lanzando un bussines exception
+			if (errores != null && !errores.isEmpty()) {
+				StringBuilder erroresResponse = new StringBuilder();
+				for (MessageResponseDTO error : errores) {
+					if (erroresResponse.length() > Numero.ZERO.valueI.intValue()) {
+						erroresResponse.append(CommonConstant.SALTO_LINEA);
+					}
+					erroresResponse.append(error.getMensaje());
+				}
+				throw new BusinessException(erroresResponse.toString());
+			}
+		}
+
+		// variables necesarios para el proceso de edicion
+		List<List<ValueSQL>> injInserts = new ArrayList<>();
+		List<List<ValueSQL>> injUpdates = new ArrayList<>();
+		ValueSQL valueIdConsecutivo = ValueSQL.get(idConsecutivo, Types.BIGINT);
+
+		// se recorre cada valor a editar
+		Long idValue;
+		List<ValueSQL> params;
+		List<ConsecutivoEdicionValueDTO> values = datos.getValues();
+		for (ConsecutivoEdicionValueDTO value : values) {
+
+			// se obtiene el ID del VALUE y se crea la lista de parametros
+			idValue = value.getIdValue();
+			params = new ArrayList<>();
+
+			// si el ID del VALUE existe solamente se hace el UPDATE
+			if (idValue != null && !idValue.equals(Numero.ZERO.valueL)) {
+				params.add(ValueSQL.get(value.getValue() != null ? value.getValue().toString() : null, Types.VARCHAR));
+				params.add(ValueSQL.get(idValue, Types.BIGINT));
+				injUpdates.add(params);
+			} 
+			// si el ID del VALUE NO existe se hace el INSERT
+			else {
+				params.add(valueIdConsecutivo);
+				params.add(ValueSQL.get(value.getCampo().getIdCampoNomenclatura(), Types.BIGINT));
+				params.add(ValueSQL.get(value.getValue() != null ? value.getValue().toString() : null, Types.VARCHAR));
+				injInserts.add(params);
+			}
+		}
+
+		// se ejecuta los batch para los diferentes DMLs
+		try {
+			connection.setAutoCommit(false);
+
+			// las consultas necesitan el id del cliente en tipo String
+			String idCliente_ = idCliente.toString();
+
+			// se verifica si hay INSERTs a procesar
+			if (!injInserts.isEmpty()) {
+				// se hace los inserts correspondiente
+				batchConInjection(connection, SQLCorrespondencia.getInsertConsecutivoValues(idCliente_), injInserts);
+
+				// Se actualiza la bandera que indica que campos ya tienen asociado un consecutivo
+				insertUpdate(connection, SQLCorrespondencia.getUpdateCamposTieneConsecutivo(idNomenclatura.toString()));
+			}
+
+			// se verifica si hay UPDATEs a procesar
+			if (!injUpdates.isEmpty()) {
+				batchConInjection(connection, SQLCorrespondencia.getUpdateConsecutivoValues(idCliente_), injUpdates);
+			}
+			connection.commit();
+
+			// se retorna los valores de este consecutivo
+			return getValuesEditar(idCliente_, idConsecutivo.toString(), idNomenclatura, connection);
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
+		}
 	}
 }

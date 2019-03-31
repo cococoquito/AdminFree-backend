@@ -19,11 +19,17 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	/** identificador del consecutivo, se utiliza para buscar el detalle del consecutivo */
 	private Long idConsecutivo;
 
+	/** Se utiliza para la edicion de los valores del consecutivo */
+	private Long idNomenclatura;
+
 	/** Contiene los valores generales del consecutivo */
 	private ConsecutivoDTO consecutivo;
 
 	/** Son los valores a editar de este consecutivo */
 	private List<ConsecutivoEdicionValueDTO> values;
+
+	/** Se utiliza al editar values del consecutivo, Valores a validar de acuerdo a sus restricciones */
+	private List<CampoEntradaValueDTO> valoresValidar;
 
 	/** Documentos asociados al consecutivos */
 	private List<DocumentoDTO> documentos;
@@ -101,5 +107,35 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	 */
 	public void setValues(List<ConsecutivoEdicionValueDTO> values) {
 		this.values = values;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo valoresValidar
+	 */
+	public List<CampoEntradaValueDTO> getValoresValidar() {
+		return valoresValidar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param valoresValidar
+	 */
+	public void setValoresValidar(List<CampoEntradaValueDTO> valoresValidar) {
+		this.valoresValidar = valoresValidar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idNomenclatura
+	 */
+	public Long getIdNomenclatura() {
+		return idNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idNomenclatura
+	 */
+	public void setIdNomenclatura(Long idNomenclatura) {
+		this.idNomenclatura = idNomenclatura;
 	}
 }

@@ -47,13 +47,24 @@ public class SQLCorrespondencia {
 	}
 
 	/**
-	 * Metodo que permite construir el insert para los valores del
+	 * Metodo que permite construir el INSERT para los valores del
 	 * consecutivo asociado al cliente autenticado en el sistema
 	 */
 	public static String getInsertConsecutivoValues(String idCliente) {
 		StringBuilder insert = new StringBuilder("INSERT INTO CONSECUTIVOS_VALUES_");
 		insert.append(idCliente);
 		insert.append("(ID_CONSECUTIVO,ID_NOME_CAMPO,VALOR)VALUES(?,?,?)");
+		return insert.toString();
+	}
+
+	/**
+	 * Metodo que permite construir el UPDATE para los valores del
+	 * consecutivo asociado al cliente autenticado en el sistema
+	 */
+	public static String getUpdateConsecutivoValues(String idCliente) {
+		StringBuilder insert = new StringBuilder("UPDATE CONSECUTIVOS_VALUES_");
+		insert.append(idCliente);
+		insert.append(" SET VALOR=? WHERE ID_VALUE=?");
 		return insert.toString();
 	}
 
