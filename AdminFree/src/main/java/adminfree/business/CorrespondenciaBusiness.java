@@ -1106,7 +1106,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// si el ID del VALUE existe solamente se hace el UPDATE
 			if (idValue != null && !idValue.equals(Numero.ZERO.valueL)) {
-				params.add(ValueSQL.get(value.getValue() != null ? value.getValue().toString() : null, Types.VARCHAR));
+				params.add(ValueSQL.get(value.getValueUpdate() != null ? value.getValueUpdate().toString() : null, Types.VARCHAR));
 				params.add(ValueSQL.get(idValue, Types.BIGINT));
 				injUpdates.add(params);
 			} 
@@ -1114,7 +1114,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			else {
 				params.add(valueIdConsecutivo);
 				params.add(ValueSQL.get(value.getCampo().getIdCampoNomenclatura(), Types.BIGINT));
-				params.add(ValueSQL.get(value.getValue() != null ? value.getValue().toString() : null, Types.VARCHAR));
+				params.add(ValueSQL.get(value.getValueUpdate() != null ? value.getValueUpdate().toString() : null, Types.VARCHAR));
 				injInserts.add(params);
 			}
 		}

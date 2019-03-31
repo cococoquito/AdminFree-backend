@@ -18,6 +18,9 @@ public class ConsecutivoEdicionValueDTO implements Serializable {
 	/** Es el valor ingresado a editar, este valor puede ser nulo */
 	private Object value;
 
+	/** Es el valor enviado para actualizar */
+	private Object valueUpdate;
+
 	/** Es el detalle del campo, tipo, nombre, ayuda restricciones */
 	private CampoEntradaDetalleDTO campo;
 
@@ -64,5 +67,20 @@ public class ConsecutivoEdicionValueDTO implements Serializable {
 	 */
 	public void setCampo(CampoEntradaDetalleDTO campo) {
 		this.campo = campo;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo valueUpdate
+	 */
+	public Object getValueUpdate() {
+		return valueUpdate;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param valueUpdate
+	 */
+	public void setValueUpdate(Object valueUpdate) {
+		this.valueUpdate = valueUpdate;
 	}
 }
