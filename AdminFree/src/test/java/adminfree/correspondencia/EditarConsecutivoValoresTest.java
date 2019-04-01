@@ -2,8 +2,6 @@ package adminfree.correspondencia;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.correspondencia.ConsecutivoEdicionDTO;
-import adminfree.dtos.correspondencia.ConsecutivoEdicionValueDTO;
 import adminfree.services.CorrespondenciaService;
 
 /**
@@ -46,10 +43,10 @@ public class EditarConsecutivoValoresTest {
 			datos.setIdNomenclatura(1L);
 
 			// se hace la invocacion del proceso
-			List<ConsecutivoEdicionValueDTO> valores = this.correspondenciaService.editarConsecutivoValores(datos);
+			ConsecutivoEdicionDTO response = this.correspondenciaService.editarConsecutivoValores(datos);
 
 			// debe existir los documentos asociados al consecutivo
-			assertTrue(valores != null && !valores.isEmpty());
+			assertTrue(response != null && response.getValues() != null && !response.getValues().isEmpty());
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

@@ -1049,12 +1049,8 @@ public class CorrespondenciaBusiness extends CommonDAO {
 	 *
 	 * @param datos, contiene todos los valores a editar
 	 * @return valores asociados al consecutivo con las modificaciones realizadas
-	 * @throws Exception, Errores encontrados para cada validacion de los campos
 	 */
-	public List<ConsecutivoEdicionValueDTO> editarConsecutivoValores(
-			ConsecutivoEdicionDTO datos,
-			Connection connection)
-			throws Exception {
+	public ConsecutivoEdicionDTO editarConsecutivoValores(ConsecutivoEdicionDTO datos, Connection connection) throws Exception {
 
 		// variables necesarias para el proceso
 		Long idCliente = datos.getIdCliente();
@@ -1076,16 +1072,11 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			// se invoca el validador retornando una lista de errores encontrados
 			List<MessageResponseDTO> errores = validarCamposIngresoInformacion(solicitud, connection);
 
-			// si hay errores el proceso termina aqui, lanzando un bussines exception
+			// si hay errores el proceso termina aqui.
 			if (errores != null && !errores.isEmpty()) {
-				StringBuilder erroresResponse = new StringBuilder();
-				for (MessageResponseDTO error : errores) {
-					if (erroresResponse.length() > Numero.ZERO.valueI.intValue()) {
-						erroresResponse.append(CommonConstant.SALTO_LINEA);
-					}
-					erroresResponse.append(error.getMensaje());
-				}
-				throw new BusinessException(erroresResponse.toString());
+				ConsecutivoEdicionDTO response = new ConsecutivoEdicionDTO();
+				response.setErrores(errores);
+				return response;
 			}
 		}
 
@@ -1142,7 +1133,9 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			connection.commit();
 
 			// se retorna los valores de este consecutivo
-			return getValuesEditar(idCliente_, idConsecutivo.toString(), idNomenclatura, connection);
+			ConsecutivoEdicionDTO response = new ConsecutivoEdicionDTO();
+			response.setValues(getValuesEditar(idCliente_, idConsecutivo.toString(), idNomenclatura, connection));
+			return response;
 		} catch (Exception e) {
 			connection.rollback();
 			throw e;

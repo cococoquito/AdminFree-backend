@@ -3,6 +3,8 @@ package adminfree.dtos.correspondencia;
 import java.io.Serializable;
 import java.util.List;
 
+import adminfree.dtos.transversal.MessageResponseDTO;
+
 /**
  * Este DTO se utiliza para encapsular los datos de un consecutivo
  * de correspondencia para su respectiva edicion
@@ -33,6 +35,9 @@ public class ConsecutivoEdicionDTO implements Serializable {
 
 	/** Documentos asociados al consecutivos */
 	private List<DocumentoDTO> documentos;
+
+	/** Lista de errores encontrados en el proceso de edicion */
+	private List<MessageResponseDTO> errores;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo idCliente
@@ -137,5 +142,20 @@ public class ConsecutivoEdicionDTO implements Serializable {
 	 */
 	public void setIdNomenclatura(Long idNomenclatura) {
 		this.idNomenclatura = idNomenclatura;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo errores
+	 */
+	public List<MessageResponseDTO> getErrores() {
+		return errores;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param errores
+	 */
+	public void setErrores(List<MessageResponseDTO> errores) {
+		this.errores = errores;
 	}
 }
