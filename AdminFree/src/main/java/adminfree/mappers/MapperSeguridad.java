@@ -1,7 +1,9 @@
 package adminfree.mappers;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 
+import adminfree.constants.CommonConstant;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Numero;
@@ -89,25 +91,24 @@ public class MapperSeguridad extends Mapper {
 	 */
 	private Object getDatosUserAuth(ResultSet res) throws Exception {
 		UsuarioDTO user = null;
-		while (res.next()) {
-			if (user == null) {
+		if (res.next()) {
 
-				// se configura los datos del USUARIO
-				user = new UsuarioDTO();
-				user.setId(res.getLong(Numero.UNO.valueI));
-				user.setNombre(res.getString(Numero.DOS.valueI));
+			// se configura los datos del USUARIO
+			user = new UsuarioDTO();
+			user.setId(res.getLong(Numero.UNO.valueI));
+			user.setNombre(res.getString(Numero.DOS.valueI));
+			user.setCargo(res.getString(Numero.TRES.valueI));
 
-				// se configura los datos del CLIENTE
-				ClienteDTO cliente = new ClienteDTO();
-				cliente.setId(res.getLong(Numero.TRES.valueI));
-				cliente.setNombre(res.getString(Numero.CUATRO.valueI));
-				user.setCliente(cliente);
+			// se configura los datos del CLIENTE
+			ClienteDTO cliente = new ClienteDTO();
+			cliente.setId(res.getLong(Numero.CUATRO.valueI));
+			cliente.setNombre(res.getString(Numero.CINCO.valueI));
+			user.setCliente(cliente);
 
-				// se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.valueI));
-			} else {
-				// solamente se configura los datos del MODULO
-				user.agregarModuloToken(res.getString(Numero.CINCO.valueI));
+			// se configura los datos del MODULO
+			String modulos = res.getString(Numero.SEIS.valueI);
+			if (modulos != null) {
+				user.setModulosTokens(Arrays.asList(modulos.split(CommonConstant.PUNTO_COMA)));
 			}
 		}
 		return user;

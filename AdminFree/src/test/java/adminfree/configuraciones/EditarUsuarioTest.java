@@ -2,6 +2,9 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,9 @@ public class EditarUsuarioTest {
 			usuario.setCargo("nuevo cargo");
 
 			// modulos asignados para el usuario
-			usuario.agregarModuloToken("a9ee4d222a05960a00ea9b5eb6fb0a81");
+			List<String> modulosTokens = new ArrayList<>();
+			modulosTokens.add("a9ee4d222a05960a00ea9b5eb6fb0a81");
+			usuario.setModulosTokens(modulosTokens);
 
 			// DTO para la edicion
 			UsuarioEdicionDTO datos = new UsuarioEdicionDTO();

@@ -2,6 +2,9 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +45,12 @@ public class CrearUsuarioTest {
 			usuarioCrear.setUsuarioIngreso("crisdiaz");
 			usuarioCrear.setCargo("Desarrollador de Software");
 			cliente.setId(1L);
-			usuarioCrear.agregarModuloToken("9f1124f946de506332f221a01d39c411");
-			usuarioCrear.agregarModuloToken("a9ee4d222a05960a00ea9b5eb6fb0a81");
-			usuarioCrear.agregarModuloToken("b6177afc6e3818cb7cb663cf71ef1ce4");
-			usuarioCrear.agregarModuloToken("4813e117da87e1ae5bdfb0d4967f4387");
+			List<String> modulosTokens = new ArrayList<>();
+			modulosTokens.add("9f1124f946de506332f221a01d39c411");
+			modulosTokens.add("a9ee4d222a05960a00ea9b5eb6fb0a81");
+			modulosTokens.add("b6177afc6e3818cb7cb663cf71ef1ce4");
+			modulosTokens.add("4813e117da87e1ae5bdfb0d4967f4387");
+			usuarioCrear.setModulosTokens(modulosTokens);
 
 			// se crea el usuario
 			UsuarioDTO usuarioCreado = this.configuracionesService.crearUsuario(usuarioCrear);

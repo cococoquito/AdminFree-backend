@@ -1,7 +1,6 @@
 package adminfree.dtos.seguridad;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.dtos.configuraciones.ClienteDTO;
@@ -44,16 +43,6 @@ public class UsuarioDTO implements Serializable {
 
 	/** Indica si el usuario de ingreso fue modificado */
 	private boolean userIngresoModificado;
-
-	/**
-	 * Metodo que permite agregar un MODULO para este USUARIO
-	 */
-	public void agregarModuloToken(String moduloToken) {
-		if (this.modulosTokens == null) {
-			this.modulosTokens = new ArrayList<>();
-		}
-		this.modulosTokens.add(moduloToken);
-	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
