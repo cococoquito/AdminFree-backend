@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLConfiguraciones;
 import adminfree.dtos.configuraciones.CambioClaveDTO;
+import adminfree.dtos.configuraciones.CambioUsuarioIngresoDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
+import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
@@ -397,89 +399,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			return nuevoToken;
 		}
 		return null;
-	}
-
-	/**
-	 * Metodo que permite actualizar los datos de la cuenta
-	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
-	 *
-	 * @param usuario, DTO 	que contiene los datos del usuario
-	 */
-	public void modificarDatosCuenta(UsuarioDTO usuario, Connection connection) throws Exception {
-		// se obtiene el valor del usuario de ingreso
-		String userIngreso = usuario.getUsuarioIngreso();
-
-		// se aplica las validaciones de negocio para el usuario de ingreso si es modificado
-		if (usuario.isUserIngresoModificado()) {
-			validarUsuarioIngreso(userIngreso, connection);
-		}
-
-		if (usuario.isUserIngresoModificado()) {
-			insertUpdate(connection,
-					SQLConfiguraciones.UPDATE_DATOS_CUENTA,
-					ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
-					ValueSQL.get(userIngreso, Types.VARCHAR),
-					ValueSQL.get(usuario.getId(), Types.BIGINT));
-		} else {
-			insertUpdate(connection,
-					SQLConfiguraciones.UPDATE_NOMBRE_USER,
-					ValueSQL.get(usuario.getNombre(), Types.VARCHAR),
-					ValueSQL.get(usuario.getId(), Types.BIGINT));
-		}
-	}
-
-	/**
-	 * Metodo que permite soportar el proceso de modificar la clave de ingreso
-	 *
-	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
-	 * @param securityPostPass, se utiliza para encriptar las claves
-	 */
-	public void modificarClaveIngreso(
-			CambioClaveDTO datos,
-			String securityPostPass,
-			Connection connection) throws Exception {
-
-		// se obtiene los recursos necesarios para el proceso
-		String nuevaClave = datos.getClaveNueva();
-		Long idUsuario = datos.getIdUsuario();
-		EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
-
-		// se verifica si La contrasenia de verificación coincide
-		if (!nuevaClave.equals(datos.getClaveVerificacion())) {
-			throw new BusinessException(MessagesKey.KEY_CLAVE_VERIFICACION_NO_COINCIDE.value);
-		}
-
-		// la nueva contrasenia debe tener minimo la cantidad permitida
-		if (nuevaClave.length() < Numero.DOCE.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_CLAVE_LONGITUD_NO_PERMITIDA.value);
-		}
-
-		// la nueva contrasenia no puede contener espacios en blanco
-		if (nuevaClave.indexOf(' ') != -1) {
-			throw new BusinessException(MessagesKey.KEY_CLAVE_ESPACIOS_BLANCO.value);
-		}
-
-		// se verifica si la contrasenia actual coincide con la clave del usuario
-		String claveUser = (String) find(connection,
-				SQLConfiguraciones.GET_CLAVE_INGRESO,
-				MapperTransversal.get(MapperTransversal.GET_SOLO_UN_STRING),
-				ValueSQL.get(idUsuario, Types.BIGINT));
-		String claveActualMD5 = criptografica.encriptarPassword(datos.getClaveActual(), securityPostPass);
-		if (!claveUser.equals(claveActualMD5)) {
-			throw new BusinessException(MessagesKey.KEY_CLAVE_NO_COINCIDE.value);
-		}
-
-		// se verifica que la clave nueva no sea igual a la clave del usuario
-		String nuevaClaveMD5 = criptografica.encriptarPassword(nuevaClave, securityPostPass);
-		if (nuevaClaveMD5.equals(claveUser)) {
-			throw new BusinessException(MessagesKey.KEY_CLAVE_ACTUAL_IGUAL.value);
-		}
-
-		// actualiza la clave de ingreso en la BD
-		insertUpdate(connection,
-				SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
-				ValueSQL.get(nuevaClaveMD5, Types.VARCHAR),
-				ValueSQL.get(idUsuario, Types.BIGINT));
 	}
 
 	/**
@@ -1020,13 +939,13 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			throw new BusinessException(MessagesKey.KEY_USER_INGRESO_ESPACIOS_BLANCO.value);
 		}
 
-		// se verifica que no exista un usuario de ingreso registrado en la BD
+		// se verifica que no exista un usuario de ingreso igual en la BD
 		Long count = (Long) find(connection,
 				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
 				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
 
-		// si existe algun 'usuario de ingreso' registrado en la BD no se PUEDE seguir con el proceso
+		// si existe otro 'usuario de ingreso' igual registrado en la BD no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
 		}
@@ -1062,6 +981,157 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite procesar la funcionalidad de negocio de modificacion
+	 * cuenta del usuario aplica para datos personales, cambio clave o usuario de ingreso
+	 *
+	 * @param params, contiene los DTOs para las modificaciones correspondiente
+	 * @param securityPostPass, se utiliza para el cambio de clave o usuario ingreso
+	 */
+	public void modificarCuentaUsuario(ModificarCuentaUsuarioDTO params, String securityPostPass, Connection connection) throws Exception {
+
+		// se obtiene los tres DTOs para las modificaciones
+		UsuarioDTO datosPersonales = params.getDatosPersonales();
+		CambioClaveDTO cambioClave = params.getCambioClave();
+		CambioUsuarioIngresoDTO cambioUsuario = params.getCambioUsuario();
+
+		// se valida si se debe modificar los datos personales
+		if (datosPersonales != null &&
+			datosPersonales.getId() != null &&
+			!Numero.ZERO.valueL.equals(datosPersonales.getId())) {
+			modificarDatosPersonales(datosPersonales, connection);
+		}
+
+		// se valida si se debe modificar la clave de ingreso
+		if (cambioClave != null &&
+			cambioClave.getIdUsuario() != null &&
+			!Numero.ZERO.valueL.equals(cambioClave.getIdUsuario())) {
+			modificarClave(cambioClave, securityPostPass, connection);
+		}
+
+		// se valida si se debe modificar el usuario de ingreso
+		if (cambioUsuario != null &&
+			cambioUsuario.getIdUsuario() != null &&
+			!Numero.ZERO.valueL.equals(cambioUsuario.getIdUsuario())) {
+			modificarUsuarioIngreso(cambioUsuario, securityPostPass, connection);
+		}
+	}
+
+	/**
+	 * Metodo que permite modificar los datos personales del usuario
+	 * @param datosPersonales, DTO que contiene los datos para el proceso
+	 */
+	private void modificarDatosPersonales(UsuarioDTO datosPersonales, Connection connection) throws Exception {
+
+		// se procede actualizar los datos personales del usuario
+		int resultado = insertUpdate(connection,
+				SQLConfiguraciones.UPDATE_DATOS_PERSONALES,
+				ValueSQL.get(datosPersonales.getNombre(), Types.VARCHAR),
+				ValueSQL.get(datosPersonales.getCargo(), Types.VARCHAR),
+				ValueSQL.get(datosPersonales.getId(), Types.BIGINT));
+
+		// se verifica si la actualizacion se proceso sin problemas
+		if (resultado <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite modificar el usuario de ingreso al sistema
+	 *
+	 * @param cambioUsuario, DTO que contiene los datos para el proceso
+	 * @param securityPostPass, se utiliza para encriptar las claves
+	 */
+	private void modificarUsuarioIngreso(
+			CambioUsuarioIngresoDTO cambioUsuario,
+			String securityPostPass,
+			Connection connection) throws Exception {
+
+		// se obtiene los valores para el proceso
+		String userIngreso = cambioUsuario.getUsuario();
+		Long idUsuario = cambioUsuario.getIdUsuario();
+
+		// se aplica las validaciones de negocio para el usuario de ingreso
+		validarUsuarioIngreso(userIngreso, connection);
+
+		// se verifica si la contrasenia actual coincide con la clave del usuario
+		String claveUser = (String) find(connection,
+				SQLConfiguraciones.GET_CLAVE_INGRESO,
+				MapperTransversal.get(MapperTransversal.GET_SOLO_UN_STRING),
+				ValueSQL.get(idUsuario, Types.BIGINT));
+		String claveActualMD5 = EstrategiaCriptografica.get().encriptarPassword(cambioUsuario.getClaveActual(), securityPostPass);
+		if (!claveUser.equals(claveActualMD5)) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_NO_COINCIDE.value);
+		}
+
+		// se procede actualizar el usuario de ingreso
+		int resultado = insertUpdate(connection,
+				SQLConfiguraciones.ACTUALIZAR_USUARIO_INGRESO,
+				ValueSQL.get(userIngreso, Types.VARCHAR),
+				ValueSQL.get(idUsuario, Types.BIGINT));
+
+		// se verifica si la actualizacion se proceso sin problemas
+		if (resultado <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite modificar la clave de ingreso al sistema
+	 *
+	 * @param datos, DTO que contiene los datos para el proceso
+	 * @param securityPostPass, se utiliza para encriptar las claves
+	 */
+	private void modificarClave(CambioClaveDTO datos, String securityPostPass, Connection connection) throws Exception {
+
+		// se obtiene los recursos necesarios para el proceso
+		String nuevaClave = datos.getClaveNueva();
+		Long idUsuario = datos.getIdUsuario();
+		EstrategiaCriptografica criptografica = EstrategiaCriptografica.get();
+
+		// se verifica si la contrasenia de verificación coincide
+		if (!nuevaClave.equals(datos.getClaveVerificacion())) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_VERIFICACION_NO_COINCIDE.value);
+		}
+
+		// la nueva contrasenia debe tener minimo la cantidad permitida
+		if (nuevaClave.length() < Numero.DOCE.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_LONGITUD_NO_PERMITIDA.value);
+		}
+
+		// la nueva contrasenia no puede contener espacios en blanco
+		if (nuevaClave.indexOf(' ') != -1) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_ESPACIOS_BLANCO.value);
+		}
+
+		// se verifica si la contrasenia actual coincide con la clave del usuario
+		String claveUser = (String) find(connection,
+				SQLConfiguraciones.GET_CLAVE_INGRESO,
+				MapperTransversal.get(MapperTransversal.GET_SOLO_UN_STRING),
+				ValueSQL.get(idUsuario, Types.BIGINT));
+		String claveActualMD5 = criptografica.encriptarPassword(datos.getClaveActual(), securityPostPass);
+		if (!claveUser.equals(claveActualMD5)) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_NO_COINCIDE.value);
+		}
+
+		// se verifica que la clave nueva no sea igual a la clave del usuario
+		String nuevaClaveMD5 = criptografica.encriptarPassword(nuevaClave, securityPostPass);
+		if (nuevaClaveMD5.equals(claveUser)) {
+			throw new BusinessException(MessagesKey.KEY_CLAVE_ACTUAL_IGUAL.value);
+		}
+
+		// se actualiza la clave de ingreso en la BD
+		int resultado = insertUpdate(connection,
+				SQLConfiguraciones.ACTUALIZAR_TOKEN_USUARIO,
+				ValueSQL.get(nuevaClaveMD5, Types.VARCHAR),
+				ValueSQL.get(idUsuario, Types.BIGINT));
+
+		// se verifica si la actualizacion se proceso sin problemas
+		if (resultado <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
 		}
 	}
 }

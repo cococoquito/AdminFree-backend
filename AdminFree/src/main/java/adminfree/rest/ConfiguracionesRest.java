@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
 import adminfree.constants.TipoEvento;
-import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
+import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
@@ -256,57 +256,6 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.generarClaveIngreso(parametro));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".generarClaveIngreso ", e.getMessage());
-		}
-	}
-
-	/**
-	 * Servicio que permite actualizar los datos de la cuenta del usuario, solamente
-	 * aplica (Nombre, Usuario Ingreso)
-	 *
-	 * @param usuario, DTO que contiene los datos del usuario
-	 * @return OK, si todo el proceso se ejecuto sin errores
-	 */
-	@RequestMapping(
-			value = ApiRest.MODIFICAR_DATOS_CUENTA,
-			method = RequestMethod.PUT,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> modificarDatosCuenta(@RequestBody UsuarioDTO usuario) {
-		try {
-			// se procede a modificar los datos de la cuenta user
-			this.configuracionesService.modificarDatosCuenta(usuario);
-
-			// si llega a este punto es porque el proceso se ejecuto sin problemas
-			return Util.getResponseOk();
-		} catch (BusinessException e) {
-			return Util.getResponseBadRequest(e.getMessage());
-		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarDatosCuenta ", e.getMessage());
-		}
-	}
-
-	/**
-	 * Servicio que permite soportar el proceso de modificar la clave de ingreso
-	 *
-	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
-	 * @return OK, si todo el proceso se ejecuto sin errores
-	 */
-	@RequestMapping(
-			value = ApiRest.MODIFICAR_CLAVE,
-			method = RequestMethod.PUT,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> modificarClaveIngreso(@RequestBody CambioClaveDTO datos) {
-		try {
-			// se procede a modificar la clave de ingreso del usuario
-			this.configuracionesService.modificarClaveIngreso(datos);
-
-			// si llega a este punto es porque el proceso se ejecuto sin problemas
-			return Util.getResponseOk();
-		} catch (BusinessException e) {
-			return Util.getResponseBadRequest(e.getMessage());
-		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarClaveIngreso ", e.getMessage());
 		}
 	}
 
@@ -574,6 +523,31 @@ public class ConfiguracionesRest {
 			return Util.getResponseSuccessful(this.configuracionesService.getDetalleNomenclatura(idNomenclatura));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleNomenclatura ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Servicio que permite procesar la funcionalidad de negocio de modificacion
+	 * cuenta del usuario aplica para datos personales, cambio clave o usuario de ingreso
+	 *
+	 * @param params, contiene los DTOs para las modificaciones correspondiente
+	 */
+	@RequestMapping(
+			value = ApiRest.MODIFICAR_CUENTA_USUARIO,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })	
+	public ResponseEntity<Object> modificarCuentaUsuario(@RequestBody ModificarCuentaUsuarioDTO params) {
+		try {
+			// se procede hacer las modificaciones correspondientes
+			this.configuracionesService.modificarCuentaUsuario(params);
+
+			// si llega a este punto es porque el proceso se ejecuto sin problemas
+			return Util.getResponseOk();
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".modificarCuentaUsuario ", e.getMessage());
 		}
 	}
 }

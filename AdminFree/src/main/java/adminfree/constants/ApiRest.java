@@ -20,8 +20,6 @@ public class ApiRest {
 	public static final String EDITAR_USUARIO = "editaruser";
 	public static final String MODIFICAR_ESTADO_USUARIO = "updatestateuser";
 	public static final String GENERAR_CLAVE_INGRESO = "generarclavein";
-	public static final String MODIFICAR_DATOS_CUENTA = "updateaccount";
-	public static final String MODIFICAR_CLAVE = "updateclaveuser";
 	public static final String CREAR_CAMPO_ENTRADA = "crearcampoin";
 	public static final String GET_CAMPOS_ENTRADA = "getcamposin";
 	public static final String GET_DETALLE_CAMPO_ENTRADA = "getdtlcampoin";
@@ -35,6 +33,7 @@ public class ApiRest {
 	public static final String VALIDAR_EXISTE_NOMENCLATURA = "existenomenclatura";
 	public static final String ELIMINAR_NOMENCLATURA = "deletenomenclatura";
 	public static final String GET_DETALLE_NOMENCLATURA = "getdtlnomenclatura";
+	public static final String MODIFICAR_CUENTA_USUARIO = "updateusercount";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */
 	public static final String SEGURIDAD_API = "authapi";

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.ConfiguracionesBusiness;
 import adminfree.constants.PropertyKey;
-import adminfree.dtos.configuraciones.CambioClaveDTO;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ClienteDTO;
 import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
+import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
 import adminfree.dtos.configuraciones.RestriccionDTO;
@@ -243,43 +243,6 @@ public class ConfiguracionesService {
 
 			// se procede a generar una nueva clave de ingreso para el usuario o cliente
 			return new ConfiguracionesBusiness().generarClaveIngreso(parametro, this.securityPostPass, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Servicio que permite actualizar los datos de la cuenta
-	 * del usuario, solamente aplica (Nombre, Usuario Ingreso)
-	 *
-	 * @param usuario, DTO 	que contiene los datos del usuario
-	 */
-	public void modificarDatosCuenta(UsuarioDTO usuario) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procede a modificar los datos de la cuenta user
-			new ConfiguracionesBusiness().modificarDatosCuenta(usuario, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Servicio que permite soportar el proceso de modificar la clave de ingreso
-	 *
-	 * @param datos, DTO que contiene los datos para el proceso de la modificacion
-	 */
-	public void modificarClaveIngreso(CambioClaveDTO datos) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procede a modificar la clave de ingreso del usuario
-			new ConfiguracionesBusiness().modificarClaveIngreso(datos, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -526,6 +489,25 @@ public class ConfiguracionesService {
 
 			// se procede a consultar el detalle de la nomenclatura
 			return new ConfiguracionesBusiness().getDetalleNomenclatura(idNomenclatura, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Servicio que permite procesar la funcionalidad de negocio de modificacion
+	 * cuenta del usuario aplica para datos personales, cambio clave o usuario de ingreso
+	 *
+	 * @param params, contiene los DTOs para las modificaciones correspondiente
+	 */
+	public void modificarCuentaUsuario(ModificarCuentaUsuarioDTO params) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a modificar la cuenta del usuario
+			new ConfiguracionesBusiness().modificarCuentaUsuario(params, this.securityPostPass, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

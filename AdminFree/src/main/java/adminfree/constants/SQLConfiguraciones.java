@@ -30,7 +30,7 @@ public class SQLConfiguraciones {
 	public static final String GET_USUARIOS_CLIENTE = "SELECT US.ID_USUARIO AS ID_USER, US.NOMBRE AS NOMBRE_USER, US.USUARIO_INGRESO AS INGRESO_USER, US.ESTADO AS ESTADO_USER, GROUP_CONCAT(USER_MODULO.TOKEN_MODULO SEPARATOR ';') AS MODULOS, US.CARGO FROM USUARIOS US LEFT JOIN USUARIOS_MODULOS USER_MODULO ON(USER_MODULO.ID_USUARIO = US.ID_USUARIO) WHERE US.CLIENTE =? AND (US.ESTADO =? OR US.ESTADO =?) GROUP BY US.ID_USUARIO, US.NOMBRE, US.USUARIO_INGRESO, US.ESTADO ORDER BY US.NOMBRE";
 
 	/** SQL para contar los USUARIO que contenga USUARIO_INGRESO especifico */
-	public static final String COUNT_USUARIO_INGRESO = "SELECT COUNT(*) FROM USUARIOS WHERE USUARIO_INGRESO =?";
+	public static final String COUNT_USUARIO_INGRESO = "SELECT COUNT(*) FROM USUARIOS WHERE USUARIO_INGRESO=?";
 
 	/** SQL para la creacion del USUARIO */
 	public static final String CREAR_USUARIO = "INSERT INTO USUARIOS (NOMBRE, USUARIO_INGRESO, CLAVE_INGRESO, CLIENTE, ESTADO, CARGO) VALUES (?,?,?,?,?,?)";
@@ -39,22 +39,25 @@ public class SQLConfiguraciones {
 	public static final String INSERTAR_PRIVILEGIOS_USER = "INSERT INTO USUARIOS_MODULOS (ID_USUARIO, TOKEN_MODULO) VALUES (?,?)";
 
 	/** SQL para modificar el estado del usuario */
-	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO =? WHERE ID_USUARIO =?";
+	public static final String UPDATE_ESTADO_USER = "UPDATE USUARIOS SET ESTADO=? WHERE ID_USUARIO=?";
 
 	/** Se utiliza para actualizar la clave de ingreso del USUARIO */
 	public static final String ACTUALIZAR_TOKEN_USUARIO = "UPDATE USUARIOS SET CLAVE_INGRESO=? WHERE ID_USUARIO=?";
+
+	/** Se utiliza para actualizar el user de ingreso del USUARIO */
+	public static final String ACTUALIZAR_USUARIO_INGRESO = "UPDATE USUARIOS SET USUARIO_INGRESO=? WHERE ID_USUARIO=?";
 
 	/** Se utiliza para actualizar la clave de ingreso del CLIENTE */
 	public static final String ACTUALIZAR_TOKEN_CLIENTE = "UPDATE CLIENTES SET TOKEN=? WHERE ID_CLIENTE=?";
 
 	/** Se utiliza para actualizar la cuenta del usuario */
-	public static final String UPDATE_DATOS_CUENTA = "UPDATE USUARIOS SET NOMBRE=?, USUARIO_INGRESO=?, CARGO=? WHERE ID_USUARIO=?";
+	public static final String UPDATE_DATOS_CUENTA = "UPDATE USUARIOS SET NOMBRE=?,USUARIO_INGRESO=?,CARGO=? WHERE ID_USUARIO=?";
 
-	/** Se utiliza para actualizar el nombre del usuario */
-	public static final String UPDATE_NOMBRE_USER = "UPDATE USUARIOS SET NOMBRE =? WHERE ID_USUARIO =?";
+	/** Se utiliza para actualizar los datos personales del Usuario */
+	public static final String UPDATE_DATOS_PERSONALES = "UPDATE USUARIOS SET NOMBRE=?,CARGO=? WHERE ID_USUARIO=?";
 
 	/** Se utiliza para obtener la clave de ingreso */
-	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO =?";
+	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO=?";
 
 	/** Se utiliza para obtener las restricciones para los campos de ingreso */
 	public static final String GET_RESTRICCIONES_CAMPO_INGRESO = "SELECT RE.ID_RESTRICCION, RE.DESCRIPCION, RT.COMPATIBLE FROM RESTRICCIONES RE JOIN RESTRICCIONES_TIPO_CAMPO RT ON (RT.RESTRICCION = RE.ID_RESTRICCION) WHERE RT.TIPO_CAMPO =?";
