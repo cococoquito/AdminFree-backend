@@ -436,7 +436,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			List<String> dmls = new ArrayList<>();
 
 			// items para el nuevo campo solo si es lista desplegable
-			if (campo.getTipoCampo().equals(TipoCampo.LISTA_DESPLEGABLE.id)) {
+			if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getTipoCampo())) {
 				List<ItemDTO> items = campo.getItems();
 				if (items != null && !items.isEmpty()) {
 					for (ItemDTO item : items) {
@@ -445,7 +445,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				}
 			}
 
-			// se ejecuta las insercciones para los items y restricciones
+			// se ejecuta las insercciones para los items
 			if (!dmls.isEmpty()) {
 				batchSinInjection(connection, dmls);
 			}

@@ -282,7 +282,7 @@ public class MapperConfiguraciones extends Mapper {
 
 			// se utiliza para configurar las banderas
 			Integer nomenclaturas = res.getInt(Numero.SEIS.valueI);
-			Integer consecutivos = res.getInt(Numero.OCHO.valueI);
+			Integer consecutivos = res.getInt(Numero.SIETE.valueI);
 
 			// se configura el detalle para la edicion
 			detalle = new CampoEntradaEdicionDTO();
