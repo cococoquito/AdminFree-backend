@@ -432,7 +432,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					MapperTransversal.get(MapperTransversal.GET_ID));
 			String idCampo_ = idCampo.toString();
 
-			// se utiliza para las inserciones para las restricciones e items si aplica
+			// se utiliza para las inserciones de los items si aplica
 			List<String> dmls = new ArrayList<>();
 
 			// items para el nuevo campo solo si es lista desplegable
@@ -487,7 +487,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
 
-		// se consulta los datos del campo con sus restricciones
+		// se consulta los datos generales del campo
 		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
 				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_CAMPO_ENTRADA),
