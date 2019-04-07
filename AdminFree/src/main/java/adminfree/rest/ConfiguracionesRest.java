@@ -384,7 +384,6 @@ public class ConfiguracionesRest {
 	 * esto aplica para el primer paso al momento de crear o editar el campo
 	 *
 	 * @param campo, contiene los datos del campo de entrada
-	 * @return lista restricciones asociada al tipo de campo
 	 */
 	@RequestMapping(
 			value = ApiRest.VALIDAR_DATOS_ENTRADA,
@@ -393,7 +392,11 @@ public class ConfiguracionesRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> validarDatosCampoEntrada(@RequestBody CampoEntradaDTO datos) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.validarDatosCampoEntrada(datos));
+			// se procede a validar las restricciones del campo de entrada
+			this.configuracionesService.validarDatosCampoEntrada(datos);
+
+			// si llega a este punto es porque el proceso se ejecuto bien
+			return Util.getResponseOk();
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {

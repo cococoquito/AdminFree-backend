@@ -59,17 +59,14 @@ public class SQLConfiguraciones {
 	/** Se utiliza para obtener la clave de ingreso */
 	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO=?";
 
-	/** Se utiliza para obtener las restricciones para los campos de ingreso */
-	public static final String GET_RESTRICCIONES_CAMPO_INGRESO = "SELECT RE.ID_RESTRICCION, RE.DESCRIPCION, RT.COMPATIBLE FROM RESTRICCIONES RE JOIN RESTRICCIONES_TIPO_CAMPO RT ON (RT.RESTRICCION = RE.ID_RESTRICCION) WHERE RT.TIPO_CAMPO =?";
-
 	/** Se utiliza para la creacion de los campos de entrada de informacion */
-	public static final String COUNT_EXISTE_CAMPO_ENTRADA = "SELECT COUNT(*) FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO =? AND NOMBRE =? AND CLIENTE =?";
+	public static final String COUNT_EXISTE_CAMPO_ENTRADA = "SELECT COUNT(*) FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO=? AND NOMBRE=? AND CLIENTE=?";
 
 	/** Se utiliza para la inserccion de los campos de entrada de informacion */
 	public static final String INSERTAR_CAMPO_ENTRADA = "INSERT INTO CAMPOS_ENTRADA (CLIENTE,TIPO_CAMPO,NOMBRE,DESCRIPCION) VALUES (?,?,?,?)";
 
 	/** Se utiliza para obtener los campos de entrada de informacion asociado a un cliente */
-	public static final String GET_CAMPOS_ENTRADA_INFORMACION = "SELECT ID_CAMPO, TIPO_CAMPO, NOMBRE FROM CAMPOS_ENTRADA WHERE CLIENTE =? ORDER BY NOMBRE";
+	public static final String GET_CAMPOS_ENTRADA_INFORMACION = "SELECT ID_CAMPO,TIPO_CAMPO,NOMBRE FROM CAMPOS_ENTRADA WHERE CLIENTE=? ORDER BY NOMBRE";
 
 	/** Se utiliza para obtener el detalle del campo de entrada */
 	public static final String GET_DETALLE_CAMPO_ENTRADA = "SELECT CE.ID_CAMPO AS ID_CAMPO, CE.CLIENTE AS ID_CLIENTE, CE.NOMBRE AS NOMBRE_CAMPO, CE.DESCRIPCION AS DESCRIPCION_CAMPO, CE.TIPO_CAMPO AS TIPO_CAMPO, R.ID_RESTRICCION AS ID_RES, R.DESCRIPCION AS DESCRIPCION_RES FROM CAMPOS_ENTRADA CE LEFT JOIN CAMPOS_ENTRADA_RESTRICCIONES RES ON (RES.CAMPO = CE.ID_CAMPO) LEFT JOIN RESTRICCIONES R ON (R.ID_RESTRICCION = RES.RESTRICCION) WHERE CE.ID_CAMPO =?";
@@ -83,11 +80,8 @@ public class SQLConfiguraciones {
 	/** Se utiliza para obtener el detalle de un campo de entrada para editar */
 	public static final String GET_DETALLE_CAMPO_EDITAR = "SELECT CE.ID_CAMPO AS ID_CAMPO, CE.CLIENTE AS ID_CLIENTE, CE.NOMBRE AS NOMBRE_CAMPO, CE.DESCRIPCION AS DESCRIPCION_CAMPO, CE.TIPO_CAMPO AS TIPO_CAMPO, (SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA NCE WHERE NCE.CAMPO = CE.ID_CAMPO AND NCE.TIENE_CONSECUTIVO IS NULL) AS NOMENCLATURAS, (SELECT COUNT(*) FROM CAMPOS_ENTRADA_RESTRICCIONES RE WHERE RE.CAMPO = CE.ID_CAMPO) AS RESTRICCIONES, (SELECT COUNT(*) FROM NOMENCLATURAS_CAMPOS_ENTRADA NCC WHERE NCC.CAMPO = CE.ID_CAMPO AND NCC.TIENE_CONSECUTIVO IS NOT NULL) AS CONSECUTIVOS FROM CAMPOS_ENTRADA CE WHERE CE.ID_CAMPO =?";
 
-	/** Se utiliza para la edicion de las restricciones */
-	public static final String GET_RESTRICCIONES_EDICION = "SELECT RESTRICCION FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO =?";
-
 	/** DML para actualizar la descripcion y el nombre del campo de entrada */
-	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION=?, NOMBRE=? WHERE ID_CAMPO=?";
+	public static final String UPDATE_CAMPO_DESCRIPCION_NOMBRE = "UPDATE CAMPOS_ENTRADA SET DESCRIPCION=?,NOMBRE=? WHERE ID_CAMPO=?";
 
 	/** Se utiliza para obtener todas las nomenclaturas asociadas a un cliente */
 	public static final String GET_NOMENCLATURAS = "SELECT ID_NOMENCLATURA, NOMENCLATURA, DESCRIPCION, CONSECUTIVO_INICIAL, CONSECUTIVOS_SOLICITADOS FROM NOMENCLATURAS WHERE CLIENTE=? ORDER BY NOMENCLATURA ASC";
@@ -127,31 +121,12 @@ public class SQLConfiguraciones {
 	}
 
 	/**
-	 * Metodo que construye el SQL para insertar las restricciones de los campos de ingreso
-	 */
-	public static String getSQLInsertRestriccionesCampo(String idCampo, String idRestriccion) {
-		StringBuilder sql = new StringBuilder("INSERT INTO CAMPOS_ENTRADA_RESTRICCIONES (CAMPO,RESTRICCION) VALUES (");
-		sql.append(idCampo).append(",");
-		sql.append(idRestriccion).append(")");
-		return sql.toString();
-	}
-
-	/**
 	 * Metodo que construye el SQL para insertar los items para un campo lista desplegable
 	 */
 	public static String getSQLInsertSelectItems(String idCampo, String valor) {
 		StringBuilder sql = new StringBuilder("INSERT INTO SELECT_ITEMS (CAMPO,VALOR) VALUES (");
 		sql.append(idCampo).append(",'");
 		sql.append(valor).append("')");
-		return sql.toString();
-	}
-
-	/**
-	 * Metodo que construye el SQL para eliminar las restricciones de un campo de ingreso
-	 */
-	public static String getSQLDeleteCampoRestricciones(String idCampo) {
-		StringBuilder sql = new StringBuilder("DELETE FROM CAMPOS_ENTRADA_RESTRICCIONES WHERE CAMPO=");
-		sql.append(idCampo);
 		return sql.toString();
 	}
 

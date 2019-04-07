@@ -17,17 +17,11 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	/** indica si el campo de entrada tiene nomenclaturas */
 	private boolean tieneNomenclaturas;
 
-	/** indica si el campo de entrada tiene restricciones */
-	private boolean tieneRestricciones;
-
 	/** Indica si el campo de entrada esta asociado algun consecutivo */
 	private boolean tieneConsecutivos;
 
 	/** Indica si los datos basicos del campo se debe editar */
 	private boolean datosBasicosEditar;
-
-	/** Indica si las restricciones fueron modificados */
-	private boolean restriccionesEditar;
 
 	/** Indica si los items fueron modificados */
 	private boolean itemsEditar;
@@ -75,36 +69,6 @@ public class CampoEntradaEdicionDTO implements Serializable {
 	 */
 	public void setTieneConsecutivos(boolean tieneConsecutivos) {
 		this.tieneConsecutivos = tieneConsecutivos;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo tieneRestricciones
-	 */
-	public boolean isTieneRestricciones() {
-		return tieneRestricciones;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * tieneRestricciones
-	 */
-	public void setTieneRestricciones(boolean tieneRestricciones) {
-		this.tieneRestricciones = tieneRestricciones;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo restriccionesEditar
-	 */
-	public boolean isRestriccionesEditar() {
-		return restriccionesEditar;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * restriccionesEditar
-	 */
-	public void setRestriccionesEditar(boolean restriccionesEditar) {
-		this.restriccionesEditar = restriccionesEditar;
 	}
 
 	/**

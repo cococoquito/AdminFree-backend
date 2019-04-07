@@ -35,9 +35,8 @@ public class MapperConfiguraciones extends Mapper {
 	public static final int GET_DETALLE_CAMPO_ENTRADA = 6;
 	public static final int GET_ITEMS = 7;
 	public static final int GET_DETALLE_CAMPO_EDITAR = 8;
-	public static final int GET_RESTRICCIONES_EDICION = 9;
-	public static final int GET_NOMENCLATURAS = 10;
-	public static final int GET_DETALLE_NOMENCLATURA = 11;
+	public static final int GET_NOMENCLATURAS = 9;
+	public static final int GET_DETALLE_NOMENCLATURA = 10;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperConfiguraciones instance;
@@ -111,10 +110,6 @@ public class MapperConfiguraciones extends Mapper {
 	
 			case MapperConfiguraciones.GET_DETALLE_CAMPO_EDITAR:
 				result = getDetalleCampoEditar(res);
-				break;
-
-			case MapperConfiguraciones.GET_RESTRICCIONES_EDICION:
-				result = getRestriccionesEdicion(res);
 				break;
 
 			case MapperConfiguraciones.GET_NOMENCLATURAS:
@@ -242,40 +237,17 @@ public class MapperConfiguraciones extends Mapper {
 	private CampoEntradaDTO getDetalleCampoEntrada(ResultSet res) throws Exception {
 		CampoEntradaDTO campoEntrada = null;
 		while (res.next()) {
-			// para la primera iteracion se debe configurar los datos basicos
-			if (campoEntrada == null) {
 
-				// se configura los datos basicos
-				campoEntrada = new CampoEntradaDTO();
-				campoEntrada.setId(res.getLong(Numero.UNO.valueI));
-				campoEntrada.setIdCliente(res.getLong(Numero.DOS.valueI));
-				campoEntrada.setNombre(res.getString(Numero.TRES.valueI));
-				campoEntrada.setDescripcion(res.getString(Numero.CUATRO.valueI));
-				campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.valueI));
-				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
-
-				// se configura las restricciones para este campo
-				configurarRestriccion(campoEntrada, res);
-			} else {
-				// para las demas iteraciones solamente se debe configurar las restriciones
-				configurarRestriccion(campoEntrada, res);
-			}
+			// se configura los datos basicos
+			campoEntrada = new CampoEntradaDTO();
+			campoEntrada.setId(res.getLong(Numero.UNO.valueI));
+			campoEntrada.setIdCliente(res.getLong(Numero.DOS.valueI));
+			campoEntrada.setNombre(res.getString(Numero.TRES.valueI));
+			campoEntrada.setDescripcion(res.getString(Numero.CUATRO.valueI));
+			campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.valueI));
+			campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
 		}
 		return campoEntrada;
-	}
-
-	/**
-	 * Metodo que permite configurar la restriccion para un campo de entrada
-	 */
-	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
-		Integer idRestriccion = res.getInt(Numero.SEIS.valueI);
-		if (idRestriccion != null && idRestriccion.intValue() > Numero.ZERO.valueI.intValue()) {
-			RestriccionDTO restriccion = new RestriccionDTO();
-			restriccion.setId(idRestriccion);
-			restriccion.setDescripcion(res.getString(Numero.SIETE.valueI));
-			restriccion.setAplica(true);
-			campo.agregarRestriccion(restriccion);
-		}
 	}
 
 	/**
@@ -310,31 +282,15 @@ public class MapperConfiguraciones extends Mapper {
 
 			// se utiliza para configurar las banderas
 			Integer nomenclaturas = res.getInt(Numero.SEIS.valueI);
-			Integer restricciones = res.getInt(Numero.SIETE.valueI);
 			Integer consecutivos = res.getInt(Numero.OCHO.valueI);
 
 			// se configura el detalle para la edicion
 			detalle = new CampoEntradaEdicionDTO();
 			detalle.setCampoEntrada(campo);
 			detalle.setTieneNomenclaturas(!Numero.ZERO.valueI.equals(nomenclaturas));
-			detalle.setTieneRestricciones(!Numero.ZERO.valueI.equals(restricciones));
 			detalle.setTieneConsecutivos(!Numero.ZERO.valueI.equals(consecutivos));
 		}
 		return detalle;
-	}
-
-	/**
-	 * Metodo que permite obtener las restricciones para edicion
-	 */
-	public List<RestriccionDTO> getRestriccionesEdicion(ResultSet res) throws Exception {
-		List<RestriccionDTO> restricciones = new ArrayList<>();
-		RestriccionDTO restriccion;
-		while (res.next()) {
-			restriccion = new RestriccionDTO();
-			restriccion.setId(res.getInt(Numero.UNO.valueI));
-			restricciones.add(restriccion);
-		}
-		return restricciones;
 	}
 
 	/**

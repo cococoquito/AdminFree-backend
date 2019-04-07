@@ -21,7 +21,6 @@ import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
-import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
@@ -409,6 +408,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @return DTO con los datos del nuevo campo de entrada
 	 */
 	public CampoEntradaDTO crearCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
+
 		// se obtiene los datos basico del campo
 		Integer tipoCampo = campo.getTipoCampo();
 		String nombre = campo.getNombre();
@@ -434,14 +434,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se utiliza para las inserciones para las restricciones e items si aplica
 			List<String> dmls = new ArrayList<>();
-
-			// restriciones para el nuevo campo
-			List<RestriccionDTO> restricciones = campo.getRestricciones();
-			if (restricciones != null && !restricciones.isEmpty()) {
-				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo_, restriccion.getId().toString()));
-				}
-			}
 
 			// items para el nuevo campo solo si es lista desplegable
 			if (campo.getTipoCampo().equals(TipoCampo.LISTA_DESPLEGABLE.id)) {
@@ -494,6 +486,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
 	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
+
 		// se consulta los datos del campo con sus restricciones
 		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
@@ -536,9 +529,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// lista para enviar al batch de eliminacion
 			List<String> deletes = new ArrayList<>();
 
-			// SQL para eliminar las restricciones
-			deletes.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo_));
-
 			// SQL para eliminar los items
 			deletes.add(SQLConfiguraciones.getSQLDeleteCamposItems(idCampo_));
 
@@ -563,33 +553,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @return DTO con los datos del campo de entrada de informacion a editar
 	 */
 	public CampoEntradaEdicionDTO getDetalleCampoEntradaEdicion(Long idCampo, Connection connection) throws Exception {
+
 		// se consulta los datos del campo de entrada a editar
 		CampoEntradaEdicionDTO campo = (CampoEntradaEdicionDTO) find(connection,
 				SQLConfiguraciones.GET_DETALLE_CAMPO_EDITAR,
 				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_CAMPO_EDITAR),
 				ValueSQL.get(idCampo, Types.BIGINT));
-
-		// se obtiene todas las restricciones por el tipo de campo
-		List<RestriccionDTO> restricciones = getRestricionesPorTipo(campo.getCampoEntrada().getTipoCampo(), connection);
-		campo.getCampoEntrada().setRestricciones(restricciones);
-
-		// si tiene restricciones se procede a consultarlas
-		if (campo.isTieneRestricciones()) {
-			List<RestriccionDTO> seleccionadas = (List<RestriccionDTO>) find(connection,
-					SQLConfiguraciones.GET_RESTRICCIONES_EDICION,
-					MapperConfiguraciones.get(MapperConfiguraciones.GET_RESTRICCIONES_EDICION),
-					ValueSQL.get(idCampo, Types.BIGINT));
-
-			// se configuran las restricciones seleccionadas
-			for (RestriccionDTO seleccionada: seleccionadas) {
-				for (RestriccionDTO restriccion: restricciones) {
-					if (seleccionada.getId().equals(restriccion.getId())) {
-						restriccion.setAplica(true);
-						break;
-					}
-				}
-			}
-		}
 
 		// se consulta los items si el campo es una lista desplegable
 		if (TipoCampo.LISTA_DESPLEGABLE.id.equals(campo.getCampoEntrada().getTipoCampo())) {
@@ -630,25 +599,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					ValueSQL.get(idCampo, Types.BIGINT));
 		}
 
-		// ************* 02-ACTUALIZACION DE LAS RESTRICCIONES DEL CAMPO *************************
-		if (datos.isRestriccionesEditar()) {
-
-			// se eliminan todas las restricciones asociadas al campo,
-			// no hay lio utilizar este delete dado que esta tabla no utiliza autoincrement
-			dmls.add(SQLConfiguraciones.getSQLDeleteCampoRestricciones(idCampo_));
-
-			// se recorre todas las restricciones y se agrega en la lista dmls
-			List<RestriccionDTO> restricciones = campoEditar.getRestricciones();
-
-			// un campo puede quedar sin restricciones
-			if (restricciones != null && !restricciones.isEmpty()) {
-				for (RestriccionDTO restriccion : restricciones) {
-					dmls.add(SQLConfiguraciones.getSQLInsertRestriccionesCampo(idCampo_, restriccion.getId().toString()));
-				}
-			}
-		}
-
-		// ************* 03-ACTUALIZACION DE LOS ITEMS DEL CAMPO *********************************
+		// ************* 02-ACTUALIZACION DE LOS ITEMS DEL CAMPO *********************************
 		if (datos.isItemsEditar()) {
 
 			// los items para la lista desplegable son obligatorios
@@ -700,23 +651,23 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite validar los datos de campo de entrada
 	 * esto aplica para el primer paso al momento de crear o editar el campo
-	 * 
+	 *
 	 * @param campo, contiene los datos del campo de entrada
-	 * @return lista restricciones asociada al tipo de campo
 	 */
-	public List<RestriccionDTO> validarDatosCampoEntrada(
-			CampoEntradaDTO campo,
-			Connection connection) throws Exception {
+	public void validarDatosCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
 
-		// se valida si el cliente ya tiene el mismo campo con el tipo y nombre
-		validarCampoEntradaExistente(campo, connection);
+		// se verifica que no exista otro campo con el mismo tipo y nombre
+		Long count = (Long) find(connection,
+				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
 
-		// si todo es OK se retorna las restricciones asociada al tipo de campo
-		List<RestriccionDTO> restricciones = null;
-		if (campo.isConsultarRestricciones()) {
-			restricciones = getRestricionesPorTipo(campo.getTipoCampo(), connection);
+		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
 		}
-		return restricciones;
 	}
 
 	/**
@@ -734,7 +685,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite validar si la nomenclatura ya existe en el sistema
-	 * 
+	 *
 	 * @param nomenclatura, DTO que contiene los datos para la validacion
 	 * @throws Exception, se lanza si existe la nomenclatura parametrizada en el sistema
 	 */
@@ -948,39 +899,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		// si existe otro 'usuario de ingreso' igual registrado en la BD no se PUEDE seguir con el proceso
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
-		}
-	}
-
-	/**
-	 * Metodo que permite obtener las restricciones asociados a un tipo de campo
-	 *
-	 * @param tipoCampo, es el valor del tipo de campo asociado a las restricciones
-	 * @return Lista de restricciones parametrizadas en la BD
-	 */
-	private List<RestriccionDTO> getRestricionesPorTipo(Integer tipoCampo, Connection connection) throws Exception {
-		return (List<RestriccionDTO>) find(connection,
-				SQLConfiguraciones.GET_RESTRICCIONES_CAMPO_INGRESO,
-				MapperConfiguraciones.get(MapperConfiguraciones.GET_RESTRICCIONES),
-				ValueSQL.get(tipoCampo, Types.INTEGER));
-	}
-
-	/**
-	 * Metodo que permite validar si el campo de entrada existe para el tipo, nombre y cliente
-	 *
-	 * @param campo, DTO que contiene los datos del nuevo campo de entrada
-	 */
-	private void validarCampoEntradaExistente(CampoEntradaDTO campo, Connection connection) throws Exception {
-		// se verifica que no exista otro campo con el mismo tipo y nombre
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
-
-		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.valueL)) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
 		}
 	}
 

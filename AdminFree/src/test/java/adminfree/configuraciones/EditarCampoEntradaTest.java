@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.CampoEntradaEdicionDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
-import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -46,16 +45,6 @@ public class EditarCampoEntradaTest {
 			detalle.getCampoEntrada().setDescripcion("descripcon");
 			detalle.getCampoEntrada().setNombre("nombre");
 			detalle.setDatosBasicosEditar(true);
-
-			// configuracion de las restricciones
-			detalle.getCampoEntrada().setRestricciones(null);
-			RestriccionDTO restriccion1 = new RestriccionDTO();
-			restriccion1.setId(1);
-			RestriccionDTO restriccion2 = new RestriccionDTO();
-			restriccion2.setId(2);
-			detalle.getCampoEntrada().agregarRestriccion(restriccion1);
-			detalle.getCampoEntrada().agregarRestriccion(restriccion2);
-			detalle.setRestriccionesEditar(true);
 
 			// items del campo
 			ItemDTO item1 = new ItemDTO();

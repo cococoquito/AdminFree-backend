@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.dtos.configuraciones.ItemDTO;
-import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.enums.TipoCampo;
 import adminfree.services.ConfiguracionesService;
 
@@ -41,17 +40,6 @@ public class CrearCampoEntradaTest {
 			campoEntrada.setNombre("Nro SAC");
 			campoEntrada.setDescripcion("Este es la descripcion del nuevo campo");
 			campoEntrada.setIdCliente(1l);
-
-			// restricciones del campo
-			RestriccionDTO restriccion1 = new RestriccionDTO();
-			restriccion1.setId(1);
-			RestriccionDTO restriccion2 = new RestriccionDTO();
-			restriccion2.setId(2);
-			RestriccionDTO restriccion3 = new RestriccionDTO();
-			restriccion3.setId(3);
-			campoEntrada.agregarRestriccion(restriccion1);
-			campoEntrada.agregarRestriccion(restriccion2);
-			campoEntrada.agregarRestriccion(restriccion3);
 
 			// items para este campo tipo lista desplegable
 			ItemDTO item1 = new ItemDTO();

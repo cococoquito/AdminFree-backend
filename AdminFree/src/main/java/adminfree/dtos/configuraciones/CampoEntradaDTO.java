@@ -16,6 +16,9 @@ public class CampoEntradaDTO implements Serializable {
 	/** Es el identificador del campo de entrada */
 	private Long id;
 
+	/** Es el identificador del cliente que es propietario de este campo */
+	private Long idCliente;
+
 	/** Nombre del campo de entrada */
 	private String nombre;
 
@@ -28,30 +31,11 @@ public class CampoEntradaDTO implements Serializable {
 	/** Nombre del tipo de campo */
 	private String tipoCampoNombre;
 
-	/** Los campos de ingreso estan asociados a un cliente */
-	private Long idCliente;
-
-	/** Son las restricciones que contiene este campo */
-	private List<RestriccionDTO> restricciones;
-
 	/** Son los items para este campo, solo aplica para lista desplegable */
 	private List<ItemDTO> items;
 
-	/** indica si se debe consultar las restricciones */
-	private boolean consultarRestricciones;
-
 	/** Se utiliza al momento de crear la nomenclatura */
 	private boolean aplica;
-
-	/**
-	 * Metodo que permite agregar una restriccion para este campo
-	 */
-	public void agregarRestriccion(RestriccionDTO restriccion) {
-		if (this.restricciones == null) {
-			this.restricciones = new ArrayList<>();
-		}
-		this.restricciones.add(restriccion);
-	}
 
 	/**
 	 * Metodo que permite agregar un item para este campo
@@ -152,21 +136,6 @@ public class CampoEntradaDTO implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo restricciones
-	 */
-	public List<RestriccionDTO> getRestricciones() {
-		return restricciones;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * restricciones
-	 */
-	public void setRestricciones(List<RestriccionDTO> restricciones) {
-		this.restricciones = restricciones;
-	}
-
-	/**
 	 * Metodo que permite obtener el valor del atributo items
 	 */
 	public List<ItemDTO> getItems() {
@@ -178,21 +147,6 @@ public class CampoEntradaDTO implements Serializable {
 	 */
 	public void setItems(List<ItemDTO> items) {
 		this.items = items;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo consultarRestricciones
-	 */
-	public boolean isConsultarRestricciones() {
-		return consultarRestricciones;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * consultarRestricciones
-	 */
-	public void setConsultarRestricciones(boolean consultarRestricciones) {
-		this.consultarRestricciones = consultarRestricciones;
 	}
 
 	/**

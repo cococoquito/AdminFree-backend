@@ -18,7 +18,6 @@ import adminfree.dtos.configuraciones.GenerarTokenIngresoDTO;
 import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
-import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
@@ -367,16 +366,15 @@ public class ConfiguracionesService {
 	 * esto aplica para el primer paso al momento de crear o editar el campo
 	 *
 	 * @param campo, contiene los datos del campo de entrada
-	 * @return lista restricciones asociada al tipo de campo
 	 */
-	public List<RestriccionDTO> validarDatosCampoEntrada(CampoEntradaDTO campo) throws Exception {
+	public void validarDatosCampoEntrada(CampoEntradaDTO campo) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se valida si los datos del campo son OK
-			return new ConfiguracionesBusiness().validarDatosCampoEntrada(campo, connection);
+			new ConfiguracionesBusiness().validarDatosCampoEntrada(campo, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
