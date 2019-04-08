@@ -22,11 +22,11 @@ public class RestriccionDTO implements Serializable {
 	/** Contiene los IDS por la cual esta restriccion no es compatible */
 	private String compatible;
 
-	/** Es el tipo de campo que aplica esta restriccion */
-	private Integer tipoCampo;
-
 	/** indica si la restriccion aplica para algun campo */
 	private boolean aplica;
+
+	/** Aplica solo JAVA, y es el tipo de campo que aplica esta restriccion */
+	private Integer tipoCampo;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id
