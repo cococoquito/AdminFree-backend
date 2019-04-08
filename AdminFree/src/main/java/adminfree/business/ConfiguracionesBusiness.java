@@ -21,6 +21,7 @@ import adminfree.dtos.configuraciones.ModificarCuentaUsuarioDTO;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.dtos.configuraciones.UsuarioEdicionDTO;
 import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.enums.Estado;
@@ -470,13 +471,35 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * Metodo que permite obtener los campos de entrada de informacion asociado a un cliente
 	 *
 	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
+	 * @param isRestriccion, 1=si se debe consultar las restricciones
 	 * @return lista DTO con la informacion de los campos de entrada
 	 */
-	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente, Connection connection) throws Exception {
-		return (List<CampoEntradaDTO>) find(connection,
+	public List<CampoEntradaDTO> getCamposEntrada(Long idCliente, Integer isRestriccion, Connection connection) throws Exception {
+
+		// se consultan los campos parametrizados en el sistema
+		List<CampoEntradaDTO> campos = (List<CampoEntradaDTO>) find(connection,
 				SQLConfiguraciones.GET_CAMPOS_ENTRADA_INFORMACION,
 				MapperConfiguraciones.get(MapperConfiguraciones.GET_CAMPOS_ENTRADA),
 				ValueSQL.get(idCliente, Types.BIGINT));
+
+		// se verifica si se debe consultar las restricciones para cada campo
+		if (Numero.UNO.valueI.equals(isRestriccion) && campos != null && !campos.isEmpty()) {
+
+			// se consultan todas las restricciones que aplica para cada tipo de campo
+			List<RestriccionDTO> restricciones = (List<RestriccionDTO>) find(connection,
+					SQLConfiguraciones.GET_RESTRICCIONES,
+					MapperConfiguraciones.get(MapperConfiguraciones.GET_RESTRICCIONES));
+
+			// se configura las restricciones de cada campo parametrizado
+			for (CampoEntradaDTO campo : campos) {
+				for (RestriccionDTO restriccion : restricciones) {
+					if (campo.getTipoCampo().equals(restriccion.getTipoCampo())) {
+						campo.agregarRestriccion(restriccion);
+					}
+				}
+			}
+		}
+		return campos;
 	}
 
 	/**

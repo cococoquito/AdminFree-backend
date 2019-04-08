@@ -22,6 +22,9 @@ public class RestriccionDTO implements Serializable {
 	/** Contiene los IDS por la cual esta restriccion no es compatible */
 	private String compatible;
 
+	/** Es el tipo de campo que aplica esta restriccion */
+	private Integer tipoCampo;
+
 	/** indica si la restriccion aplica para algun campo */
 	private boolean aplica;
 
@@ -81,5 +84,20 @@ public class RestriccionDTO implements Serializable {
 	 */
 	public void setCompatible(String compatible) {
 		this.compatible = compatible;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tipoCampo
+	 */
+	public Integer getTipoCampo() {
+		return tipoCampo;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tipoCampo
+	 */
+	public void setTipoCampo(Integer tipoCampo) {
+		this.tipoCampo = tipoCampo;
 	}
 }

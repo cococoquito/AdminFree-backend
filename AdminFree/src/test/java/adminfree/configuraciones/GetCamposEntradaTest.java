@@ -34,7 +34,8 @@ public class GetCamposEntradaTest {
 	public void getCamposEntrada() {
 		try {
 			Long idCliente = 1l;
-			List<CampoEntradaDTO> campos = this.configuracionesService.getCamposEntrada(idCliente);
+			Integer isRestriccion = 1;
+			List<CampoEntradaDTO> campos = this.configuracionesService.getCamposEntrada(idCliente, isRestriccion);
 
 			// debe existir campos asociadas al cliente
 			assertTrue(campos != null && !campos.isEmpty());

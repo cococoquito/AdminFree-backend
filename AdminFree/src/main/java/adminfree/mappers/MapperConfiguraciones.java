@@ -209,6 +209,7 @@ public class MapperConfiguraciones extends Mapper {
 			restriccion.setId(res.getInt(Numero.UNO.valueI));
 			restriccion.setDescripcion(res.getString(Numero.DOS.valueI));
 			restriccion.setCompatible(res.getString(Numero.TRES.valueI));
+			restriccion.setTipoCampo(res.getInt(Numero.CUATRO.valueI));
 			restricciones.add(restriccion);
 		}
 		return restricciones;

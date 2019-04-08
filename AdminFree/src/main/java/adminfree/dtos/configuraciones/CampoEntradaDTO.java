@@ -34,8 +34,21 @@ public class CampoEntradaDTO implements Serializable {
 	/** Son los items para este campo, solo aplica para lista desplegable */
 	private List<ItemDTO> items;
 
+	/** Son las restricciones que contiene este campo */
+	private List<RestriccionDTO> restricciones;
+
 	/** Se utiliza al momento de crear la nomenclatura */
 	private boolean aplica;
+
+	/**
+	 * Metodo que permite agregar una restriccion para este campo
+	 */
+	public void agregarRestriccion(RestriccionDTO restriccion) {
+		if (this.restricciones == null) {
+			this.restricciones = new ArrayList<>();
+		}
+		this.restricciones.add(restriccion);
+	}
 
 	/**
 	 * Metodo que permite agregar un item para este campo
@@ -161,5 +174,20 @@ public class CampoEntradaDTO implements Serializable {
 	 */
 	public void setAplica(boolean aplica) {
 		this.aplica = aplica;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo restricciones
+	 */
+	public List<RestriccionDTO> getRestricciones() {
+		return restricciones;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param restricciones
+	 */
+	public void setRestricciones(List<RestriccionDTO> restricciones) {
+		this.restricciones = restricciones;
 	}
 }

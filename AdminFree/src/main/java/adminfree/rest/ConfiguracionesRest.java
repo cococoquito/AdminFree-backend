@@ -285,15 +285,16 @@ public class ConfiguracionesRest {
 	 * Servicio que permite obtener los campos de entrada de informacion asociado a un cliente
 	 *
 	 * @param idCliente, identificador del cliente que le pertenece los campos de entrada
+	 * @param isRestriccion, 1=si se debe consultar las restricciones
 	 * @return lista DTO con la informacion de los campos de entrada
 	 */
 	@RequestMapping(
 			value = ApiRest.GET_CAMPOS_ENTRADA,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getCamposEntrada(@RequestParam Long idCliente) {
+	public ResponseEntity<Object> getCamposEntrada(@RequestParam Long idCliente, @RequestParam Integer isRestriccion) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.getCamposEntrada(idCliente));
+			return Util.getResponseSuccessful(this.configuracionesService.getCamposEntrada(idCliente, isRestriccion));
 		} catch (Exception e) {
 			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getCamposEntrada ", e.getMessage());
 		}
