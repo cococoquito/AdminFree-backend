@@ -2,6 +2,8 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -34,15 +37,28 @@ public class CrearNomenclaturaTest {
 		try {
 			// se construye la nomenclatura a crear
 			NomenclaturaDTO nomenclatura = new NomenclaturaDTO();
-			nomenclatura.setNomenclatura("DT");
-			nomenclatura.setDescripcion("DESCRIPCION DE LA DT");
+			nomenclatura.setNomenclatura("DD");
+			nomenclatura.setDescripcion("DESCRIPCION DE LA DD");
 			nomenclatura.setIdCliente(1L);
-			nomenclatura.setConsecutivoInicial(1);
+			nomenclatura.setConsecutivoInicial(11);
+
+			// restricciones
+			RestriccionDTO obligatorio = new RestriccionDTO();
+			obligatorio.setId(1);
+			RestriccionDTO soloNumeros = new RestriccionDTO();
+			soloNumeros.setId(2);
+			RestriccionDTO unico = new RestriccionDTO();
+			unico.setId(3);
+			RestriccionDTO unicoTodas = new RestriccionDTO();
+			unicoTodas.setId(4);
 
 			// se construye los campos a insertar
 			NomenclaturaCampoDTO campo1 = new NomenclaturaCampoDTO();
 			campo1.setIdCampo(1l);
 			campo1.setOrden(1);
+			campo1.setRestricciones(new ArrayList<>());
+			campo1.getRestricciones().add(obligatorio);
+			campo1.getRestricciones().add(soloNumeros);
 
 			NomenclaturaCampoDTO campo2 = new NomenclaturaCampoDTO();
 			campo2.setIdCampo(2l);
@@ -55,6 +71,9 @@ public class CrearNomenclaturaTest {
 			NomenclaturaCampoDTO campo4 = new NomenclaturaCampoDTO();
 			campo4.setIdCampo(4l);
 			campo4.setOrden(4);
+			campo4.setRestricciones(new ArrayList<>());
+			campo4.getRestricciones().add(unico);
+			campo4.getRestricciones().add(unicoTodas);
 
 			nomenclatura.agregarCampos(campo1);
 			nomenclatura.agregarCampos(campo2);

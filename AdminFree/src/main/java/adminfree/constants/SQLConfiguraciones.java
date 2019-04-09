@@ -104,6 +104,9 @@ public class SQLConfiguraciones {
 	/** Se utiliza para obtener las restricciones parametrizadas */
 	public static final String GET_RESTRICCIONES = "SELECT RE.ID_RESTRICCION,RE.DESCRIPCION,RT.COMPATIBLE,RT.TIPO_CAMPO FROM RESTRICCIONES_TIPO_CAMPO RT JOIN RESTRICCIONES RE ON(RE.ID_RESTRICCION = RT.RESTRICCION) ORDER BY RT.TIPO_CAMPO,RE.ID_RESTRICCION";
 
+	/** Se utiliza para insertar los campos asociados a una nomenclatura */
+	public static final String INSERT_NOMENCLATURA_CAMPOS = "INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA(NOMENCLATURA,CAMPO,ORDEN)VALUES(?,?,?)";
+
 	/**
 	 * Metodo que construye el SQL para eliminar los privilegios asociados a un usuario
 	 */
@@ -171,13 +174,13 @@ public class SQLConfiguraciones {
 	}
 
 	/**
-	 * Metodo que construye el SQL para insertar los campos asociados a una nomenclatura
+	 * Metodo que construye el SQL para eliminar las restricciones de los campos asociados nomenclatura
 	 */
-	public static String getSQLInsertCamposNomenclatura(String idNomenclatura, String idCampo, String orden) {
-		StringBuilder sql = new StringBuilder("INSERT INTO NOMENCLATURAS_CAMPOS_ENTRADA (NOMENCLATURA, CAMPO, ORDEN) VALUES (");
-		sql.append(idNomenclatura).append(",");
-		sql.append(idCampo).append(",");
-		sql.append(orden).append(")");
+	public static String getSQLDeleteRestricciones(String idNomenclatura) {
+		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_RESTRICS WHERE ID_NOME_CAMPO");
+		sql.append(" IN(SELECT N.ID_NOME_CAMPO FROM NOMENCLATURAS_CAMPOS_ENTRADA N WHERE N.NOMENCLATURA=");
+		sql.append(idNomenclatura);
+		sql.append(" AND N.TIENE_CONSECUTIVO IS NULL)");
 		return sql.toString();
 	}
 
@@ -194,7 +197,7 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para actualizar el orden un campo de una nomenclatura
 	 */
-	public static String getSQLUpdateOrdenCamposNomenclatura(String orden, String idCampoNomenclatura) {
+	public static String getSQLUpdateOrdenCampos(String orden, String idCampoNomenclatura) {
 		StringBuilder sql = new StringBuilder("UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET ORDEN=");
 		sql.append(orden).append(" WHERE ID_NOME_CAMPO=");
 		sql.append(idCampoNomenclatura);
@@ -216,6 +219,15 @@ public class SQLConfiguraciones {
 	public static String getSQLDeleteNomenclatura(String idNomenclatura) {
 		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=");
 		sql.append(idNomenclatura);
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para el insert de la tabla NOMENCLATURAS_CAMPOS_RESTRICS
+	 */
+	public static String getSQLInsertRestriccion(String idNomenclaturaCampo, Integer idRestriccion) {
+		StringBuilder sql = new StringBuilder("INSERT INTO NOMENCLATURAS_CAMPOS_RESTRICS(ID_NOME_CAMPO,RESTRICCION)VALUES(");
+		sql.append(idNomenclaturaCampo).append(",").append(idRestriccion).append(")");
 		return sql.toString();
 	}
 }

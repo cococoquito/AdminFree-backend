@@ -2,7 +2,7 @@ package adminfree.configuraciones;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import adminfree.dtos.configuraciones.NomenclaturaCampoDTO;
 import adminfree.dtos.configuraciones.NomenclaturaDTO;
 import adminfree.dtos.configuraciones.NomenclaturaEdicionDTO;
+import adminfree.dtos.configuraciones.RestriccionDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
@@ -35,24 +36,55 @@ public class EditarNomenclaturaTest {
 	@Test
 	public void editarNomenclatura() {
 		try {
-			// se obtiene el detalle de la nomenclatura
-			Long idNomenclatura = 3l;
-			NomenclaturaDTO detalle = this.configuracionesService.getDetalleNomenclatura(idNomenclatura);
-			detalle.setNomenclatura("NomeTest");
-			detalle.setDescripcion("DescripcionTest");
-			detalle.setConsecutivoInicial(20);
+			// datos generales de la nomenclatura
+			NomenclaturaDTO nomenclatura = new NomenclaturaDTO();
+			nomenclatura.setNomenclatura("NEW");
+			nomenclatura.setDescripcion("NEW DESCRIPTION");
+			nomenclatura.setConsecutivoInicial(10);
+			nomenclatura.setId(1L);
 
-			// campos de la nomenclatura
-			List<NomenclaturaCampoDTO> campos = detalle.getCampos();
-			for (NomenclaturaCampoDTO campo : campos) {
-				campo.setOrden(campo.getOrden() + 1);
-			}
+			// restricciones
+			RestriccionDTO obligatorio = new RestriccionDTO();
+			obligatorio.setId(1);
+			RestriccionDTO soloNumeros = new RestriccionDTO();
+			soloNumeros.setId(2);
+			RestriccionDTO unico = new RestriccionDTO();
+			unico.setId(3);
+			RestriccionDTO unicoTodas = new RestriccionDTO();
+			unicoTodas.setId(4);
 
-			// son los datos de la edicion
+			NomenclaturaCampoDTO campo1 = new NomenclaturaCampoDTO();
+			campo1.setIdCampo(1l);
+			campo1.setOrden(1);
+			campo1.setRestricciones(new ArrayList<>());
+			campo1.getRestricciones().add(obligatorio);
+			campo1.getRestricciones().add(soloNumeros);
+
+			NomenclaturaCampoDTO campo2 = new NomenclaturaCampoDTO();
+			campo2.setIdCampo(2l);
+			campo2.setOrden(2);
+
+			NomenclaturaCampoDTO campo3 = new NomenclaturaCampoDTO();
+			campo3.setIdCampo(3l);
+			campo3.setOrden(3);
+
+			NomenclaturaCampoDTO campo4 = new NomenclaturaCampoDTO();
+			campo4.setIdCampo(4l);
+			campo4.setOrden(4);
+			campo4.setRestricciones(new ArrayList<>());
+			campo4.getRestricciones().add(unico);
+			campo4.getRestricciones().add(unicoTodas);
+
+			nomenclatura.agregarCampos(campo1);
+			nomenclatura.agregarCampos(campo2);
+			nomenclatura.agregarCampos(campo3);
+			nomenclatura.agregarCampos(campo4);
+
+			// son los datos a enviar para la edicion
 			NomenclaturaEdicionDTO datos = new NomenclaturaEdicionDTO();
-			datos.setNomenclatura(detalle);
+			datos.setDatosBasicosEditar(false);
 			datos.setCamposEntradaEditar(true);
-			datos.setDatosBasicosEditar(true);
+			datos.setNomenclatura(nomenclatura);
 
 			// se modifica la nomenclatura
 			this.configuracionesService.editarNomenclatura(datos);

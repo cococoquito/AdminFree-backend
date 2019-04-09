@@ -729,9 +729,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param nomenclatura, contiene los datos de la creacion
 	 * @return Nomenclatura con el identificador generado
 	 */
-	public NomenclaturaDTO crearNomenclatura(
-			NomenclaturaDTO nomenclatura,
-			Connection connection) throws Exception {
+	public NomenclaturaDTO crearNomenclatura(NomenclaturaDTO nomenclatura, Connection connection) throws Exception {
 		try {
 			connection.setAutoCommit(false);
 
@@ -747,20 +745,47 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					CommonConstant.LAST_INSERT_ID,
 					MapperTransversal.get(MapperTransversal.GET_ID));
 
-			// si tiene campos asociados
+			// se verifica si esta nomenclatura tiene campos asociados
 			List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
 			if (campos != null && !campos.isEmpty()) {
-				String idNomenclatura_ = idNomenclatura.toString();
 
-				// se recorre todos los campos para construir el DML para la insercion
-				List<String> dmls = new ArrayList<>();
+				// se utiliza para insertar las restricciones asociadas a cada campo
+				List<String> dmlsRestricciones = null;
+
+				// se recorre todos los campos
+				List<RestriccionDTO> restricciones;
 				for (NomenclaturaCampoDTO campo : campos) {
-					dmls.add(SQLConfiguraciones.getSQLInsertCamposNomenclatura(
-							idNomenclatura_,
-							campo.getIdCampo().toString(),
-							campo.getOrden().toString()));
+
+					// se procede a insertar el campo para esta nomenclatura
+					insertUpdate(connection,
+							SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS,
+							ValueSQL.get(idNomenclatura, Types.BIGINT),
+							ValueSQL.get(campo.getIdCampo(), Types.BIGINT),
+							ValueSQL.get(campo.getOrden(), Types.INTEGER));
+
+					// se verifica si este campo tiene restricciones
+					restricciones = campo.getRestricciones();
+					if (restricciones != null && !restricciones.isEmpty()) {
+
+						// se obtiene el identificador de la nomenclatura campo
+						String idNomenclaturaCampo = find(connection,
+								CommonConstant.LAST_INSERT_ID,
+								MapperTransversal.get(MapperTransversal.GET_ID)).toString();
+
+						// se recorre cada restriccion
+						for (RestriccionDTO restriccion : restricciones) {
+							if (dmlsRestricciones == null) {
+								dmlsRestricciones = new ArrayList<>();
+							}
+							dmlsRestricciones.add(SQLConfiguraciones.getSQLInsertRestriccion(idNomenclaturaCampo, restriccion.getId()));
+						}
+					}
 				}
-				batchSinInjection(connection, dmls);
+
+				// si hay INSERTs para las restricciones se procede a llamar el BATCH
+				if (dmlsRestricciones != null && !dmlsRestricciones.isEmpty()) {
+					batchSinInjection(connection, dmlsRestricciones);
+				}
 			}
 			connection.commit();
 
@@ -803,32 +828,58 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// modificaciones de los campos de entrada asociados a la nomenclatura
 			if (datos.isCamposEntradaEditar()) {
-				List<String> dmls = new ArrayList<>();
 				String idNomenclatura_ = nomenclatura.getId().toString();
 
-				// se eliminan todos los campos asociados a la nomenclatura que no tengan consecutivos
-				dmls.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_));
+				// se eliminan todas las restricciones y campos asociadas a la nomenclatura
+				List<String> deletes = new ArrayList<>();
+				deletes.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura_));
+				deletes.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_));
+				batchSinInjection(connection, deletes);
 
-				// se insertan los campos seleccionados
+				// se verifica si hay campos asociados a esta nomenclatura
 				List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
 				if (campos != null && !campos.isEmpty()) {
+
+					// se utiliza para insert restricciones o update orden
+					List<String> dmls = new ArrayList<>();
+
+					// se recorre cada campo
+					String idNomenclaturaCampo = null;
+					List<RestriccionDTO> restricciones;
 					for (NomenclaturaCampoDTO campo : campos) {
 
-						// si no tiene consecutivo se inserta
+						// si no tiene consecutivo se procede a INSERTAR el campo para esta nomenclatura
 						if (!campo.isTieneConsecutivo()) {
-							dmls.add(SQLConfiguraciones.getSQLInsertCamposNomenclatura(
-									idNomenclatura_,
-									campo.getIdCampo().toString(),
-									campo.getOrden().toString()));
+							insertUpdate(connection,
+									SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS,
+									ValueSQL.get(nomenclatura.getId(), Types.BIGINT),
+									ValueSQL.get(campo.getIdCampo(), Types.BIGINT),
+									ValueSQL.get(campo.getOrden(), Types.INTEGER));
 						} else {
 							// si tiene consecutivo solo se edita el orden
-							dmls.add(SQLConfiguraciones.getSQLUpdateOrdenCamposNomenclatura(
-									campo.getOrden().toString(),
-									campo.getId().toString()));
+							idNomenclaturaCampo = campo.getId().toString();
+							dmls.add(SQLConfiguraciones.getSQLUpdateOrdenCampos(campo.getOrden().toString(), idNomenclaturaCampo));
+						}
+
+						// se verifica si hay restricciones para este campo
+						restricciones = campo.getRestricciones();
+						if (restricciones != null && !restricciones.isEmpty()) {
+
+							// se define el identificador de la nomenclatura campo
+							if (!campo.isTieneConsecutivo()) {
+								idNomenclaturaCampo = find(connection,
+										CommonConstant.LAST_INSERT_ID,
+										MapperTransversal.get(MapperTransversal.GET_ID)).toString();
+							}
+
+							// se configura los INSERTs de las restricciones
+							for (RestriccionDTO restriccion : restricciones) {
+								dmls.add(SQLConfiguraciones.getSQLInsertRestriccion(idNomenclaturaCampo, restriccion.getId()));
+							}
 						}
 					}
+					batchSinInjection(connection, dmls);
 				}
-				batchSinInjection(connection, dmls);
 			}
 			connection.commit();
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
 package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DTO que contiene los atributos del campo que le pertenece a una nomenclatura
@@ -24,6 +25,9 @@ public class NomenclaturaCampoDTO implements Serializable {
 
 	/** Es el tipo de campo */
 	private String tipoCampo;
+
+	/** Son las restricciones que contiene este campo, se utiliza para la creacion o edicion */
+	private List<RestriccionDTO> restricciones;
 
 	/** Indica el orden en la que se va mostrar este campo en los modulos */
 	private Integer orden;
@@ -116,5 +120,20 @@ public class NomenclaturaCampoDTO implements Serializable {
 	 */
 	public void setOrden(Integer orden) {
 		this.orden = orden;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo restricciones
+	 */
+	public List<RestriccionDTO> getRestricciones() {
+		return restricciones;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param restricciones
+	 */
+	public void setRestricciones(List<RestriccionDTO> restricciones) {
+		this.restricciones = restricciones;
 	}
 }
