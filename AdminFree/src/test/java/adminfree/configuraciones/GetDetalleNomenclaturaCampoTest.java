@@ -12,14 +12,14 @@ import adminfree.dtos.configuraciones.CampoEntradaDTO;
 import adminfree.services.ConfiguracionesService;
 
 /**
- * Test para el servicio ConfiguracionesService.getDetalleCampoEntrada
+ * Test para el servicio ConfiguracionesService.getDetalleNomenclaturaCampo
  *
  * @author Carlos Andres Diaz
  *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GetDetalleCampoEntradaTest {
+public class GetDetalleNomenclaturaCampoTest {
 
 	/** Service que contiene las configuraciones del sistema */
 	@Autowired
@@ -29,13 +29,14 @@ public class GetDetalleCampoEntradaTest {
 	 * Test que permite obtener el detalle de un campo de entrada de informacion
 	 */
 	@Test
-	public void getDetalleCampoEntrada() {
+	public void getDetalleNomenclaturaCampo() {
 		try {
+			Long idNomenclatura = 3l;
 			Long idCampo = 4l;
-			CampoEntradaDTO detalle = this.configuracionesService.getDetalleCampoEntrada(idCampo);
+			CampoEntradaDTO detalle = this.configuracionesService.getDetalleNomenclaturaCampo(idNomenclatura, idCampo);
 
-			// debe existir el detalle del campo de ingreso
-			assertTrue(detalle != null && detalle.getId() != null);
+			// debe existir el detalle del campo
+			assertTrue(detalle != null && detalle.getId() != null );
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			assertTrue(false);

@@ -303,18 +303,19 @@ public class ConfiguracionesRest {
 	/**
 	 * Servicio que permite obtener el detalle de un campo de entrada de informacion
 	 *
+	 * @param idNomenclatura, nomenclatura asociada al campo a consultar
 	 * @param idCampo, identificador del campo de entrada informacion
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
 	@RequestMapping(
-			value = ApiRest.GET_DETALLE_CAMPO_ENTRADA,
+			value = ApiRest.GET_DETALLE_NOMENCLATURA_CAMPO,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getDetalleCampoEntrada(@RequestParam Long idCampo) {
+	public ResponseEntity<Object> getDetalleNomenclaturaCampo(@RequestParam Long idNomenclatura, @RequestParam Long idCampo) {
 		try {
-			return Util.getResponseSuccessful(this.configuracionesService.getDetalleCampoEntrada(idCampo));
+			return Util.getResponseSuccessful(this.configuracionesService.getDetalleNomenclaturaCampo(idNomenclatura, idCampo));
 		} catch (Exception e) {
-			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleCampoEntrada ", e.getMessage());
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleNomenclaturaCampo ", e.getMessage());
 		}
 	}
 

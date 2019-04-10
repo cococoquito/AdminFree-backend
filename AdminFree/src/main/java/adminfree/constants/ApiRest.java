@@ -22,7 +22,7 @@ public class ApiRest {
 	public static final String GENERAR_CLAVE_INGRESO = "generarclavein";
 	public static final String CREAR_CAMPO_ENTRADA = "crearcampoin";
 	public static final String GET_CAMPOS_ENTRADA = "getcamposin";
-	public static final String GET_DETALLE_CAMPO_ENTRADA = "getdtlcampoin";
+	public static final String GET_DETALLE_NOMENCLATURA_CAMPO = "getdtlcampoin";
 	public static final String DELETE_CAMPO_ENTRADA = "deletecampoin";
 	public static final String GET_DETALLE_CAMPO_EDITAR = "getdtlcampoedi";
 	public static final String EDITAR_CAMPO_ENTRADA = "editarcampoin";

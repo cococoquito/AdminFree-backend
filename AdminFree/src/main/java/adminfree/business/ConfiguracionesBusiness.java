@@ -503,17 +503,20 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite obtener el detalle de un campo de entrada de informacion
+	 * Metodo que permite obtener el detalle del campo entrada
+	 * de informacion asociado a una nomenclatura
 	 *
+	 * @param idNomenclatura, nomenclatura asociada al campo a consultar
 	 * @param idCampo, identificador del campo de entrada informacion
 	 * @return DTO con los datos del campo de entrada de informacion
 	 */
-	public CampoEntradaDTO getDetalleCampoEntrada(Long idCampo, Connection connection) throws Exception {
+	public CampoEntradaDTO getDetalleNomenclaturaCampo(Long idNomenclatura, Long idCampo, Connection connection) throws Exception {
 
-		// se consulta los datos generales del campo
+		// se consulta los datos generales del campo asociado a la nomenclatura
 		CampoEntradaDTO campo = (CampoEntradaDTO) find(connection,
-				SQLConfiguraciones.GET_DETALLE_CAMPO_ENTRADA,
-				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_CAMPO_ENTRADA),
+				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA_CAMPO,
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_NOMENCLATURA_CAMPO),
+				ValueSQL.get(idNomenclatura, Types.BIGINT),
 				ValueSQL.get(idCampo, Types.BIGINT));
 
 		// se consulta los items si el campo es una lista desplegable

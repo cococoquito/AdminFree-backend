@@ -32,7 +32,7 @@ public class MapperConfiguraciones extends Mapper {
 	public static final int GET_USUARIOS_CLIENTE = 3;
 	public static final int GET_RESTRICCIONES = 4;
 	public static final int GET_CAMPOS_ENTRADA = 5;
-	public static final int GET_DETALLE_CAMPO_ENTRADA = 6;
+	public static final int GET_DETALLE_NOMENCLATURA_CAMPO = 6;
 	public static final int GET_ITEMS = 7;
 	public static final int GET_DETALLE_CAMPO_EDITAR = 8;
 	public static final int GET_NOMENCLATURAS = 9;
@@ -100,8 +100,8 @@ public class MapperConfiguraciones extends Mapper {
 				result = getCamposEntrada(res);
 				break;
 	
-			case MapperConfiguraciones.GET_DETALLE_CAMPO_ENTRADA:
-				result = getDetalleCampoEntrada(res);
+			case MapperConfiguraciones.GET_DETALLE_NOMENCLATURA_CAMPO:
+				result = getDetalleNomenclaturaCampo(res);
 				break;
 
 			case MapperConfiguraciones.GET_ITEMS:
@@ -233,22 +233,44 @@ public class MapperConfiguraciones extends Mapper {
 	}
 
 	/**
-	 * Mapper para obtener el detalle de un campo de entrada de informacion
+	 * Mapper para obtener el detalle de un campo asociado a una nomenclatura
 	 */
-	private CampoEntradaDTO getDetalleCampoEntrada(ResultSet res) throws Exception {
+	private CampoEntradaDTO getDetalleNomenclaturaCampo(ResultSet res) throws Exception {
 		CampoEntradaDTO campoEntrada = null;
 		while (res.next()) {
+			// para la primera iteracion se debe configurar los datos basicos
+			if (campoEntrada == null) {
 
-			// se configura los datos basicos
-			campoEntrada = new CampoEntradaDTO();
-			campoEntrada.setId(res.getLong(Numero.UNO.valueI));
-			campoEntrada.setIdCliente(res.getLong(Numero.DOS.valueI));
-			campoEntrada.setNombre(res.getString(Numero.TRES.valueI));
-			campoEntrada.setDescripcion(res.getString(Numero.CUATRO.valueI));
-			campoEntrada.setTipoCampo(res.getInt(Numero.CINCO.valueI));
-			campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
+				// se configura los datos basicos
+				campoEntrada = new CampoEntradaDTO();
+				campoEntrada.setId(res.getLong(Numero.UNO.valueI));
+				campoEntrada.setNombre(res.getString(Numero.DOS.valueI));
+				campoEntrada.setDescripcion(res.getString(Numero.TRES.valueI));
+				campoEntrada.setTipoCampo(res.getInt(Numero.CUATRO.valueI));
+				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
+
+				// se configura las restricciones para este campo
+				configurarRestriccion(campoEntrada, res);
+			} else {
+				// para las demas iteraciones solamente se debe configurar las restriciones
+				configurarRestriccion(campoEntrada, res);
+			}
 		}
 		return campoEntrada;
+	}
+
+	/**
+	 * Metodo que permite configurar la restriccion para un campo de entrada
+	 */
+	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
+		Integer idRestriccion = res.getInt(Numero.CINCO.valueI);
+		if (idRestriccion != null && idRestriccion.intValue() > Numero.ZERO.valueI.intValue()) {
+			RestriccionDTO restriccion = new RestriccionDTO();
+			restriccion.setId(idRestriccion);
+			restriccion.setDescripcion(res.getString(Numero.SEIS.valueI));
+			restriccion.setAplica(true);
+			campo.agregarRestriccion(restriccion);
+		}
 	}
 
 	/**
