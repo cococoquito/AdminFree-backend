@@ -176,21 +176,23 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para eliminar las restricciones de los campos asociados nomenclatura
 	 */
-	public static String getSQLDeleteRestricciones(String idNomenclatura) {
+	public static String getSQLDeleteRestricciones(String idNomenclatura, boolean isNull) {
 		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_RESTRICS WHERE ID_NOME_CAMPO");
 		sql.append(" IN(SELECT N.ID_NOME_CAMPO FROM NOMENCLATURAS_CAMPOS_ENTRADA N WHERE N.NOMENCLATURA=");
 		sql.append(idNomenclatura);
-		sql.append(" AND N.TIENE_CONSECUTIVO IS NULL)");
+		sql.append(isNull ? " AND N.TIENE_CONSECUTIVO IS NULL)" : ")");
 		return sql.toString();
 	}
 
 	/**
 	 * Metodo que construye el SQL para eliminar los campos asociados a una nomenclatura
 	 */
-	public static String getSQLDeleteCamposNomenclatura(String idNomenclatura) {
+	public static String getSQLDeleteCamposNomenclatura(String idNomenclatura, boolean isNull) {
 		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=");
 		sql.append(idNomenclatura);
-		sql.append(" AND TIENE_CONSECUTIVO IS NULL");
+		if (isNull) {
+			sql.append(" AND TIENE_CONSECUTIVO IS NULL");
+		}
 		return sql.toString();
 	}
 
@@ -201,15 +203,6 @@ public class SQLConfiguraciones {
 		StringBuilder sql = new StringBuilder("UPDATE NOMENCLATURAS_CAMPOS_ENTRADA SET ORDEN=");
 		sql.append(orden).append(" WHERE ID_NOME_CAMPO=");
 		sql.append(idCampoNomenclatura);
-		return sql.toString();
-	}
-
-	/**
-	 * Metodo que construye el SQL para eliminar los campos asociados a una nomenclatura
-	 */
-	public static String getSQLDeleteCampos(String idNomenclatura) {
-		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_ENTRADA WHERE NOMENCLATURA=");
-		sql.append(idNomenclatura);
 		return sql.toString();
 	}
 
