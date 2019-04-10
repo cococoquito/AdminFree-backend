@@ -301,7 +301,8 @@ public class ConfiguracionesRest {
 	}
 
 	/**
-	 * Servicio que permite obtener el detalle de un campo de entrada de informacion
+	 * Servicio que permite obtener el detalle del campo entrada
+	 * de informacion asociado a una nomenclatura
 	 *
 	 * @param idNomenclatura, nomenclatura asociada al campo a consultar
 	 * @param idCampo, identificador del campo de entrada informacion
