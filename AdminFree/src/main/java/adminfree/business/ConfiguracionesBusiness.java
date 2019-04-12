@@ -980,6 +980,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			Integer isGetRestricciones = Numero.UNO.valueI;
 			response.setCampos(getCamposEntrada(idCliente, isGetRestricciones, connection));
 		}
+
+		// se debe configurar el id de la nomenclatura
+		response.getNomenclatura().setId(idNomenclatura);
+
+		// se retorna el resultado con todos sus atributos configurados
 		return response;
 	}
 

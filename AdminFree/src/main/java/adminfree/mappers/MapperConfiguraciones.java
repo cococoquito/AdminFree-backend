@@ -139,6 +139,7 @@ public class MapperConfiguraciones extends Mapper {
 		String idRestricciones;
 		List<String> restricciones;
 		RestriccionDTO restriccion;
+		Long idNomenclaturaCampo;
 
 		// se recorre cada campo nomenclatura
 		while (res.next()) {
@@ -152,31 +153,36 @@ public class MapperConfiguraciones extends Mapper {
 				nomenclatura.setCantConsecutivos(res.getInt(Numero.CUATRO.valueI));
 			}
 
-			// se configura los campos de esta nomenclatura
-			campo = new NomenclaturaCampoDTO();
-			campo.setId(res.getLong(Numero.CINCO.valueI));
-			campo.setTieneConsecutivo(!Numero.ZERO.valueI.equals(res.getInt(Numero.SEIS.valueI)));
-			campo.setIdCampo(res.getLong(Numero.SIETE.valueI));
+			// se verifica si esta nomenclatura tiene campos asociados
+			idNomenclaturaCampo = res.getLong(Numero.CINCO.valueI);
+			if (idNomenclaturaCampo != null && !idNomenclaturaCampo.equals(Numero.ZERO.valueL)) {
 
-			// se obtiene los IDs restricciones que tiene este campo
-			idRestricciones = res.getString(Numero.OCHO.valueI);
+				// se configura los campos de esta nomenclatura
+				campo = new NomenclaturaCampoDTO();
+				campo.setId(idNomenclaturaCampo);
+				campo.setTieneConsecutivo(!Numero.ZERO.valueI.equals(res.getInt(Numero.SEIS.valueI)));
+				campo.setIdCampo(res.getLong(Numero.SIETE.valueI));
 
-			// se valida que si hay restricciones para este campo
-			if (idRestricciones != null && !idRestricciones.isEmpty()) {
+				// se obtiene los IDs restricciones que tiene este campo
+				idRestricciones = res.getString(Numero.OCHO.valueI);
 
-				// se procede a obtener la lista de IDs restricciones
-				restricciones = Arrays.asList(idRestricciones.split(CommonConstant.PUNTO_COMA));
+				// se valida que si hay restricciones para este campo
+				if (idRestricciones != null && !idRestricciones.isEmpty()) {
 
-				// se recorre cada restriccion agregandolo en el campo
-				for (String id : restricciones) {
-					restriccion = new RestriccionDTO();
-					restriccion.setId(Integer.valueOf(id));
-					campo.agregarRestriccion(restriccion);
+					// se procede a obtener la lista de IDs restricciones
+					restricciones = Arrays.asList(idRestricciones.split(CommonConstant.PUNTO_COMA));
+
+					// se recorre cada restriccion agregandolo en el campo
+					for (String id : restricciones) {
+						restriccion = new RestriccionDTO();
+						restriccion.setId(Integer.valueOf(id));
+						campo.agregarRestriccion(restriccion);
+					}
 				}
-			}
 
-			// se agrega este campo a la nomenclatura
-			nomenclatura.agregarCampo(campo);
+				// se agrega este campo a la nomenclatura
+				nomenclatura.agregarCampo(campo);
+			}
 		}
 		return nomenclatura;
 	}
@@ -295,40 +301,31 @@ public class MapperConfiguraciones extends Mapper {
 	 */
 	private CampoEntradaDTO getDetalleNomenclaturaCampo(ResultSet res) throws Exception {
 		CampoEntradaDTO campoEntrada = null;
+		Integer idRestriccion;
+		RestriccionDTO restriccion;
 		while (res.next()) {
+
 			// para la primera iteracion se debe configurar los datos basicos
 			if (campoEntrada == null) {
-
-				// se configura los datos basicos
 				campoEntrada = new CampoEntradaDTO();
 				campoEntrada.setId(res.getLong(Numero.UNO.valueI));
 				campoEntrada.setNombre(res.getString(Numero.DOS.valueI));
 				campoEntrada.setDescripcion(res.getString(Numero.TRES.valueI));
 				campoEntrada.setTipoCampo(res.getInt(Numero.CUATRO.valueI));
 				campoEntrada.setTipoCampoNombre(Util.getTipoCampoNombre(campoEntrada.getTipoCampo()));
+			}
 
-				// se configura las restricciones para este campo
-				configurarRestriccion(campoEntrada, res);
-			} else {
-				// para las demas iteraciones solamente se debe configurar las restriciones
-				configurarRestriccion(campoEntrada, res);
+			// se configura las restricciones para este campo
+			idRestriccion = res.getInt(Numero.CINCO.valueI);
+			if (idRestriccion != null && !idRestriccion.equals(Numero.ZERO.valueI)) {
+				restriccion = new RestriccionDTO();
+				restriccion.setId(idRestriccion);
+				restriccion.setDescripcion(res.getString(Numero.SEIS.valueI));
+				restriccion.setAplica(true);
+				campoEntrada.agregarRestriccion(restriccion);
 			}
 		}
 		return campoEntrada;
-	}
-
-	/**
-	 * Metodo que permite configurar la restriccion para un campo de entrada
-	 */
-	private void configurarRestriccion(CampoEntradaDTO campo, ResultSet res) throws Exception {
-		Integer idRestriccion = res.getInt(Numero.CINCO.valueI);
-		if (idRestriccion != null && idRestriccion.intValue() > Numero.ZERO.valueI.intValue()) {
-			RestriccionDTO restriccion = new RestriccionDTO();
-			restriccion.setId(idRestriccion);
-			restriccion.setDescripcion(res.getString(Numero.SEIS.valueI));
-			restriccion.setAplica(true);
-			campo.agregarRestriccion(restriccion);
-		}
 	}
 
 	/**
@@ -396,10 +393,17 @@ public class MapperConfiguraciones extends Mapper {
 	 * Mapper para obtener el detalle de la nomenclatura
 	 */
 	private NomenclaturaDTO getDetalleNomenclatura(ResultSet res) throws Exception {
+
+		// variables que se utilizan para el proceso
 		NomenclaturaDTO nomenclatura = null;
+		NomenclaturaCampoDTO campo;
+		Long idNomCampo;
+
+		// se recorre cada detalle de la nomenclatura
 		while (res.next()) {
+
+			// datos basicos de la nomenclatura 
 			if (nomenclatura == null) {
-				// datos basicos de la nomenclatura
 				nomenclatura = new NomenclaturaDTO();
 				nomenclatura.setId(res.getLong(Numero.UNO.valueI));
 				nomenclatura.setNomenclatura(res.getString(Numero.DOS.valueI));
@@ -407,31 +411,21 @@ public class MapperConfiguraciones extends Mapper {
 				nomenclatura.setConsecutivoInicial(res.getInt(Numero.CUATRO.valueI));
 				nomenclatura.setSecuencia(res.getInt(Numero.CINCO.valueI));
 				nomenclatura.setCantConsecutivos(res.getInt(Numero.SEIS.valueI));
+			}
 
-				// campo de la nomenclatura
-				configurarCampo(nomenclatura, res);
-			} else {
-				// solamente se configura el campo de la nomenclatura
-				configurarCampo(nomenclatura, res);
+			// se configura los campos para esta nomenclatura
+			idNomCampo = res.getLong(Numero.SIETE.valueI);
+			if (idNomCampo != null && !idNomCampo.equals(Numero.ZERO.valueL)) {
+				campo = new NomenclaturaCampoDTO();
+				campo.setId(idNomCampo);
+				campo.setIdCampo(res.getLong(Numero.OCHO.valueI));
+				campo.setNombreCampo(res.getString(Numero.NUEVE.valueI));
+				campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.DIEZ.valueI)));
+				campo.setTieneConsecutivo(Numero.UNO.valueI.equals(res.getInt(Numero.ONCE.valueI)));
+				campo.setOrden(res.getInt(Numero.DOCE.valueI));
+				nomenclatura.agregarCampo(campo);
 			}
 		}
 		return nomenclatura;
-	}
-
-	/**
-	 * Invocado por detalle de la nomenclatura y permite configurar el campo de la nomenclatura
-	 */
-	private void configurarCampo(NomenclaturaDTO datos, ResultSet res) throws Exception {
-		Long idNomCampo = res.getLong(Numero.SIETE.valueI);
-		if (idNomCampo != null && idNomCampo.longValue() > Numero.ZERO.valueL.longValue()) {
-			NomenclaturaCampoDTO campo = new NomenclaturaCampoDTO();
-			campo.setId(idNomCampo);
-			campo.setIdCampo(res.getLong(Numero.OCHO.valueI));
-			campo.setNombreCampo(res.getString(Numero.NUEVE.valueI));
-			campo.setTipoCampo(Util.getTipoCampoNombre(res.getInt(Numero.DIEZ.valueI)));
-			campo.setTieneConsecutivo(Numero.UNO.valueI.equals(res.getInt(Numero.ONCE.valueI)));
-			campo.setOrden(res.getInt(Numero.DOCE.valueI));
-			datos.agregarCampo(campo);
-		}
 	}
 }

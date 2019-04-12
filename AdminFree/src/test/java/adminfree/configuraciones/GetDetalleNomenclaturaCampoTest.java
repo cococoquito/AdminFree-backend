@@ -31,7 +31,7 @@ public class GetDetalleNomenclaturaCampoTest {
 	@Test
 	public void getDetalleNomenclaturaCampo() {
 		try {
-			Long idNomenclatura = 3l;
+			Long idNomenclatura = 1l;
 			Long idCampo = 4l;
 			CampoEntradaDTO detalle = this.configuracionesService.getDetalleNomenclaturaCampo(idNomenclatura, idCampo);
 
