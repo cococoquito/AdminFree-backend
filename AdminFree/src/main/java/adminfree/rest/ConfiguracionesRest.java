@@ -533,6 +533,30 @@ public class ConfiguracionesRest {
 	}
 
 	/**
+	 * Servicio que permite consultar el detalle de la nomenclatura para su modificacion
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 * @param idCliente, identificador del cliente asociado a los campos
+	 * @param isGetCampos, 1=se debe consultar los campos con sus restricciones
+	 * @return DTO con los atributos configurados
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_DETALLE_NOMENCLATURA_EDITAR,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetalleNomenclaturaEdicion(
+			@RequestParam Long idNomenclatura,
+			@RequestParam Long idCliente,
+			@RequestParam Integer isGetCampos) {
+		try {
+			return Util.getResponseSuccessful(this.configuracionesService
+					.getDetalleNomenclaturaEdicion(idNomenclatura, idCliente, isGetCampos));
+		} catch (Exception e) {
+			return Util.getResponseError(ConfiguracionesRest.class.getSimpleName() + ".getDetalleNomenclaturaEdicion ", e.getMessage());
+		}
+	}
+
+	/**
 	 * Servicio que permite procesar la funcionalidad de negocio de modificacion
 	 * cuenta del usuario aplica para datos personales, cambio clave o usuario de ingreso
 	 *

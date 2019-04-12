@@ -1,6 +1,7 @@
 package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,9 @@ public class NomenclaturaEdicionDTO implements Serializable {
 
 	/** Contiene los datos de la nomenclatura a editar */
 	private NomenclaturaDTO nomenclatura;
+
+	/** Si no hay campos al momento de editar la nomenclatura*/
+	private List<CampoEntradaDTO> campos;
 
 	/** Indica si los datos basicos de la nomenclatura se debe editar */
 	private boolean datosBasicosEditar;
@@ -64,5 +68,20 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	 */
 	public void setCamposEntradaEditar(boolean camposEntradaEditar) {
 		this.camposEntradaEditar = camposEntradaEditar;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo campos
+	 */
+	public List<CampoEntradaDTO> getCampos() {
+		return campos;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param campos
+	 */
+	public void setCampos(List<CampoEntradaDTO> campos) {
+		this.campos = campos;
 	}
 }

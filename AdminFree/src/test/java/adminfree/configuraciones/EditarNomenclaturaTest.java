@@ -75,10 +75,10 @@ public class EditarNomenclaturaTest {
 			campo4.getRestricciones().add(unico);
 			campo4.getRestricciones().add(unicoTodas);
 
-			nomenclatura.agregarCampos(campo1);
-			nomenclatura.agregarCampos(campo2);
-			nomenclatura.agregarCampos(campo3);
-			nomenclatura.agregarCampos(campo4);
+			nomenclatura.agregarCampo(campo1);
+			nomenclatura.agregarCampo(campo2);
+			nomenclatura.agregarCampo(campo3);
+			nomenclatura.agregarCampo(campo4);
 
 			// son los datos a enviar para la edicion
 			NomenclaturaEdicionDTO datos = new NomenclaturaEdicionDTO();

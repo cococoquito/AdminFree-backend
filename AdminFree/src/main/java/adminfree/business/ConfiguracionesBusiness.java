@@ -953,6 +953,37 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite consultar el detalle de la nomenclatura para su modificacion
+	 *
+	 * @param idNomenclatura, identificador de la nomenclatura
+	 * @param idCliente, identificador del cliente asociado a los campos
+	 * @param isGetCampos, 1=se debe consultar los campos con sus restricciones
+	 * @return DTO con los atributos configurados
+	 */
+	public NomenclaturaEdicionDTO getDetalleNomenclaturaEdicion(
+			Long idNomenclatura,
+			Long idCliente,
+			Integer isGetCampos,
+			Connection connection) throws Exception {
+
+		// DTO que contiene los datos a retornar
+		NomenclaturaEdicionDTO response = new NomenclaturaEdicionDTO();
+
+		// se consulta el detalle de la nomenclatura
+		response.setNomenclatura((NomenclaturaDTO) find(connection,
+				SQLConfiguraciones.GET_DETALLE_NOMENCLATURA_EDITAR,
+				MapperConfiguraciones.get(MapperConfiguraciones.GET_DETALLE_NOMENCLATURA_EDITAR),
+				ValueSQL.get(idNomenclatura, Types.BIGINT)));
+
+		// se verifica si se debe consultar los campos son sus restricciones
+		if (Numero.UNO.valueI.equals(isGetCampos)) {
+			Integer isGetRestricciones = Numero.UNO.valueI;
+			response.setCampos(getCamposEntrada(idCliente, isGetRestricciones, connection));
+		}
+		return response;
+	}
+
+	/**
 	 * Metodo que permite validar el usuario de ingreso al momento
 	 * de crear el usuario o modificar la cuenta del usuario
 	 *

@@ -1,6 +1,7 @@
 package adminfree.dtos.configuraciones;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,16 @@ public class NomenclaturaCampoDTO implements Serializable {
 
 	/** Identifica si este campo para la nomenclatura tiene consecutivos asociados */
 	private boolean tieneConsecutivo;
+
+	/**
+	 * Metodo que permite agregar una restriccion para este campo
+	 */
+	public void agregarRestriccion(RestriccionDTO restriccion) {
+		if (this.restricciones == null) {
+			this.restricciones = new ArrayList<>();
+		}
+		this.restricciones.add(restriccion);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo id

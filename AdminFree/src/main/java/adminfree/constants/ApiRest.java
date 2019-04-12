@@ -33,6 +33,7 @@ public class ApiRest {
 	public static final String VALIDAR_EXISTE_NOMENCLATURA = "existenomenclatura";
 	public static final String ELIMINAR_NOMENCLATURA = "deletenomenclatura";
 	public static final String GET_DETALLE_NOMENCLATURA = "getdtlnomenclatura";
+	public static final String GET_DETALLE_NOMENCLATURA_EDITAR = "getdtlnomenclaturaeditar";
 	public static final String MODIFICAR_CUENTA_USUARIO = "updateusercount";
 
 	/** Constantes para los nombre de los servicios REST del modulo de seguridad */

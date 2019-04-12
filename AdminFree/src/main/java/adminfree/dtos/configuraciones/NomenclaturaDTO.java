@@ -41,7 +41,7 @@ public class NomenclaturaDTO implements Serializable {
 	/**
 	 * Metodo que permite agregar un campo
 	 */
-	public void agregarCampos(NomenclaturaCampoDTO campo) {
+	public void agregarCampo(NomenclaturaCampoDTO campo) {
 		if (this.campos == null) {
 			this.campos = new ArrayList<>();
 		}
