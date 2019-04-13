@@ -162,9 +162,10 @@ public class MapperConfiguraciones extends Mapper {
 				campo.setId(idNomenclaturaCampo);
 				campo.setTieneConsecutivo(!Numero.ZERO.valueI.equals(res.getInt(Numero.SEIS.valueI)));
 				campo.setIdCampo(res.getLong(Numero.SIETE.valueI));
+				campo.setOrden(res.getInt(Numero.OCHO.valueI));
 
 				// se obtiene los IDs restricciones que tiene este campo
-				idRestricciones = res.getString(Numero.OCHO.valueI);
+				idRestricciones = res.getString(Numero.NUEVE.valueI);
 
 				// se valida que si hay restricciones para este campo
 				if (idRestricciones != null && !idRestricciones.isEmpty()) {
