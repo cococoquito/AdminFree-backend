@@ -446,9 +446,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			}
 
 			// se ejecuta las insercciones para los items
-			if (!dmls.isEmpty()) {
-				batchSinInjection(connection, dmls);
-			}
+			batchSinInjection(connection, dmls);
 			connection.commit();
 
 			// se configura el DTO de retorno
@@ -785,9 +783,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 				}
 
 				// si hay INSERTs para las restricciones se procede a llamar el BATCH
-				if (dmlsRestricciones != null && !dmlsRestricciones.isEmpty()) {
-					batchSinInjection(connection, dmlsRestricciones);
-				}
+				batchSinInjection(connection, dmlsRestricciones);
 			}
 			connection.commit();
 

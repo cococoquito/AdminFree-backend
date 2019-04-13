@@ -241,11 +241,10 @@ public class CommonDAO {
 	 * @param dmls, lista de sentencias DMLS a ejecutar en el BATCH
 	 */
 	protected void batchSinInjection(Connection con, List<String> dmls) throws Exception {
-		Statement stm = null;
-		try {
-			// solo aplica si hay DMLS
-			if (dmls != null && !dmls.isEmpty()) {
-
+		// solo aplica si hay DMLS
+		if (dmls != null && !dmls.isEmpty()) {
+			Statement stm = null;
+			try {
 				// se establece el Statement
 				stm = con.createStatement();
 
@@ -272,9 +271,9 @@ public class CommonDAO {
 
 				// se ejecuta el ultimo bloque y se confirman los cambios
 				stm.executeBatch();
+			} finally {
+				CerrarRecursos.closeStatement(stm);
 			}
-		} finally {
-			CerrarRecursos.closeStatement(stm);
 		}
 	}
 
