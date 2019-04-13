@@ -243,32 +243,36 @@ public class CommonDAO {
 	protected void batchSinInjection(Connection con, List<String> dmls) throws Exception {
 		Statement stm = null;
 		try {
-			// se establece el Statement
-			stm = con.createStatement();
+			// solo aplica si hay DMLS
+			if (dmls != null && !dmls.isEmpty()) {
 
-			// constante numerico para el proceso
-			final int ZERO = Numero.ZERO.valueI.intValue();
-			final Integer UNO = Numero.UNO.valueI;
-			final Integer MIL = Numero.MIL.valueI;
+				// se establece el Statement
+				stm = con.createStatement();
 
-			// lleva la cuenta de DML agregados en el BATCH
-			int countDML = ZERO;
+				// constante numerico para el proceso
+				final int ZERO = Numero.ZERO.valueI.intValue();
+				final Integer UNO = Numero.UNO.valueI;
+				final Integer MIL = Numero.MIL.valueI;
 
-			// se recorre todos los DMLs que deben ser ejecutados por el BATCH
-			for (String dml : dmls) {
+				// lleva la cuenta de DML agregados en el BATCH
+				int countDML = ZERO;
 
-				// se agrega el DML al BATCH y se suma a la cuenta
-				stm.addBatch(dml);
-				countDML++;
+				// se recorre todos los DMLs que deben ser ejecutados por el BATCH
+				for (String dml : dmls) {
 
-				// se valida si se debe ejecutar el BATCH
-				if (!UNO.equals(countDML) && (countDML % MIL == ZERO)) {
-					stm.executeBatch();
+					// se agrega el DML al BATCH y se suma a la cuenta
+					stm.addBatch(dml);
+					countDML++;
+
+					// se valida si se debe ejecutar el BATCH
+					if (!UNO.equals(countDML) && (countDML % MIL == ZERO)) {
+						stm.executeBatch();
+					}
 				}
-			}
 
-			// se ejecuta el ultimo bloque y se confirman los cambios
-			stm.executeBatch();
+				// se ejecuta el ultimo bloque y se confirman los cambios
+				stm.executeBatch();
+			}
 		} finally {
 			CerrarRecursos.closeStatement(stm);
 		}
