@@ -22,8 +22,11 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	/** Indica si los datos basicos de la nomenclatura se debe editar */
 	private boolean datosBasicosEditar;
 
-	/** Indica si los campos de entrada se debe editar */
+	/** Indica si los campos de entrada se deben editar */
 	private boolean camposEntradaEditar;
+
+	/** Indica si las restricciones se deben editar */
+	private boolean restriccionesEditar;
 
 	/**
 	 * Metodo que permite obtener el valor del atributo nomenclatura
@@ -83,5 +86,20 @@ public class NomenclaturaEdicionDTO implements Serializable {
 	 */
 	public void setCampos(List<CampoEntradaDTO> campos) {
 		this.campos = campos;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo restriccionesEditar
+	 */
+	public boolean isRestriccionesEditar() {
+		return restriccionesEditar;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param restriccionesEditar
+	 */
+	public void setRestriccionesEditar(boolean restriccionesEditar) {
+		this.restriccionesEditar = restriccionesEditar;
 	}
 }

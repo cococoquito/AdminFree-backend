@@ -179,11 +179,10 @@ public class SQLConfiguraciones {
 	/**
 	 * Metodo que construye el SQL para eliminar las restricciones de los campos asociados nomenclatura
 	 */
-	public static String getSQLDeleteRestricciones(String idNomenclatura, boolean isNull) {
+	public static String getSQLDeleteRestricciones(String idNomenclatura) {
 		StringBuilder sql = new StringBuilder("DELETE FROM NOMENCLATURAS_CAMPOS_RESTRICS WHERE ID_NOME_CAMPO");
 		sql.append(" IN(SELECT N.ID_NOME_CAMPO FROM NOMENCLATURAS_CAMPOS_ENTRADA N WHERE N.NOMENCLATURA=");
-		sql.append(idNomenclatura);
-		sql.append(isNull ? " AND N.TIENE_CONSECUTIVO IS NULL)" : ")");
+		sql.append(idNomenclatura).append(")");
 		return sql.toString();
 	}
 

@@ -202,7 +202,6 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param usuario, DTO con los datos del usuario a crear o modificar
 	 */
 	public void validarDatosUsuario(UsuarioDTO usuario, Connection connection) throws Exception {
-		// se aplica las validaciones de negocio para el usuario de ingreso
 		validarUsuarioIngreso(usuario.getUsuarioIngreso(), connection);
 	}
 
@@ -819,6 +818,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se obtiene los datos de la nomenclatura
 			NomenclaturaDTO nomenclatura = datos.getNomenclatura();
+			Long idNomenclatura = nomenclatura.getId();
 
 			// modificaciones para los datos basicos de la nomenclatura
 			if (datos.isDatosBasicosEditar()) {
@@ -826,19 +826,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 						ValueSQL.get(nomenclatura.getNomenclatura(), Types.VARCHAR),
 						ValueSQL.get(nomenclatura.getDescripcion(), Types.VARCHAR),
 						ValueSQL.get(nomenclatura.getConsecutivoInicial(), Types.INTEGER),
-						ValueSQL.get(nomenclatura.getId(), Types.BIGINT));
+						ValueSQL.get(idNomenclatura, Types.BIGINT));
 			}
 
 			// modificaciones de los campos de entrada asociados a la nomenclatura
 			if (datos.isCamposEntradaEditar()) {
-				String idNomenclatura_ = nomenclatura.getId().toString();
 
 				// se eliminan todas las restricciones y campos asociadas a la nomenclatura
-				List<String> deletes = new ArrayList<>();
-				boolean isTieneConsecutivoNull = true;
-				deletes.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura_, isTieneConsecutivoNull));
-				deletes.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_, isTieneConsecutivoNull));
-				batchSinInjection(connection, deletes);
+				eliminarCamposRestricciones(idNomenclatura, connection);
 
 				// se verifica si hay campos asociados a esta nomenclatura
 				List<NomenclaturaCampoDTO> campos = nomenclatura.getCampos();
@@ -856,7 +851,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 						if (!campo.isTieneConsecutivo()) {
 							insertUpdate(connection,
 									SQLConfiguraciones.INSERT_NOMENCLATURA_CAMPOS,
-									ValueSQL.get(nomenclatura.getId(), Types.BIGINT),
+									ValueSQL.get(idNomenclatura, Types.BIGINT),
 									ValueSQL.get(campo.getIdCampo(), Types.BIGINT),
 									ValueSQL.get(campo.getOrden(), Types.INTEGER));
 						} else {
@@ -884,6 +879,35 @@ public class ConfiguracionesBusiness extends CommonDAO {
 					}
 					batchSinInjection(connection, dmls);
 				}
+			} 
+
+			// se verifica si se debe modificar solamente las restricciones de los campos
+			else if (datos.isRestriccionesEditar()) {
+
+				// se eliminan todas las restricciones y campos asociadas a la nomenclatura
+				eliminarCamposRestricciones(idNomenclatura, connection);
+
+				// se utiliza para los INSERTs restricciones
+				List<String> inserts = new ArrayList<>();
+
+				// se recorre cada campo
+				List<RestriccionDTO> restricciones;
+				for (NomenclaturaCampoDTO nomeclaturaCampo : nomenclatura.getCampos()) {
+					String idNomenclaturaCampo = nomeclaturaCampo.getId().toString();
+
+					// se verifica si hay restricciones para este campo
+					restricciones = nomeclaturaCampo.getRestricciones();
+					if (restricciones != null && !restricciones.isEmpty()) {
+
+						// se configura los INSERTs de las restricciones
+						for (RestriccionDTO restriccion : restricciones) {
+							inserts.add(SQLConfiguraciones.getSQLInsertRestriccion(idNomenclaturaCampo, restriccion.getId()));
+						}
+					}
+				}
+
+				// se ejecuta el batch para los INSERTs de las restricciones
+				batchSinInjection(connection, inserts);
 			}
 			connection.commit();
 		} catch (Exception e) {
@@ -917,12 +941,12 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// lista para enviar al batch de eliminacion
 			List<String> deletes = new ArrayList<>();
-			boolean isTieneConsecutivoNull = false;
 
 			// SQL para eliminar las restricciones
-			deletes.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura_, isTieneConsecutivoNull));
+			deletes.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura_));
 
 			// SQL para eliminar los campos asociados
+			boolean isTieneConsecutivoNull = false;
 			deletes.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_, isTieneConsecutivoNull));
 
 			// SQL para eliminar la nomenclaura
@@ -1169,5 +1193,25 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		if (resultado <= Numero.ZERO.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
 		}
+	}
+
+	/**
+	 * Metodo que permite eliminar las restricciones y campos asociados a una nomenclatura
+	 */
+	private void eliminarCamposRestricciones(Long idNomenclatura, Connection connection) throws Exception {
+
+		// se debe utilizar id nomenclatura como string 
+		String idNomenclatura_ = idNomenclatura.toString();
+
+		// se eliminan las restricciones asociados a los campos de la nomenclatura
+		List<String> deletes = new ArrayList<>();
+		deletes.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura_));
+
+		// se eliminan los campos asociados a la nomenclaturea
+		boolean isTieneConsecutivoNull = true;
+		deletes.add(SQLConfiguraciones.getSQLDeleteCamposNomenclatura(idNomenclatura_, isTieneConsecutivoNull));
+
+		// se ejecuta el batch
+		batchSinInjection(connection, deletes);
 	}
 }
