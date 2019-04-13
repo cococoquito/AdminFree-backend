@@ -879,12 +879,10 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 			// se verifica si se debe modificar solamente las restricciones de los campos
 			else if (datos.isRestriccionesEditar()) {
+				List<String> dmls = new ArrayList<>();
 
-				// se eliminan todas las restricciones y campos asociadas a la nomenclatura
-				eliminarCamposRestricciones(idNomenclatura, connection);
-
-				// se utiliza para los INSERTs restricciones
-				List<String> inserts = new ArrayList<>();
+				// se eliminan todas las restricciones de los campos asociados a la nomenclatura
+				dmls.add(SQLConfiguraciones.getSQLDeleteRestricciones(idNomenclatura.toString()));
 
 				// se recorre cada campo
 				List<RestriccionDTO> restricciones;
@@ -897,13 +895,13 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 						// se configura los INSERTs de las restricciones
 						for (RestriccionDTO restriccion : restricciones) {
-							inserts.add(SQLConfiguraciones.getSQLInsertRestriccion(idNomenclaturaCampo, restriccion.getId()));
+							dmls.add(SQLConfiguraciones.getSQLInsertRestriccion(idNomenclaturaCampo, restriccion.getId()));
 						}
 					}
 				}
 
 				// se ejecuta el batch para los INSERTs de las restricciones
-				batchSinInjection(connection, inserts);
+				batchSinInjection(connection, dmls);
 			}
 			connection.commit();
 		} catch (Exception e) {
