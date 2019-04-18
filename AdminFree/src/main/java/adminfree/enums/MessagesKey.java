@@ -60,13 +60,16 @@ public enum MessagesKey {
 	KEY_DOCUMENTO_VACIO(Numero.DIECISEIS.valueI.toString()),
 
 	/** 400 - El documento que intenta descargar no existe en el sistema*/
-	DOCUMENTO_NO_EXISTE(Numero.DIECISIETE.valueI.toString()),
+	KEY_DOCUMENTO_NO_EXISTE(Numero.DIECISIETE.valueI.toString()),
 
 	/** 400 - El nuevo estado no es permitido para el consecutivo debe ser ACTIVO o ANULADO*/
-	ESTADO_NO_PERMITIDO(Numero.DIECIOCHO.valueI.toString()),
+	KEY_ESTADO_NO_PERMITIDO(Numero.DIECIOCHO.valueI.toString()),
 
 	/** 400 - EL proceso no se ejecutó satisfactoriamente, por favor inténtalo de nuevo*/
-	PROCESO_NO_EJECUTADO(Numero.DIECINUEVE.valueI.toString());
+	KEY_PROCESO_NO_EJECUTADO(Numero.DIECINUEVE.valueI.toString()),
+
+	/** 400 - EL tipo documental que intenta eliminar se encuentra asociado a una serie o subserie documental*/
+	KEY_ELIMINAR_TIPO_DOCUMENTAL(Numero.VEINTE.valueI.toString());
 
 	public final String value;
 

@@ -62,4 +62,8 @@ public class ApiRest {
 	public static final String GET_USERS_TRANSFERIR = "getusertransferir";
 	public static final String GET_CONSECUTIVO_EDICION = "getconsedicion";
 	public static final String EDITAR_CONSECUTIVO_VALUES = "editconsevalues";
+
+	/** Constantes para los nombre de los servicios REST del modulo de archivo de gestion */
+	public static final String ARCHIVO_GESTION_API = "archivoapi";
+	public static final String ADMIN_TIPOS_DOCUMENTAL = "admintiposdoc";
 }

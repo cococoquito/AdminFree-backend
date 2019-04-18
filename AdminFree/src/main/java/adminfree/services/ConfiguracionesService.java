@@ -23,7 +23,6 @@ import adminfree.dtos.seguridad.UsuarioDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
- *
  * Clase que contiene todos los servicios para el modulo de Configuraciones
  *
  * @author Carlos Andres Diaz

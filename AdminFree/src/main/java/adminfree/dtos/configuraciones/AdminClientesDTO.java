@@ -7,7 +7,7 @@ import adminfree.dtos.seguridad.CredencialesDTO;
 
 /**
  * DTO para transportar los datos iniciales del modulo administrar clientes
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */

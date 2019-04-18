@@ -1089,7 +1089,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se verifica si la actualizacion se proceso sin problemas
 		if (resultado <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 		}
 	}
 
@@ -1129,7 +1129,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se verifica si la actualizacion se proceso sin problemas
 		if (resultado <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 		}
 	}
 
@@ -1185,7 +1185,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 
 		// se verifica si la actualizacion se proceso sin problemas
 		if (resultado <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 		}
 	}
 

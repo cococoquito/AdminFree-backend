@@ -468,7 +468,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		}
 
 		// si llega a esta punto es porque el documento no existe
-		throw new BusinessException(MessagesKey.DOCUMENTO_NO_EXISTE.value);
+		throw new BusinessException(MessagesKey.KEY_DOCUMENTO_NO_EXISTE.value);
 	}
 
 	/**
@@ -821,11 +821,11 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// EL proceso no se ejecuto satisfactoriamente
 			if (resultado <= Numero.ZERO.valueI.intValue()) {
-				throw new BusinessException(MessagesKey.PROCESO_NO_EJECUTADO.value);
+				throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 			}
 		} else {
 			// estado no es permitido para el consecutivo, debe ser ACTIVO o ANULADO
-			throw new BusinessException(MessagesKey.ESTADO_NO_PERMITIDO.value);			
+			throw new BusinessException(MessagesKey.KEY_ESTADO_NO_PERMITIDO.value);			
 		}
 	}
 

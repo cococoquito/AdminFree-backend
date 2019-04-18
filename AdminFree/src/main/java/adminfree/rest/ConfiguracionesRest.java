@@ -80,7 +80,7 @@ public class ConfiguracionesRest {
 
 			// de acuerdo al tipo de evento se procede a modificar el cliente
 			switch (tipoEvento) {
-				case TipoEvento.ACTUALIZAR:
+				case TipoEvento.EDITAR:
 					this.configuracionesService.actualizarCliente(cliente);
 					response = Util.getResponseOk();
 					break;

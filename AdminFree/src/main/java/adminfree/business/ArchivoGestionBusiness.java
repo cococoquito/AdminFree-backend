@@ -1,14 +1,149 @@
 package adminfree.business;
 
+import java.sql.Connection;
+import java.sql.Types;
+import java.util.List;
+
+import adminfree.constants.SQLArchivoGestion;
+import adminfree.constants.TipoEvento;
+import adminfree.dtos.archivogestion.TipoDocumentalDTO;
+import adminfree.enums.MessagesKey;
+import adminfree.enums.Numero;
+import adminfree.mappers.MapperArchivoGestion;
+import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
+import adminfree.persistence.ValueSQL;
+import adminfree.utilities.BusinessException;
+import adminfree.utilities.Util;
 
 /**
- * 
  * Clase que contiene los procesos de negocio para el modulo de Archivo de Gestion
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */
+@SuppressWarnings("unchecked")
 public class ArchivoGestionBusiness extends CommonDAO {
 
+	/**
+	 * Metodo que permite administrar los tipos documentales
+	 *
+	 * @param tipo, contiene los datos del tipo documental a procesar
+	 * @return Objeto con el resultado solicitado
+	 */
+	public Object administrarTiposDocumentales(TipoDocumentalDTO tipo, Connection connection) throws Exception {
+		Object response = null;
+
+		// se captura el tipo de evento
+		String tipoEvento = tipo.getTipoEvento();
+
+		// se invoca de acuerdo al tipo de evento
+		switch (tipoEvento) {
+
+			case TipoEvento.LISTAR:
+				response = getTiposDocumentales(connection);
+				break;
+
+			case TipoEvento.CREAR:
+				crearTipoDocumental(tipo, connection);
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.EDITAR:
+				editarTipoDocumental(tipo, connection);
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.ELIMINAR:
+				eliminarTipoDocumental(tipo, connection);
+				response = Util.getResponseOk();
+				break;
+		}
+		return response;
+	}
+
+	/**
+	 * Metodo que permite obtener todos los tipos documentales parametrizados
+	 *
+	 * @return Lista de tipos documentales
+	 */
+	private List<TipoDocumentalDTO> getTiposDocumentales(Connection connection) throws Exception {
+		return (List<TipoDocumentalDTO>) findAll(connection,
+				SQLArchivoGestion.GET_TIPOS_DOCUMENTALES,
+				MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES));
+	}
+
+	/**
+	 * Metodo que permite crear un tipo documental en el sistema
+	 *
+	 * @param tipo, DTO Con los datos del tipo documental a crear
+	 */
+	private void crearTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
+
+		// se procede a CREAR el tipo documental
+		int respuesta = insertUpdate(connection,
+				SQLArchivoGestion.INSERT_TIPO_DOCUMENTAL,
+				ValueSQL.get(tipo.getNombre(), Types.VARCHAR));
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite editar un tipo documental en el sistema
+	 *
+	 * @param tipo, DTO Con los datos del tipo documental a editar
+	 */
+	private void editarTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
+
+		// se procede a EDITAR el tipo documental
+		int respuesta = insertUpdate(connection,
+				SQLArchivoGestion.EDITAR_TIPO_DOCUMENTAL,
+				ValueSQL.get(tipo.getNombre(), Types.VARCHAR),
+				ValueSQL.get(tipo.getId(), Types.INTEGER));
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite eliminar un tipo documental en el sistema
+	 *
+	 * @param tipo, DTO con los datos del tipo documental a eliminar
+	 */
+	private void eliminarTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
+
+		// se utiliza para el proceso de eliminacion
+		ValueSQL idTipoDocumental = ValueSQL.get(tipo.getId(), Types.INTEGER);
+
+		// se verifica si el tipo documental se encuentra asociado a una SERIE
+		Long count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SERIES_TIPO_DOCUMENTAL,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				idTipoDocumental);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
+		}
+
+		// se verifica si el tipo documental se encuentra asociado a una SUBSERIE
+		count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SUBSERIES_TIPO_DOCUMENTAL,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				idTipoDocumental);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
+		}
+
+		// se realiza la eliminacion del tipo documental
+		int respuesta = insertUpdate(connection, SQLArchivoGestion.ELIMINAR_TIPO_DOCUMENTAL, idTipoDocumental);
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
+	}
 }

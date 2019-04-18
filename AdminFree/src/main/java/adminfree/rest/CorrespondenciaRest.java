@@ -28,7 +28,8 @@ import adminfree.utilities.Util;
 
 /**
  * Clase que contiene todos los servicios REST para el modulo de Correspondencia
- * 
+ * localhost:puerto/Constants.CORRESPONDENCIA_API/
+ *
  * @author Carlos Andres Diaz
  *
  */
