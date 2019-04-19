@@ -31,6 +31,15 @@ public class SQLArchivoGestion {
 	/** SQL para contar las series documentales con el mismo codigo para el proceso de creacion*/
 	public static final String COUNT_SERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=?";
 
+	/** SQL para contar las series documentales con el mismo nombre para el proceso de edicion*/
+	public static final String COUNT_SERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND ID_SERIE<>?";
+
+	/** SQL para contar las series documentales con el mismo codigo para el proceso de edicion*/
+	public static final String COUNT_SERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND ID_SERIE<>?";
+
 	/** SQL para insertar una serie documental*/
 	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
+
+	/** SQL para editar una serie documental*/
+	public static final String EDIT_SERIE = "UPDATE SERIES_DOCUMENTALES SET CODIGO=?,NOMBRE=?,AG=?,AC=?,CT=?,M=?,S=?,E=?,PROCEDIMIENTO=? WHERE ID_SERIE=?";
 }
