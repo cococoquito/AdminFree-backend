@@ -39,7 +39,7 @@ public class ClienteDTO implements Serializable {
 	/** Es el nombre del Estado que se encuentra el cliente */
 	private String estadoNombre;
 
-	/** Identifica que tipo de accion se va ralizar sobre el cliente */
+	/** Identifica que tipo de accion se va realizar sobre el cliente */
 	private String tipoEvento;
 
 	/** Se utiliza para el modulo de administrar clientes */

@@ -16,7 +16,7 @@ public class TipoDocumentalDTO implements Serializable {
 	/** Nombre del tipo documental */
 	private String nombre;
 
-	/** Identifica que tipo de accion se va ralizar sobre el cliente */
+	/** Identifica que tipo de accion se va realizar sobre el tipo documental */
 	private String tipoEvento;
 
 	/**

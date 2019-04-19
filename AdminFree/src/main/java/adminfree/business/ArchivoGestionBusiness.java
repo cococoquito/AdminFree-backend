@@ -6,6 +6,8 @@ import java.util.List;
 
 import adminfree.constants.SQLArchivoGestion;
 import adminfree.constants.TipoEvento;
+import adminfree.dtos.archivogestion.SerieDocumentalDTO;
+import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
@@ -56,6 +58,70 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 			case TipoEvento.ELIMINAR:
 				eliminarTipoDocumental(tipo, connection);
+				response = Util.getResponseOk();
+				break;
+		}
+		return response;
+	}
+
+	/**
+	 * Metodo que permite administrar la entidad de series documentales
+	 *
+	 * @param serie, DTO con los datos de la serie documental
+	 * @return Objeto con el resultado solicitado
+	 */
+	public Object administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+		Object response = null;
+
+		// se captura el tipo de evento
+		String tipoEvento = serie.getTipoEvento();
+
+		// se invoca de acuerdo al tipo de evento
+		switch (tipoEvento) {
+
+			case TipoEvento.LISTAR:
+				response = null;
+				break;
+
+			case TipoEvento.CREAR:
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.EDITAR:
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.ELIMINAR:
+				response = Util.getResponseOk();
+				break;
+		}
+		return response;
+	}
+
+	/**
+	 * Metodo que permite administrar la entidad de sub-serie documental
+	 *
+	 * @param subserie, DTO con los datos de la sub-serie documental
+	 * @return Objeto con el resultado solicitado
+	 */
+	public Object administrarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+		Object response = null;
+
+		// se captura el tipo de evento
+		String tipoEvento = subserie.getTipoEvento();
+
+		// se invoca de acuerdo al tipo de evento
+		switch (tipoEvento) {
+
+			case TipoEvento.CREAR:
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.EDITAR:
+				response = Util.getResponseOk();
+				break;
+
+			case TipoEvento.ELIMINAR:
 				response = Util.getResponseOk();
 				break;
 		}

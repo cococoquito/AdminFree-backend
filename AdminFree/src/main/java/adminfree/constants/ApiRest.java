@@ -66,4 +66,6 @@ public class ApiRest {
 	/** Constantes para los nombre de los servicios REST del modulo de archivo de gestion */
 	public static final String ARCHIVO_GESTION_API = "archivoapi";
 	public static final String ADMIN_TIPOS_DOCUMENTAL = "admintiposdoc";
+	public static final String ADMIN_SERIES = "adminseries";
+	public static final String ADMIN_SUBSERIES = "adminsubseries";
 }
