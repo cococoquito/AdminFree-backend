@@ -24,4 +24,13 @@ public class SQLArchivoGestion {
 
 	/** SQL para contar las subseries documentales asociado a un tipo documental*/
 	public static final String COUNT_SUBSERIES_TIPO_DOCUMENTAL = "SELECT COUNT(*) FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_TIPO_DOC=?";
+
+	/** SQL para contar las series documentales con el mismo nombre para el proceso de creacion*/
+	public static final String COUNT_SERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=?";
+
+	/** SQL para contar las series documentales con el mismo codigo para el proceso de creacion*/
+	public static final String COUNT_SERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=?";
+
+	/** SQL para insertar una serie documental*/
+	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 }

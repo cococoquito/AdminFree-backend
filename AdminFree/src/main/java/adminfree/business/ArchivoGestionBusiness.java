@@ -84,6 +84,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 
 			case TipoEvento.CREAR:
+				crearSerieDocumental(serie, connection);
 				response = Util.getResponseOk();
 				break;
 
@@ -126,6 +127,59 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 		}
 		return response;
+	}
+
+	/**
+	 * Metodo que permite crear una serie documental en el sistema
+	 * @param serie, DTO que contiene los datos de la serie
+	 */
+	private void crearSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+
+		// se verifica si hay otra serie con el mismo NOMBRE
+		Long count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SERIES_NOMBRE_CREACION,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(serie.getNombre(), Types.VARCHAR));
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
+		}
+
+		// se verifica si hay otra serie con el mismo CODIGO
+		count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SERIES_CODIGO_CREACION,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(serie.getCodigo(), Types.VARCHAR));
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
+		}
+
+		// se procede a insertar la serie
+		int respuesta = insertUpdate(connection,
+				SQLArchivoGestion.INSERT_SERIE,
+				ValueSQL.get(serie.getIdCliente(), Types.INTEGER),
+				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
+				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
+				ValueSQL.get(serie.getAG(), Types.INTEGER),
+				ValueSQL.get(serie.getAC(), Types.INTEGER),
+				ValueSQL.get(serie.getCT(), Types.INTEGER),
+				ValueSQL.get(serie.getM(), Types.INTEGER),
+				ValueSQL.get(serie.getS(), Types.INTEGER),
+				ValueSQL.get(serie.getE(), Types.INTEGER),
+				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
+				ValueSQL.get(serie.getIdUsuarioCreacion(), Types.INTEGER));
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite crear una sub-serie documental en el sistema
+	 * @param subserie, DTO que contiene los datos de la subserie
+	 */
+	private void crearSubSerie(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+		
 	}
 
 	/**

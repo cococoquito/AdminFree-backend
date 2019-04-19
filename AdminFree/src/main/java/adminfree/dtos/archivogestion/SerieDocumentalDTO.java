@@ -14,6 +14,9 @@ public class SerieDocumentalDTO extends Documental {
 	/** Identificador de la serie documental */
 	private Long idSerie;
 
+	/** Identificador del cliente asociado a esta serie */
+	private Integer idCliente;
+
 	/** Lista de subseries que contiene esta serie documental */
 	private List<SubSerieDocumentalDTO> subSeries;
 
@@ -47,5 +50,28 @@ public class SerieDocumentalDTO extends Documental {
 	 */
 	public List<SubSerieDocumentalDTO> getSubSeries() {
 		return subSeries;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idCliente
+	 */
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idCliente
+	 */
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param subSeries
+	 */
+	public void setSubSeries(List<SubSerieDocumentalDTO> subSeries) {
+		this.subSeries = subSeries;
 	}
 }

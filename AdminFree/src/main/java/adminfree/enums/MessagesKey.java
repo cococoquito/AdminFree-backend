@@ -69,7 +69,13 @@ public enum MessagesKey {
 	KEY_PROCESO_NO_EJECUTADO(Numero.DIECINUEVE.valueI.toString()),
 
 	/** 400 - EL tipo documental que intenta eliminar se encuentra asociado a una serie o subserie documental*/
-	KEY_ELIMINAR_TIPO_DOCUMENTAL(Numero.VEINTE.valueI.toString());
+	KEY_ELIMINAR_TIPO_DOCUMENTAL(Numero.VEINTE.valueI.toString()),
+
+	/** 400 - Ya existe una serie documental con el nombre ?*/
+	KEY_SERIE_MISMO_NOMBRE(Numero.VEINTEUNO.valueI.toString()),
+
+	/** 400 - Ya existe una serie documental con el codigo ?*/
+	KEY_SERIE_MISMO_CODIGO(Numero.VEINTEDOS.valueI.toString());
 
 	public final String value;
 
