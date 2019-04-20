@@ -50,7 +50,7 @@ public class SQLArchivoGestion {
 	public static final String COUNT_SERIE_TRD = "SELECT COUNT(*) FROM TRDS WHERE ID_SERIE=?";
 
 	/** SQL para contar las sub-series que tiene esta serie*/
-	public static final String COUNT_SUB_SERIES_SERIE = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?";
+	public static final String COUNT_SUBSERIES_SERIE = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?";
 
 	/** SQL para eliminar una serie documental*/
 	public static final String DELETE_SERIE = "DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";

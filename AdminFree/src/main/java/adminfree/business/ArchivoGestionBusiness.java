@@ -247,7 +247,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 		// se verifica si tiene subseries documentales
 		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUB_SERIES_SERIE,
+				SQLArchivoGestion.COUNT_SUBSERIES_SERIE,
 				MapperTransversal.get(MapperTransversal.COUNT),
 				idSerie);
 		if (!count.equals(Numero.ZERO.valueL)) {
