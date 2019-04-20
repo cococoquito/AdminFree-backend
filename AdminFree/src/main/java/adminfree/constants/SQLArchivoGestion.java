@@ -26,20 +26,32 @@ public class SQLArchivoGestion {
 	public static final String COUNT_SUBSERIES_TIPO_DOCUMENTAL = "SELECT COUNT(*) FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_TIPO_DOC=?";
 
 	/** SQL para contar las series documentales con el mismo nombre para el proceso de creacion*/
-	public static final String COUNT_SERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=?";
+	public static final String COUNT_SERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND CLIENTE=?";
 
 	/** SQL para contar las series documentales con el mismo codigo para el proceso de creacion*/
-	public static final String COUNT_SERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=?";
+	public static final String COUNT_SERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND CLIENTE=?";
 
 	/** SQL para contar las series documentales con el mismo nombre para el proceso de edicion*/
-	public static final String COUNT_SERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND ID_SERIE<>?";
+	public static final String COUNT_SERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND ID_SERIE<>? AND CLIENTE=?";
 
 	/** SQL para contar las series documentales con el mismo codigo para el proceso de edicion*/
-	public static final String COUNT_SERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND ID_SERIE<>?";
+	public static final String COUNT_SERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND ID_SERIE<>? AND CLIENTE=?";
 
 	/** SQL para insertar una serie documental*/
 	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 
 	/** SQL para editar una serie documental*/
 	public static final String EDIT_SERIE = "UPDATE SERIES_DOCUMENTALES SET CODIGO=?,NOMBRE=?,AG=?,AC=?,CT=?,M=?,S=?,E=?,PROCEDIMIENTO=? WHERE ID_SERIE=?";
+
+	/** SQL para obtener la cantidad de consecutivos asociados a una serie documental*/
+	public static final String GET_CANT_CONSECUTIVOS_SERIE = "SELECT CANT_CONSECUTIVOS FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";
+
+	/** SQL para contar cuanta veces esta la serie en el TRD*/
+	public static final String COUNT_SERIE_TRD = "SELECT COUNT(*) FROM TRDS WHERE ID_SERIE=?";
+
+	/** SQL para contar las sub-series que tiene esta serie*/
+	public static final String COUNT_SUB_SERIES_SERIE = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?";
+
+	/** SQL para eliminar una serie documental*/
+	public static final String DELETE_SERIE = "DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";
 }

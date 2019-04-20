@@ -79,10 +79,6 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		// se invoca de acuerdo al tipo de evento
 		switch (tipoEvento) {
 
-			case TipoEvento.LISTAR:
-				response = null;
-				break;
-
 			case TipoEvento.CREAR:
 				crearSerieDocumental(serie, connection);
 				response = Util.getResponseOk();
@@ -94,6 +90,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 
 			case TipoEvento.ELIMINAR:
+				eliminarSerieDocumental(serie, connection);
 				response = Util.getResponseOk();
 				break;
 		}
@@ -136,11 +133,15 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 */
 	private void crearSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
+		// se utiliza para varios proceso
+		ValueSQL idCliente = ValueSQL.get(serie.getIdCliente(), Types.INTEGER);
+
 		// se verifica si hay otra serie con el mismo NOMBRE
 		Long count = (Long) find(connection,
 				SQLArchivoGestion.COUNT_SERIES_NOMBRE_CREACION,
 				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getNombre(), Types.VARCHAR));
+				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
+				idCliente);
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
 		}
@@ -149,7 +150,8 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		count = (Long) find(connection,
 				SQLArchivoGestion.COUNT_SERIES_CODIGO_CREACION,
 				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getCodigo(), Types.VARCHAR));
+				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
+				idCliente);
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
 		}
@@ -157,7 +159,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		// se procede a insertar la serie
 		int respuesta = insertUpdate(connection,
 				SQLArchivoGestion.INSERT_SERIE,
-				ValueSQL.get(serie.getIdCliente(), Types.INTEGER),
+				idCliente,
 				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
 				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(serie.getAG(), Types.INTEGER),
@@ -181,15 +183,16 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 */
 	private void editarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
-		// se utiliza para varios proceso
+		// se utilizan para varios proceso
 		ValueSQL idSerie = ValueSQL.get(serie.getIdSerie(), Types.BIGINT);
+		ValueSQL idCliente = ValueSQL.get(serie.getIdCliente(), Types.INTEGER);
 
 		// se verifica si hay otra serie con el mismo NOMBRE
 		Long count = (Long) find(connection,
 				SQLArchivoGestion.COUNT_SERIES_NOMBRE_EDICION,
 				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
-				idSerie);
+				idSerie, idCliente);
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
 		}
@@ -199,7 +202,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				SQLArchivoGestion.COUNT_SERIES_CODIGO_EDICION,
 				MapperTransversal.get(MapperTransversal.COUNT),
 				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
-				idSerie);
+				idSerie, idCliente);
 		if (!count.equals(Numero.ZERO.valueL)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
 		}
@@ -217,6 +220,51 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(serie.getE(), Types.INTEGER),
 				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
 				idSerie);
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
+	}
+
+	/**
+	 * Metodo que permite eliminar una serie documental en el sistema
+	 * @param serie, DTO que contiene los datos de la serie
+	 */
+	public void eliminarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+
+		// se utiliza para varios proceso
+		ValueSQL idSerie = ValueSQL.get(serie.getIdSerie(), Types.BIGINT);
+
+		// se verifica si la serie tiene consecutivos asociados
+		Long cant = (Long) find(connection,
+				SQLArchivoGestion.GET_CANT_CONSECUTIVOS_SERIE,
+				MapperTransversal.get(MapperTransversal.GET_ID),
+				idSerie);
+		if (cant != null && !cant.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_CONSECUTIVOS.value);
+		}
+
+		// se verifica si tiene subseries documentales
+		Long count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SUB_SERIES_SERIE,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				idSerie);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_TIENE_SUBSERIE.value);
+		}
+
+		// se verifica si la serie esta asociado en la TRD
+		count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SERIE_TRD,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				idSerie);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_TRD.value);
+		}
+
+		// se procede a eliminar la serie
+		int respuesta = insertUpdate(connection, SQLArchivoGestion.DELETE_SERIE, idSerie);
 
 		// se verifica si el proceso se ejecuto sin problemas
 		if (respuesta <= Numero.ZERO.valueI.intValue()) {
