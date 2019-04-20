@@ -44,6 +44,9 @@ public class Documental implements Serializable {
 	/** Identificador del usuario para la creacion de la serie o sub-serie */
 	private Integer idUsuarioCreacion;
 
+	/** Identificador del cliente asociado a esta serie */
+	private Integer idCliente;
+
 	/** Identifica que tipo de accion se va realizar sobre la serie o subserie */
 	private String tipoEvento;
 
@@ -217,5 +220,20 @@ public class Documental implements Serializable {
 	 */
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo idCliente
+	 */
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idCliente
+	 */
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
 	}
 }

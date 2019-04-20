@@ -113,6 +113,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		switch (tipoEvento) {
 
 			case TipoEvento.CREAR:
+				crearSubSerieDocumental(subserie, connection);
 				response = Util.getResponseOk();
 				break;
 
@@ -125,6 +126,56 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 		}
 		return response;
+	}
+
+	/**
+	 * Metodo que permite crear una subserie documental en el sistema
+	 * @param subserie, DTO que contiene los datos de la subserie
+	 */
+	private void crearSubSerieDocumental (SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+
+		// se utiliza para varios proceso
+		ValueSQL idCliente = ValueSQL.get(subserie.getIdCliente(), Types.INTEGER);
+
+		// se verifica si hay otra subserie con el mismo NOMBRE
+		Long count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SUBSERIES_NOMBRE_CREACION,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
+				idCliente);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
+		}
+
+		// se verifica si hay otra subserie con el mismo CODIGO
+		count = (Long) find(connection,
+				SQLArchivoGestion.COUNT_SUBSERIES_CODIGO_CREACION,
+				MapperTransversal.get(MapperTransversal.COUNT),
+				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
+				idCliente);
+		if (!count.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
+		}
+
+		// se procede a insertar la subserie
+		int respuesta = insertUpdate(connection,
+				SQLArchivoGestion.INSERT_SUBSERIE,
+				ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
+				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
+				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
+				ValueSQL.get(subserie.getAG(), Types.INTEGER),
+				ValueSQL.get(subserie.getAC(), Types.INTEGER),
+				ValueSQL.get(subserie.getCT(), Types.INTEGER),
+				ValueSQL.get(subserie.getM(), Types.INTEGER),
+				ValueSQL.get(subserie.getS(), Types.INTEGER),
+				ValueSQL.get(subserie.getE(), Types.INTEGER),
+				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
+				ValueSQL.get(subserie.getIdUsuarioCreacion(), Types.INTEGER));
+
+		// se verifica si el proceso se ejecuto sin problemas
+		if (respuesta <= Numero.ZERO.valueI.intValue()) {
+			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+		}
 	}
 
 	/**

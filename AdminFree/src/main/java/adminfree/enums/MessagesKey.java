@@ -84,7 +84,13 @@ public enum MessagesKey {
 	KEY_SERIE_TRD(Numero.VEINTECUATRO.valueI.toString()),
 
 	/** 400 - Para eliminar la serie documental debe eliminar primero las subseries relacionadas*/
-	KEY_SERIE_TIENE_SUBSERIE(Numero.VEINTECINCO.valueI.toString());
+	KEY_SERIE_TIENE_SUBSERIE(Numero.VEINTECINCO.valueI.toString()),
+
+	/** 400 - Ya existe una subserie documental con el nombre ?*/
+	KEY_SUBSERIE_MISMO_NOMBRE(Numero.VEINTESEIS.valueI.toString()),
+
+	/** 400 - Ya existe una subserie documental con el codigo ?*/
+	KEY_SUBSERIE_MISMO_CODIGO(Numero.VEINTESIETE.valueI.toString());
 
 	public final String value;
 

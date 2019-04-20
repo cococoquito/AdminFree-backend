@@ -54,4 +54,13 @@ public class SQLArchivoGestion {
 
 	/** SQL para eliminar una serie documental*/
 	public static final String DELETE_SERIE = "DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";
+
+	/** SQL para contar las subseries documentales con el mismo nombre para el proceso de creacion*/
+	public static final String COUNT_SUBSERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.NOMBRE=? AND SE.CLIENTE=?";
+
+	/** SQL para contar las subseries documentales con el mismo codigo para el proceso de creacion*/
+	public static final String COUNT_SUBSERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.CODIGO=? AND SE.CLIENTE=?";
+
+	/** SQL para insertar una subserie documental*/
+	public static final String INSERT_SUBSERIE = "INSERT INTO SUBSERIES_DOCUMENTALES(ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 }
