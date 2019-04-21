@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
@@ -30,6 +31,25 @@ public class ArchivoGestionRest {
 	/** Objecto que contiene los servicios relacionados modulo archivo gestion */
 	@Autowired
 	private ArchivoGestionService archivoGestionService;
+
+	/**
+	 * Servicio que permite obtener las series documentales de acuerdo al filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los datos del filtro de busqueda
+	 * @return DTO con los datos del response con la lista de series documentales
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_SERIES,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getSeriesDocumentales(@RequestBody FiltroSerieDocumentalDTO filtro) {
+		try {
+			return Util.getResponseSuccessful(this.archivoGestionService.getSeriesDocumentales(filtro));
+		} catch (Exception e) {
+			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".getSeriesDocumentales ", e.getMessage());
+		}
+	}
 
 	/**
 	 * Servicio que permite administrar los tipos documentales

@@ -16,7 +16,7 @@ import adminfree.dtos.transversal.PaginadorDTO;
 public class FiltroConsecutivosDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	/** paginador para la consulta los consecutivos **/
+	/** paginador para la consulta de los consecutivos **/
 	private PaginadorDTO paginador;
 
 	/** Es el cliente autenticado o el cliente asociado al user autenticado */

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.ArchivoGestionBusiness;
+import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -25,6 +27,25 @@ public class ArchivoGestionService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
+
+	/**
+	 * Servicio que permite obtener las series documentales de acuerdo al filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los datos del filtro de busqueda
+	 * @return DTO con los datos del response con la lista de series documentales
+	 */
+	public PaginadorResponseDTO getSeriesDocumentales(FiltroSerieDocumentalDTO filtro) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar las series documentales
+			return new ArchivoGestionBusiness().getSeriesDocumentales(filtro, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 
 	/**
 	 * Servicio que permite administrar los tipos documentales

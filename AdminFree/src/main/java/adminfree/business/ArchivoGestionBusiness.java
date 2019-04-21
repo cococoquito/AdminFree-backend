@@ -6,9 +6,11 @@ import java.util.List;
 
 import adminfree.constants.SQLArchivoGestion;
 import adminfree.constants.TipoEvento;
+import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
 import adminfree.mappers.MapperArchivoGestion;
@@ -26,6 +28,16 @@ import adminfree.utilities.Util;
  */
 @SuppressWarnings("unchecked")
 public class ArchivoGestionBusiness extends CommonDAO {
+
+	/**
+	 * Metodo que permite obtener las series documentales de acuerdo al filtro de busqueda
+	 *
+	 * @param filtro, DTO que contiene los datos del filtro de busqueda
+	 * @return DTO con los datos del response con la lista de series documentales
+	 */
+	public PaginadorResponseDTO getSeriesDocumentales(FiltroSerieDocumentalDTO filtro, Connection connection) throws Exception {
+		return null;
+	}
 
 	/**
 	 * Metodo que permite administrar los tipos documentales
