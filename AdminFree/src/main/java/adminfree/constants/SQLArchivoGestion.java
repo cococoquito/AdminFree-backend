@@ -72,4 +72,13 @@ public class SQLArchivoGestion {
 
 	/** SQL para editar una subserie documental*/
 	public static final String EDIT_SUBSERIE = "UPDATE SUBSERIES_DOCUMENTALES SET ID_SERIE=?,CODIGO=?,NOMBRE=?,AG=?,AC=?,CT=?,M=?,S=?,E=?,PROCEDIMIENTO=? WHERE ID_SUBSERIE=?";
+
+	/** SQL para obtener la cantidad de consecutivos asociados a una sub-serie documental*/
+	public static final String GET_CANT_CONSECUTIVOS_SUBSERIE = "SELECT CANT_CONSECUTIVOS FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
+
+	/** SQL para contar cuanta veces esta la subserie en el TRD*/
+	public static final String COUNT_SUBSERIE_TRD = "SELECT COUNT(*) FROM TRDS WHERE ID_SUBSERIE=?";
+
+	/** SQL para eliminar una subserie documental*/
+	public static final String DELETE_SUBSERIE = "DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
 }

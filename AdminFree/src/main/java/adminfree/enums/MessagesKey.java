@@ -90,7 +90,13 @@ public enum MessagesKey {
 	KEY_SUBSERIE_MISMO_NOMBRE(Numero.VEINTESEIS.valueI.toString()),
 
 	/** 400 - Ya existe una subserie documental con el codigo ?*/
-	KEY_SUBSERIE_MISMO_CODIGO(Numero.VEINTESIETE.valueI.toString());
+	KEY_SUBSERIE_MISMO_CODIGO(Numero.VEINTESIETE.valueI.toString()),
+
+	/** 400 - La subserie documental que intenta eliminar tiene asociado consecutivos de correspondencia*/
+	KEY_SUBSERIE_CONSECUTIVOS(Numero.VEINTEOCHO.valueI.toString()),
+
+	/** 400 - La subserie documental que intenta eliminar esta asociado en la TRD*/
+	KEY_SUBSERIE_TRD(Numero.VEINTENUEVE.valueI.toString());
 
 	public final String value;
 

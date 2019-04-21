@@ -33,25 +33,37 @@ public class AdministrarSubSerieDocumentalTest {
 	public void administrarSubSerieDocumental() {
 		try {
 			// test para la creacion de la serie
-			SubSerieDocumentalDTO subserie = new SubSerieDocumentalDTO();
-			subserie.setTipoEvento(TipoEvento.CREAR);
-			subserie.setCodigo("25.1.2-1");
-			subserie.setNombre("PETICION PARA VALORIZACION");
-			subserie.setAG(1);
-			subserie.setAC(0);
-			subserie.setCT(null);
-			subserie.setM(1);
-			subserie.setS(0);
-			subserie.setE(null);
-			subserie.setProcedimiento("Este es el procedimiento de la SUB-serie");
-			subserie.setIdUsuarioCreacion(1);
-			this.archivoGestionService.administrarSubSerieDocumental(subserie);
+			SubSerieDocumentalDTO crear = new SubSerieDocumentalDTO();
+			crear.setTipoEvento(TipoEvento.CREAR);
+			crear.setIdCliente(1);
+			crear.setIdSerie(9l);
+			crear.setCodigo("25.1.2-2");
+			crear.setNombre("PETICION PARA PREDIAL");
+			crear.setAG(1);
+			crear.setAC(0);
+			crear.setCT(null);
+			crear.setM(1);
+			crear.setS(0);
+			crear.setE(null);
+			crear.setProcedimiento("Este es el procedimiento de la SUB-serie");
+			crear.setIdUsuarioCreacion(1);
+			this.archivoGestionService.administrarSubSerieDocumental(crear);
 
 			// test para la edicion de la SUB-serie
 			SubSerieDocumentalDTO editar = new SubSerieDocumentalDTO();
 			editar.setTipoEvento(TipoEvento.EDITAR);
 			editar.setIdSubSerie(1l);
-			editar.setNombre("PETICION PARA VALORIZACION EDITADO");
+			editar.setIdCliente(2);
+			editar.setIdSerie(8l);
+			editar.setCodigo("25.1.2-2");
+			editar.setNombre("PETICION PARA VALORIZACION");
+			editar.setAG(null);
+			editar.setAC(null);
+			editar.setCT(1);
+			editar.setM(null);
+			editar.setS(null);
+			editar.setE(1);
+			editar.setProcedimiento("procedimiento");
 			this.archivoGestionService.administrarSubSerieDocumental(editar);
 
 			// test para eliminar una serie
