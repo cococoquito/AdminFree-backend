@@ -61,6 +61,15 @@ public class SQLArchivoGestion {
 	/** SQL para contar las subseries documentales con el mismo codigo para el proceso de creacion*/
 	public static final String COUNT_SUBSERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.CODIGO=? AND SE.CLIENTE=?";
 
+	/** SQL para contar las subseries documentales con el mismo nombre para el proceso de edicion*/
+	public static final String COUNT_SUBSERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.NOMBRE=? AND SE.CLIENTE=? AND SUB.ID_SUBSERIE<>?";
+
+	/** SQL para contar las subseries documentales con el mismo codigo para el proceso de edicion*/
+	public static final String COUNT_SUBSERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.CODIGO=? AND SE.CLIENTE=? AND SUB.ID_SUBSERIE<>?";
+
 	/** SQL para insertar una subserie documental*/
 	public static final String INSERT_SUBSERIE = "INSERT INTO SUBSERIES_DOCUMENTALES(ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
+
+	/** SQL para editar una subserie documental*/
+	public static final String EDIT_SUBSERIE = "UPDATE SUBSERIES_DOCUMENTALES SET ID_SERIE=?,CODIGO=?,NOMBRE=?,AG=?,AC=?,CT=?,M=?,S=?,E=?,PROCEDIMIENTO=? WHERE ID_SUBSERIE=?";
 }
