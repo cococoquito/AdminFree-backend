@@ -26,7 +26,6 @@ import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
- *
  * Clase que contiene todos los servicios REST para el modulo de Configuraciones
  * localhost:puerto/Constants.CONFIGURACIONES_NOMBRE_API/
  *

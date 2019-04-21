@@ -15,7 +15,6 @@ import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
 
 /**
- *
  * Clase que contiene todos los servicios REST para el modulo de seguridad
  * localhost:puerto/Constants.SEGURIDAD_NOMBRE_API/
  *

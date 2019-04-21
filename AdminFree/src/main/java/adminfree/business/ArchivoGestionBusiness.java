@@ -190,7 +190,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		ValueSQL idSubSerie = ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT);
 		ValueSQL idCliente = ValueSQL.get(subserie.getIdCliente(), Types.INTEGER);
 
-		// se verifica si hay otra serie con el mismo NOMBRE para EDICION
+		// se verifica si hay otra subserie con el mismo NOMBRE para EDICION
 		Long count = (Long) find(connection,
 				SQLArchivoGestion.COUNT_SUBSERIES_NOMBRE_EDICION,
 				MapperTransversal.get(MapperTransversal.COUNT),
@@ -200,7 +200,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
 		}
 
-		// se verifica si hay otra serie con el mismo CODIGO para EDICION
+		// se verifica si hay otra subserie con el mismo CODIGO para EDICION
 		count = (Long) find(connection,
 				SQLArchivoGestion.COUNT_SUBSERIES_CODIGO_EDICION,
 				MapperTransversal.get(MapperTransversal.COUNT),
