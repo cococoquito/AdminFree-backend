@@ -81,4 +81,10 @@ public class SQLArchivoGestion {
 
 	/** SQL para eliminar una subserie documental*/
 	public static final String DELETE_SUBSERIE = "DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
+
+	/** SQL FROM para obtener las series documentales*/
+	public static final String GET_SERIES_DOCUMENTALES_FROM = "FROM SERIES_DOCUMENTALES SE WHERE SE.CLIENTE=?";
+
+	/** SQL SELECT para obtener las series documentales*/
+	public static final String GET_SERIES_DOCUMENTALES_SELECT = "SELECT SE.ID_SERIE,SE.CODIGO,SE.NOMBRE,SE.AG,SE.AC,SE.CT,SE.M,SE.S,SE.E,SE.PROCEDIMIENTO ";
 }

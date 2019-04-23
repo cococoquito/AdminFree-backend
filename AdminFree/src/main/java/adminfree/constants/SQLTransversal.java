@@ -340,4 +340,82 @@ public class SQLTransversal {
 		sql.append(CommonConstant.FORMATO_FECHA_MSYQL);
 		sql.append("'))ELSE CV.VALOR END AS VALOR");
 	}
+
+	/**
+	 * Metodo que permite construir el filtro para un campo tipo string
+	 */
+	public static void getFilterValueString(
+			List<ValueSQL> parametros,
+			StringBuilder sql,
+			String value,
+			String nombreCampo) {
+
+		// el valor es requerido
+		if (!Util.isNull(value)) {
+			final int ZERO = Numero.ZERO.valueI.intValue();
+
+			// se verifica que no contenga solo espacios
+			value = value.trim();
+			if (value.length() > ZERO) {
+
+				// se verifica si el valor es con LIKE
+				boolean isWithLike = false;
+				if (value.charAt(Numero.ZERO.valueI) == CommonConstant.WITH_LIKE) {
+					isWithLike = true;
+					value = value.substring(Numero.UNO.valueI, value.length()).trim();
+					if (value.length() == ZERO) {
+						return;
+					}
+				}
+
+				// se verifica si el query es con LIKE o ==
+				if (isWithLike) {
+					sql.append(nombreCampo).append(" LIKE ?");
+					parametros.add(ValueSQL.get("%" + value + "%", Types.VARCHAR));
+				} else {
+					sql.append(nombreCampo).append("=?");
+					parametros.add(ValueSQL.get(value, Types.VARCHAR));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Metodo que permite construir el filtro para una subconsulta COUNT
+	 */
+	public static void getFilterSubConsultaCount(
+			List<ValueSQL> parametros,
+			StringBuilder sql,
+			String value,
+			String subConsulta) {
+
+		// el valor es requerido
+		if (!Util.isNull(value)) {
+			final int ZERO = Numero.ZERO.valueI.intValue();
+
+			// se verifica que no contenga solo espacios
+			value = value.trim();
+			if (value.length() > ZERO) {
+
+				// se verifica si el valor es con LIKE
+				boolean isWithLike = false;
+				if (value.charAt(Numero.ZERO.valueI) == CommonConstant.WITH_LIKE) {
+					isWithLike = true;
+					value = value.substring(Numero.UNO.valueI, value.length()).trim();
+					if (value.length() == ZERO) {
+						return;
+					}
+				}
+
+				// se verifica si el query es con LIKE o ==
+				if (isWithLike) {
+					sql.append(" AND(").append(subConsulta).append(" LIKE ?)>0");
+					parametros.add(ValueSQL.get("%" + value + "%", Types.VARCHAR));
+				} else {
+					sql.append(" AND(").append(subConsulta).append("=?)>0");
+					parametros.add(ValueSQL.get(value, Types.VARCHAR));
+				}
+			}
+		}
+	}
 }

@@ -41,10 +41,10 @@ public class AdministrarSubSerieDocumentalTest {
 			crear.setNombre("PETICION PARA PREDIAL");
 			crear.setAG(1);
 			crear.setAC(0);
-			crear.setCT(null);
-			crear.setM(1);
-			crear.setS(0);
-			crear.setE(null);
+			crear.setCT(true);
+			crear.setM(true);
+			crear.setS(true);
+			crear.setE(true);
 			crear.setProcedimiento("Este es el procedimiento de la SUB-serie");
 			crear.setIdUsuarioCreacion(1);
 			this.archivoGestionService.administrarSubSerieDocumental(crear);
@@ -59,10 +59,10 @@ public class AdministrarSubSerieDocumentalTest {
 			editar.setNombre("PETICION PARA VALORIZACION");
 			editar.setAG(null);
 			editar.setAC(null);
-			editar.setCT(1);
-			editar.setM(null);
-			editar.setS(null);
-			editar.setE(1);
+			editar.setCT(false);
+			editar.setM(false);
+			editar.setS(false);
+			editar.setE(false);
 			editar.setProcedimiento("procedimiento");
 			this.archivoGestionService.administrarSubSerieDocumental(editar);
 

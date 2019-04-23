@@ -24,16 +24,16 @@ public class Documental implements Serializable {
 	private Integer AC;
 
 	/** Conservacion total */
-	private Integer CT;
+	private boolean CT;
 
 	/** Microfilmacion / digitalizacion */
-	private Integer M;
+	private boolean M;
 
 	/** Seleccion */
-	private Integer S;
+	private boolean S;
 
 	/** Eliminacion */
-	private Integer E;
+	private boolean E;
 
 	/** Procedimiento de la serie o sub-serie */
 	private String procedimiento;
@@ -81,28 +81,28 @@ public class Documental implements Serializable {
 	/**
 	 * Metodo que permite obtener el valor del atributo cT
 	 */
-	public Integer getCT() {
+	public boolean isCT() {
 		return CT;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo m
 	 */
-	public Integer getM() {
+	public boolean isM() {
 		return M;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo s
 	 */
-	public Integer getS() {
+	public boolean isS() {
 		return S;
 	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo e
 	 */
-	public Integer getE() {
+	public boolean isE() {
 		return E;
 	}
 
@@ -128,83 +128,10 @@ public class Documental implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param codigo
+	 * Metodo que permite obtener el valor del atributo idCliente
 	 */
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param nombre
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param aG
-	 */
-	public void setAG(Integer aG) {
-		AG = aG;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param aC
-	 */
-	public void setAC(Integer aC) {
-		AC = aC;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param cT
-	 */
-	public void setCT(Integer cT) {
-		CT = cT;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param m
-	 */
-	public void setM(Integer m) {
-		M = m;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param s
-	 */
-	public void setS(Integer s) {
-		S = s;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param e
-	 */
-	public void setE(Integer e) {
-		E = e;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * procedimiento
-	 */
-	public void setProcedimiento(String procedimiento) {
-		this.procedimiento = procedimiento;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * fechaCreacion
-	 */
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor para el atributo @param
-	 * idUsuarioCreacion
-	 */
-	public void setIdUsuarioCreacion(Integer idUsuarioCreacion) {
-		this.idUsuarioCreacion = idUsuarioCreacion;
+	public Integer getIdCliente() {
+		return idCliente;
 	}
 
 	/**
@@ -216,17 +143,90 @@ public class Documental implements Serializable {
 
 	/**
 	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tipoEvento
+	 * para el atributo @param codigo
 	 */
-	public void setTipoEvento(String tipoEvento) {
-		this.tipoEvento = tipoEvento;
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	/**
-	 * Metodo que permite obtener el valor del atributo idCliente
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param nombre
 	 */
-	public Integer getIdCliente() {
-		return idCliente;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param aG
+	 */
+	public void setAG(Integer aG) {
+		AG = aG;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param aC
+	 */
+	public void setAC(Integer aC) {
+		AC = aC;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param cT
+	 */
+	public void setCT(boolean cT) {
+		CT = cT;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param m
+	 */
+	public void setM(boolean m) {
+		M = m;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param s
+	 */
+	public void setS(boolean s) {
+		S = s;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param e
+	 */
+	public void setE(boolean e) {
+		E = e;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param procedimiento
+	 */
+	public void setProcedimiento(String procedimiento) {
+		this.procedimiento = procedimiento;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param fechaCreacion
+	 */
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param idUsuarioCreacion
+	 */
+	public void setIdUsuarioCreacion(Integer idUsuarioCreacion) {
+		this.idUsuarioCreacion = idUsuarioCreacion;
 	}
 
 	/**
@@ -235,5 +235,13 @@ public class Documental implements Serializable {
 	 */
 	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tipoEvento
+	 */
+	public void setTipoEvento(String tipoEvento) {
+		this.tipoEvento = tipoEvento;
 	}
 }

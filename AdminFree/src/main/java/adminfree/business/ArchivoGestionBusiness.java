@@ -2,14 +2,17 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.constants.SQLArchivoGestion;
+import adminfree.constants.SQLTransversal;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
+import adminfree.dtos.transversal.PaginadorDTO;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.enums.MessagesKey;
 import adminfree.enums.Numero;
@@ -36,7 +39,80 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * @return DTO con los datos del response con la lista de series documentales
 	 */
 	public PaginadorResponseDTO getSeriesDocumentales(FiltroSerieDocumentalDTO filtro, Connection connection) throws Exception {
-		return null;
+
+		// FROM de la consulta donde se configuran los demas filtros
+		StringBuilder from = new StringBuilder(SQLArchivoGestion.GET_SERIES_DOCUMENTALES_FROM);
+
+		// son los parametros para los filtros de busqueda
+		List<ValueSQL> parametros = new ArrayList<>();
+		parametros.add(ValueSQL.get(filtro.getIdCliente(), Types.BIGINT));
+
+		// filtro por nombre de la serie documental
+		SQLTransversal.getFilterValueString(parametros, from, filtro.getNombreSerieDocumental(), " AND SE.NOMBRE");
+
+		// filtro por codigo de la serie documental
+		SQLTransversal.getFilterValueString(parametros, from, filtro.getCodigoSerieDocumental(), " AND SE.CODIGO");
+
+		// filtro por nombre de la sub-serie documental
+		SQLTransversal.getFilterSubConsultaCount(
+				parametros,
+				from,
+				filtro.getNombreSubSerieDocumental(),
+				"SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.NOMBRE");
+
+		// filtro por codigo de la sub-serie documental
+		SQLTransversal.getFilterSubConsultaCount(
+				parametros,
+				from,
+				filtro.getCodigoSubSerieDocumental(),
+				"SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.CODIGO");
+
+		// se configura los parametros en array para las consultas
+		ValueSQL[] parametrosArray = parametros.toArray(new ValueSQL[parametros.size()]);
+
+		// se utiliza para obtener los datos del paginador
+		PaginadorDTO paginador = filtro.getPaginador();
+
+		// se utiliza para encapsular la respuesta de esta peticion
+		PaginadorResponseDTO response = new PaginadorResponseDTO();
+
+		// se valida si se debe contar las series documentales
+		response.setCantidadTotal(paginador.getCantidadTotal());
+		if (response.getCantidadTotal() == null) {
+			response.setCantidadTotal((Long) find(connection,
+					SQLTransversal.getSQLCount(from),
+					MapperTransversal.get(MapperTransversal.COUNT),
+					parametrosArray));
+		}
+
+		// solo se consultan los registros solo si existen de acuerdo al filtro
+		if (response.getCantidadTotal() != null &&
+			!response.getCantidadTotal().equals(Numero.ZERO.valueL)) {
+
+			// se construye la consulta principal
+			StringBuilder sql = new StringBuilder(SQLArchivoGestion.GET_SERIES_DOCUMENTALES_SELECT);
+			sql.append(from);
+
+			// se ordena la consulta por nombre de la serie
+			sql.append(" ORDER BY SE.NOMBRE ASC");
+
+			// se configura la paginacion de la consulta
+			SQLTransversal.getLimitSQL(paginador.getSkip(), paginador.getRowsPage(), sql);
+
+			// se utiliza para consultar las subseries asociadas a cada serie documental
+			StringBuilder idsSeries = new StringBuilder();
+
+			// se procede a consultar las series documentales
+			List<SerieDocumentalDTO> series =(List<SerieDocumentalDTO>) findParams(
+					connection,
+					sql.toString(),
+					MapperArchivoGestion.get(MapperArchivoGestion.GET_SERIES_DOCUMENTALES),
+					idsSeries, parametrosArray);
+
+			// se configuran las series consultadas en el response
+			response.setRegistros(series);
+		}
+		return response;
 	}
 
 	/**
@@ -172,17 +248,18 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		}
 
 		// se procede a insertar la subserie
-		int respuesta = insertUpdate(connection,
+		int respuesta = insertUpdate(
+				connection,
 				SQLArchivoGestion.INSERT_SUBSERIE,
 				ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
 				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
 				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(subserie.getAG(), Types.INTEGER),
 				ValueSQL.get(subserie.getAC(), Types.INTEGER),
-				ValueSQL.get(subserie.getCT(), Types.INTEGER),
-				ValueSQL.get(subserie.getM(), Types.INTEGER),
-				ValueSQL.get(subserie.getS(), Types.INTEGER),
-				ValueSQL.get(subserie.getE(), Types.INTEGER),
+				ValueSQL.get(subserie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
 				ValueSQL.get(subserie.getIdUsuarioCreacion(), Types.INTEGER));
 
@@ -230,10 +307,10 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(subserie.getAG(), Types.INTEGER),
 				ValueSQL.get(subserie.getAC(), Types.INTEGER),
-				ValueSQL.get(subserie.getCT(), Types.INTEGER),
-				ValueSQL.get(subserie.getM(), Types.INTEGER),
-				ValueSQL.get(subserie.getS(), Types.INTEGER),
-				ValueSQL.get(subserie.getE(), Types.INTEGER),
+				ValueSQL.get(subserie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(subserie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
 				idSubSerie);
 
@@ -317,10 +394,10 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(serie.getAG(), Types.INTEGER),
 				ValueSQL.get(serie.getAC(), Types.INTEGER),
-				ValueSQL.get(serie.getCT(), Types.INTEGER),
-				ValueSQL.get(serie.getM(), Types.INTEGER),
-				ValueSQL.get(serie.getS(), Types.INTEGER),
-				ValueSQL.get(serie.getE(), Types.INTEGER),
+				ValueSQL.get(serie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
 				ValueSQL.get(serie.getIdUsuarioCreacion(), Types.INTEGER));
 
@@ -367,10 +444,10 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(serie.getAG(), Types.INTEGER),
 				ValueSQL.get(serie.getAC(), Types.INTEGER),
-				ValueSQL.get(serie.getCT(), Types.INTEGER),
-				ValueSQL.get(serie.getM(), Types.INTEGER),
-				ValueSQL.get(serie.getS(), Types.INTEGER),
-				ValueSQL.get(serie.getE(), Types.INTEGER),
+				ValueSQL.get(serie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
+				ValueSQL.get(serie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
 				idSerie);
 

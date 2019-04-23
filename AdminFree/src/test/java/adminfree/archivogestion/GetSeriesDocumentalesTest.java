@@ -36,10 +36,11 @@ public class GetSeriesDocumentalesTest {
 		try {
 			// se construye el filtro de busqueda
 			FiltroSerieDocumentalDTO filtro = new FiltroSerieDocumentalDTO();
-			filtro.setCodigoSerieDocumental("25.0.1");
-			filtro.setNombreSerieDocumental("ACTAS");
-			filtro.setCodigoSubSerieDocumental("25.0.4");
-			filtro.setNombreSubSerieDocumental("INFORMES");
+			filtro.setIdCliente(2l);
+			filtro.setCodigoSerieDocumental("*25");
+			filtro.setNombreSerieDocumental("*z");
+			filtro.setCodigoSubSerieDocumental("*25");
+			filtro.setNombreSubSerieDocumental("nombre");
 
 			// se construye el paginador de la consulta
 			PaginadorDTO paginador = new PaginadorDTO();

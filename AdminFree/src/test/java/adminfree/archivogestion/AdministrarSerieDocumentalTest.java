@@ -40,10 +40,10 @@ public class AdministrarSerieDocumentalTest {
 			serie.setNombre("ACTAS");
 			serie.setAG(1);
 			serie.setAC(0);
-			serie.setCT(null);
-			serie.setM(1);
-			serie.setS(0);
-			serie.setE(null);
+			serie.setCT(true);
+			serie.setM(true);
+			serie.setS(true);
+			serie.setE(true);
 			serie.setProcedimiento("Este es el procedimiento de la serie DE ACTAS");
 			serie.setIdUsuarioCreacion(1);
 			this.archivoGestionService.administrarSerieDocumental(serie);
@@ -57,10 +57,10 @@ public class AdministrarSerieDocumentalTest {
 			editar.setNombre("PRIMERA SERIE");
 			editar.setAG(null);
 			editar.setAC(null);
-			editar.setCT(null);
-			editar.setM(null);
-			editar.setS(null);
-			editar.setE(null);
+			editar.setCT(false);
+			editar.setM(false);
+			editar.setS(false);
+			editar.setE(false);
 			editar.setProcedimiento("procedimiento editado");
 			this.archivoGestionService.administrarSerieDocumental(editar);
 
