@@ -41,7 +41,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	public PaginadorResponseDTO getSeriesDocumentales(FiltroSerieDocumentalDTO filtro, Connection connection) throws Exception {
 
 		// FROM de la consulta donde se configuran los demas filtros
-		StringBuilder from = new StringBuilder(SQLArchivoGestion.GET_SERIES_DOCUMENTALES_FROM);
+		StringBuilder from = new StringBuilder("FROM SERIES_DOCUMENTALES SE WHERE SE.CLIENTE=?");
 
 		// son los parametros para los filtros de busqueda
 		List<ValueSQL> parametros = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			!response.getCantidadTotal().equals(Numero.ZERO.valueL)) {
 
 			// se construye la consulta principal
-			StringBuilder sql = new StringBuilder(SQLArchivoGestion.GET_SERIES_DOCUMENTALES_SELECT);
+			StringBuilder sql = new StringBuilder("SELECT SE.ID_SERIE,SE.CODIGO,SE.NOMBRE,SE.AG,SE.AC,SE.CT,SE.M,SE.S,SE.E,SE.PROCEDIMIENTO ");
 			sql.append(from);
 
 			// se ordena la consulta por nombre de la serie
@@ -108,6 +108,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 					sql.toString(),
 					MapperArchivoGestion.get(MapperArchivoGestion.GET_SERIES_DOCUMENTALES),
 					idsSeries, parametrosArray);
+
+			// se consultan las subseries de cada serie consultada
+			findParams(connection,
+					SQLArchivoGestion.getSQLSubseries(idsSeries),
+					MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
+					series);
 
 			// se configuran las series consultadas en el response
 			response.setRegistros(series);

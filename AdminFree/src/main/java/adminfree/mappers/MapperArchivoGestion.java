@@ -6,6 +6,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
+import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
 import adminfree.enums.Numero;
 
@@ -15,11 +16,13 @@ import adminfree.enums.Numero;
  * @author Carlos Andres Diaz
  *
  */
+@SuppressWarnings("unchecked")
 public class MapperArchivoGestion extends Mapper {
 
 	/** Son los tipos de mapper que soporta este modulo */
 	public static final int GET_TIPOS_DOCUMENTALES = 1;
 	public static final int GET_SERIES_DOCUMENTALES = 2;
+	public static final int GET_SUBSERIES_SERIES = 3;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -55,6 +58,10 @@ public class MapperArchivoGestion extends Mapper {
 			case MapperArchivoGestion.GET_SERIES_DOCUMENTALES:
 				result = getSeriesDocumentales(res, parametro);
 				break;
+
+			case MapperArchivoGestion.GET_SUBSERIES_SERIES:
+				result = getSubSeriesSeries(res, parametro);
+				break;
 		}
 		return result;
 	}
@@ -75,6 +82,52 @@ public class MapperArchivoGestion extends Mapper {
 				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo que permite configurar las subseries de cada serie documental
+	 */
+	private Object getSubSeriesSeries(ResultSet res, Object parametro) throws Exception {
+
+		// el parametro son las series para configurar sus respectivas subseries
+		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) parametro;
+
+		// se recorre cada subserie
+		final int UNO = Numero.UNO.valueI.intValue();
+		SubSerieDocumentalDTO subserie;
+		while (res.next()) {
+
+			// datos generales de la subserie
+			subserie = new SubSerieDocumentalDTO();
+			subserie.setIdSubSerie(res.getLong(Numero.UNO.valueI));
+			subserie.setIdSerie(res.getLong(Numero.DOS.valueI));
+			subserie.setCodigo(res.getString(Numero.TRES.valueI));
+			subserie.setNombre(res.getString(Numero.CUATRO.valueI));
+			subserie.setAG(res.getInt(Numero.CINCO.valueI));
+			subserie.setAC(res.getInt(Numero.SEIS.valueI));
+			if (res.getInt(Numero.SIETE.valueI) == UNO) {
+				subserie.setCT(true);
+			}
+			if (res.getInt(Numero.OCHO.valueI) == UNO) {
+				subserie.setM(true);
+			}
+			if (res.getInt(Numero.NUEVE.valueI) == UNO) {
+				subserie.setS(true);
+			}
+			if (res.getInt(Numero.DIEZ.valueI) == UNO) {
+				subserie.setE(true);
+			}
+			subserie.setProcedimiento(res.getString(Numero.ONCE.valueI));
+
+			// se configura esta subserie en la serie correspondiente
+			for (SerieDocumentalDTO serie : series) {
+				if (serie.getIdSerie().equals(subserie.getIdSerie())) {
+					serie.agregarSubSerie(subserie);
+					break;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

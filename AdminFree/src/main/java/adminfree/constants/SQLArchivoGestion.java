@@ -82,9 +82,12 @@ public class SQLArchivoGestion {
 	/** SQL para eliminar una subserie documental*/
 	public static final String DELETE_SUBSERIE = "DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
 
-	/** SQL FROM para obtener las series documentales*/
-	public static final String GET_SERIES_DOCUMENTALES_FROM = "FROM SERIES_DOCUMENTALES SE WHERE SE.CLIENTE=?";
-
-	/** SQL SELECT para obtener las series documentales*/
-	public static final String GET_SERIES_DOCUMENTALES_SELECT = "SELECT SE.ID_SERIE,SE.CODIGO,SE.NOMBRE,SE.AG,SE.AC,SE.CT,SE.M,SE.S,SE.E,SE.PROCEDIMIENTO ";
+	/**
+	 * Metodo para obtener las subseries que le pertenece a cada serie documental
+	 */
+	public static String getSQLSubseries(StringBuilder idsSerie) {
+		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
+		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,NOMBRE ASC");
+		return sql.toString();
+	}
 }
