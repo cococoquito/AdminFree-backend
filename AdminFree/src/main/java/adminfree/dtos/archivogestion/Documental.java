@@ -1,7 +1,9 @@
 package adminfree.dtos.archivogestion;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Contiene los datos comunes entre la serie y subserie
@@ -49,6 +51,19 @@ public class Documental implements Serializable {
 
 	/** Identifica que tipo de accion se va realizar sobre la serie o subserie */
 	private String tipoEvento;
+
+	/** Son los tipos documentales que soporta la serie o subserie */
+	private List<TipoDocumentalDTO> tiposDocumentales;
+
+	/**
+	 * Metodo que permite agregar un tipo documental para la serie o subserie
+	 */
+	public void agregarTipoDocumental(TipoDocumentalDTO tipoDoc) {
+		if (this.tiposDocumentales == null) {
+			this.tiposDocumentales = new ArrayList<>();
+		}
+		this.tiposDocumentales.add(tipoDoc);
+	}
 
 	/**
 	 * Metodo que permite obtener el valor del atributo codigo

@@ -23,6 +23,7 @@ public class MapperArchivoGestion extends Mapper {
 	public static final int GET_TIPOS_DOCUMENTALES = 1;
 	public static final int GET_SERIES_DOCUMENTALES = 2;
 	public static final int GET_SUBSERIES_SERIES = 3;
+	public static final int GET_TIPOS_DOC_SERIES = 4;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -60,7 +61,11 @@ public class MapperArchivoGestion extends Mapper {
 				break;
 
 			case MapperArchivoGestion.GET_SUBSERIES_SERIES:
-				result = getSubSeriesSeries(res, parametro);
+				getSubSeriesSeries(res, parametro);
+				break;
+
+			case MapperArchivoGestion.GET_TIPOS_DOC_SERIES:
+				getTiposDocSeries(res, parametro);
 				break;
 		}
 		return result;
@@ -85,9 +90,38 @@ public class MapperArchivoGestion extends Mapper {
 	}
 
 	/**
+	 * Metodo que permite configurar los tipos documentales de cada serie documental
+	 */
+	private void getTiposDocSeries(ResultSet res, Object parametro) throws Exception {
+
+		// el parametro son las series para configurar sus tipos documentales
+		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) parametro;
+
+		// se recorre cada tipo documental
+		TipoDocumentalDTO tipoDoc;
+		Long idSerie;
+		while (res.next()) {
+
+			// datos del tipo documental
+			tipoDoc = new TipoDocumentalDTO();
+			idSerie = res.getLong(Numero.UNO.valueI);
+			tipoDoc.setId(res.getInt(Numero.DOS.valueI));
+			tipoDoc.setNombre(res.getString(Numero.TRES.valueI));
+
+			// se configura este tipo doc en la serie correspondiente
+			for (SerieDocumentalDTO serie : series) {
+				if (serie.getIdSerie().equals(idSerie)) {
+					serie.agregarTipoDocumental(tipoDoc);
+					break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Metodo que permite configurar las subseries de cada serie documental
 	 */
-	private Object getSubSeriesSeries(ResultSet res, Object parametro) throws Exception {
+	private void getSubSeriesSeries(ResultSet res, Object parametro) throws Exception {
 
 		// el parametro son las series para configurar sus respectivas subseries
 		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) parametro;
@@ -127,7 +161,6 @@ public class MapperArchivoGestion extends Mapper {
 				}
 			}
 		}
-		return null;
 	}
 
 	/**

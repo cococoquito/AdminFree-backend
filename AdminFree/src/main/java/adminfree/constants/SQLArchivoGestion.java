@@ -90,4 +90,13 @@ public class SQLArchivoGestion {
 		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,NOMBRE ASC");
 		return sql.toString();
 	}
+
+	/**
+	 * Metodo para obtener los tipos de documentales que le pertenece a cada serie documental
+	 */
+	public static String getSQLTiposDocSerie(StringBuilder idsSerie) {
+		StringBuilder sql = new StringBuilder("SELECT TS.ID_SERIE,TS.ID_TIPO_DOC,TD.NOMBRE FROM TIPOS_DOCUMENTALES_SERIES TS JOIN TIPOS_DOCUMENTALES TD ON(TD.ID_TIPO_DOC=TS.ID_TIPO_DOC)WHERE TS.ID_SERIE IN(");
+		sql.append(idsSerie).append(")ORDER BY TS.ID_SERIE ASC,TD.NOMBRE ASC");
+		return sql.toString();
+	}
 }
