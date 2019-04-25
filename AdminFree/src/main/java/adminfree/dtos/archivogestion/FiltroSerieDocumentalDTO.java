@@ -6,7 +6,7 @@ import adminfree.dtos.transversal.PaginadorDTO;
 
 /**
  * DTO que contiene los atributos para los filtros de busqueda de las series documentales
- * 
+ *
  * @author Carlos Andres Diaz
  *
  */

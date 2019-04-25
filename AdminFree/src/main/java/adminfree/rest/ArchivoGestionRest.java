@@ -52,10 +52,28 @@ public class ArchivoGestionRest {
 	}
 
 	/**
+	 * Servicio que permite obtener todos los tipos documentales parametrizados
+	 *
+	 * @return Lista de tipos documentales
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_TIPOS_DOCUMENTALES,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getTiposDocumentales() {
+		try {
+			return Util.getResponseSuccessful(this.archivoGestionService.getTiposDocumentales());
+		} catch (Exception e) {
+			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".getTiposDocumentales ", e.getMessage());
+		}
+	}
+
+	/**
 	 * Servicio que permite administrar los tipos documentales
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param tipo, contiene los datos del tipo documental a procesar
-	 * @return Objeto con el resultado solicitado
 	 */
 	@RequestMapping(
 			value = ApiRest.ADMIN_TIPOS_DOCUMENTAL,
@@ -64,7 +82,8 @@ public class ArchivoGestionRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> administrarTiposDocumentales(@RequestBody TipoDocumentalDTO tipo) {
 		try {
-			return Util.getResponseSuccessful(this.archivoGestionService.administrarTiposDocumentales(tipo));
+			this.archivoGestionService.administrarTiposDocumentales(tipo);
+			return Util.getResponseOk();
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
@@ -74,9 +93,9 @@ public class ArchivoGestionRest {
 
 	/**
 	 * Servicio que permite administrar la entidad de series documentales
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
-	 * @return Objeto con el resultado solicitado
 	 */
 	@RequestMapping(
 			value = ApiRest.ADMIN_SERIES,
@@ -85,7 +104,8 @@ public class ArchivoGestionRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> administrarSerieDocumental(@RequestBody SerieDocumentalDTO serie) {
 		try {
-			return Util.getResponseSuccessful(this.archivoGestionService.administrarSerieDocumental(serie));
+			this.archivoGestionService.administrarSerieDocumental(serie);
+			return Util.getResponseOk();
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {
@@ -95,9 +115,9 @@ public class ArchivoGestionRest {
 
 	/**
 	 * Servicio que permite administrar la entidad de sub-serie documental
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param subserie, DTO con los datos de la sub-serie documental
-	 * @return Objeto con el resultado solicitado
 	 */
 	@RequestMapping(
 			value = ApiRest.ADMIN_SUBSERIES,
@@ -106,7 +126,8 @@ public class ArchivoGestionRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> administrarSubSerieDocumental(@RequestBody SubSerieDocumentalDTO subserie) {
 		try {
-			return Util.getResponseSuccessful(this.archivoGestionService.administrarSubSerieDocumental(subserie));
+			this.archivoGestionService.administrarSubSerieDocumental(subserie);
+			return Util.getResponseOk();
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {

@@ -69,4 +69,5 @@ public class ApiRest {
 	public static final String ADMIN_SERIES = "adminseries";
 	public static final String ADMIN_SUBSERIES = "adminsubseries";
 	public static final String GET_SERIES = "getseries";
+	public static final String GET_TIPOS_DOCUMENTALES = "gettiposdocumentales";
 }

@@ -21,7 +21,6 @@ import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.ValueSQL;
 import adminfree.utilities.BusinessException;
-import adminfree.utilities.Util;
 
 /**
  * Clase que contiene los procesos de negocio para el modulo de Archivo de Gestion
@@ -122,13 +121,23 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	}
 
 	/**
+	 * Metodo que permite obtener todos los tipos documentales parametrizados
+	 *
+	 * @return Lista de tipos documentales
+	 */
+	public List<TipoDocumentalDTO> getTiposDocumentales(Connection connection) throws Exception {
+		return (List<TipoDocumentalDTO>) findAll(connection,
+				SQLArchivoGestion.GET_TIPOS_DOCUMENTALES,
+				MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES));
+	}
+
+	/**
 	 * Metodo que permite administrar los tipos documentales
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param tipo, contiene los datos del tipo documental a procesar
-	 * @return Objeto con el resultado solicitado
 	 */
-	public Object administrarTiposDocumentales(TipoDocumentalDTO tipo, Connection connection) throws Exception {
-		Object response = null;
+	public void administrarTiposDocumentales(TipoDocumentalDTO tipo, Connection connection) throws Exception {
 
 		// se captura el tipo de evento
 		String tipoEvento = tipo.getTipoEvento();
@@ -136,36 +145,27 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		// se invoca de acuerdo al tipo de evento
 		switch (tipoEvento) {
 
-			case TipoEvento.LISTAR:
-				response = getTiposDocumentales(connection);
-				break;
-
 			case TipoEvento.CREAR:
 				crearTipoDocumental(tipo, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.EDITAR:
 				editarTipoDocumental(tipo, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.ELIMINAR:
 				eliminarTipoDocumental(tipo, connection);
-				response = Util.getResponseOk();
 				break;
 		}
-		return response;
 	}
 
 	/**
 	 * Metodo que permite administrar la entidad de series documentales
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
-	 * @return Objeto con el resultado solicitado
 	 */
-	public Object administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
-		Object response = null;
+	public void administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
 		// se captura el tipo de evento
 		String tipoEvento = serie.getTipoEvento();
@@ -175,30 +175,25 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 			case TipoEvento.CREAR:
 				crearSerieDocumental(serie, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.EDITAR:
 				editarSerieDocumental(serie, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.ELIMINAR:
 				eliminarSerieDocumental(serie, connection);
-				response = Util.getResponseOk();
 				break;
 		}
-		return response;
 	}
 
 	/**
 	 * Metodo que permite administrar la entidad de sub-serie documental
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param subserie, DTO con los datos de la sub-serie documental
-	 * @return Objeto con el resultado solicitado
 	 */
-	public Object administrarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
-		Object response = null;
+	public void administrarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
 
 		// se captura el tipo de evento
 		String tipoEvento = subserie.getTipoEvento();
@@ -208,20 +203,16 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 			case TipoEvento.CREAR:
 				crearSubSerieDocumental(subserie, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.EDITAR:
 				editarSubSerieDocumental(subserie, connection);
-				response = Util.getResponseOk();
 				break;
 
 			case TipoEvento.ELIMINAR:
 				eliminarSubSerieDocumental(subserie, connection);
-				response = Util.getResponseOk();
 				break;
 		}
-		return response;
 	}
 
 	/**
@@ -506,17 +497,6 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		if (respuesta <= Numero.ZERO.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 		}
-	}
-
-	/**
-	 * Metodo que permite obtener todos los tipos documentales parametrizados
-	 *
-	 * @return Lista de tipos documentales
-	 */
-	private List<TipoDocumentalDTO> getTiposDocumentales(Connection connection) throws Exception {
-		return (List<TipoDocumentalDTO>) findAll(connection,
-				SQLArchivoGestion.GET_TIPOS_DOCUMENTALES,
-				MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES));
 	}
 
 	/**
