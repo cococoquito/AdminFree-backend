@@ -5,7 +5,7 @@ import java.io.Serializable;
 import adminfree.dtos.transversal.PaginadorResponseDTO;
 
 /**
- * Clase que contiene los datos iniciales al momento de entrar al submodulo de
+ * DTO que contiene los datos iniciales al momento de entrar al submodulo de
  * administrar series documentales
  *
  * @author Carlos Andres Diaz

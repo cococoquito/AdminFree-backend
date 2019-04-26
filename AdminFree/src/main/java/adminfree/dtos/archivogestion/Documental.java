@@ -259,4 +259,19 @@ public class Documental implements Serializable {
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
 	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tiposDocumentales
+	 */
+	public List<TipoDocumentalDTO> getTiposDocumentales() {
+		return tiposDocumentales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tiposDocumentales
+	 */
+	public void setTiposDocumentales(List<TipoDocumentalDTO> tiposDocumentales) {
+		this.tiposDocumentales = tiposDocumentales;
+	}
 }
