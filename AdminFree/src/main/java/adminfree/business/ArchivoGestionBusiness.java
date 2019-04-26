@@ -114,11 +114,25 @@ public class ArchivoGestionBusiness extends CommonDAO {
 					MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOC_SERIES),
 					series);
 
-			// se consultan las subseries de cada series consultadas
+			// se construye los parametros que necesita el mapper para obtener las subseries
+			List<Object> paramsGetSubSeries = new ArrayList<>();
+			StringBuilder idsSubSerie = new StringBuilder();
+			paramsGetSubSeries.add(series);
+			paramsGetSubSeries.add(idsSubSerie);
+
+			// se consultan las subseries asociadas a las series consultadas
 			findParams(connection,
 					SQLArchivoGestion.getSQLSubseries(idsSeries),
 					MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
-					series);
+					paramsGetSubSeries);
+
+			// si hay subseries consultadas se procede a obtener sus tipos documentales
+			if (idsSubSerie.length() > Numero.ZERO.valueI.intValue()) {
+				findParams(connection,
+						SQLArchivoGestion.getSQLTiposDocSubSerie(idsSubSerie),
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES),
+						series);
+			}
 
 			// se configuran las series consultadas en el response
 			response.setRegistros(series);

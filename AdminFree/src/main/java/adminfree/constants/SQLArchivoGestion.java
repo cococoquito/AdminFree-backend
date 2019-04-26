@@ -83,7 +83,7 @@ public class SQLArchivoGestion {
 	public static final String DELETE_SUBSERIE = "DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
 
 	/**
-	 * Metodo para obtener las subseries que le pertenece a cada serie documental
+	 * SQL para obtener las subseries que le pertenece a cada serie documental
 	 */
 	public static String getSQLSubseries(StringBuilder idsSerie) {
 		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
@@ -92,11 +92,20 @@ public class SQLArchivoGestion {
 	}
 
 	/**
-	 * Metodo para obtener los tipos de documentales que le pertenece a cada serie documental
+	 * SQL para obtener los tipos de documentales que le pertenece a cada serie documental
 	 */
 	public static String getSQLTiposDocSerie(StringBuilder idsSerie) {
 		StringBuilder sql = new StringBuilder("SELECT TS.ID_SERIE,TS.ID_TIPO_DOC,TD.NOMBRE FROM TIPOS_DOCUMENTALES_SERIES TS JOIN TIPOS_DOCUMENTALES TD ON(TD.ID_TIPO_DOC=TS.ID_TIPO_DOC)WHERE TS.ID_SERIE IN(");
 		sql.append(idsSerie).append(")ORDER BY TS.ID_SERIE ASC,TD.NOMBRE ASC");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para obtener los tipos de documentales que le pertenece a cada subserie documental
+	 */
+	public static String getSQLTiposDocSubSerie(StringBuilder idsSubSerie) {
+		StringBuilder sql = new StringBuilder("SELECT TS.ID_SUBSERIE,TS.ID_TIPO_DOC,TD.NOMBRE FROM TIPOS_DOCUMENTALES_SUBSERIES TS JOIN TIPOS_DOCUMENTALES TD ON(TD.ID_TIPO_DOC=TS.ID_TIPO_DOC)WHERE TS.ID_SUBSERIE IN(");
+		sql.append(idsSubSerie).append(")ORDER BY TS.ID_SUBSERIE ASC,TD.NOMBRE ASC");
 		return sql.toString();
 	}
 }

@@ -24,6 +24,7 @@ public class MapperArchivoGestion extends Mapper {
 	public static final int GET_SERIES_DOCUMENTALES = 2;
 	public static final int GET_SUBSERIES_SERIES = 3;
 	public static final int GET_TIPOS_DOC_SERIES = 4;
+	public static final int GET_TIPOS_DOC_SUBSERIES = 5;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -67,6 +68,10 @@ public class MapperArchivoGestion extends Mapper {
 			case MapperArchivoGestion.GET_TIPOS_DOC_SERIES:
 				getTiposDocSeries(res, parametro);
 				break;
+
+			case MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES:
+				getTiposDocSubSeries(res, parametro);
+				break;
 		}
 		return result;
 	}
@@ -87,6 +92,42 @@ public class MapperArchivoGestion extends Mapper {
 				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo que permite configurar los tipos documentales de cada subserie documental
+	 */
+	private void getTiposDocSubSeries(ResultSet res, Object parametro) throws Exception {
+
+		// el parametro son las series para configurar sus tipos documentales
+		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) parametro;
+
+		// se recorre cada tipo documental
+		List<SubSerieDocumentalDTO> subSeries;
+		TipoDocumentalDTO tipoDoc;
+		Long idSubSerie;
+		while (res.next()) {
+
+			// datos del tipo documental
+			tipoDoc = new TipoDocumentalDTO();
+			idSubSerie = res.getLong(Numero.UNO.valueI);
+			tipoDoc.setId(res.getInt(Numero.DOS.valueI));
+			tipoDoc.setNombre(res.getString(Numero.TRES.valueI));
+
+			// se configura este tipo doc en la subserie correspondiente
+			forserie:
+			for (SerieDocumentalDTO serie : series) {
+				subSeries = serie.getSubSeries();
+				if (subSeries != null) {
+					for (SubSerieDocumentalDTO subSerie : subSeries) {
+						if (subSerie.getIdSubSerie().equals(idSubSerie)) {
+							subSerie.agregarTipoDocumental(tipoDoc);
+							break forserie;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -123,10 +164,13 @@ public class MapperArchivoGestion extends Mapper {
 	 */
 	private void getSubSeriesSeries(ResultSet res, Object parametro) throws Exception {
 
-		// el parametro son las series para configurar sus respectivas subseries
-		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) parametro;
+		// params: 0=series documentales, 1=StringBuilder para concatenar los ids de cada subserie
+		List<Object> params = (List<Object>) parametro;
+		List<SerieDocumentalDTO> series = (List<SerieDocumentalDTO>) params.get(Numero.ZERO.valueI);
+		StringBuilder idsSubSerie = (StringBuilder) params.get(Numero.UNO.valueI);
 
 		// se recorre cada subserie
+		final int ZERO = Numero.ZERO.valueI.intValue();
 		final int UNO = Numero.UNO.valueI.intValue();
 		SubSerieDocumentalDTO subserie;
 		while (res.next()) {
@@ -160,6 +204,12 @@ public class MapperArchivoGestion extends Mapper {
 					break;
 				}
 			}
+
+			// se concatena el id de la subserie en el parametro
+			if (idsSubSerie.length() > ZERO) {
+				idsSubSerie.append(CommonConstant.COMA);
+			}
+			idsSubSerie.append(subserie.getIdSubSerie());
 		}
 	}
 
