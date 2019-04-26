@@ -33,6 +33,25 @@ public class ArchivoGestionRest {
 	private ArchivoGestionService archivoGestionService;
 
 	/**
+	 * Servicio que permite obtener los datos de inicio para el submodulo de series documentales
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return Response con los datos necesarios para el submodulo
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_INIT_ADMIN_SERIES_DOC,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getInitAdminSeriesDocumentales(@RequestBody Long idCliente) {
+		try {
+			return Util.getResponseSuccessful(this.archivoGestionService.getInitAdminSeriesDocumentales(idCliente));
+		} catch (Exception e) {
+			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".getInitAdminSeriesDocumentales ", e.getMessage());
+		}
+	}
+
+	/**
 	 * Servicio que permite obtener las series documentales de acuerdo al filtro de busqueda
 	 *
 	 * @param filtro, DTO que contiene los datos del filtro de busqueda

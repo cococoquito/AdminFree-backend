@@ -5,10 +5,12 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLArchivoGestion;
 import adminfree.constants.SQLTransversal;
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
+import adminfree.dtos.archivogestion.InitAdminSeriesDocumentalesDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
@@ -30,6 +32,34 @@ import adminfree.utilities.BusinessException;
  */
 @SuppressWarnings("unchecked")
 public class ArchivoGestionBusiness extends CommonDAO {
+
+	/**
+	 * Metodo que permite obtener los datos de inicio para el submodulo de series documentales
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return Response con los datos necesarios para el submodulo
+	 */
+	public InitAdminSeriesDocumentalesDTO getInitAdminSeriesDocumentales(
+			Long idCliente,
+			Connection connection) throws Exception {
+
+		// es el response con los datos necesarios para iniciar el submodulo
+		InitAdminSeriesDocumentalesDTO response = new InitAdminSeriesDocumentalesDTO();
+
+		// se configura el filtro para obtener las series documentales
+		FiltroSerieDocumentalDTO filtroSeries = new FiltroSerieDocumentalDTO();
+		filtroSeries.setIdCliente(idCliente);
+
+		// el paginador debe empezar de 0-10 por default
+		PaginadorDTO paginador = new PaginadorDTO();
+		paginador.setSkip(CommonConstant.SKIP_DEFAULT);
+		paginador.setRowsPage(CommonConstant.ROWS_PAGE_DEFAULT);
+		filtroSeries.setPaginador(paginador);
+
+		// se procede a consultar las primeras 10 series documentales asociadas al cliente
+		response.setSeries(getSeriesDocumentales(filtroSeries, connection));
+		return response;
+	}
 
 	/**
 	 * Metodo que permite obtener las series documentales de acuerdo al filtro de busqueda

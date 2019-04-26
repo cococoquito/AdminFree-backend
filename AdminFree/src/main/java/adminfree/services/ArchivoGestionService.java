@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.ArchivoGestionBusiness;
 import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
+import adminfree.dtos.archivogestion.InitAdminSeriesDocumentalesDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
@@ -28,6 +29,25 @@ public class ArchivoGestionService {
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
 	private DataSource adminFreeDS;
+
+	/**
+	 * Servicio que permite obtener los datos de inicio para el submodulo de series documentales
+	 *
+	 * @param idCliente, identificador del cliente autenticado
+	 * @return Response con los datos necesarios para el submodulo
+	 */
+	public InitAdminSeriesDocumentalesDTO getInitAdminSeriesDocumentales(Long idCliente) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar los datos iniciales para el submodulo
+			return new ArchivoGestionBusiness().getInitAdminSeriesDocumentales(idCliente, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 
 	/**
 	 * Servicio que permite obtener las series documentales de acuerdo al filtro de busqueda
