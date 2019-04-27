@@ -182,7 +182,13 @@ public class MapperArchivoGestion extends Mapper {
 			subserie.setCodigo(res.getString(Numero.TRES.valueI));
 			subserie.setNombre(res.getString(Numero.CUATRO.valueI));
 			subserie.setAG(res.getInt(Numero.CINCO.valueI));
+			if (res.wasNull()) {
+				subserie.setAG(null);
+			}
 			subserie.setAC(res.getInt(Numero.SEIS.valueI));
+			if (res.wasNull()) {
+				subserie.setAC(null);
+			}
 			if (res.getInt(Numero.SIETE.valueI) == UNO) {
 				subserie.setCT(true);
 			}
@@ -238,7 +244,13 @@ public class MapperArchivoGestion extends Mapper {
 			serie.setCodigo(res.getString(Numero.DOS.valueI));
 			serie.setNombre(res.getString(Numero.TRES.valueI));
 			serie.setAG(res.getInt(Numero.CUATRO.valueI));
+			if (res.wasNull()) {
+				serie.setAG(null);
+			}
 			serie.setAC(res.getInt(Numero.CINCO.valueI));
+			if (res.wasNull()) {
+				serie.setAC(null);
+			}
 			if (res.getInt(Numero.SEIS.valueI) == UNO) {
 				serie.setCT(true);
 			}
