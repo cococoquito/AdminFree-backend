@@ -119,7 +119,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			!response.getCantidadTotal().equals(Numero.ZERO.valueL)) {
 
 			// se construye la consulta principal
-			StringBuilder sql = new StringBuilder("SELECT SE.ID_SERIE,SE.CODIGO,SE.NOMBRE,SE.AG,SE.AC,SE.CT,SE.M,SE.S,SE.E,SE.PROCEDIMIENTO ");
+			StringBuilder sql = new StringBuilder("SELECT SE.ID_SERIE,SE.CODIGO,UPPER(SE.NOMBRE),SE.AG,SE.AC,SE.CT,SE.M,SE.S,SE.E,SE.PROCEDIMIENTO ");
 			sql.append(from);
 
 			// se ordena la consulta por nombre de la serie

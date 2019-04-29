@@ -86,7 +86,7 @@ public class SQLArchivoGestion {
 	 * SQL para obtener las subseries que le pertenece a cada serie documental
 	 */
 	public static String getSQLSubseries(StringBuilder idsSerie) {
-		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
+		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,LOWER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
 		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,NOMBRE ASC");
 		return sql.toString();
 	}
