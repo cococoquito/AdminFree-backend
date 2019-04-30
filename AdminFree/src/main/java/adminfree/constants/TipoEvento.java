@@ -8,7 +8,6 @@ package adminfree.constants;
  *
  */
 public class TipoEvento {
-	public static final String LISTAR = "L";
 	public static final String CREAR = "C";
 	public static final String EDITAR = "A";
 	public static final String ELIMINAR = "E";
