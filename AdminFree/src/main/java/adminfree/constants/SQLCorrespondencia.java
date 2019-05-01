@@ -1,7 +1,6 @@
 package adminfree.constants;
 
 import adminfree.enums.Estado;
-import adminfree.enums.Numero;
 import adminfree.enums.TipoCampo;
 
 /**

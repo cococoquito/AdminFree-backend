@@ -258,7 +258,7 @@ public class SQLTransversal {
 				}
 
 				// se construye el subquery
-				sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+				sql.append(" AND EXISTS(SELECT * FROM CONSECUTIVOS_VALUES_");
 				sql.append(idCliente);
 				sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
 				sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
@@ -268,10 +268,10 @@ public class SQLTransversal {
 
 				// se verifica si el query es con LIKE o ==
 				if (isWithLike) {
-					sql.append("LIKE ?)>0");
+					sql.append("LIKE ?)");
 					parametros.add(ValueSQL.get("%" + value + "%", Types.VARCHAR));
 				} else {
-					sql.append("=?)>0");
+					sql.append("=?)");
 					parametros.add(ValueSQL.get(value, Types.VARCHAR));
 				}
 			}
@@ -314,7 +314,7 @@ public class SQLTransversal {
 			}
 
 			// se construye el subquery
-			sql.append(" AND(SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+			sql.append(" AND EXISTS(SELECT * FROM CONSECUTIVOS_VALUES_");
 			sql.append(idCliente);
 			sql.append(" CV JOIN NOMENCLATURAS_CAMPOS_ENTRADA NOMC ON(NOMC.ID_NOME_CAMPO = CV.ID_NOME_CAMPO)");
 			sql.append("WHERE CV.ID_CONSECUTIVO=CON.ID_CONSECUTIVO");
@@ -322,7 +322,7 @@ public class SQLTransversal {
 			sql.append(dateValue.getIdCampo());
 
 			// se concatena el AND de las fechas
-			sql.append(sqlDate).append(")>0");
+			sql.append(sqlDate).append(")");
 		}
 	}
 
