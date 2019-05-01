@@ -106,8 +106,8 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para validar si existe otro valor igual
 	 * para los consecutivos de correspondencia solicitados
 	 */
-	public static String getSQLValorUnico(String idCliente, String idNomenclatura, Long idValue) {
-		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM CONSECUTIVOS_VALUES_");
+	public static String isExistsValor(String idCliente, String idNomenclatura) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM CONSECUTIVOS_VALUES_");
 		sql.append(idCliente).append(" VL ");
 		sql.append("JOIN NOMENCLATURAS_CAMPOS_ENTRADA NCE ON(NCE.ID_NOME_CAMPO = VL.ID_NOME_CAMPO)");
 		sql.append("WHERE NCE.CAMPO=? AND VL.VALOR=?");
@@ -116,11 +116,7 @@ public class SQLCorrespondencia {
 		if (idNomenclatura != null) {
 			sql.append(" AND NCE.NOMENCLATURA=").append(idNomenclatura);
 		}
-
-		// se configura el identificador del valor
-		if (idValue != null && idValue.longValue() > Numero.ZERO.valueL.longValue()) {
-			sql.append(" AND VL.ID_VALUE<>").append(idValue);
-		}
+		sql.append(")");
 		return sql.toString();
 	}
 

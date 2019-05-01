@@ -156,7 +156,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 			// variables que se utilizan dentro del for
 			List<String> restricciones;
-			String countSQL;
+			String isExistsSQL;
 			String value_;
 
 			// se recorre cada valor a validar
@@ -165,30 +165,29 @@ public class CorrespondenciaBusiness extends CommonDAO {
 
 				// se verifica que el campo asociado al valor si tenga restricciones
 				if (restricciones != null && !restricciones.isEmpty()) {
-					countSQL = null;
+					isExistsSQL = null;
 
 					// se configura el tipo de campo y el value
 					idCampoSQL.setValor(valor.getIdCampo());
 					value_ = valor.getValue().toString();
 					valueSQL.setValor(value_);
 
-					// dependiendo de la restriccion se configura SQL y parametros para el count
+					// dependiendo de la restriccion se configura SQL y parametros para el EXISTS
 					if (restricciones.contains(CommonConstant.KEY_CAMPO_UNICO_NOMENCLATURA)) {
-						countSQL = SQLCorrespondencia.getSQLValorUnico(idCliente_, idNomenclatura_, valor.getIdValue());
+						isExistsSQL = SQLCorrespondencia.isExistsValor(idCliente_, idNomenclatura_);
 					} else if (restricciones.contains(CommonConstant.KEY_CAMPO_TODAS_NOMENCLATURA)) {
-						countSQL = SQLCorrespondencia.getSQLValorUnico(idCliente_, null, valor.getIdValue());
+						isExistsSQL = SQLCorrespondencia.isExistsValor(idCliente_, null);
 					}
 
 					// se verifica si hay SQL a procesar
-					if (countSQL != null) {
+					if (isExistsSQL != null) {
 
-						// se hace el count para identificar si existe otro valor igual
-						Long count = (Long) find(connection, countSQL,
-								MapperTransversal.get(MapperTransversal.COUNT),
-								idCampoSQL, valueSQL);
+						// se verifica si existe otro valor igual
+						if ((boolean) find(connection, isExistsSQL,
+								MapperTransversal.get(MapperTransversal.IS_EXISTS),
+								idCampoSQL, valueSQL)) {
 
-						// si el count es mayor que zero es por que existe otro valor igual
-						if (!count.equals(Numero.ZERO.valueL)) {
+							// se agrega el mensaje de error en la lista a retornar
 							response = (response == null) ? new ArrayList<>() : response;
 							response.add(new MessageResponseDTO(
 									BusinessMessages.getMsjValorExisteOtroConsecutivo(value_, valor.getNombreCampo())));
