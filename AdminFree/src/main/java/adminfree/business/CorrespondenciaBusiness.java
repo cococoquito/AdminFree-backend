@@ -150,7 +150,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			String idCliente_ = solicitud.getIdCliente().toString();
 			String idNomenclatura_ = solicitud.getIdNomenclatura().toString();
 
-			// son los parametros de las consultas sql count
+			// son los parametros de las consultas sql EXISTS
 			ValueSQL idCampoSQL = ValueSQL.get(null, Types.BIGINT);
 			ValueSQL valueSQL = ValueSQL.get(null, Types.VARCHAR);
 
@@ -848,20 +848,18 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			idUsuario = ID_ADMIN.equals(idUsuario) ? null : idUsuario;
 			idUsuarioTransferir = ID_ADMIN.equals(idUsuarioTransferir) ? null : idUsuarioTransferir;
 
-			// se construye SQL para contar las transferencia realizadas para este consecutivo
-			StringBuilder countSQL = new StringBuilder ("SELECT COUNT(*) FROM CONSECUTIVOS_TRANS_")
-					.append(idCliente)
-					.append(" WHERE ID_CONSECUTIVO=")
-					.append(idConsecutivo);
-
-			// se obtiene la cantidad de transferencia realizadas para este consecutivo
-			Long transferencias = (Long) find(connection, countSQL.toString(), MapperTransversal.get(MapperTransversal.COUNT));
-
 			// se utiliza para encapsular todos los dmls para ser ejecutado por el batch
 			List<String> dmls = new ArrayList<>();
 
+			// se construye SQL para verificar las transferencias realizadas para este consecutivo
+			StringBuilder existsSQL = new StringBuilder ("SELECT EXISTS(SELECT * FROM CONSECUTIVOS_TRANS_")
+					.append(idCliente)
+					.append(" WHERE ID_CONSECUTIVO=")
+					.append(idConsecutivo)
+					.append(")");
+
 			// si el consecutivo no tiene transferencia se debe insertar el user actual
-			if (transferencias.equals(Numero.ZERO.valueL)) {
+			if ((boolean) find(connection, existsSQL.toString(), MapperTransversal.get(MapperTransversal.IS_EXISTS))) {
 
 				// la fecha transferido es la fecha de la solicitud del consecutivo
 				StringBuilder fechaSolicitud = new StringBuilder("(SELECT CON.FECHA_SOLICITUD FROM CONSECUTIVOS_")
