@@ -852,7 +852,7 @@ public class CorrespondenciaBusiness extends CommonDAO {
 			List<String> dmls = new ArrayList<>();
 
 			// se construye SQL para verificar las transferencias realizadas para este consecutivo
-			StringBuilder existsSQL = new StringBuilder ("SELECT EXISTS(SELECT * FROM CONSECUTIVOS_TRANS_")
+			StringBuilder existsSQL = new StringBuilder ("SELECT NOT EXISTS(SELECT * FROM CONSECUTIVOS_TRANS_")
 					.append(idCliente)
 					.append(" WHERE ID_CONSECUTIVO=")
 					.append(idConsecutivo)

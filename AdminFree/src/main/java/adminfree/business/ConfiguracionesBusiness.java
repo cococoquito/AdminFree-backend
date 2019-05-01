@@ -63,7 +63,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		String tokenEncriptada = null;
 		ValueSQL tokenEncriptadaSQL = ValueSQL.get(null, Types.VARCHAR);
 
-		// se utiliza para verificar si el TOKEN generado ya existe en otro usuario
+		// se utiliza para verificar si el TOKEN generado ya existe en otro CLIENTE
 		MapperTransversal mapperCount = MapperTransversal.get(MapperTransversal.COUNT);
 
 		// se utiliza para la generacion y encriptacion del TOKEN
@@ -533,14 +533,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void eliminarCampoEntrada(Long idCampo, Connection connection) throws Exception {
 
-		// se verifica que no exista una nomenclatura asociada al campo
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_CAMPO_NOMENCLATURA_ASOCIADA,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(idCampo, Types.BIGINT));
-
 		// si existe una nomenclatura asociada no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(connection,
+				SQLConfiguraciones.EXISTS_CAMPO_NOMENCLATURA_ASOCIADA,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(idCampo, Types.BIGINT))) {
 			throw new BusinessException(MessagesKey.KEY_DELETE_CAMPO_NOMENCLATURA_ASOCIADA.value);
 		}
 
