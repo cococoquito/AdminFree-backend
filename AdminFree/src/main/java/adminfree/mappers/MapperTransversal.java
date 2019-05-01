@@ -21,6 +21,7 @@ public class MapperTransversal extends Mapper {
 	public static final int GET_ID = 2;
 	public static final int GET_SOLO_UN_STRING = 3;
 	public static final int GET_ITEMS_USUARIOS = 4;
+	public static final int IS_EXISTS = 5;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperTransversal instance;
@@ -79,8 +80,22 @@ public class MapperTransversal extends Mapper {
 			case MapperTransversal.GET_ITEMS_USUARIOS:
 				result = getItemsUsuarios(res);
 				break;
-			}
+
+			case MapperTransversal.IS_EXISTS:
+				result = isExists(res);
+				break;
+		}
 		return result;
+	}
+
+	/**
+	 * Mapper para configurar la respuesta de una funcion Exists
+	 */
+	private boolean isExists(ResultSet res) throws Exception {
+		if (res.next()) {
+			return res.getInt(Numero.UNO.valueI) == Numero.UNO.valueI.intValue();
+		}
+		return false;
 	}
 
 	/**

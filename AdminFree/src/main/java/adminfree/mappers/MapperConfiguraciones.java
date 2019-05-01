@@ -124,7 +124,7 @@ public class MapperConfiguraciones extends Mapper {
 			case MapperConfiguraciones.GET_DETALLE_NOMENCLATURA_EDITAR:
 				result = getDetalleNomenclaturaEditar(res);
 				break;
-			}
+		}
 		return result;
 	}
 

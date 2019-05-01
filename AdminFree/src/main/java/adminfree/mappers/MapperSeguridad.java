@@ -69,7 +69,7 @@ public class MapperSeguridad extends Mapper {
 			case MapperSeguridad.GET_DATOS_USER_AUTH:
 				result = getDatosUserAuth(res);
 				break;
-			}
+		}
 		return result;
 	}
 

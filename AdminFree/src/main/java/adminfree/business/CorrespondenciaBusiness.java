@@ -389,15 +389,12 @@ public class CorrespondenciaBusiness extends CommonDAO {
 		String idConsecutivo = datos.getIdConsecutivo();
 		String nombreDocumento = datos.getNombreDocumento();
 
-		// se cuenta los documentos que tiene el consecutivo con el mismo nombre
-		Long countNombre = (Long)
-				find(connection,
-				SQLCorrespondencia.getSQLCountNombreDocumento(idCliente, idConsecutivo),
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(nombreDocumento, Types.VARCHAR));
-
 		// el consecutivo no puede tener otro documento con el mismo nombre
-		if (!countNombre.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLCorrespondencia.isExistsNombreDocumento(idCliente, idConsecutivo),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(nombreDocumento, Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_CONSECUTIVO_DOCUMENTO_MISMO_NOMBRE.value);
 		}
 

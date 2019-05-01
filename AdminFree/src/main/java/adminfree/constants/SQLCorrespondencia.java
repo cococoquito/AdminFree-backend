@@ -128,12 +128,12 @@ public class SQLCorrespondencia {
 	 * Metodo que permite construir el SQL para validar si existe otro
 	 * documento con el mismo nombre para el mismo consecutivo
 	 */
-	public static String getSQLCountNombreDocumento(String idCliente, String idConsecutivo) {
-		StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM CONSECUTIVOS_DOCUMENTOS_");
+	public static String isExistsNombreDocumento(String idCliente, String idConsecutivo) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM CONSECUTIVOS_DOCUMENTOS_");
 		sql.append(idCliente);
 		sql.append(" WHERE ID_CONSECUTIVO=");
 		sql.append(idConsecutivo);
-		sql.append(" AND NOMBRE_DOCUMENTO=?");
+		sql.append(" AND NOMBRE_DOCUMENTO=?)");
 		return sql.toString();
 	}
 
