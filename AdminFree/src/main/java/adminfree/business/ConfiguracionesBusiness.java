@@ -1017,13 +1017,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		}
 
 		// se verifica que no exista un usuario de ingreso igual en la BD
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_USUARIO_INGRESO,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(usuarioIngreso, Types.VARCHAR));
-
-		// si existe otro 'usuario de ingreso' igual registrado en la BD no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLConfiguraciones.EXISTS_USUARIO_INGRESO,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(usuarioIngreso, Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_USUARIO_INGRESO_EXISTE.value);
 		}
 	}
