@@ -89,9 +89,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para actualizar los datos basicos de la nomenclatura */
 	public static final String UPDATE_NOMENCLATURA = "UPDATE NOMENCLATURAS SET NOMENCLATURA=?,DESCRIPCION=?,CONSECUTIVO_INICIAL=? WHERE ID_NOMENCLATURA=?";
 
-	/** Se utiliza para identificar si existe la nomenclatura asociada a un cliente */
-	public static final String EXISTE_NOMENCLATURA = "SELECT COUNT(*) FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=?";
-
 	/** Se utiliza para validar si existe consecutivos asociados a una nomenclatura */
 	public static final String GET_SECUENCIA_NOMENCLATURA = "SELECT SECUENCIA FROM NOMENCLATURAS WHERE ID_NOMENCLATURA=?";
 
@@ -231,6 +228,19 @@ public class SQLConfiguraciones {
 		sql.append(tipoCampo).append(" AND NOMBRE=? AND CLIENTE=").append(idCliente);
 		if (idCampo != null) {
 			sql.append(" AND ID_CAMPO<>").append(idCampo);
+		}
+		sql.append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para validar si una nomenclatura ya existe
+	 */
+	public static String isExistsNomenclatura(Long idCliente, Long idNomenclatura) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM NOMENCLATURAS WHERE NOMENCLATURA=? AND CLIENTE=");
+		sql.append(idCliente);
+		if (idNomenclatura != null) {
+			sql.append(" AND ID_NOMENCLATURA<>").append(idNomenclatura);
 		}
 		sql.append(")");
 		return sql.toString();
