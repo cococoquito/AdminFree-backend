@@ -83,18 +83,18 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		SQLTransversal.getFilterValueString(parametros, from, filtro.getCodigoSerieDocumental(), " AND SE.CODIGO");
 
 		// filtro por nombre de la sub-serie documental
-		SQLTransversal.getFilterSubConsultaCount(
+		SQLTransversal.getFilterSubConsultaExists(
 				parametros,
 				from,
 				filtro.getNombreSubSerieDocumental(),
-				"SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.NOMBRE");
+				"SELECT * FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.NOMBRE");
 
 		// filtro por codigo de la sub-serie documental
-		SQLTransversal.getFilterSubConsultaCount(
+		SQLTransversal.getFilterSubConsultaExists(
 				parametros,
 				from,
 				filtro.getCodigoSubSerieDocumental(),
-				"SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.CODIGO");
+				"SELECT * FROM SUBSERIES_DOCUMENTALES SUB WHERE SUB.ID_SERIE=SE.ID_SERIE AND SUB.CODIGO");
 
 		// se configura los parametros en array para las consultas
 		ValueSQL[] parametrosArray = parametros.toArray(new ValueSQL[parametros.size()]);

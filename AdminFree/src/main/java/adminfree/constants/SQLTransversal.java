@@ -381,9 +381,9 @@ public class SQLTransversal {
 	}
 
 	/**
-	 * Metodo que permite construir el filtro para una subconsulta COUNT
+	 * Metodo que permite construir el filtro para una subconsulta EXISTS
 	 */
-	public static void getFilterSubConsultaCount(
+	public static void getFilterSubConsultaExists(
 			List<ValueSQL> parametros,
 			StringBuilder sql,
 			String value,
@@ -409,10 +409,10 @@ public class SQLTransversal {
 
 				// se verifica si el query es con LIKE o ==
 				if (isWithLike) {
-					sql.append(" AND(").append(subConsulta).append(" LIKE ?)>0");
+					sql.append(" AND EXISTS(").append(subConsulta).append(" LIKE ?)");
 					parametros.add(ValueSQL.get("%" + value + "%", Types.VARCHAR));
 				} else {
-					sql.append(" AND(").append(subConsulta).append("=?)>0");
+					sql.append(" AND EXISTS(").append(subConsulta).append("=?)");
 					parametros.add(ValueSQL.get(value, Types.VARCHAR));
 				}
 			}
