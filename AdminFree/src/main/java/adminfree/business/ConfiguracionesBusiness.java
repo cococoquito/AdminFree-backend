@@ -675,29 +675,14 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 * @param campo, contiene los datos del campo de entrada
 	 */
 	public void validarDatosCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
-
-		// edicion
-		if (campo.getId() != null) {
-			if ((boolean) find(connection,
-					SQLConfiguraciones.EXISTS_CAMPO_ENTRADA_EDICION,
-					MapperTransversal.get(MapperTransversal.IS_EXISTS),
-					ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-					ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-					ValueSQL.get(campo.getIdCliente(), Types.BIGINT),
-					ValueSQL.get(campo.getId(), Types.BIGINT))) {
-				throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
-			}
-		} 
-		// creacion
-		else {
-			if ((boolean) find(connection,
-					SQLConfiguraciones.EXISTS_CAMPO_ENTRADA_CREACION,
-					MapperTransversal.get(MapperTransversal.IS_EXISTS),
-					ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-					ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-					ValueSQL.get(campo.getIdCliente(), Types.BIGINT))) {
-				throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
-			}
+		if ((boolean) find(connection,
+				SQLConfiguraciones.isExistsCampoEntrada(
+						campo.getTipoCampo(),
+						campo.getIdCliente(),
+						campo.getId()),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(campo.getNombre(), Types.VARCHAR))) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
 		}
 	}
 

@@ -59,12 +59,6 @@ public class SQLConfiguraciones {
 	/** Se utiliza para obtener la clave de ingreso */
 	public static final String GET_CLAVE_INGRESO = "SELECT CLAVE_INGRESO FROM USUARIOS WHERE ID_USUARIO=?";
 
-	/** Se utiliza para la CREACION de los campos de entrada de informacion */
-	public static final String EXISTS_CAMPO_ENTRADA_CREACION = "SELECT EXISTS(SELECT * FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO=? AND NOMBRE=? AND CLIENTE=?)";
-
-	/** Se utiliza para la EDICION de los campos de entrada de informacion */
-	public static final String EXISTS_CAMPO_ENTRADA_EDICION = "SELECT EXISTS(SELECT * FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO=? AND NOMBRE=? AND CLIENTE=? AND ID_CAMPO<>?)";
-
 	/** Se utiliza para la inserccion de los campos de entrada de informacion */
 	public static final String INSERTAR_CAMPO_ENTRADA = "INSERT INTO CAMPOS_ENTRADA (CLIENTE,TIPO_CAMPO,NOMBRE,DESCRIPCION) VALUES (?,?,?,?)";
 
@@ -226,6 +220,19 @@ public class SQLConfiguraciones {
 	public static String getSQLInsertRestriccion(String idNomenclaturaCampo, Integer idRestriccion) {
 		StringBuilder sql = new StringBuilder("INSERT INTO NOMENCLATURAS_CAMPOS_RESTRICS(ID_NOME_CAMPO,RESTRICCION)VALUES(");
 		sql.append(idNomenclaturaCampo).append(",").append(idRestriccion).append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * Metodo que construye el SQL para validar si un campo de entrada ya existe con su nombre y tipo
+	 */
+	public static String isExistsCampoEntrada(Integer tipoCampo, Long idCliente, Long idCampo) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM CAMPOS_ENTRADA WHERE TIPO_CAMPO=");
+		sql.append(tipoCampo).append(" AND NOMBRE=? AND CLIENTE=").append(idCliente);
+		if (idCampo != null) {
+			sql.append(" AND ID_CAMPO<>").append(idCampo);
+		}
+		sql.append(")");
 		return sql.toString();
 	}
 }
