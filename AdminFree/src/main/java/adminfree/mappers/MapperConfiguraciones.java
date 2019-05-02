@@ -364,7 +364,7 @@ public class MapperConfiguraciones extends Mapper {
 			detalle.setCampoEntrada(campo);
 
 			// banderas que indica si el campo esta asociado alguna nomenclatura o consecutivos
-			final int UNO = Numero.ZERO.valueI.intValue();
+			final int UNO = Numero.UNO.valueI.intValue();
 			detalle.setTieneNomenclaturas(res.getInt(Numero.SEIS.valueI) == UNO);
 			detalle.setTieneConsecutivos(res.getInt(Numero.SIETE.valueI) == UNO);
 		}
