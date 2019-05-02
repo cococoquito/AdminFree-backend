@@ -77,7 +77,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			token = strategia.generarToken();
 			tokenEncriptada = strategia.encriptarPassword(token, securityPostPass);
 
-			// se utiliza para hacer el COUNT
+			// se utiliza para hacer el EXISTS
 			tokenEncriptadaSQL.setValor(tokenEncriptada);
 
 			// valida si el TOKEN es unico entre todos los clientes

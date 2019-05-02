@@ -556,6 +556,15 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 */
 	private void crearTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
 
+		// no puede existir otro tipo documental con el mismo nombre
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsNombreTipoDocumental(null),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(tipo.getNombre(), Types.VARCHAR))) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_NOMBRE_TIPODOCUMENTAL.value);
+		}
+
 		// se procede a CREAR el tipo documental
 		int respuesta = insertUpdate(connection,
 				SQLArchivoGestion.INSERT_TIPO_DOCUMENTAL,
@@ -573,6 +582,15 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * @param tipo, DTO Con los datos del tipo documental a editar
 	 */
 	private void editarTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
+
+		// no puede existir otro tipo documental con el mismo nombre
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsNombreTipoDocumental(tipo.getId()),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(tipo.getNombre(), Types.VARCHAR))) {
+			throw new BusinessException(MessagesKey.KEY_EXISTE_NOMBRE_TIPODOCUMENTAL.value);
+		}
 
 		// se procede a EDITAR el tipo documental
 		int respuesta = insertUpdate(connection,
@@ -597,20 +615,20 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		ValueSQL idTipoDocumental = ValueSQL.get(tipo.getId(), Types.INTEGER);
 
 		// se verifica si el tipo documental se encuentra asociado a una SERIE
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIES_TIPO_DOCUMENTAL,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				idTipoDocumental);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SERIES_TIPO_DOCUMENTAL,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idTipoDocumental)) {
 			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
 		}
 
 		// se verifica si el tipo documental se encuentra asociado a una SUBSERIE
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_TIPO_DOCUMENTAL,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				idTipoDocumental);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SUBSERIES_TIPO_DOCUMENTAL,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idTipoDocumental)) {
 			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
 		}
 

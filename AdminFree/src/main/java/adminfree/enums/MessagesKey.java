@@ -96,7 +96,10 @@ public enum MessagesKey {
 	KEY_SUBSERIE_CONSECUTIVOS(Numero.VEINTEOCHO.valueI.toString()),
 
 	/** 400 - La subserie documental que intenta eliminar esta asociado en la TRD*/
-	KEY_SUBSERIE_TRD(Numero.VEINTENUEVE.valueI.toString());
+	KEY_SUBSERIE_TRD(Numero.VEINTENUEVE.valueI.toString()),
+
+	/** 400 - Ya existe un tipo documental con el nombre ?*/
+	KEY_EXISTE_NOMBRE_TIPODOCUMENTAL(Numero.TREINTA.valueI.toString());
 
 	public final String value;
 

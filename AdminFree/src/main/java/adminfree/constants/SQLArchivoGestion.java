@@ -19,11 +19,11 @@ public class SQLArchivoGestion {
 	/** SQL para eliminar un tipo documental*/
 	public static final String ELIMINAR_TIPO_DOCUMENTAL = "DELETE FROM TIPOS_DOCUMENTALES WHERE ID_TIPO_DOC=?";
 
-	/** SQL para contar las series documentales asociado a un tipo documental*/
-	public static final String COUNT_SERIES_TIPO_DOCUMENTAL = "SELECT COUNT(*) FROM TIPOS_DOCUMENTALES_SERIES WHERE ID_TIPO_DOC=?";
+	/** SQL para verificar si un tipo documental especifico tiene relacion con alguna serie documental*/
+	public static final String EXISTS_SERIES_TIPO_DOCUMENTAL = "SELECT EXISTS(SELECT * FROM TIPOS_DOCUMENTALES_SERIES WHERE ID_TIPO_DOC=?)";
 
-	/** SQL para contar las subseries documentales asociado a un tipo documental*/
-	public static final String COUNT_SUBSERIES_TIPO_DOCUMENTAL = "SELECT COUNT(*) FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_TIPO_DOC=?";
+	/** SQL para verificar si un tipo documental especifico tiene relacion con alguna sub-serie documental*/
+	public static final String EXISTS_SUBSERIES_TIPO_DOCUMENTAL = "SELECT EXISTS(SELECT * FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_TIPO_DOC=?)";
 
 	/** SQL para contar las series documentales con el mismo nombre para el proceso de creacion*/
 	public static final String COUNT_SERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND CLIENTE=?";
@@ -106,6 +106,18 @@ public class SQLArchivoGestion {
 	public static String getSQLTiposDocSubSerie(StringBuilder idsSubSerie) {
 		StringBuilder sql = new StringBuilder("SELECT TS.ID_SUBSERIE,TS.ID_TIPO_DOC,TD.NOMBRE FROM TIPOS_DOCUMENTALES_SUBSERIES TS JOIN TIPOS_DOCUMENTALES TD ON(TD.ID_TIPO_DOC=TS.ID_TIPO_DOC)WHERE TS.ID_SUBSERIE IN(");
 		sql.append(idsSubSerie).append(")ORDER BY TS.ID_SUBSERIE ASC,TD.NOMBRE ASC");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para validar si existe un nombre de un tipo documental especifico
+	 */
+	public static String existsNombreTipoDocumental(Integer idTipoDocumental) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM TIPOS_DOCUMENTALES WHERE NOMBRE=?");
+		if (idTipoDocumental != null) {
+			sql.append(" AND ID_TIPO_DOC<>").append(idTipoDocumental);
+		}
+		sql.append(")");
 		return sql.toString();
 	}
 }
