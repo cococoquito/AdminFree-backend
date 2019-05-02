@@ -64,7 +64,7 @@ public class ConfiguracionesBusiness extends CommonDAO {
 		ValueSQL tokenEncriptadaSQL = ValueSQL.get(null, Types.VARCHAR);
 
 		// se utiliza para verificar si el TOKEN generado ya existe en otro CLIENTE
-		MapperTransversal mapperCount = MapperTransversal.get(MapperTransversal.COUNT);
+		MapperTransversal mapperExists = MapperTransversal.get(MapperTransversal.IS_EXISTS);
 
 		// se utiliza para la generacion y encriptacion del TOKEN
 		EstrategiaCriptografica strategia = EstrategiaCriptografica.get();
@@ -80,14 +80,11 @@ public class ConfiguracionesBusiness extends CommonDAO {
 			// se utiliza para hacer el COUNT
 			tokenEncriptadaSQL.setValor(tokenEncriptada);
 
-			// se procede a contar los registros que contenga este TOKEN encriptado
-			Long count = (Long) find(connection,
-					SQLConfiguraciones.COUNT_CLIENTE_TOKEN,
-					mapperCount,
-					tokenEncriptadaSQL);
-
 			// valida si el TOKEN es unico entre todos los clientes
-			if (count.equals(Numero.ZERO.valueL)) {
+			if ((boolean) find(connection,
+					SQLConfiguraciones.NOT_EXISTS_TOKEN_CLIENT,
+					mapperExists,
+					tokenEncriptadaSQL)) {
 				tokenExiste = false;
 			}
 		}

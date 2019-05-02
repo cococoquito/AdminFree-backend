@@ -14,8 +14,8 @@ public class SQLConfiguraciones {
 	/** SQL para obtener un CLIENTE con base al TOKEN */
 	public static final String GET_CLIENTE_TOKEN = "SELECT ID_CLIENTE,NOMBRE,TELEFONOS,EMAILS,FECHA_ACTIVACION,ESTADO,USUARIO FROM CLIENTES WHERE TOKEN=?";
 
-	/** SQL para contar los clientes que contenga un TOKEN especifico */
-	public static final String COUNT_CLIENTE_TOKEN = "SELECT COUNT(*) FROM CLIENTES WHERE TOKEN=?";
+	/** SQL para verificar si existe un cliente con un TOKEN especifico */
+	public static final String NOT_EXISTS_TOKEN_CLIENT = "SELECT NOT EXISTS(SELECT * FROM CLIENTES WHERE TOKEN=?)";
 
 	/** SQL para ACTUALIZAR los datos del CLIENTE */
 	public static final String ACTUALIZAR_CLIENTE = "UPDATE CLIENTES SET NOMBRE=?,EMAILS=?,TELEFONOS=? WHERE ID_CLIENTE=?";
