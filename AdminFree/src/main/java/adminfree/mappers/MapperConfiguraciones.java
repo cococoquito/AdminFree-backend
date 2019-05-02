@@ -359,15 +359,14 @@ public class MapperConfiguraciones extends Mapper {
 			campo.setTipoCampo(res.getInt(Numero.CINCO.valueI));
 			campo.setTipoCampoNombre(Util.getTipoCampoNombre(campo.getTipoCampo()));
 
-			// se utiliza para configurar las banderas
-			Integer nomenclaturas = res.getInt(Numero.SEIS.valueI);
-			Integer consecutivos = res.getInt(Numero.SIETE.valueI);
-
 			// se configura el detalle para la edicion
 			detalle = new CampoEntradaEdicionDTO();
 			detalle.setCampoEntrada(campo);
-			detalle.setTieneNomenclaturas(!Numero.ZERO.valueI.equals(nomenclaturas));
-			detalle.setTieneConsecutivos(!Numero.ZERO.valueI.equals(consecutivos));
+
+			// banderas que indica si el campo esta asociado alguna nomenclatura o consecutivos
+			final int UNO = Numero.ZERO.valueI.intValue();
+			detalle.setTieneNomenclaturas(res.getInt(Numero.SEIS.valueI) == UNO);
+			detalle.setTieneConsecutivos(res.getInt(Numero.SIETE.valueI) == UNO);
 		}
 		return detalle;
 	}
