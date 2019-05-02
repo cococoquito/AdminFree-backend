@@ -676,17 +676,28 @@ public class ConfiguracionesBusiness extends CommonDAO {
 	 */
 	public void validarDatosCampoEntrada(CampoEntradaDTO campo, Connection connection) throws Exception {
 
-		// se verifica que no exista otro campo con el mismo tipo y nombre
-		Long count = (Long) find(connection,
-				SQLConfiguraciones.COUNT_EXISTE_CAMPO_ENTRADA,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
-				ValueSQL.get(campo.getNombre(), Types.VARCHAR),
-				ValueSQL.get(campo.getIdCliente(), Types.BIGINT));
-
-		// si existe otro campo con el mismo tipo y nombre no se PUEDE seguir con el proceso
-		if (!count.equals(Numero.ZERO.valueL)) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+		// edicion
+		if (campo.getId() != null) {
+			if ((boolean) find(connection,
+					SQLConfiguraciones.EXISTS_CAMPO_ENTRADA_EDICION,
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+					ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+					ValueSQL.get(campo.getIdCliente(), Types.BIGINT),
+					ValueSQL.get(campo.getId(), Types.BIGINT))) {
+				throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+			}
+		} 
+		// creacion
+		else {
+			if ((boolean) find(connection,
+					SQLConfiguraciones.EXISTS_CAMPO_ENTRADA_CREACION,
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(campo.getTipoCampo(), Types.INTEGER),
+					ValueSQL.get(campo.getNombre(), Types.VARCHAR),
+					ValueSQL.get(campo.getIdCliente(), Types.BIGINT))) {
+				throw new BusinessException(MessagesKey.KEY_EXISTE_CAMPO_ENTRADA.value);
+			}
 		}
 	}
 
