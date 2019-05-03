@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.constants.TipoEvento;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
+import adminfree.dtos.archivogestion.TipoDocumentalDTO;
 import adminfree.services.ArchivoGestionService;
 
 /**
@@ -47,6 +48,17 @@ public class AdministrarSubSerieDocumentalTest {
 			crear.setE(true);
 			crear.setProcedimiento("Este es el procedimiento de la SUB-serie");
 			crear.setIdUsuarioCreacion(1);
+
+			// se agregan los tipos documentales
+			TipoDocumentalDTO doc1 = new TipoDocumentalDTO();
+			doc1.setId(1);
+			TipoDocumentalDTO doc2 = new TipoDocumentalDTO();
+			doc2.setId(5);
+			TipoDocumentalDTO doc3 = new TipoDocumentalDTO();
+			doc3.setId(3);
+			crear.agregarTipoDocumental(doc1);
+			crear.agregarTipoDocumental(doc2);
+			crear.agregarTipoDocumental(doc3);
 			this.archivoGestionService.administrarSubSerieDocumental(crear);
 
 			// test para la edicion de la SUB-serie
@@ -64,6 +76,7 @@ public class AdministrarSubSerieDocumentalTest {
 			editar.setS(false);
 			editar.setE(false);
 			editar.setProcedimiento("procedimiento");
+			editar.agregarTipoDocumental(doc2);
 			this.archivoGestionService.administrarSubSerieDocumental(editar);
 
 			// test para eliminar una serie

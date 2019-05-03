@@ -292,25 +292,57 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
 		}
 
-		// se procede a insertar la subserie
-		int respuesta = insertUpdate(
-				connection,
-				SQLArchivoGestion.INSERT_SUBSERIE,
-				ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
-				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
-				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
-				ValueSQL.get(subserie.getAG(), Types.INTEGER),
-				ValueSQL.get(subserie.getAC(), Types.INTEGER),
-				ValueSQL.get(subserie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
-				ValueSQL.get(subserie.getIdUsuarioCreacion(), Types.INTEGER));
+		// para este proceso debe estar bajo transaccionalidad
+		try {
+			connection.setAutoCommit(false);
 
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+			// se procede a insertar la subserie
+			int respuesta = insertUpdate(
+					connection,
+					SQLArchivoGestion.INSERT_SUBSERIE,
+					ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
+					ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
+					ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
+					ValueSQL.get(subserie.getAG(), Types.INTEGER),
+					ValueSQL.get(subserie.getAC(), Types.INTEGER),
+					ValueSQL.get(subserie.isCT() ? Numero.UNO.valueI : null, Types.INTEGER),
+					ValueSQL.get(subserie.isM() ? Numero.UNO.valueI : null, Types.INTEGER),
+					ValueSQL.get(subserie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
+					ValueSQL.get(subserie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
+					ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
+					ValueSQL.get(subserie.getIdUsuarioCreacion(), Types.INTEGER));
+
+			// se verifica si el proceso se ejecuto sin problemas
+			if (respuesta <= Numero.ZERO.valueI.intValue()) {
+				throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+			}
+
+			// se verifica si hay tipos documentales
+			List<TipoDocumentalDTO> tiposDocumentales = subserie.getTiposDocumentales();
+			if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
+
+				// se obtiene el identificador de la sub-serie documental creada
+				Long idSubSerie = (Long) find(connection,
+						CommonConstant.LAST_INSERT_ID,
+						MapperTransversal.get(MapperTransversal.GET_ID));
+
+				// se utiliza para agregar todos los inserts de los tipos documentales
+				List<String> inserts = new ArrayList<>();
+
+				// se recorre cada tipo documental asociada a esta sub-serie
+				for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
+					inserts.add(SQLArchivoGestion.insertTipoDocumentalSubSerie(tipoDocumental.getId(), idSubSerie));
+				}
+
+				// se procede a ejecutar los inserts
+				batchSinInjection(connection, inserts);
+			}
+			connection.commit();
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 

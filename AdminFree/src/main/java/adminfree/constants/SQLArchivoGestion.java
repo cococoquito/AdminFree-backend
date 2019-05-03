@@ -148,4 +148,13 @@ public class SQLArchivoGestion {
 		sql.append(idDoc).append(",").append(idSerie).append(")");
 		return sql.toString();
 	}
+
+	/**
+	 * SQL para construir el INSERT para la tabla TIPOS_DOCUMENTALES_SUBSERIES
+	 */
+	public static String insertTipoDocumentalSubSerie(Integer idDoc, Long idSubSerie) {
+		StringBuilder sql = new StringBuilder("INSERT INTO TIPOS_DOCUMENTALES_SUBSERIES(ID_TIPO_DOC,ID_SUBSERIE)VALUES(");
+		sql.append(idDoc).append(",").append(idSubSerie).append(")");
+		return sql.toString();
+	}
 }
