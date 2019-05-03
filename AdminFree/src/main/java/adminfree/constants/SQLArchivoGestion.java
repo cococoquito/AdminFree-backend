@@ -25,18 +25,6 @@ public class SQLArchivoGestion {
 	/** SQL para verificar si un tipo documental especifico tiene relacion con alguna sub-serie documental*/
 	public static final String EXISTS_SUBSERIES_TIPO_DOCUMENTAL = "SELECT EXISTS(SELECT * FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_TIPO_DOC=?)";
 
-	/** SQL para contar las series documentales con el mismo nombre para el proceso de creacion*/
-	public static final String COUNT_SERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND CLIENTE=?";
-
-	/** SQL para contar las series documentales con el mismo codigo para el proceso de creacion*/
-	public static final String COUNT_SERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND CLIENTE=?";
-
-	/** SQL para contar las series documentales con el mismo nombre para el proceso de edicion*/
-	public static final String COUNT_SERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE NOMBRE=? AND ID_SERIE<>? AND CLIENTE=?";
-
-	/** SQL para contar las series documentales con el mismo codigo para el proceso de edicion*/
-	public static final String COUNT_SERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SERIES_DOCUMENTALES WHERE CODIGO=? AND ID_SERIE<>? AND CLIENTE=?";
-
 	/** SQL para insertar una serie documental*/
 	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 
@@ -116,6 +104,19 @@ public class SQLArchivoGestion {
 		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM TIPOS_DOCUMENTALES WHERE NOMBRE=?");
 		if (idTipoDocumental != null) {
 			sql.append(" AND ID_TIPO_DOC<>").append(idTipoDocumental);
+		}
+		sql.append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para validar si existe el valor de un campo especifico en la serie documental
+	 */
+	public static String existsValorSerie(String campo, Integer idCliente, Long idSerie) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM SERIES_DOCUMENTALES WHERE ");
+		sql.append(campo).append("=? AND CLIENTE=").append(idCliente);
+		if (idSerie != null) {
+			sql.append(" AND ID_SERIE<>").append(idSerie);
 		}
 		sql.append(")");
 		return sql.toString();

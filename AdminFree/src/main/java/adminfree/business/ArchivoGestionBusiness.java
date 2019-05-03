@@ -411,32 +411,30 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	private void crearSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
 		// se utiliza para varios proceso
-		ValueSQL idCliente = ValueSQL.get(serie.getIdCliente(), Types.INTEGER);
+		Integer idCliente = serie.getIdCliente();
 
 		// se verifica si hay otra serie con el mismo NOMBRE
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIES_NOMBRE_CREACION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
-				idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSerie("NOMBRE", idCliente, null),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(serie.getNombre(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
 		}
 
 		// se verifica si hay otra serie con el mismo CODIGO
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIES_CODIGO_CREACION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
-				idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSerie("CODIGO", idCliente, null),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(serie.getCodigo(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
 		}
 
 		// se procede a insertar la serie
 		int respuesta = insertUpdate(connection,
 				SQLArchivoGestion.INSERT_SERIE,
-				idCliente,
+				ValueSQL.get(idCliente, Types.INTEGER),
 				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
 				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
 				ValueSQL.get(serie.getAG(), Types.INTEGER),
@@ -461,26 +459,24 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	private void editarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
 		// se utilizan para varios proceso
-		ValueSQL idSerie = ValueSQL.get(serie.getIdSerie(), Types.BIGINT);
-		ValueSQL idCliente = ValueSQL.get(serie.getIdCliente(), Types.INTEGER);
+		Integer idCliente = serie.getIdCliente();
+		Long idSerie = serie.getIdSerie();
 
 		// se verifica si hay otra serie con el mismo NOMBRE
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIES_NOMBRE_EDICION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
-				idSerie, idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSerie("NOMBRE", idCliente, idSerie),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(serie.getNombre(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
 		}
 
 		// se verifica si hay otra serie con el mismo CODIGO
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIES_CODIGO_EDICION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
-				idSerie, idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSerie("CODIGO", idCliente, idSerie),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(serie.getCodigo(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
 		}
 
@@ -496,7 +492,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(serie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(serie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
-				idSerie);
+				ValueSQL.get(idSerie, Types.BIGINT));
 
 		// se verifica si el proceso se ejecuto sin problemas
 		if (respuesta <= Numero.ZERO.valueI.intValue()) {
