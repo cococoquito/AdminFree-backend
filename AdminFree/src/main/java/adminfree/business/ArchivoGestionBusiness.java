@@ -519,30 +519,25 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		}
 
 		// se verifica si tiene subseries documentales
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_SERIE,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				idSerie);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SUBSERIES_SERIE,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idSerie)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_TIENE_SUBSERIE.value);
 		}
 
 		// se verifica si la serie esta asociado en la TRD
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SERIE_TRD,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				idSerie);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SERIE_TRD,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idSerie)) {
 			throw new BusinessException(MessagesKey.KEY_SERIE_TRD.value);
 		}
 
-		// se procede a eliminar la serie
-		int respuesta = insertUpdate(connection, SQLArchivoGestion.DELETE_SERIE, idSerie);
-
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
-		}
+		// se procede a eliminar la serie con sus tablas asociadas
+		batchSinInjection(connection, SQLArchivoGestion.deleteSerieDocumental(serie.getIdSerie()));
 	}
 
 	/**

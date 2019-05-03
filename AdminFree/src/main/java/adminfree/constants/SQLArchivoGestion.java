@@ -1,5 +1,8 @@
 package adminfree.constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Clase constante que contiene los DML Y DDL para el modulo de Archivo de Gestion
  *
@@ -34,14 +37,11 @@ public class SQLArchivoGestion {
 	/** SQL para obtener la cantidad de consecutivos asociados a una serie documental*/
 	public static final String GET_CANT_CONSECUTIVOS_SERIE = "SELECT CANT_CONSECUTIVOS FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";
 
-	/** SQL para contar cuanta veces esta la serie en el TRD*/
-	public static final String COUNT_SERIE_TRD = "SELECT COUNT(*) FROM TRDS WHERE ID_SERIE=?";
+	/** SQL para verificar si la serie documental esta asociado en la TRD*/
+	public static final String EXISTS_SERIE_TRD = "SELECT EXISTS(SELECT * FROM TRDS WHERE ID_SERIE=?)";
 
-	/** SQL para contar las sub-series que tiene esta serie*/
-	public static final String COUNT_SUBSERIES_SERIE = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?";
-
-	/** SQL para eliminar una serie documental*/
-	public static final String DELETE_SERIE = "DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE=?";
+	/** SQL para verificar las sub-series que tiene esta serie*/
+	public static final String EXISTS_SUBSERIES_SERIE = "SELECT EXISTS(SELECT * FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?)";
 
 	/** SQL para contar las subseries documentales con el mismo nombre para el proceso de creacion*/
 	public static final String COUNT_SUBSERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.NOMBRE=? AND SE.CLIENTE=?";
@@ -120,5 +120,15 @@ public class SQLArchivoGestion {
 		}
 		sql.append(")");
 		return sql.toString();
+	}
+
+	/**
+	 * SQL para construir el DELETE de una serie documental con sus tablas asociadas
+	 */
+	public static List<String> deleteSerieDocumental(Long idSerie) {
+		List<String> deletes = new ArrayList<>();
+		deletes.add("DELETE FROM TIPOS_DOCUMENTALES_SERIES WHERE ID_SERIE="+idSerie);
+		deletes.add("DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE="+idSerie);
+		return deletes;
 	}
 }
