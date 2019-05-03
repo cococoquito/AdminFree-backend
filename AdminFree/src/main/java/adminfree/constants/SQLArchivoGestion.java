@@ -139,4 +139,13 @@ public class SQLArchivoGestion {
 		deletes.add("DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE="+idSubSerie);
 		return deletes;
 	}
+
+	/**
+	 * SQL para construir el INSERT para la tabla TIPOS_DOCUMENTALES_SERIES
+	 */
+	public static String insertTipoDocumentalSerie(Integer idDoc, Long idSerie) {
+		StringBuilder sql = new StringBuilder("INSERT INTO TIPOS_DOCUMENTALES_SERIES(ID_TIPO_DOC,ID_SERIE)VALUES(");
+		sql.append(idDoc).append(",").append(idSerie).append(")");
+		return sql.toString();
+	}
 }
