@@ -43,18 +43,6 @@ public class SQLArchivoGestion {
 	/** SQL para verificar las sub-series que tiene esta serie*/
 	public static final String EXISTS_SUBSERIES_SERIE = "SELECT EXISTS(SELECT * FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=?)";
 
-	/** SQL para contar las subseries documentales con el mismo nombre para el proceso de creacion*/
-	public static final String COUNT_SUBSERIES_NOMBRE_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.NOMBRE=? AND SE.CLIENTE=?";
-
-	/** SQL para contar las subseries documentales con el mismo codigo para el proceso de creacion*/
-	public static final String COUNT_SUBSERIES_CODIGO_CREACION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.CODIGO=? AND SE.CLIENTE=?";
-
-	/** SQL para contar las subseries documentales con el mismo nombre para el proceso de edicion*/
-	public static final String COUNT_SUBSERIES_NOMBRE_EDICION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.NOMBRE=? AND SE.CLIENTE=? AND SUB.ID_SUBSERIE<>?";
-
-	/** SQL para contar las subseries documentales con el mismo codigo para el proceso de edicion*/
-	public static final String COUNT_SUBSERIES_CODIGO_EDICION = "SELECT COUNT(*) FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.CODIGO=? AND SE.CLIENTE=? AND SUB.ID_SUBSERIE<>?";
-
 	/** SQL para insertar una subserie documental*/
 	public static final String INSERT_SUBSERIE = "INSERT INTO SUBSERIES_DOCUMENTALES(ID_SERIE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 
@@ -64,11 +52,8 @@ public class SQLArchivoGestion {
 	/** SQL para obtener la cantidad de consecutivos asociados a una sub-serie documental*/
 	public static final String GET_CANT_CONSECUTIVOS_SUBSERIE = "SELECT CANT_CONSECUTIVOS FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
 
-	/** SQL para contar cuanta veces esta la subserie en el TRD*/
-	public static final String COUNT_SUBSERIE_TRD = "SELECT COUNT(*) FROM TRDS WHERE ID_SUBSERIE=?";
-
-	/** SQL para eliminar una subserie documental*/
-	public static final String DELETE_SUBSERIE = "DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=?";
+	/** SQL para verificar si la sub-serie documental esta asociado en la TRD*/
+	public static final String EXISTS_SUBSERIE_TRD = "SELECT EXISTS(SELECT * FROM TRDS WHERE ID_SUBSERIE=?)";
 
 	/**
 	 * SQL para obtener las subseries que le pertenece a cada serie documental
@@ -129,6 +114,29 @@ public class SQLArchivoGestion {
 		List<String> deletes = new ArrayList<>();
 		deletes.add("DELETE FROM TIPOS_DOCUMENTALES_SERIES WHERE ID_SERIE="+idSerie);
 		deletes.add("DELETE FROM SERIES_DOCUMENTALES WHERE ID_SERIE="+idSerie);
+		return deletes;
+	}
+
+	/**
+	 * SQL para validar si existe el valor de un campo especifico en la sub-serie documental
+	 */
+	public static String existsValorSubSerie(String campo, Integer idCliente, Long idSubSerie) {
+		StringBuilder sql = new StringBuilder("SELECT EXISTS(SELECT * FROM SUBSERIES_DOCUMENTALES SUB JOIN SERIES_DOCUMENTALES SE ON(SE.ID_SERIE=SUB.ID_SERIE)WHERE SUB.");
+		sql.append(campo).append("=? AND SE.CLIENTE=").append(idCliente);
+		if (idSubSerie != null) {
+			sql.append(" AND SUB.ID_SUBSERIE<>").append(idSubSerie);
+		}
+		sql.append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para construir el DELETE de una sub-serie documental con sus tablas asociadas
+	 */
+	public static List<String> deleteSubSerieDocumental(Long idSubSerie) {
+		List<String> deletes = new ArrayList<>();
+		deletes.add("DELETE FROM TIPOS_DOCUMENTALES_SUBSERIES WHERE ID_SUBSERIE="+idSubSerie);
+		deletes.add("DELETE FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE="+idSubSerie);
 		return deletes;
 	}
 }

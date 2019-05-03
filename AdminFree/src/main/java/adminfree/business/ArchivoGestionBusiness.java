@@ -272,25 +272,23 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	private void crearSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
 
 		// se utiliza para varios proceso
-		ValueSQL idCliente = ValueSQL.get(subserie.getIdCliente(), Types.INTEGER);
+		Integer idCliente = subserie.getIdCliente();
 
 		// se verifica si hay otra subserie con el mismo NOMBRE
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_NOMBRE_CREACION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
-				idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSubSerie("NOMBRE", idCliente, null),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(subserie.getNombre(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
 		}
 
 		// se verifica si hay otra subserie con el mismo CODIGO
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_CODIGO_CREACION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
-				idCliente);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSubSerie("CODIGO", idCliente, null),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
 		}
 
@@ -323,26 +321,24 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	private void editarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
 
 		// se utilizan para varios proceso
-		ValueSQL idSubSerie = ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT);
-		ValueSQL idCliente = ValueSQL.get(subserie.getIdCliente(), Types.INTEGER);
+		Long idSubSerie = subserie.getIdSubSerie();
+		Integer idCliente = subserie.getIdCliente();
 
-		// se verifica si hay otra subserie con el mismo NOMBRE para EDICION
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_NOMBRE_EDICION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
-				idCliente, idSubSerie);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		// se verifica si hay otra subserie con el mismo NOMBRE para la EDICION
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSubSerie("NOMBRE", idCliente, idSubSerie),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(subserie.getNombre(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
 		}
 
-		// se verifica si hay otra subserie con el mismo CODIGO para EDICION
-		count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIES_CODIGO_EDICION,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
-				idCliente, idSubSerie);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		// se verifica si hay otra subserie con el mismo CODIGO para la EDICION
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.existsValorSubSerie("CODIGO", idCliente, idSubSerie),
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR))) {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
 		}
 
@@ -359,7 +355,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				ValueSQL.get(subserie.isS() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(subserie.isE() ? Numero.UNO.valueI : null, Types.INTEGER),
 				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
-				idSubSerie);
+				ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT));
 
 		// se verifica si el proceso se ejecuto sin problemas
 		if (respuesta <= Numero.ZERO.valueI.intValue()) {
@@ -387,21 +383,16 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		}
 
 		// se verifica si la subserie esta asociado en la TRD
-		Long count = (Long) find(connection,
-				SQLArchivoGestion.COUNT_SUBSERIE_TRD,
-				MapperTransversal.get(MapperTransversal.COUNT),
-				idSubSerie);
-		if (!count.equals(Numero.ZERO.valueL)) {
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SUBSERIE_TRD,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idSubSerie)) {
 			throw new BusinessException(MessagesKey.KEY_SUBSERIE_TRD.value);
 		}
 
-		// se procede a eliminar la subserie
-		int respuesta = insertUpdate(connection, SQLArchivoGestion.DELETE_SUBSERIE, idSubSerie);
-
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
-		}
+		// se procede a eliminar la sub-serie con sus tablas asociadas
+		batchSinInjection(connection, SQLArchivoGestion.deleteSubSerieDocumental(subserie.getIdSubSerie()));
 	}
 
 	/**
