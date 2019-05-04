@@ -211,7 +211,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite administrar la entidad de series documentales
-	 * aplica solamente para CREAR, EDITAR, ELIMINAR
+	 * aplica solamente para CREAR, EDITAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
 	 */
