@@ -211,11 +211,15 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite administrar la entidad de series documentales
-	 * aplica solamente para CREAR, EDITAR
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
+	 * @retun Objecto con la respuesta del proceso
 	 */
-	public void administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+	public Object administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+
+		// es el response del proceso a retornar
+		Object response = null;
 
 		// se captura el tipo de evento
 		String tipoEvento = serie.getTipoEvento();
@@ -230,7 +234,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			case TipoEvento.EDITAR:
 				editarSerieDocumental(serie, connection);
 				break;
+
+			case TipoEvento.ELIMINAR:
+				response = eliminarSerieDocumental(serie, connection);
+				break;
 		}
+		return response;
 	}
 
 	/**
@@ -259,51 +268,6 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				eliminarSubSerieDocumental(subserie, connection);
 				break;
 		}
-	}
-
-	/**
-	 * Metodo que permite eliminar una serie documental en el sistema
-	 *
-	 * @param serie, DTO que contiene los datos de la serie a eliminar
-	 * @return Response con la lista de series documentales
-	 */
-	public PaginadorResponseDTO eliminarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
-
-		// se utiliza para varios proceso
-		ValueSQL idSerie = ValueSQL.get(serie.getIdSerie(), Types.BIGINT);
-
-		// se verifica si la serie tiene consecutivos asociados
-		Long cant = (Long) find(connection,
-				SQLArchivoGestion.GET_CANT_CONSECUTIVOS_SERIE,
-				MapperTransversal.get(MapperTransversal.GET_ID),
-				idSerie);
-		if (cant != null && !cant.equals(Numero.ZERO.valueL)) {
-			throw new BusinessException(MessagesKey.KEY_SERIE_CONSECUTIVOS.value);
-		}
-
-		// se verifica si tiene subseries documentales
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.EXISTS_SUBSERIES_SERIE,
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				idSerie)) {
-			throw new BusinessException(MessagesKey.KEY_SERIE_TIENE_SUBSERIE.value);
-		}
-
-		// se verifica si la serie esta asociado en la TRD
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.EXISTS_SERIE_TRD,
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				idSerie)) {
-			throw new BusinessException(MessagesKey.KEY_SERIE_TRD.value);
-		}
-
-		// se procede a eliminar la serie con sus tablas asociadas
-		batchSinInjection(connection, SQLArchivoGestion.deleteSerieDocumental(serie.getIdSerie()));
-
-		// se retorna las series documentales de acuerdo al filtro
-		return getSeriesDocumentales(serie.getFiltro(), connection);
 	}
 
 	/**
@@ -594,6 +558,51 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		if (respuesta <= Numero.ZERO.valueI.intValue()) {
 			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 		}
+	}
+
+	/**
+	 * Metodo que permite eliminar una serie documental en el sistema
+	 *
+	 * @param serie, DTO que contiene los datos de la serie a eliminar
+	 * @return Response con la lista de series documentales
+	 */
+	private PaginadorResponseDTO eliminarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+
+		// se utiliza para varios proceso
+		ValueSQL idSerie = ValueSQL.get(serie.getIdSerie(), Types.BIGINT);
+
+		// se verifica si la serie tiene consecutivos asociados
+		Long cant = (Long) find(connection,
+				SQLArchivoGestion.GET_CANT_CONSECUTIVOS_SERIE,
+				MapperTransversal.get(MapperTransversal.GET_ID),
+				idSerie);
+		if (cant != null && !cant.equals(Numero.ZERO.valueL)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_CONSECUTIVOS.value);
+		}
+
+		// se verifica si tiene subseries documentales
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SUBSERIES_SERIE,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idSerie)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_TIENE_SUBSERIE.value);
+		}
+
+		// se verifica si la serie esta asociado en la TRD
+		if ((boolean) find(
+				connection,
+				SQLArchivoGestion.EXISTS_SERIE_TRD,
+				MapperTransversal.get(MapperTransversal.IS_EXISTS),
+				idSerie)) {
+			throw new BusinessException(MessagesKey.KEY_SERIE_TRD.value);
+		}
+
+		// se procede a eliminar la serie con sus tablas asociadas
+		batchSinInjection(connection, SQLArchivoGestion.deleteSerieDocumental(serie.getIdSerie()));
+
+		// se retorna las series documentales de acuerdo al filtro
+		return getSeriesDocumentales(serie.getFiltro(), connection);
 	}
 
 	/**

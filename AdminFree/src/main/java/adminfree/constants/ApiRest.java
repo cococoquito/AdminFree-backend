@@ -71,5 +71,4 @@ public class ApiRest {
 	public static final String GET_SERIES = "getseries";
 	public static final String GET_TIPOS_DOCUMENTALES = "gettiposdocumentales";
 	public static final String GET_INIT_ADMIN_SERIES_DOC = "getinitadminseriesdoc";
-	public static final String DELETE_SERIE = "deleteserie";
 }

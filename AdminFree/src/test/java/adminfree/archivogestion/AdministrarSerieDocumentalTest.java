@@ -9,8 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import adminfree.constants.TipoEvento;
+import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
+import adminfree.dtos.transversal.PaginadorDTO;
+import adminfree.dtos.transversal.PaginadorResponseDTO;
 import adminfree.services.ArchivoGestionService;
 
 /**
@@ -37,8 +40,8 @@ public class AdministrarSerieDocumentalTest {
 			SerieDocumentalDTO serie = new SerieDocumentalDTO();
 			serie.setTipoEvento(TipoEvento.CREAR);
 			serie.setIdCliente(1);
-			serie.setCodigo("90.0.1");
-			serie.setNombre("HOJAS DE VIDA");
+			serie.setCodigo("90.0.12");
+			serie.setNombre("HOJAS DE VIDA2");
 			serie.setAG(1);
 			serie.setAC(0);
 			serie.setCT(true);
@@ -46,7 +49,7 @@ public class AdministrarSerieDocumentalTest {
 			serie.setS(true);
 			serie.setE(true);
 			serie.setProcedimiento("Este es el procedimiento DE HV");
-			serie.setIdUsuarioCreacion(1);
+			serie.setIdUsuarioCreacion(null);
 
 			// se agregan los tipos documentales
 			TipoDocumentalDTO doc1 = new TipoDocumentalDTO();
@@ -80,8 +83,20 @@ public class AdministrarSerieDocumentalTest {
 			// test para eliminar una serie
 			SerieDocumentalDTO eliminar = new SerieDocumentalDTO();
 			eliminar.setTipoEvento(TipoEvento.ELIMINAR);
-			eliminar.setIdSerie(19L);
-			this.archivoGestionService.administrarSerieDocumental(eliminar);
+			eliminar.setIdSerie(2L);
+
+			// se construye el filtro de la consulta
+			FiltroSerieDocumentalDTO filtro = new FiltroSerieDocumentalDTO();
+			filtro.setIdCliente(1l);
+
+			// se construye el paginador de la consulta
+			PaginadorDTO paginador = new PaginadorDTO();
+			paginador.setSkip("0");
+			paginador.setRowsPage("10");
+			filtro.setPaginador(paginador);
+			eliminar.setFiltro(filtro);
+			PaginadorResponseDTO re = (PaginadorResponseDTO)this.archivoGestionService.administrarSerieDocumental(eliminar);
+			assertTrue(re != null);
 
 			// si llega a este punto es porque todos los procesos se ejucutaron sin problemas
 			assertTrue(true);

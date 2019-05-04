@@ -107,18 +107,19 @@ public class ArchivoGestionService {
 
 	/**
 	 * Servicio que permite administrar la entidad de series documentales
-	 * aplica solamente para CREAR, EDITAR
+	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
+	 * @retun Objecto con la respuesta del proceso
 	 */
-	public void administrarSerieDocumental(SerieDocumentalDTO serie) throws Exception {
+	public Object administrarSerieDocumental(SerieDocumentalDTO serie) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procesa la solicitud
-			new ArchivoGestionBusiness().administrarSerieDocumental(serie, connection);
+			return new ArchivoGestionBusiness().administrarSerieDocumental(serie, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -138,25 +139,6 @@ public class ArchivoGestionService {
 
 			// se procesa la solicitud
 			new ArchivoGestionBusiness().administrarSubSerieDocumental(subserie, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Servicio que permite eliminar una serie documental en el sistema
-	 *
-	 * @param serie, DTO que contiene los datos de la serie a eliminar
-	 * @return Response con la lista de series documentales
-	 */
-	public PaginadorResponseDTO eliminarSerieDocumental(SerieDocumentalDTO serie) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procede eliminar la serie documental
-			return new ArchivoGestionBusiness().eliminarSerieDocumental(serie, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
