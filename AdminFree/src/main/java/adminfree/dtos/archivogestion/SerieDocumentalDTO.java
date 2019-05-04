@@ -17,6 +17,9 @@ public class SerieDocumentalDTO extends Documental {
 	/** Lista de subseries que contiene esta serie documental */
 	private List<SubSerieDocumentalDTO> subSeries;
 
+	/** Se utiliza al momento de eliminar una serie documental */
+	private FiltroSerieDocumentalDTO filtro;
+
 	/**
 	 * Metodo que permite agregar una subserie documental
 	 */
@@ -55,5 +58,20 @@ public class SerieDocumentalDTO extends Documental {
 	 */
 	public void setSubSeries(List<SubSerieDocumentalDTO> subSeries) {
 		this.subSeries = subSeries;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo filtro
+	 */
+	public FiltroSerieDocumentalDTO getFiltro() {
+		return filtro;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param filtro
+	 */
+	public void setFiltro(FiltroSerieDocumentalDTO filtro) {
+		this.filtro = filtro;
 	}
 }

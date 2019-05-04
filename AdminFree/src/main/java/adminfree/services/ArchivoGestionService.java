@@ -142,4 +142,23 @@ public class ArchivoGestionService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite eliminar una serie documental en el sistema
+	 *
+	 * @param serie, DTO que contiene los datos de la serie a eliminar
+	 * @return Response con la lista de series documentales
+	 */
+	public PaginadorResponseDTO eliminarSerieDocumental(SerieDocumentalDTO serie) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede eliminar la serie documental
+			return new ArchivoGestionBusiness().eliminarSerieDocumental(serie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

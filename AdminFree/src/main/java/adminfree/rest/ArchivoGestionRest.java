@@ -153,4 +153,25 @@ public class ArchivoGestionRest {
 			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".administrarSubSerieDocumental ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite eliminar una serie documental en el sistema
+	 *
+	 * @param serie, DTO que contiene los datos de la serie a eliminar
+	 * @return Response con la lista de series documentales
+	 */
+	@RequestMapping(
+			value = ApiRest.DELETE_SERIE,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> eliminarSerieDocumental(@RequestBody SerieDocumentalDTO serie) {
+		try {
+			return Util.getResponseSuccessful(this.archivoGestionService.eliminarSerieDocumental(serie));
+		} catch (BusinessException e) {
+			return Util.getResponseBadRequest(e.getMessage());
+		} catch (Exception e) {
+			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".eliminarSerieDocumental ", e.getMessage());
+		}
+	}
 }
