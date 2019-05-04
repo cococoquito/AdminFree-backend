@@ -214,7 +214,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
-	 * @retun Objecto con la respuesta del proceso
+	 * @return Objecto con la respuesta del proceso
 	 */
 	public Object administrarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 

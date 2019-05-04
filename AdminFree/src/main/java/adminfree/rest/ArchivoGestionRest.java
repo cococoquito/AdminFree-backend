@@ -115,6 +115,7 @@ public class ArchivoGestionRest {
 	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param serie, DTO con los datos de la serie documental
+	 * @return Objecto con la respuesta del proceso
 	 */
 	@RequestMapping(
 			value = ApiRest.ADMIN_SERIES,
