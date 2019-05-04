@@ -60,7 +60,7 @@ public class SQLArchivoGestion {
 	 */
 	public static String getSQLSubseries(StringBuilder idsSerie) {
 		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,LOWER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
-		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,NOMBRE ASC");
+		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,CODIGO ASC");
 		return sql.toString();
 	}
 
