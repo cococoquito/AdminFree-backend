@@ -137,6 +137,7 @@ public class ArchivoGestionRest {
 	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param subserie, DTO con los datos de la sub-serie documental
+	 * @return Objecto con la respuesta del proceso
 	 */
 	@RequestMapping(
 			value = ApiRest.ADMIN_SUBSERIES,
@@ -145,8 +146,7 @@ public class ArchivoGestionRest {
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> administrarSubSerieDocumental(@RequestBody SubSerieDocumentalDTO subserie) {
 		try {
-			this.archivoGestionService.administrarSubSerieDocumental(subserie);
-			return Util.getResponseOk();
+			return Util.getResponseSuccessful(this.archivoGestionService.administrarSubSerieDocumental(subserie));
 		} catch (BusinessException e) {
 			return Util.getResponseBadRequest(e.getMessage());
 		} catch (Exception e) {

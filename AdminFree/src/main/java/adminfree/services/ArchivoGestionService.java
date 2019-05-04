@@ -130,15 +130,16 @@ public class ArchivoGestionService {
 	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param subserie, DTO con los datos de la sub-serie documental
+	 * @return Objecto con la respuesta del proceso
 	 */
-	public void administrarSubSerieDocumental(SubSerieDocumentalDTO subserie) throws Exception {
+	public Object administrarSubSerieDocumental(SubSerieDocumentalDTO subserie) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procesa la solicitud
-			new ArchivoGestionBusiness().administrarSubSerieDocumental(subserie, connection);
+			return new ArchivoGestionBusiness().administrarSubSerieDocumental(subserie, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

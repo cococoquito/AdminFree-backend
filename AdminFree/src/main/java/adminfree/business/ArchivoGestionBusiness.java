@@ -247,8 +247,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * aplica solamente para CREAR, EDITAR, ELIMINAR
 	 *
 	 * @param subserie, DTO con los datos de la sub-serie documental
+	 * @return Objecto con la respuesta del proceso
 	 */
-	public void administrarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+	public Object administrarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+
+		// es el response del proceso a retornar
+		Object response = null;
 
 		// se captura el tipo de evento
 		String tipoEvento = subserie.getTipoEvento();
@@ -265,9 +269,10 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 
 			case TipoEvento.ELIMINAR:
-				eliminarSubSerieDocumental(subserie, connection);
+				response = eliminarSubSerieDocumental(subserie, connection);
 				break;
 		}
+		return response;
 	}
 
 	/**
@@ -404,8 +409,11 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * Metodo que permite eliminar una subserie documental
 	 *
 	 * @param subserie, Contiene los datos de la subserie
+	 * @return lista de subseries asociados a la serie documental
 	 */
-	private void eliminarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+	private List<SubSerieDocumentalDTO> eliminarSubSerieDocumental(
+			SubSerieDocumentalDTO subserie,
+			Connection connection) throws Exception {
 
 		// se utiliza para varios proceso
 		ValueSQL idSubSerie = ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT);
@@ -430,6 +438,36 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 		// se procede a eliminar la sub-serie con sus tablas asociadas
 		batchSinInjection(connection, SQLArchivoGestion.deleteSubSerieDocumental(subserie.getIdSubSerie()));
+
+		// parametro lista de series para consultar las subseries
+		SerieDocumentalDTO serie = new SerieDocumentalDTO();
+		serie.setIdSerie(subserie.getIdSerie());
+		List<SerieDocumentalDTO> series = new ArrayList<>();
+		series.add(serie);
+
+		// se utiliza para encapsular los ids de las subseries consultadas
+		StringBuilder idsSubSerie = new StringBuilder();
+		List<Object> paramsGetSubSeries = new ArrayList<>();
+		paramsGetSubSeries.add(series);
+		paramsGetSubSeries.add(idsSubSerie);
+
+		// se consultan las subseries asociadas a la serie propietaria de la subserie eliminada
+		StringBuilder idsSerie = new StringBuilder(subserie.getIdSerie().toString());
+		findParams(connection,
+				SQLArchivoGestion.getSQLSubseries(idsSerie),
+				MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
+				paramsGetSubSeries);
+
+		// si hay subseries consultadas se procede a obtener sus tipos documentales
+		if (idsSubSerie.length() > Numero.ZERO.valueI.intValue()) {
+			findParams(connection,
+					SQLArchivoGestion.getSQLTiposDocSubSerie(idsSubSerie),
+					MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES),
+					series);
+		}
+
+		// se retornan las subseries consultadas
+		return serie.getSubSeries();
 	}
 
 	/**

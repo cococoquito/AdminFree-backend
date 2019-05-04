@@ -2,6 +2,8 @@ package adminfree.archivogestion;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import adminfree.services.ArchivoGestionService;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@SuppressWarnings("unchecked")
 public class AdministrarSubSerieDocumentalTest {
 
 	/** Objecto que contiene los servicios relacionados modulo archivo gestion */
@@ -79,11 +82,14 @@ public class AdministrarSubSerieDocumentalTest {
 			editar.agregarTipoDocumental(doc2);
 			this.archivoGestionService.administrarSubSerieDocumental(editar);
 
-			// test para eliminar una serie
+			// test para eliminar una SUB-serie
 			SubSerieDocumentalDTO eliminar = new SubSerieDocumentalDTO();
 			eliminar.setTipoEvento(TipoEvento.ELIMINAR);
 			eliminar.setIdSubSerie(1l);
-			this.archivoGestionService.administrarSubSerieDocumental(eliminar);
+			eliminar.setIdSerie(1L);
+			List<SubSerieDocumentalDTO> response =
+					(List<SubSerieDocumentalDTO>)this.archivoGestionService.administrarSubSerieDocumental(eliminar);
+			assertTrue(response != null);
 
 			// si llega a este punto es porque todos los procesos se ejecutaron sin problemas
 			assertTrue(true);
