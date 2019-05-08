@@ -33,8 +33,11 @@ public class GetTiposDocumentalesTest {
 	@Test
 	public void getTiposDocumentales() {
 		try {
-			// se procede a obtener los tipos documentales
-			List<TipoDocumentalDTO> response = this.archivoGestionService.getTiposDocumentales();
+			// identificador del cliente a consultar sus tipos documentales
+			Long idCliente = 1L;
+
+			// se procede a obtener los tipos documentales asociados al cliente
+			List<TipoDocumentalDTO> response = this.archivoGestionService.getTiposDocumentales(idCliente);
 
 			// debe existir los tipos documentales
 			assertTrue(response != null && !response.isEmpty());

@@ -16,9 +16,6 @@ public class TipoDocumentalDTO implements Serializable {
 	/** Nombre del tipo documental */
 	private String nombre;
 
-	/** Identifica que tipo de accion se va realizar sobre el tipo documental */
-	private String tipoEvento;
-
 	/**
 	 * Metodo que permite obtener el valor del atributo id
 	 */
@@ -47,20 +44,5 @@ public class TipoDocumentalDTO implements Serializable {
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo tipoEvento
-	 */
-	public String getTipoEvento() {
-		return tipoEvento;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tipoEvento
-	 */
-	public void setTipoEvento(String tipoEvento) {
-		this.tipoEvento = tipoEvento;
 	}
 }

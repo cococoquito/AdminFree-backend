@@ -68,9 +68,6 @@ public enum MessagesKey {
 	/** 400 - EL proceso no se ejecutó satisfactoriamente, por favor inténtalo de nuevo*/
 	KEY_PROCESO_NO_EJECUTADO(Numero.DIECINUEVE.valueI.toString()),
 
-	/** 400 - EL tipo documental que intenta eliminar se encuentra asociado a una serie o subserie documental*/
-	KEY_ELIMINAR_TIPO_DOCUMENTAL(Numero.VEINTE.valueI.toString()),
-
 	/** 400 - Ya existe una serie documental con el nombre ?*/
 	KEY_SERIE_MISMO_NOMBRE(Numero.VEINTEUNO.valueI.toString()),
 
@@ -96,10 +93,7 @@ public enum MessagesKey {
 	KEY_SUBSERIE_CONSECUTIVOS(Numero.VEINTEOCHO.valueI.toString()),
 
 	/** 400 - La subserie documental que intenta eliminar esta asociado en la TRD*/
-	KEY_SUBSERIE_TRD(Numero.VEINTENUEVE.valueI.toString()),
-
-	/** 400 - Ya existe un tipo documental con el nombre ?*/
-	KEY_EXISTE_NOMBRE_TIPODOCUMENTAL(Numero.TREINTA.valueI.toString());
+	KEY_SUBSERIE_TRD(Numero.VEINTENUEVE.valueI.toString());
 
 	public final String value;
 

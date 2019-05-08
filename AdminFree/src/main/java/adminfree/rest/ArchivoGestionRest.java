@@ -6,13 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import adminfree.constants.ApiRest;
 import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
-import adminfree.dtos.archivogestion.TipoDocumentalDTO;
 import adminfree.services.ArchivoGestionService;
 import adminfree.utilities.BusinessException;
 import adminfree.utilities.Util;
@@ -73,40 +73,19 @@ public class ArchivoGestionRest {
 	/**
 	 * Servicio que permite obtener todos los tipos documentales parametrizados
 	 *
-	 * @return Lista de tipos documentales
+	 * @param idCliente, cada cliente tiene sus propios tipos documentales
+	 * @return Lista de tipos documentales asociados al cliente
 	 */
 	@RequestMapping(
 			value = ApiRest.GET_TIPOS_DOCUMENTALES,
 			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getTiposDocumentales() {
+	public ResponseEntity<Object> getTiposDocumentales(@RequestParam Long idCliente) {
 		try {
-			return Util.getResponseSuccessful(this.archivoGestionService.getTiposDocumentales());
+			return Util.getResponseSuccessful(this.archivoGestionService.getTiposDocumentales(idCliente));
 		} catch (Exception e) {
 			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".getTiposDocumentales ", e.getMessage());
-		}
-	}
-
-	/**
-	 * Servicio que permite administrar los tipos documentales
-	 * aplica solamente para CREAR, EDITAR, ELIMINAR
-	 *
-	 * @param tipo, contiene los datos del tipo documental a procesar
-	 */
-	@RequestMapping(
-			value = ApiRest.ADMIN_TIPOS_DOCUMENTAL,
-			method = RequestMethod.POST,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> administrarTiposDocumentales(@RequestBody TipoDocumentalDTO tipo) {
-		try {
-			this.archivoGestionService.administrarTiposDocumentales(tipo);
-			return Util.getResponseOk();
-		} catch (BusinessException e) {
-			return Util.getResponseBadRequest(e.getMessage());
-		} catch (Exception e) {
-			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".administrarTiposDocumentales ", e.getMessage());
 		}
 	}
 

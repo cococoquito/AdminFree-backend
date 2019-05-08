@@ -71,35 +71,17 @@ public class ArchivoGestionService {
 	/**
 	 * Servicio que permite obtener todos los tipos documentales parametrizados
 	 *
-	 * @return Lista de tipos documentales
+	 * @param idCliente, cada cliente tiene sus propios tipos documentales
+	 * @return Lista de tipos documentales asociados al cliente
 	 */
-	public List<TipoDocumentalDTO> getTiposDocumentales() throws Exception {
+	public List<TipoDocumentalDTO> getTiposDocumentales(Long idCliente) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD de AdminFree
 			connection = this.adminFreeDS.getConnection();
 
 			// se procede a consultar los tipos documentales
-			return new ArchivoGestionBusiness().getTiposDocumentales(connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Servicio que permite administrar los tipos documentales
-	 * aplica solamente para CREAR, EDITAR, ELIMINAR
-	 *
-	 * @param tipo, contiene los datos del tipo documental a procesar
-	 */
-	public void administrarTiposDocumentales(TipoDocumentalDTO tipo) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
-
-			// se procesa la solicitud
-			new ArchivoGestionBusiness().administrarTiposDocumentales(tipo, connection);
+			return new ArchivoGestionBusiness().getTiposDocumentales(idCliente, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

@@ -39,9 +39,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * @param idCliente, identificador del cliente autenticado
 	 * @return Response con los datos necesarios para el submodulo
 	 */
-	public InitAdminSeriesDocumentalesDTO getInitAdminSeriesDocumentales(
-			Long idCliente,
-			Connection connection) throws Exception {
+	public InitAdminSeriesDocumentalesDTO getInitAdminSeriesDocumentales(Long idCliente, Connection connection) throws Exception {
 
 		// es el response con los datos necesarios para iniciar el submodulo
 		InitAdminSeriesDocumentalesDTO response = new InitAdminSeriesDocumentalesDTO();
@@ -171,42 +169,16 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite obtener todos los tipos documentales parametrizados
+	 * Metodo que permite obtener todos los tipos documentales asociados a un cliente
 	 *
-	 * @return Lista de tipos documentales
+	 * @param idCliente, cada cliente tiene sus propios tipos documentales
+	 * @return Lista de tipos documentales asociados al cliente
 	 */
-	public List<TipoDocumentalDTO> getTiposDocumentales(Connection connection) throws Exception {
-		return (List<TipoDocumentalDTO>) findAll(connection,
+	public List<TipoDocumentalDTO> getTiposDocumentales(Long idCliente, Connection connection) throws Exception {
+		return (List<TipoDocumentalDTO>) find(connection,
 				SQLArchivoGestion.GET_TIPOS_DOCUMENTALES,
-				MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES));
-	}
-
-	/**
-	 * Metodo que permite administrar los tipos documentales
-	 * aplica solamente para CREAR, EDITAR, ELIMINAR
-	 *
-	 * @param tipo, contiene los datos del tipo documental a procesar
-	 */
-	public void administrarTiposDocumentales(TipoDocumentalDTO tipo, Connection connection) throws Exception {
-
-		// se captura el tipo de evento
-		String tipoEvento = tipo.getTipoEvento();
-
-		// se invoca de acuerdo al tipo de evento
-		switch (tipoEvento) {
-
-			case TipoEvento.CREAR:
-				crearTipoDocumental(tipo, connection);
-				break;
-
-			case TipoEvento.EDITAR:
-				editarTipoDocumental(tipo, connection);
-				break;
-
-			case TipoEvento.ELIMINAR:
-				eliminarTipoDocumental(tipo, connection);
-				break;
-		}
+				MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES),
+				ValueSQL.get(idCliente, Types.BIGINT));
 	}
 
 	/**
@@ -641,97 +613,5 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 		// se retorna las series documentales de acuerdo al filtro
 		return getSeriesDocumentales(serie.getFiltro(), connection);
-	}
-
-	/**
-	 * Metodo que permite crear un tipo documental en el sistema
-	 *
-	 * @param tipo, DTO Con los datos del tipo documental a crear
-	 */
-	private void crearTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
-
-		// no puede existir otro tipo documental con el mismo nombre
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsNombreTipoDocumental(null),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(tipo.getNombre(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_NOMBRE_TIPODOCUMENTAL.value);
-		}
-
-		// se procede a CREAR el tipo documental
-		int respuesta = insertUpdate(connection,
-				SQLArchivoGestion.INSERT_TIPO_DOCUMENTAL,
-				ValueSQL.get(tipo.getNombre(), Types.VARCHAR));
-
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
-		}
-	}
-
-	/**
-	 * Metodo que permite editar un tipo documental en el sistema
-	 *
-	 * @param tipo, DTO Con los datos del tipo documental a editar
-	 */
-	private void editarTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
-
-		// no puede existir otro tipo documental con el mismo nombre
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsNombreTipoDocumental(tipo.getId()),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(tipo.getNombre(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_EXISTE_NOMBRE_TIPODOCUMENTAL.value);
-		}
-
-		// se procede a EDITAR el tipo documental
-		int respuesta = insertUpdate(connection,
-				SQLArchivoGestion.EDITAR_TIPO_DOCUMENTAL,
-				ValueSQL.get(tipo.getNombre(), Types.VARCHAR),
-				ValueSQL.get(tipo.getId(), Types.INTEGER));
-
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
-		}
-	}
-
-	/**
-	 * Metodo que permite eliminar un tipo documental en el sistema
-	 *
-	 * @param tipo, DTO con los datos del tipo documental a eliminar
-	 */
-	private void eliminarTipoDocumental(TipoDocumentalDTO tipo, Connection connection) throws Exception {
-
-		// se utiliza para el proceso de eliminacion
-		ValueSQL idTipoDocumental = ValueSQL.get(tipo.getId(), Types.INTEGER);
-
-		// se verifica si el tipo documental se encuentra asociado a una SERIE
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.EXISTS_SERIES_TIPO_DOCUMENTAL,
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				idTipoDocumental)) {
-			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
-		}
-
-		// se verifica si el tipo documental se encuentra asociado a una SUBSERIE
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.EXISTS_SUBSERIES_TIPO_DOCUMENTAL,
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				idTipoDocumental)) {
-			throw new BusinessException(MessagesKey.KEY_ELIMINAR_TIPO_DOCUMENTAL.value);
-		}
-
-		// se realiza la eliminacion del tipo documental
-		int respuesta = insertUpdate(connection, SQLArchivoGestion.ELIMINAR_TIPO_DOCUMENTAL, idTipoDocumental);
-
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
-		}
 	}
 }
