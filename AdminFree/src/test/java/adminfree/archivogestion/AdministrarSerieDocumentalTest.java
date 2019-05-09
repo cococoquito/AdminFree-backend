@@ -40,8 +40,8 @@ public class AdministrarSerieDocumentalTest {
 			SerieDocumentalDTO serie = new SerieDocumentalDTO();
 			serie.setTipoEvento(TipoEvento.CREAR);
 			serie.setIdCliente(1);
-			serie.setCodigo("90.0.12");
-			serie.setNombre("HOJAS DE VIDA2");
+			serie.setCodigo("90.0.462");
+			serie.setNombre("HOJAS DE VIDA9");
 			serie.setTiempoArchivoGestion(1);
 			serie.setTiempoArchivoCentral(0);
 			serie.setConservacionTotal(true);
@@ -53,14 +53,17 @@ public class AdministrarSerieDocumentalTest {
 
 			// se agregan los tipos documentales
 			TipoDocumentalDTO doc1 = new TipoDocumentalDTO();
-			doc1.setId(1);
+			doc1.setNombre("acta de prubas uno");
 			TipoDocumentalDTO doc2 = new TipoDocumentalDTO();
-			doc2.setId(5);
+			doc2.setNombre("acta de prubas dos");
 			TipoDocumentalDTO doc3 = new TipoDocumentalDTO();
-			doc3.setId(3);
+			doc3.setId(28);
+			TipoDocumentalDTO doc4 = new TipoDocumentalDTO();
+			doc4.setId(29);
 			serie.agregarTipoDocumental(doc1);
 			serie.agregarTipoDocumental(doc2);
 			serie.agregarTipoDocumental(doc3);
+			serie.agregarTipoDocumental(doc4);
 			this.archivoGestionService.administrarSerieDocumental(serie);
 
 			// test para la edicion de la serie
