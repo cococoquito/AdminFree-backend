@@ -9,6 +9,7 @@ import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
 import adminfree.enums.Numero;
+import adminfree.persistence.ValueSQL;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de archivo de gestion
@@ -25,6 +26,7 @@ public class MapperArchivoGestion extends Mapper {
 	public static final int GET_SUBSERIES_SERIES = 3;
 	public static final int GET_TIPOS_DOC_SERIES = 4;
 	public static final int GET_TIPOS_DOC_SUBSERIES = 5;
+	public static final int GET_TIPOS_DOCUMENTALES_SERIE = 6;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -72,6 +74,10 @@ public class MapperArchivoGestion extends Mapper {
 			case MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES:
 				getTiposDocSubSeries(res, parametro);
 				break;
+
+			case MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_SERIE:
+				result = getTiposDocumentalesSerie(res, parametro);
+				break;
 		}
 		return result;
 	}
@@ -92,6 +98,16 @@ public class MapperArchivoGestion extends Mapper {
 				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo que permite configurar los tipos documentales asociados a una serie
+	 */
+	private Object getTiposDocumentalesSerie(ResultSet res, Object parametro) throws Exception {
+		if (parametro != null) {
+			return getTiposDocumentalesOrigen(res, parametro);
+		}
+		return getTiposDocumentales(res);
 	}
 
 	/**
@@ -291,6 +307,35 @@ public class MapperArchivoGestion extends Mapper {
 				tipos = new ArrayList<>();
 			}
 			tipos.add(tipo);
+		}
+		return tipos;
+	}
+
+	/**
+	 * Metodo para configurar los tipos documentales teniendo en cuenta el origen
+	 */
+	private Object getTiposDocumentalesOrigen(ResultSet res, Object origenes) throws Exception {
+		List<List<ValueSQL>> listOrigenes = (List<List<ValueSQL>>) origenes;
+		List<TipoDocumentalDTO> tipos = null;
+		TipoDocumentalDTO tipo;
+		String nombre;
+		while (res.next()) {
+			nombre = res.getString(Numero.DOS.valueI);
+			main:
+			for (List<ValueSQL> items : listOrigenes) {
+				for (ValueSQL item : items) {
+					if (((String) item.getValor()).equals(nombre)) {
+						tipo = new TipoDocumentalDTO();
+						tipo.setId(res.getInt(Numero.UNO.valueI));
+						tipo.setNombre(nombre);
+						if (tipos == null) {
+							tipos = new ArrayList<>();
+						}
+						tipos.add(tipo);
+						break main;
+					}
+				}
+			}
 		}
 		return tipos;
 	}

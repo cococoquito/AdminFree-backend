@@ -13,6 +13,9 @@ public class SQLArchivoGestion {
 	/** SQL para obtener los tipos documentales asociados a un cliente*/
 	public static final String GET_TIPOS_DOCUMENTALES = "SELECT ID_TIPO_DOC,NOMBRE FROM TIPOS_DOCUMENTALES WHERE CLIENTE=? ORDER BY NOMBRE";
 
+	/** SQL para obtener los tipos documentales asociados a una serie documental*/
+	public static final String GET_TIPOS_DOCUMENTALES_SERIE = "SELECT TS.ID_TIPO_DOC,TD.NOMBRE FROM TIPOS_DOCUMENTALES_SERIES TS JOIN TIPOS_DOCUMENTALES TD ON(TD.ID_TIPO_DOC=TS.ID_TIPO_DOC)WHERE TS.ID_SERIE=? ORDER BY TD.NOMBRE ASC";
+
 	/** SQL para insertar una serie documental*/
 	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
 
