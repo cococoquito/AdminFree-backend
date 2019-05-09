@@ -70,12 +70,12 @@ public class AdministrarSerieDocumentalTest {
 			editar.setIdSerie(1L);
 			editar.setCodigo("25.1.1");
 			editar.setNombre("PRIMERA SERIE");
-			serie.setTiempoArchivoGestion(null);
-			serie.setTiempoArchivoCentral(null);
-			serie.setConservacionTotal(false);
-			serie.setMicrofilmacion(false);
-			serie.setSeleccion(false);
-			serie.setEliminacion(false);
+			editar.setTiempoArchivoGestion(null);
+			editar.setTiempoArchivoCentral(null);
+			editar.setConservacionTotal(false);
+			editar.setMicrofilmacion(false);
+			editar.setSeleccion(false);
+			editar.setEliminacion(false);
 			editar.setProcedimiento("procedimiento editado");
 			editar.agregarTipoDocumental(doc2);
 			this.archivoGestionService.administrarSerieDocumental(editar);
