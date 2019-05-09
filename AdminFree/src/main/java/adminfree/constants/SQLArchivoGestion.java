@@ -10,11 +10,8 @@ import java.util.List;
  */
 public class SQLArchivoGestion {
 
-	/** SQL para obtener los tipos documentales parametrizados en el sistema*/
+	/** SQL para obtener los tipos documentales asociados a un cliente*/
 	public static final String GET_TIPOS_DOCUMENTALES = "SELECT ID_TIPO_DOC,NOMBRE FROM TIPOS_DOCUMENTALES WHERE CLIENTE=? ORDER BY NOMBRE";
-
-	/** SQL para insertar un tipo documental*/
-	public static final String INSERT_TIPO_DOCUMENTAL = "INSERT INTO TIPOS_DOCUMENTALES(NOMBRE)VALUES(?)";
 
 	/** SQL para insertar una serie documental*/
 	public static final String INSERT_SERIE = "INSERT INTO SERIES_DOCUMENTALES(CLIENTE,CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO,FECHA_CREACION,USUARIO_CREACION)VALUES(?,?,?,?,?,?,?,?,?,?,CURDATE(),?)";
@@ -131,6 +128,27 @@ public class SQLArchivoGestion {
 	public static String insertTipoDocumentalSubSerie(Integer idDoc, Long idSubSerie) {
 		StringBuilder sql = new StringBuilder("INSERT INTO TIPOS_DOCUMENTALES_SUBSERIES(ID_TIPO_DOC,ID_SUBSERIE)VALUES(");
 		sql.append(idDoc).append(",").append(idSubSerie).append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para construir el INSERT para la tabla TIPOS_DOCUMENTALES
+	 */
+	public static String insertTipoDocumental(Integer idCliente) {
+		StringBuilder sql = new StringBuilder("INSERT INTO TIPOS_DOCUMENTALES(NOMBRE,CLIENTE)VALUES(?,");
+		sql.append(idCliente).append(")");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para construir el INSERT para la tabla TIPOS_DOCUMENTALES_SERIES sin el ID del tipos documentales
+	 */
+	public static String insertTipoDocumentalSerieSinID(Integer idCliente, Long idSerie) {
+		StringBuilder sql = new StringBuilder("INSERT INTO TIPOS_DOCUMENTALES_SERIES(ID_SERIE,ID_TIPO_DOC)VALUES(");
+		sql.append(idSerie);
+		sql.append(",(SELECT ID_TIPO_DOC FROM TIPOS_DOCUMENTALES WHERE CLIENTE=");
+		sql.append(idCliente);
+		sql.append(" AND NOMBRE=?))");
 		return sql.toString();
 	}
 }
