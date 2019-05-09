@@ -181,25 +181,25 @@ public class MapperArchivoGestion extends Mapper {
 			subserie.setIdSerie(res.getLong(Numero.DOS.valueI));
 			subserie.setCodigo(res.getString(Numero.TRES.valueI));
 			subserie.setNombre(res.getString(Numero.CUATRO.valueI));
-			subserie.setAG(res.getInt(Numero.CINCO.valueI));
+			subserie.setTiempoArchivoGestion(res.getInt(Numero.CINCO.valueI));
 			if (res.wasNull()) {
-				subserie.setAG(null);
+				subserie.setTiempoArchivoGestion(null);
 			}
-			subserie.setAC(res.getInt(Numero.SEIS.valueI));
+			subserie.setTiempoArchivoCentral(res.getInt(Numero.SEIS.valueI));
 			if (res.wasNull()) {
-				subserie.setAC(null);
+				subserie.setTiempoArchivoCentral(null);
 			}
 			if (res.getInt(Numero.SIETE.valueI) == UNO) {
-				subserie.setCT(true);
+				subserie.setConservacionTotal(true);
 			}
 			if (res.getInt(Numero.OCHO.valueI) == UNO) {
-				subserie.setM(true);
+				subserie.setMicrofilmacion(true);
 			}
 			if (res.getInt(Numero.NUEVE.valueI) == UNO) {
-				subserie.setS(true);
+				subserie.setSeleccion(true);
 			}
 			if (res.getInt(Numero.DIEZ.valueI) == UNO) {
-				subserie.setE(true);
+				subserie.setEliminacion(true);
 			}
 			subserie.setProcedimiento(res.getString(Numero.ONCE.valueI));
 
@@ -243,25 +243,25 @@ public class MapperArchivoGestion extends Mapper {
 			serie.setIdSerie(res.getLong(Numero.UNO.valueI));
 			serie.setCodigo(res.getString(Numero.DOS.valueI));
 			serie.setNombre(res.getString(Numero.TRES.valueI));
-			serie.setAG(res.getInt(Numero.CUATRO.valueI));
+			serie.setTiempoArchivoGestion(res.getInt(Numero.CUATRO.valueI));
 			if (res.wasNull()) {
-				serie.setAG(null);
+				serie.setTiempoArchivoGestion(null);
 			}
-			serie.setAC(res.getInt(Numero.CINCO.valueI));
+			serie.setTiempoArchivoCentral(res.getInt(Numero.CINCO.valueI));
 			if (res.wasNull()) {
-				serie.setAC(null);
+				serie.setTiempoArchivoCentral(null);
 			}
 			if (res.getInt(Numero.SEIS.valueI) == UNO) {
-				serie.setCT(true);
+				serie.setConservacionTotal(true);
 			}
 			if (res.getInt(Numero.SIETE.valueI) == UNO) {
-				serie.setM(true);
+				serie.setMicrofilmacion(true);
 			}
 			if (res.getInt(Numero.OCHO.valueI) == UNO) {
-				serie.setS(true);
+				serie.setSeleccion(true);
 			}
 			if (res.getInt(Numero.NUEVE.valueI) == UNO) {
-				serie.setE(true);
+				serie.setEliminacion(true);
 			}
 			serie.setProcedimiento(res.getString(Numero.DIEZ.valueI));
 

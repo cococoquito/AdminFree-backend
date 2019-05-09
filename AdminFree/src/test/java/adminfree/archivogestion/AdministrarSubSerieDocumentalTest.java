@@ -43,12 +43,12 @@ public class AdministrarSubSerieDocumentalTest {
 			crear.setIdSerie(9l);
 			crear.setCodigo("25.1.2-2");
 			crear.setNombre("PETICION PARA PREDIAL");
-			crear.setAG(1);
-			crear.setAC(0);
-			crear.setCT(true);
-			crear.setM(true);
-			crear.setS(true);
-			crear.setE(true);
+			crear.setTiempoArchivoGestion(1);
+			crear.setTiempoArchivoCentral(0);
+			crear.setConservacionTotal(true);
+			crear.setMicrofilmacion(true);
+			crear.setSeleccion(true);
+			crear.setEliminacion(true);
 			crear.setProcedimiento("Este es el procedimiento de la SUB-serie");
 			crear.setIdUsuarioCreacion(1);
 
@@ -72,12 +72,12 @@ public class AdministrarSubSerieDocumentalTest {
 			editar.setIdSerie(8l);
 			editar.setCodigo("25.1.2-2");
 			editar.setNombre("PETICION PARA VALORIZACION");
-			editar.setAG(null);
-			editar.setAC(null);
-			editar.setCT(false);
-			editar.setM(false);
-			editar.setS(false);
-			editar.setE(false);
+			editar.setTiempoArchivoGestion(null);
+			editar.setTiempoArchivoCentral(null);
+			editar.setConservacionTotal(false);
+			editar.setMicrofilmacion(false);
+			editar.setSeleccion(false);
+			editar.setEliminacion(false);
 			editar.setProcedimiento("procedimiento");
 			editar.agregarTipoDocumental(doc2);
 			this.archivoGestionService.administrarSubSerieDocumental(editar);

@@ -19,23 +19,23 @@ public class Documental implements Serializable {
 	/** Nombre de la serie o subserie */
 	private String nombre;
 
-	/** Tiempo en archivo gestion */
-	private Integer AG;
+	/** Tiempo en archivo gestion (AG)*/
+	private Integer tiempoArchivoGestion;
 
-	/** Tiempo en archivo central */
-	private Integer AC;
+	/** Tiempo en archivo central (AC) */
+	private Integer tiempoArchivoCentral;
 
-	/** Conservacion total */
-	private boolean CT;
+	/** Conservacion total (CT)*/
+	private boolean conservacionTotal;
 
-	/** Microfilmacion / digitalizacion */
-	private boolean M;
+	/** Microfilmacion / digitalizacion (M) */
+	private boolean microfilmacion;
 
-	/** Seleccion */
-	private boolean S;
+	/** Seleccion (S)*/
+	private boolean seleccion;
 
-	/** Eliminacion */
-	private boolean E;
+	/** Eliminacion (E)*/
+	private boolean eliminacion;
 
 	/** Procedimiento de la serie o sub-serie */
 	private String procedimiento;
@@ -77,48 +77,6 @@ public class Documental implements Serializable {
 	 */
 	public String getNombre() {
 		return nombre;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo aG
-	 */
-	public Integer getAG() {
-		return AG;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo aC
-	 */
-	public Integer getAC() {
-		return AC;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo cT
-	 */
-	public boolean isCT() {
-		return CT;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo m
-	 */
-	public boolean isM() {
-		return M;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo s
-	 */
-	public boolean isS() {
-		return S;
-	}
-
-	/**
-	 * Metodo que permite obtener el valor del atributo e
-	 */
-	public boolean isE() {
-		return E;
 	}
 
 	/**
@@ -174,54 +132,6 @@ public class Documental implements Serializable {
 
 	/**
 	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param aG
-	 */
-	public void setAG(Integer aG) {
-		AG = aG;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param aC
-	 */
-	public void setAC(Integer aC) {
-		AC = aC;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param cT
-	 */
-	public void setCT(boolean cT) {
-		CT = cT;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param m
-	 */
-	public void setM(boolean m) {
-		M = m;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param s
-	 */
-	public void setS(boolean s) {
-		S = s;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param e
-	 */
-	public void setE(boolean e) {
-		E = e;
-	}
-
-	/**
-	 * Metodo que permite configurar el nuevo valor 
 	 * para el atributo @param procedimiento
 	 */
 	public void setProcedimiento(String procedimiento) {
@@ -273,5 +183,95 @@ public class Documental implements Serializable {
 	 */
 	public void setTiposDocumentales(List<TipoDocumentalDTO> tiposDocumentales) {
 		this.tiposDocumentales = tiposDocumentales;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tiempoArchivoGestion
+	 */
+	public Integer getTiempoArchivoGestion() {
+		return tiempoArchivoGestion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo tiempoArchivoCentral
+	 */
+	public Integer getTiempoArchivoCentral() {
+		return tiempoArchivoCentral;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo conservacionTotal
+	 */
+	public boolean isConservacionTotal() {
+		return conservacionTotal;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo microfilmacion
+	 */
+	public boolean isMicrofilmacion() {
+		return microfilmacion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo seleccion
+	 */
+	public boolean isSeleccion() {
+		return seleccion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo eliminacion
+	 */
+	public boolean isEliminacion() {
+		return eliminacion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tiempoArchivoGestion
+	 */
+	public void setTiempoArchivoGestion(Integer tiempoArchivoGestion) {
+		this.tiempoArchivoGestion = tiempoArchivoGestion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param tiempoArchivoCentral
+	 */
+	public void setTiempoArchivoCentral(Integer tiempoArchivoCentral) {
+		this.tiempoArchivoCentral = tiempoArchivoCentral;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param conservacionTotal
+	 */
+	public void setConservacionTotal(boolean conservacionTotal) {
+		this.conservacionTotal = conservacionTotal;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param microfilmacion
+	 */
+	public void setMicrofilmacion(boolean microfilmacion) {
+		this.microfilmacion = microfilmacion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param seleccion
+	 */
+	public void setSeleccion(boolean seleccion) {
+		this.seleccion = seleccion;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param eliminacion
+	 */
+	public void setEliminacion(boolean eliminacion) {
+		this.eliminacion = eliminacion;
 	}
 }

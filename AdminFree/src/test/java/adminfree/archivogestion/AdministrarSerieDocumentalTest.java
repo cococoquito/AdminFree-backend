@@ -42,12 +42,12 @@ public class AdministrarSerieDocumentalTest {
 			serie.setIdCliente(1);
 			serie.setCodigo("90.0.12");
 			serie.setNombre("HOJAS DE VIDA2");
-			serie.setAG(1);
-			serie.setAC(0);
-			serie.setCT(true);
-			serie.setM(true);
-			serie.setS(true);
-			serie.setE(true);
+			serie.setTiempoArchivoGestion(1);
+			serie.setTiempoArchivoCentral(0);
+			serie.setConservacionTotal(true);
+			serie.setMicrofilmacion(true);
+			serie.setSeleccion(true);
+			serie.setEliminacion(true);
 			serie.setProcedimiento("Este es el procedimiento DE HV");
 			serie.setIdUsuarioCreacion(null);
 
@@ -70,12 +70,12 @@ public class AdministrarSerieDocumentalTest {
 			editar.setIdSerie(1L);
 			editar.setCodigo("25.1.1");
 			editar.setNombre("PRIMERA SERIE");
-			editar.setAG(null);
-			editar.setAC(null);
-			editar.setCT(false);
-			editar.setM(false);
-			editar.setS(false);
-			editar.setE(false);
+			serie.setTiempoArchivoGestion(null);
+			serie.setTiempoArchivoCentral(null);
+			serie.setConservacionTotal(false);
+			serie.setMicrofilmacion(false);
+			serie.setSeleccion(false);
+			serie.setEliminacion(false);
 			editar.setProcedimiento("procedimiento editado");
 			editar.agregarTipoDocumental(doc2);
 			this.archivoGestionService.administrarSerieDocumental(editar);
