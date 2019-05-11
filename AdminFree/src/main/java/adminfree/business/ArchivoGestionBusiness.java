@@ -151,7 +151,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 			// se consultan las subseries asociadas a las series consultadas
 			findParams(connection,
-					SQLArchivoGestion.getSQLSubseries(idsSeries),
+					SQLArchivoGestion.getSQLSubSeriesDocumentalesIN(idsSeries),
 					MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
 					paramsGetSubSeries);
 
@@ -246,6 +246,46 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 		}
 		return response;
+	}
+
+	/**
+	 * Metodo que permite obtener las subseries documentales relacionadas a una serie documental
+	 *
+	 * @param idSerie, identificador de la serie documental
+	 * @return lista de subseries documentales relacionadas a una serie documental
+	 */
+	public List<SubSerieDocumentalDTO> getSubSeriesDocumental(Long idSerie, Connection connection) throws Exception {
+
+		// objecto para encapsular el identificador de la serie documental
+		SerieDocumentalDTO serie = new SerieDocumentalDTO();
+		serie.setIdSerie(idSerie);
+
+		// se necesita esta lista para el mapper de obtener las subseries documentales
+		List<SerieDocumentalDTO> series = new ArrayList<>();
+		series.add(serie);
+
+		// son los parametros a enviar al mapper para obtener las subseries documentales
+		StringBuilder idsSubSerie = new StringBuilder();
+		List<Object> paramsGetSubSeries = new ArrayList<>();
+		paramsGetSubSeries.add(series);
+		paramsGetSubSeries.add(idsSubSerie);
+
+		// se procede a consultar las sub-series asociadas a la serie documental
+		findParams(connection,
+				SQLArchivoGestion.getSQLSubSeriesDocumentales(idSerie),
+				MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
+				paramsGetSubSeries);
+
+		// si hay subseries consultadas se procede a obtener sus tipos documentales
+		if (idsSubSerie.length() > Numero.ZERO.valueI.intValue()) {
+			findParams(connection,
+					SQLArchivoGestion.getSQLTiposDocSubSerie(idsSubSerie),
+					MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES),
+					series);
+		}
+
+		// se retornan las subseries consultadas
+		return serie.getSubSeries();
 	}
 
 	/**
@@ -464,35 +504,8 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		// se procede a eliminar la sub-serie con sus tablas asociadas
 		batchSinInjection(connection, SQLArchivoGestion.deleteSubSerieDocumental(subserie.getIdSubSerie()));
 
-		// parametro lista de series para consultar las subseries
-		SerieDocumentalDTO serie = new SerieDocumentalDTO();
-		serie.setIdSerie(subserie.getIdSerie());
-		List<SerieDocumentalDTO> series = new ArrayList<>();
-		series.add(serie);
-
-		// se utiliza para encapsular los ids de las subseries consultadas
-		StringBuilder idsSubSerie = new StringBuilder();
-		List<Object> paramsGetSubSeries = new ArrayList<>();
-		paramsGetSubSeries.add(series);
-		paramsGetSubSeries.add(idsSubSerie);
-
 		// se consultan las subseries asociadas a la serie propietaria de la subserie eliminada
-		StringBuilder idsSerie = new StringBuilder(subserie.getIdSerie().toString());
-		findParams(connection,
-				SQLArchivoGestion.getSQLSubseries(idsSerie),
-				MapperArchivoGestion.get(MapperArchivoGestion.GET_SUBSERIES_SERIES),
-				paramsGetSubSeries);
-
-		// si hay subseries consultadas se procede a obtener sus tipos documentales
-		if (idsSubSerie.length() > Numero.ZERO.valueI.intValue()) {
-			findParams(connection,
-					SQLArchivoGestion.getSQLTiposDocSubSerie(idsSubSerie),
-					MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOC_SUBSERIES),
-					series);
-		}
-
-		// se retornan las subseries consultadas
-		return serie.getSubSeries();
+		return getSubSeriesDocumental(subserie.getIdSerie(), connection);
 	}
 
 	/**

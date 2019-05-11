@@ -126,4 +126,23 @@ public class ArchivoGestionService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener las subseries documentales relacionadas a una serie documental
+	 *
+	 * @param idSerie, identificador de la serie documental
+	 * @return lista de subseries documentales relacionadas a una serie documental
+	 */
+	public List<SubSerieDocumentalDTO> getSubSeriesDocumental(Long idSerie) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD de AdminFree
+			connection = this.adminFreeDS.getConnection();
+
+			// se procede a consultar las subseries documentales asociadas a una serie
+			return new ArchivoGestionBusiness().getSubSeriesDocumental(idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

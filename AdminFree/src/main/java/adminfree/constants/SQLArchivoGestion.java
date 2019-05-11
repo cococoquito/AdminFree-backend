@@ -47,11 +47,20 @@ public class SQLArchivoGestion {
 	public static final String EXISTS_SUBSERIE_TRD = "SELECT EXISTS(SELECT * FROM TRDS WHERE ID_SUBSERIE=?)";
 
 	/**
-	 * SQL para obtener las subseries que le pertenece a cada serie documental
+	 * SQL para obtener las subseries documentales asociadas a un conjunto de series documentales
 	 */
-	public static String getSQLSubseries(StringBuilder idsSerie) {
+	public static String getSQLSubSeriesDocumentalesIN(StringBuilder idsSerie) {
 		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,LOWER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE IN(");
 		sql.append(idsSerie).append(")ORDER BY ID_SERIE ASC,CODIGO ASC");
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para obtener las subseries documentales asociadas a una serie documental
+	 */
+	public static String getSQLSubSeriesDocumentales(Long idSerie) {
+		StringBuilder sql = new StringBuilder("SELECT ID_SUBSERIE,ID_SERIE,CODIGO,LOWER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SERIE=");
+		sql.append(idSerie).append(" ORDER BY ID_SERIE ASC,CODIGO ASC");
 		return sql.toString();
 	}
 

@@ -132,4 +132,23 @@ public class ArchivoGestionRest {
 			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".administrarSubSerieDocumental ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Servicio que permite obtener las subseries documentales relacionadas a una serie documental
+	 *
+	 * @param idSerie, identificador de la serie documental
+	 * @return lista de subseries documentales relacionadas a una serie documental
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_SUBSERIES,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getSubSeriesDocumental(@RequestParam Long idSerie) {
+		try {
+			return Util.getResponseSuccessful(this.archivoGestionService.getSubSeriesDocumental(idSerie));
+		} catch (Exception e) {
+			return Util.getResponseError(ArchivoGestionRest.class.getSimpleName() + ".getSubSeriesDocumental ", e.getMessage());
+		}
+	}
 }
