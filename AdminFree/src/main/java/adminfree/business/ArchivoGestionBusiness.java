@@ -234,7 +234,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		switch (tipoEvento) {
 
 			case TipoEvento.CREAR:
-				crearSubSerieDocumental(subserie, connection);
+				response = crearSubSerieDocumental(subserie, connection);
 				break;
 
 			case TipoEvento.EDITAR:
@@ -250,9 +250,11 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite crear una subserie documental en el sistema
+	 *
 	 * @param subserie, DTO que contiene los datos de la subserie
+	 * @return tipos documentales que fueron asociados a la sub-serie y no existian en BD
 	 */
-	private void crearSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+	private List<TipoDocumentalDTO> crearSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
 
 		// se utiliza para varios proceso
 		Integer idCliente = subserie.getIdCliente();
@@ -279,6 +281,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 		try {
 			connection.setAutoCommit(false);
 
+			// identificador de la nueva sub-serie documental
+			Long idSubSerie = null;
+
+			// si esta variable contiene informacion indica que se debe consultar los tipos documentales
+			List<List<ValueSQL>> insertsTiposDocSerieINJ = null;
+
 			// se procede a insertar la subserie
 			int respuesta = insertUpdate(
 					connection,
@@ -300,27 +308,71 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
 			}
 
-			// se verifica si hay tipos documentales
+			// se verifica si hay tipos documentales asociados a la sub-serie
 			List<TipoDocumentalDTO> tiposDocumentales = subserie.getTiposDocumentales();
 			if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
 
 				// se obtiene el identificador de la sub-serie documental creada
-				Long idSubSerie = (Long) find(connection,
+				idSubSerie = (Long) find(connection,
 						CommonConstant.LAST_INSERT_ID,
 						MapperTransversal.get(MapperTransversal.GET_ID));
 
-				// se utiliza para agregar todos los inserts de los tipos documentales
-				List<String> inserts = new ArrayList<>();
+				// se utiliza para insertar la relacion entre tipos documentales y la sub-serie documental SIN injections
+				List<String> insertsTiposDocSerie = null;
 
 				// se recorre cada tipo documental asociada a esta sub-serie
+				List<ValueSQL> params;
 				for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
-					inserts.add(SQLArchivoGestion.insertTipoDocumentalSubSerie(tipoDocumental.getId(), idSubSerie));
+
+					// debe existir el ID o el NOMBRE del tipo documental para proceder con la asociacion
+					if (tipoDocumental.getId() != null || !Util.isNull(tipoDocumental.getNombre())) {
+
+						// puede llegar tipos documentales que no existan en BD
+						if (tipoDocumental.getId() == null) {
+
+							// se agrega lista para insertar los tipos documentales y la relacion de estos y la sub-serie documentales
+							params = new ArrayList<>();
+							params.add(ValueSQL.get(tipoDocumental.getNombre(), Types.VARCHAR));
+							if (insertsTiposDocSerieINJ == null) {
+								insertsTiposDocSerieINJ = new ArrayList<>();
+							}
+							insertsTiposDocSerieINJ.add(params);
+						} else {
+							// se agrega lista para insertar la relacion entre tipos documentales y sub-serie documental SIN injections
+							if (insertsTiposDocSerie == null) {
+								insertsTiposDocSerie = new ArrayList<>();
+							}
+							insertsTiposDocSerie.add(SQLArchivoGestion.insertTipoDocumentalSubSerie(tipoDocumental.getId(), idSubSerie));
+						}
+					}
 				}
 
-				// se procede a ejecutar los inserts
-				batchSinInjection(connection, inserts);
+				// inserta los tipos documentales que no existen en BD y la relacion de estos con la sub-serie
+				if (insertsTiposDocSerieINJ != null) {
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumental(idCliente),
+							insertsTiposDocSerieINJ);
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumentalSubSerieSinID(idCliente, idSubSerie),
+							insertsTiposDocSerieINJ);
+				}
+
+				// se inserta la relacion entre los tipos documentales y la sub-serie documental SIN injections
+				if (insertsTiposDocSerie != null) {
+					batchSinInjection(connection, insertsTiposDocSerie);
+				}
 			}
 			connection.commit();
+
+			// se verifica si se debe consultar los tipos documentales asociados a la nueva sub-serie
+			if (insertsTiposDocSerieINJ != null) {
+				return (List<TipoDocumentalDTO>) findParams(connection,
+						SQLArchivoGestion.GET_TIPOS_DOCUMENTALES_SUBSERIE,
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_FILTRO),
+						insertsTiposDocSerieINJ,
+						ValueSQL.get(idSubSerie, Types.BIGINT));
+			}
+			return null;
 		} catch (Exception e) {
 			connection.rollback();
 			throw e;
@@ -447,6 +499,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 	 * Metodo que permite crear una serie documental en el sistema
 	 *
 	 * @param serie, DTO que contiene los datos de la serie
+	 * @return tipos documentales que fueron asociados a la serie y no existian en BD
 	 */
 	private List<TipoDocumentalDTO> crearSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
 
@@ -540,8 +593,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 				// inserta los tipos documentales que no existen en BD y la relacion de estos con la serie
 				if (insertsTiposDocSerieINJ != null) {
-					batchConInjection(connection, SQLArchivoGestion.insertTipoDocumental(idCliente), insertsTiposDocSerieINJ);
-					batchConInjection(connection, SQLArchivoGestion.insertTipoDocumentalSerieSinID(idCliente, idSerie), insertsTiposDocSerieINJ);
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumental(idCliente),
+							insertsTiposDocSerieINJ);
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumentalSerieSinID(idCliente, idSerie),
+							insertsTiposDocSerieINJ);
 				}
 
 				// se inserta la relacion entre los tipos documentales y la serie documental SIN injections
@@ -555,7 +612,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			if (insertsTiposDocSerieINJ != null) {
 				return (List<TipoDocumentalDTO>) findParams(connection,
 						SQLArchivoGestion.GET_TIPOS_DOCUMENTALES_SERIE,
-						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_SERIE),
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_FILTRO),
 						insertsTiposDocSerieINJ,
 						ValueSQL.get(idSerie, Types.BIGINT));
 			}

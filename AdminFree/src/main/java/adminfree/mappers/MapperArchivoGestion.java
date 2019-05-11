@@ -26,7 +26,7 @@ public class MapperArchivoGestion extends Mapper {
 	public static final int GET_SUBSERIES_SERIES = 3;
 	public static final int GET_TIPOS_DOC_SERIES = 4;
 	public static final int GET_TIPOS_DOC_SUBSERIES = 5;
-	public static final int GET_TIPOS_DOCUMENTALES_SERIE = 6;
+	public static final int GET_TIPOS_DOCUMENTALES_FILTRO = 6;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -75,8 +75,8 @@ public class MapperArchivoGestion extends Mapper {
 				getTiposDocSubSeries(res, parametro);
 				break;
 
-			case MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_SERIE:
-				result = getTiposDocumentalesSerie(res, parametro);
+			case MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_FILTRO:
+				result = getTiposDocumentalesFiltro(res, parametro);
 				break;
 		}
 		return result;
@@ -101,11 +101,11 @@ public class MapperArchivoGestion extends Mapper {
 	}
 
 	/**
-	 * Metodo que permite configurar los tipos documentales asociados a una serie
+	 * Permite configurar los tipos documentales teniendo en cuenta el filtro que llega por parametro
 	 */
-	private Object getTiposDocumentalesSerie(ResultSet res, Object parametro) throws Exception {
+	private Object getTiposDocumentalesFiltro(ResultSet res, Object parametro) throws Exception {
 		if (parametro != null) {
-			return getTiposDocumentalesOrigen(res, parametro);
+			return getTiposDocumentalesConFiltro(res, parametro);
 		}
 		return getTiposDocumentales(res);
 	}
@@ -312,17 +312,17 @@ public class MapperArchivoGestion extends Mapper {
 	}
 
 	/**
-	 * Metodo para configurar los tipos documentales teniendo en cuenta el origen
+	 * Permite configurar los tipos documentales teniendo en cuenta el filtro que llega por parametro
 	 */
-	private Object getTiposDocumentalesOrigen(ResultSet res, Object origenes) throws Exception {
-		List<List<ValueSQL>> listOrigenes = (List<List<ValueSQL>>) origenes;
+	private Object getTiposDocumentalesConFiltro(ResultSet res, Object filtro) throws Exception {
+		List<List<ValueSQL>> listFiltro = (List<List<ValueSQL>>) filtro;
 		List<TipoDocumentalDTO> tipos = null;
 		TipoDocumentalDTO tipo;
 		String nombre;
 		while (res.next()) {
 			nombre = res.getString(Numero.DOS.valueI);
 			main:
-			for (List<ValueSQL> items : listOrigenes) {
+			for (List<ValueSQL> items : listFiltro) {
 				for (ValueSQL item : items) {
 					if (((String) item.getValor()).equals(nombre)) {
 						tipo = new TipoDocumentalDTO();

@@ -54,14 +54,17 @@ public class AdministrarSubSerieDocumentalTest {
 
 			// se agregan los tipos documentales
 			TipoDocumentalDTO doc1 = new TipoDocumentalDTO();
-			doc1.setId(1);
+			doc1.setNombre("acta de prubas uno");
 			TipoDocumentalDTO doc2 = new TipoDocumentalDTO();
-			doc2.setId(5);
+			doc2.setNombre("acta de prubas dos");
 			TipoDocumentalDTO doc3 = new TipoDocumentalDTO();
-			doc3.setId(3);
+			doc3.setId(28);
+			TipoDocumentalDTO doc4 = new TipoDocumentalDTO();
+			doc4.setId(29);
 			crear.agregarTipoDocumental(doc1);
 			crear.agregarTipoDocumental(doc2);
 			crear.agregarTipoDocumental(doc3);
+			crear.agregarTipoDocumental(doc4);
 			this.archivoGestionService.administrarSubSerieDocumental(crear);
 
 			// test para la edicion de la SUB-serie
