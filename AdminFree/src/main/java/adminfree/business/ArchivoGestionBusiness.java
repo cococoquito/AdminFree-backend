@@ -9,8 +9,10 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLArchivoGestion;
 import adminfree.constants.SQLTransversal;
 import adminfree.constants.TipoEvento;
+import adminfree.dtos.archivogestion.Documental;
 import adminfree.dtos.archivogestion.FiltroSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.InitAdminSeriesDocumentalesDTO;
+import adminfree.dtos.archivogestion.ResponseEdicionSerieSubserieDTO;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
@@ -205,7 +207,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 
 			case TipoEvento.EDITAR:
-				editarSerieDocumental(serie, connection);
+				response = editarSerieDocumental(serie, connection);
 				break;
 
 			case TipoEvento.ELIMINAR:
@@ -640,49 +642,180 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite editar una serie documental en el sistema
+	 *
 	 * @param serie, DTO que contiene los datos de la serie
+	 * @return DTO con los datos del los tipos documentales y los atributos actualizados
 	 */
-	private void editarSerieDocumental(SerieDocumentalDTO serie, Connection connection) throws Exception {
+	private ResponseEdicionSerieSubserieDTO editarSerieDocumental(
+			SerieDocumentalDTO serie,
+			Connection connection) throws Exception {
 
 		// se utilizan para varios proceso
 		Integer idCliente = serie.getIdCliente();
 		Long idSerie = serie.getIdSerie();
 
-		// se verifica si hay otra serie con el mismo NOMBRE
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsValorSerie("NOMBRE", idCliente, idSerie),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(serie.getNombre(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
+		// se valida el nombre y codigo solo si hay modificaciones en los datos generales
+		if (serie.isModificarDatosGenerales()) {
+
+			// se verifica si hay otra serie con el mismo NOMBRE
+			if ((boolean) find(connection,
+					SQLArchivoGestion.existsValorSerie("NOMBRE", idCliente, idSerie),
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(serie.getNombre(), Types.VARCHAR))) {
+				throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_NOMBRE.value);
+			}
+
+			// se verifica si hay otra serie con el mismo CODIGO
+			if ((boolean) find(connection,
+					SQLArchivoGestion.existsValorSerie("CODIGO", idCliente, idSerie),
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(serie.getCodigo(), Types.VARCHAR))) {
+				throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
+			}
 		}
 
-		// se verifica si hay otra serie con el mismo CODIGO
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsValorSerie("CODIGO", idCliente, idSerie),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(serie.getCodigo(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_SERIE_MISMO_CODIGO.value);
-		}
+		// para este proceso debe estar bajo transaccionalidad
+		try {
+			connection.setAutoCommit(false);
 
-		// se procede a editar la serie documental
-		int respuesta = insertUpdate(connection,
-				SQLArchivoGestion.EDIT_SERIE,
-				ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
-				ValueSQL.get(serie.getNombre(), Types.VARCHAR),
-				ValueSQL.get(serie.getTiempoArchivoGestion(), Types.INTEGER),
-				ValueSQL.get(serie.getTiempoArchivoCentral(), Types.INTEGER),
-				ValueSQL.get(serie.isConservacionTotal() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(serie.isMicrofilmacion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(serie.isSeleccion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(serie.isEliminacion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
-				ValueSQL.get(idSerie, Types.BIGINT));
+			// se verifica si se debe actualizar los datos generales de la serie documental
+			if (serie.isModificarDatosGenerales()) {
 
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+				// se procede a editar los datos generales de la serie
+				int respuesta = insertUpdate(connection,
+						SQLArchivoGestion.EDIT_SERIE,
+						ValueSQL.get(serie.getCodigo(), Types.VARCHAR),
+						ValueSQL.get(serie.getNombre(), Types.VARCHAR),
+						ValueSQL.get(serie.getTiempoArchivoGestion(), Types.INTEGER),
+						ValueSQL.get(serie.getTiempoArchivoCentral(), Types.INTEGER),
+						ValueSQL.get(serie.isConservacionTotal() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(serie.isMicrofilmacion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(serie.isSeleccion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(serie.isEliminacion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(serie.getProcedimiento(), Types.VARCHAR),
+						ValueSQL.get(idSerie, Types.BIGINT));
+
+				// se verifica si el proceso se ejecuto sin problemas
+				if (respuesta <= Numero.ZERO.valueI.intValue()) {
+					throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+				}
+			}
+
+			// se utiliza para almacenar los nombres de los nuevos tipos documentales
+			List<String> nombreTiposDocumentales = null;
+
+			// se verifica si se debe modificar los tipos documentales
+			if (serie.isModificarTiposDocumentales()) {
+
+				// se eliminan todos los tipos documentales de esta serie
+				List<String> dmls = new ArrayList<>();
+				dmls.add(SQLArchivoGestion.deleteTiposDocSerieSubserie("TIPOS_DOCUMENTALES_SERIES", "ID_SERIE", idSerie));
+
+				// se verifica si hay tipos documentales asociados a la serie
+				List<TipoDocumentalDTO> tiposDocumentales = serie.getTiposDocumentales();
+				if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
+
+					// se utiliza para insertar los tipos documentales y la relacion de estos y la serie documentales
+					List<List<ValueSQL>> insertsTiposDocSerieINJ = null;
+
+					// se recorre cada tipo documental asociada a esta serie
+					List<ValueSQL> params;
+					for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
+
+						// debe existir el ID o el NOMBRE del tipo documental para proceder con la asociacion
+						if (tipoDocumental.getId() != null || !Util.isNull(tipoDocumental.getNombre())) {
+
+							// puede llegar tipos documentales que no existan en BD
+							if (tipoDocumental.getId() == null) {
+
+								// se agrega lista para insertar los tipos documentales y la relacion de estos y la serie documentales
+								params = new ArrayList<>();
+								params.add(ValueSQL.get(tipoDocumental.getNombre(), Types.VARCHAR));
+								if (insertsTiposDocSerieINJ == null) {
+									insertsTiposDocSerieINJ = new ArrayList<>();
+								}
+								insertsTiposDocSerieINJ.add(params);
+
+								// se agrega el nombre como nuevo tipo documental
+								if (nombreTiposDocumentales == null) {
+									nombreTiposDocumentales = new ArrayList<>();
+								}
+								nombreTiposDocumentales.add(tipoDocumental.getNombre());
+							} else {
+								// se agrega lista para insertar la relacion entre tipos documentales y serie documental SIN injections
+								dmls.add(SQLArchivoGestion.insertTipoDocumentalSerie(tipoDocumental.getId(), idSerie));
+							}
+						}
+					}
+
+					// se ejecuta los DML SIN injections
+					batchSinInjection(connection, dmls);
+
+					// inserta los tipos documentales que no existen en BD y la relacion de estos con la serie
+					if (insertsTiposDocSerieINJ != null) {
+						batchConInjection(connection, SQLArchivoGestion.insertTipoDocumental(idCliente),
+								insertsTiposDocSerieINJ);
+						batchConInjection(connection,
+								SQLArchivoGestion.insertTipoDocumentalSerieSinID(idCliente, idSerie),
+								insertsTiposDocSerieINJ);
+					}
+				}
+			}
+
+			// se inidica los cambios sobre la BD
+			connection.commit();
+
+			// DTO que contiene los datos a retornar
+			ResponseEdicionSerieSubserieDTO response = new ResponseEdicionSerieSubserieDTO();
+
+			// si hay modificaciones en los datos generales se procede a consultarlos
+			Documental datosUpdate = null;
+			if (serie.isModificarDatosGenerales()) {
+				datosUpdate = (Documental) find(connection,
+						SQLArchivoGestion.getSQLDatosSerieSubserie("SERIES_DOCUMENTALES", "ID_SERIE", idSerie),
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_DATOS_DOCUMENTAL));
+			}
+
+			// si hay modificaciones en los tipos documentales, se procede a consultarlos
+			if (serie.isModificarTiposDocumentales()) {
+
+				// se obtiene los tipos documentales asociados a al serie
+				List<TipoDocumentalDTO> tiposDocumentales = (List<TipoDocumentalDTO>) findParams(
+						connection,
+						SQLArchivoGestion.GET_TIPOS_DOCUMENTALES_SERIE,
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_FILTRO),
+						null,
+						ValueSQL.get(idSerie, Types.BIGINT));
+
+				// se verifica si hay tipos documentales nuevos
+				if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
+
+					// se configura los tipos documentales en el response
+					datosUpdate = (datosUpdate == null) ? new Documental() : datosUpdate;
+					datosUpdate.setTiposDocumentales(tiposDocumentales);
+
+					// se configura los nuevos tipos documentales en el response
+					if (nombreTiposDocumentales != null && !nombreTiposDocumentales.isEmpty()) {
+						for (String nombre : nombreTiposDocumentales) {
+							for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
+								if (tipoDocumental.getNombre().equals(nombre)) {
+									response.agregarTipoDocumental(tipoDocumental);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// se retorna el DTO con el response
+			response.setDatosUpdate(datosUpdate);
+			return response;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 

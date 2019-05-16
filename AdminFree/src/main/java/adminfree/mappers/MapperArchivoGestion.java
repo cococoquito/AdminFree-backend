@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adminfree.constants.CommonConstant;
+import adminfree.dtos.archivogestion.Documental;
 import adminfree.dtos.archivogestion.SerieDocumentalDTO;
 import adminfree.dtos.archivogestion.SubSerieDocumentalDTO;
 import adminfree.dtos.archivogestion.TipoDocumentalDTO;
@@ -27,6 +28,7 @@ public class MapperArchivoGestion extends Mapper {
 	public static final int GET_TIPOS_DOC_SERIES = 4;
 	public static final int GET_TIPOS_DOC_SUBSERIES = 5;
 	public static final int GET_TIPOS_DOCUMENTALES_FILTRO = 6;
+	public static final int GET_DATOS_DOCUMENTAL = 7;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperArchivoGestion instance;
@@ -96,8 +98,47 @@ public class MapperArchivoGestion extends Mapper {
 			case MapperArchivoGestion.GET_TIPOS_DOCUMENTALES:
 				result = getTiposDocumentales(res);
 				break;
+
+			case MapperArchivoGestion.GET_DATOS_DOCUMENTAL:
+				result = getDatosDocumental(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Permite configurar los datos generales de un Documental
+	 */
+	private Documental getDatosDocumental(ResultSet res) throws Exception {
+		Documental response = null;
+		if (res.next()) {
+			final int UNO = Numero.UNO.valueI.intValue();
+			response = new Documental();
+			response.setCodigo(res.getString(Numero.UNO.valueI));
+			response.setNombre(res.getString(Numero.DOS.valueI));
+			response.setTiempoArchivoGestion(res.getInt(Numero.TRES.valueI));
+			if (res.wasNull()) {
+				response.setTiempoArchivoGestion(null);
+			}
+			response.setTiempoArchivoCentral(res.getInt(Numero.CUATRO.valueI));
+			if (res.wasNull()) {
+				response.setTiempoArchivoCentral(null);
+			}
+			if (res.getInt(Numero.CINCO.valueI) == UNO) {
+				response.setConservacionTotal(true);
+			}
+			if (res.getInt(Numero.SEIS.valueI) == UNO) {
+				response.setMicrofilmacion(true);
+			}
+			if (res.getInt(Numero.SIETE.valueI) == UNO) {
+				response.setSeleccion(true);
+			}
+			if (res.getInt(Numero.OCHO.valueI) == UNO) {
+				response.setEliminacion(true);
+			}
+			response.setProcedimiento(res.getString(Numero.NUEVE.valueI));
+		}
+		return response;
 	}
 
 	/**

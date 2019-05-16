@@ -19,22 +19,22 @@ public class Documental implements Serializable {
 	/** Nombre de la serie o subserie */
 	private String nombre;
 
-	/** Tiempo en archivo gestion (AG)*/
+	/** Tiempo en archivo gestion (AG) */
 	private Integer tiempoArchivoGestion;
 
 	/** Tiempo en archivo central (AC) */
 	private Integer tiempoArchivoCentral;
 
-	/** Conservacion total (CT)*/
+	/** Conservacion total (CT) */
 	private boolean conservacionTotal;
 
 	/** Microfilmacion / digitalizacion (M) */
 	private boolean microfilmacion;
 
-	/** Seleccion (S)*/
+	/** Seleccion (S) */
 	private boolean seleccion;
 
-	/** Eliminacion (E)*/
+	/** Eliminacion (E) */
 	private boolean eliminacion;
 
 	/** Procedimiento de la serie o sub-serie */
@@ -54,6 +54,12 @@ public class Documental implements Serializable {
 
 	/** Son los tipos documentales que soporta la serie o subserie */
 	private List<TipoDocumentalDTO> tiposDocumentales;
+
+	/** Indica si se debe modificar los datos generales de la serie/subserie */
+	private boolean modificarDatosGenerales;
+
+	/** Indica si se debe modificar los tipos documentales de la serie/subserie */
+	private boolean modificarTiposDocumentales;
 
 	/**
 	 * Metodo que permite agregar un tipo documental para la serie o subserie
@@ -115,56 +121,54 @@ public class Documental implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param codigo
+	 * Metodo que permite configurar el nuevo valor para el atributo @param codigo
 	 */
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param nombre
+	 * Metodo que permite configurar el nuevo valor para el atributo @param nombre
 	 */
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param procedimiento
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * procedimiento
 	 */
 	public void setProcedimiento(String procedimiento) {
 		this.procedimiento = procedimiento;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param fechaCreacion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * fechaCreacion
 	 */
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param idUsuarioCreacion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idUsuarioCreacion
 	 */
 	public void setIdUsuarioCreacion(Integer idUsuarioCreacion) {
 		this.idUsuarioCreacion = idUsuarioCreacion;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param idCliente
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * idCliente
 	 */
 	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tipoEvento
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tipoEvento
 	 */
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
@@ -178,8 +182,8 @@ public class Documental implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tiposDocumentales
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tiposDocumentales
 	 */
 	public void setTiposDocumentales(List<TipoDocumentalDTO> tiposDocumentales) {
 		this.tiposDocumentales = tiposDocumentales;
@@ -228,50 +232,80 @@ public class Documental implements Serializable {
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tiempoArchivoGestion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tiempoArchivoGestion
 	 */
 	public void setTiempoArchivoGestion(Integer tiempoArchivoGestion) {
 		this.tiempoArchivoGestion = tiempoArchivoGestion;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param tiempoArchivoCentral
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * tiempoArchivoCentral
 	 */
 	public void setTiempoArchivoCentral(Integer tiempoArchivoCentral) {
 		this.tiempoArchivoCentral = tiempoArchivoCentral;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param conservacionTotal
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * conservacionTotal
 	 */
 	public void setConservacionTotal(boolean conservacionTotal) {
 		this.conservacionTotal = conservacionTotal;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param microfilmacion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * microfilmacion
 	 */
 	public void setMicrofilmacion(boolean microfilmacion) {
 		this.microfilmacion = microfilmacion;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param seleccion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * seleccion
 	 */
 	public void setSeleccion(boolean seleccion) {
 		this.seleccion = seleccion;
 	}
 
 	/**
-	 * Metodo que permite configurar el nuevo valor 
-	 * para el atributo @param eliminacion
+	 * Metodo que permite configurar el nuevo valor para el atributo @param
+	 * eliminacion
 	 */
 	public void setEliminacion(boolean eliminacion) {
 		this.eliminacion = eliminacion;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo modificarDatosGenerales
+	 */
+	public boolean isModificarDatosGenerales() {
+		return modificarDatosGenerales;
+	}
+
+	/**
+	 * Metodo que permite obtener el valor del atributo modificarTiposDocumentales
+	 */
+	public boolean isModificarTiposDocumentales() {
+		return modificarTiposDocumentales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param modificarDatosGenerales
+	 */
+	public void setModificarDatosGenerales(boolean modificarDatosGenerales) {
+		this.modificarDatosGenerales = modificarDatosGenerales;
+	}
+
+	/**
+	 * Metodo que permite configurar el nuevo valor 
+	 * para el atributo @param modificarTiposDocumentales
+	 */
+	public void setModificarTiposDocumentales(boolean modificarTiposDocumentales) {
+		this.modificarTiposDocumentales = modificarTiposDocumentales;
 	}
 }

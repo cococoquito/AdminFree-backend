@@ -47,6 +47,24 @@ public class SQLArchivoGestion {
 	public static final String EXISTS_SUBSERIE_TRD = "SELECT EXISTS(SELECT * FROM TRDS WHERE ID_SUBSERIE=?)";
 
 	/**
+	 * SQL para obtener los datos generales de una serie/subserie documental
+	 */
+	public static String getSQLDatosSerieSubserie(String tabla, String columnPK, Long idDocumental) {
+		StringBuilder sql = new StringBuilder("SELECT CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO FROM ");
+		sql.append(tabla).append(" WHERE ").append(columnPK).append("=").append(idDocumental);
+		return sql.toString();
+	}
+
+	/**
+	 * SQL para eliminar los tipos documentales de una serie/subserie
+	 */
+	public static String deleteTiposDocSerieSubserie(String tabla, String columnPK, Long idDocumental) {
+		StringBuilder sql = new StringBuilder("DELETE FROM ");
+		sql.append(tabla).append(" WHERE ").append(columnPK).append("=").append(idDocumental);
+		return sql.toString();
+	}
+
+	/**
 	 * SQL para obtener las subseries documentales asociadas a un conjunto de series documentales
 	 */
 	public static String getSQLSubSeriesDocumentalesIN(StringBuilder idsSerie) {
