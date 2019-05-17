@@ -425,50 +425,181 @@ public class ArchivoGestionBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite editar una subserie documental en el sistema
+	 *
 	 * @param subserie, DTO que contiene los datos de la subserie
+	 * @return DTO con los datos del los tipos documentales y los atributos actualizados
 	 */
-	private void editarSubSerieDocumental(SubSerieDocumentalDTO subserie, Connection connection) throws Exception {
+	private ResponseEdicionSerieSubserieDTO editarSubSerieDocumental(
+			SubSerieDocumentalDTO subserie,
+			Connection connection) throws Exception {
 
 		// se utilizan para varios proceso
 		Long idSubSerie = subserie.getIdSubSerie();
 		Integer idCliente = subserie.getIdCliente();
 
-		// se verifica si hay otra subserie con el mismo NOMBRE para la EDICION
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsValorSubSerie("NOMBRE", idCliente, idSubSerie),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(subserie.getNombre(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
+		// se valida el nombre y codigo solo si hay modificaciones en los datos generales
+		if (subserie.isModificarDatosGenerales()) {
+
+			// se verifica si hay otra subserie con el mismo NOMBRE para la EDICION
+			if ((boolean) find(connection,
+					SQLArchivoGestion.existsValorSubSerie("NOMBRE", idCliente, idSubSerie),
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(subserie.getNombre(), Types.VARCHAR))) {
+				throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_NOMBRE.value);
+			}
+
+			// se verifica si hay otra subserie con el mismo CODIGO para la EDICION
+			if ((boolean) find(connection,
+					SQLArchivoGestion.existsValorSubSerie("CODIGO", idCliente, idSubSerie),
+					MapperTransversal.get(MapperTransversal.IS_EXISTS),
+					ValueSQL.get(subserie.getCodigo(), Types.VARCHAR))) {
+				throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
+			}
 		}
 
-		// se verifica si hay otra subserie con el mismo CODIGO para la EDICION
-		if ((boolean) find(
-				connection,
-				SQLArchivoGestion.existsValorSubSerie("CODIGO", idCliente, idSubSerie),
-				MapperTransversal.get(MapperTransversal.IS_EXISTS),
-				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR))) {
-			throw new BusinessException(MessagesKey.KEY_SUBSERIE_MISMO_CODIGO.value);
-		}
+		// para este proceso debe estar bajo transaccionalidad
+		try {
+			connection.setAutoCommit(false);
 
-		// se procede a editar la subserie documental
-		int respuesta = insertUpdate(connection,
-				SQLArchivoGestion.EDIT_SUBSERIE,
-				ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
-				ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
-				ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
-				ValueSQL.get(subserie.getTiempoArchivoGestion(), Types.INTEGER),
-				ValueSQL.get(subserie.getTiempoArchivoCentral(), Types.INTEGER),
-				ValueSQL.get(subserie.isConservacionTotal() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isMicrofilmacion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isSeleccion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.isEliminacion() ? Numero.UNO.valueI : null, Types.INTEGER),
-				ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
-				ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT));
+			// se verifica si se debe actualizar los datos generales de la subserie documental
+			if (subserie.isModificarDatosGenerales()) {
 
-		// se verifica si el proceso se ejecuto sin problemas
-		if (respuesta <= Numero.ZERO.valueI.intValue()) {
-			throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+				// se procede a editar la subserie documental
+				int respuesta = insertUpdate(connection,
+						SQLArchivoGestion.EDIT_SUBSERIE,
+						ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
+						ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
+						ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
+						ValueSQL.get(subserie.getTiempoArchivoGestion(), Types.INTEGER),
+						ValueSQL.get(subserie.getTiempoArchivoCentral(), Types.INTEGER),
+						ValueSQL.get(subserie.isConservacionTotal() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(subserie.isMicrofilmacion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(subserie.isSeleccion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(subserie.isEliminacion() ? Numero.UNO.valueI : null, Types.INTEGER),
+						ValueSQL.get(subserie.getProcedimiento(), Types.VARCHAR),
+						ValueSQL.get(subserie.getIdSubSerie(), Types.BIGINT));
+
+				// se verifica si el proceso se ejecuto sin problemas
+				if (respuesta <= Numero.ZERO.valueI.intValue()) {
+					throw new BusinessException(MessagesKey.KEY_PROCESO_NO_EJECUTADO.value);
+				}
+			}
+
+			// se utiliza para almacenar los nombres de los nuevos tipos documentales
+			List<String> nombreTiposDocumentales = null;
+
+			// se verifica si se debe modificar los tipos documentales
+			if (subserie.isModificarTiposDocumentales()) {
+
+				// se eliminan todos los tipos documentales de esta subserie
+				List<String> dmls = new ArrayList<>();
+				dmls.add(SQLArchivoGestion.deleteTiposDocSerieSubserie("TIPOS_DOCUMENTALES_SUBSERIES", "ID_SUBSERIE", idSubSerie));
+
+				// se utiliza para insertar los tipos documentales y la relacion de estos y la subserie documentales
+				List<List<ValueSQL>> insertsTiposDocSerieINJ = null;
+
+				// se verifica si hay tipos documentales asociados a la subserie
+				List<TipoDocumentalDTO> tiposDocumentales = subserie.getTiposDocumentales();
+				if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
+
+					// se recorre cada tipo documental asociada a esta subserie
+					List<ValueSQL> params;
+					for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
+
+						// debe existir el ID o el NOMBRE del tipo documental para proceder con la asociacion
+						if (tipoDocumental.getId() != null || !Util.isNull(tipoDocumental.getNombre())) {
+
+							// puede llegar tipos documentales que no existan en BD
+							if (tipoDocumental.getId() == null) {
+
+								// se agrega lista para insertar los tipos documentales y la relacion de estos y la subserie documentales
+								params = new ArrayList<>();
+								params.add(ValueSQL.get(tipoDocumental.getNombre(), Types.VARCHAR));
+								if (insertsTiposDocSerieINJ == null) {
+									insertsTiposDocSerieINJ = new ArrayList<>();
+								}
+								insertsTiposDocSerieINJ.add(params);
+
+								// se agrega el nombre como nuevo tipo documental
+								if (nombreTiposDocumentales == null) {
+									nombreTiposDocumentales = new ArrayList<>();
+								}
+								nombreTiposDocumentales.add(tipoDocumental.getNombre());
+							} else {
+								// se agrega lista para insertar la relacion entre tipos documentales y subserie documental SIN injections
+								dmls.add(SQLArchivoGestion.insertTipoDocumentalSubSerie(tipoDocumental.getId(), idSubSerie));
+							}
+						}
+					}
+				}
+
+				// se ejecuta los DML SIN injections
+				batchSinInjection(connection, dmls);
+
+				// inserta los tipos documentales que no existen en BD y la relacion de estos con la subserie
+				if (insertsTiposDocSerieINJ != null) {
+					batchConInjection(connection, SQLArchivoGestion.insertTipoDocumental(idCliente),
+							insertsTiposDocSerieINJ);
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumentalSubSerieSinID(idCliente, idSubSerie),
+							insertsTiposDocSerieINJ);
+				}
+			}
+
+			// se inidica los cambios sobre la BD
+			connection.commit();
+
+			// DTO que contiene los datos a retornar
+			ResponseEdicionSerieSubserieDTO response = new ResponseEdicionSerieSubserieDTO();
+
+			// si hay modificaciones en los datos generales se procede a consultarlos
+			Documental datosUpdate = null;
+			if (subserie.isModificarDatosGenerales()) {
+				datosUpdate = (Documental) find(connection,
+						SQLArchivoGestion.getSQLDatosSerieSubserie("SUBSERIES_DOCUMENTALES", "ID_SUBSERIE", idSubSerie),
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_DATOS_DOCUMENTAL));
+			}
+
+			// si hay modificaciones en los tipos documentales se procede a consultarlos
+			if (subserie.isModificarTiposDocumentales()) {
+
+				// se obtiene los tipos documentales asociados a la subserie
+				List<TipoDocumentalDTO> tiposDocumentales = (List<TipoDocumentalDTO>) findParams(
+						connection,
+						SQLArchivoGestion.GET_TIPOS_DOCUMENTALES_SUBSERIE,
+						MapperArchivoGestion.get(MapperArchivoGestion.GET_TIPOS_DOCUMENTALES_FILTRO),
+						null,
+						ValueSQL.get(idSubSerie, Types.BIGINT));
+
+				// se verifica si hay tipos documentales nuevos
+				if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
+
+					// se configura los tipos documentales en el response
+					datosUpdate = (datosUpdate == null) ? new Documental() : datosUpdate;
+					datosUpdate.setTiposDocumentales(tiposDocumentales);
+
+					// se configura los nuevos tipos documentales en el response
+					if (nombreTiposDocumentales != null) {
+						for (String nombre : nombreTiposDocumentales) {
+							for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
+								if (tipoDocumental.getNombre().equals(nombre)) {
+									response.agregarTipoDocumental(tipoDocumental);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// se retorna el DTO con el response
+			response.setDatosUpdate(datosUpdate);
+			return response;
+		} catch (Exception e) {
+			connection.rollback();
+			throw e;
+		} finally {
+			connection.setAutoCommit(true);
 		}
 	}
 
