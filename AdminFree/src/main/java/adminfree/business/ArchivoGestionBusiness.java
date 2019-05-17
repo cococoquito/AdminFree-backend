@@ -555,7 +555,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			Documental datosUpdate = null;
 			if (subserie.isModificarDatosGenerales()) {
 				datosUpdate = (Documental) find(connection,
-						SQLArchivoGestion.getSQLDatosSerieSubserie("SUBSERIES_DOCUMENTALES", "ID_SUBSERIE", idSubSerie),
+						SQLArchivoGestion.getSQLDatosSerieSubserie(false, idSubSerie),
 						MapperArchivoGestion.get(MapperArchivoGestion.GET_DATOS_DOCUMENTAL));
 			}
 
@@ -902,7 +902,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 			Documental datosUpdate = null;
 			if (serie.isModificarDatosGenerales()) {
 				datosUpdate = (Documental) find(connection,
-						SQLArchivoGestion.getSQLDatosSerieSubserie("SERIES_DOCUMENTALES", "ID_SERIE", idSerie),
+						SQLArchivoGestion.getSQLDatosSerieSubserie(true, idSerie),
 						MapperArchivoGestion.get(MapperArchivoGestion.GET_DATOS_DOCUMENTAL));
 			}
 

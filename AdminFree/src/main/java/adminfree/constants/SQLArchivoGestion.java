@@ -48,10 +48,18 @@ public class SQLArchivoGestion {
 
 	/**
 	 * SQL para obtener los datos generales de una serie/subserie documental
+	 * @param esSerie, identifica si el SQL es para la tabla serie de lo contrario es para subserie
 	 */
-	public static String getSQLDatosSerieSubserie(String tabla, String columnPK, Long idDocumental) {
-		StringBuilder sql = new StringBuilder("SELECT CODIGO,NOMBRE,AG,AC,CT,M,S,E,PROCEDIMIENTO FROM ");
-		sql.append(tabla).append(" WHERE ").append(columnPK).append("=").append(idDocumental);
+	public static String getSQLDatosSerieSubserie(boolean esSerie, Long idDocumental) {
+		StringBuilder sql = new StringBuilder();
+
+		// para la tabla series documentales
+		if (esSerie) {
+			sql.append("SELECT CODIGO,UPPER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SERIES_DOCUMENTALES WHERE ID_SERIE=").append(idDocumental);
+		} else {
+			// para la tabla sub-series documentales
+			sql.append("SELECT CODIGO,LOWER(NOMBRE),AG,AC,CT,M,S,E,PROCEDIMIENTO FROM SUBSERIES_DOCUMENTALES WHERE ID_SUBSERIE=").append(idDocumental);
+		}
 		return sql.toString();
 	}
 
