@@ -240,7 +240,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				break;
 
 			case TipoEvento.EDITAR:
-				editarSubSerieDocumental(subserie, connection);
+				response = editarSubSerieDocumental(subserie, connection);
 				break;
 
 			case TipoEvento.ELIMINAR:
@@ -467,7 +467,6 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				// se procede a editar la subserie documental
 				int respuesta = insertUpdate(connection,
 						SQLArchivoGestion.EDIT_SUBSERIE,
-						ValueSQL.get(subserie.getIdSerie(), Types.BIGINT),
 						ValueSQL.get(subserie.getCodigo(), Types.VARCHAR),
 						ValueSQL.get(subserie.getNombre(), Types.VARCHAR),
 						ValueSQL.get(subserie.getTiempoArchivoGestion(), Types.INTEGER),
