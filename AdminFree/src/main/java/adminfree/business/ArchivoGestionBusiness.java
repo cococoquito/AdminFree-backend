@@ -795,7 +795,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 					datosUpdate.setTiposDocumentales(tiposDocumentales);
 
 					// se configura los nuevos tipos documentales en el response
-					if (nombreTiposDocumentales != null && !nombreTiposDocumentales.isEmpty()) {
+					if (nombreTiposDocumentales != null) {
 						for (String nombre : nombreTiposDocumentales) {
 							for (TipoDocumentalDTO tipoDocumental : tiposDocumentales) {
 								if (tipoDocumental.getNombre().equals(nombre)) {
