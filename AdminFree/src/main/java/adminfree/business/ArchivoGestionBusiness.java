@@ -711,12 +711,12 @@ public class ArchivoGestionBusiness extends CommonDAO {
 				List<String> dmls = new ArrayList<>();
 				dmls.add(SQLArchivoGestion.deleteTiposDocSerieSubserie("TIPOS_DOCUMENTALES_SERIES", "ID_SERIE", idSerie));
 
+				// se utiliza para insertar los tipos documentales y la relacion de estos y la serie documentales
+				List<List<ValueSQL>> insertsTiposDocSerieINJ = null;
+
 				// se verifica si hay tipos documentales asociados a la serie
 				List<TipoDocumentalDTO> tiposDocumentales = serie.getTiposDocumentales();
 				if (tiposDocumentales != null && !tiposDocumentales.isEmpty()) {
-
-					// se utiliza para insertar los tipos documentales y la relacion de estos y la serie documentales
-					List<List<ValueSQL>> insertsTiposDocSerieINJ = null;
 
 					// se recorre cada tipo documental asociada a esta serie
 					List<ValueSQL> params;
@@ -747,18 +747,18 @@ public class ArchivoGestionBusiness extends CommonDAO {
 							}
 						}
 					}
+				}
 
-					// se ejecuta los DML SIN injections
-					batchSinInjection(connection, dmls);
+				// se ejecuta los DML SIN injections
+				batchSinInjection(connection, dmls);
 
-					// inserta los tipos documentales que no existen en BD y la relacion de estos con la serie
-					if (insertsTiposDocSerieINJ != null) {
-						batchConInjection(connection, SQLArchivoGestion.insertTipoDocumental(idCliente),
-								insertsTiposDocSerieINJ);
-						batchConInjection(connection,
-								SQLArchivoGestion.insertTipoDocumentalSerieSinID(idCliente, idSerie),
-								insertsTiposDocSerieINJ);
-					}
+				// inserta los tipos documentales que no existen en BD y la relacion de estos con la serie
+				if (insertsTiposDocSerieINJ != null) {
+					batchConInjection(connection, SQLArchivoGestion.insertTipoDocumental(idCliente),
+							insertsTiposDocSerieINJ);
+					batchConInjection(connection,
+							SQLArchivoGestion.insertTipoDocumentalSerieSinID(idCliente, idSerie),
+							insertsTiposDocSerieINJ);
 				}
 			}
 
@@ -776,7 +776,7 @@ public class ArchivoGestionBusiness extends CommonDAO {
 						MapperArchivoGestion.get(MapperArchivoGestion.GET_DATOS_DOCUMENTAL));
 			}
 
-			// si hay modificaciones en los tipos documentales, se procede a consultarlos
+			// si hay modificaciones en los tipos documentales se procede a consultarlos
 			if (serie.isModificarTiposDocumentales()) {
 
 				// se obtiene los tipos documentales asociados a al serie
