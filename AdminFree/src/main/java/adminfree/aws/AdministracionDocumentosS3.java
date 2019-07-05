@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 public class AdministracionDocumentosS3 {
 
 	/** Es el nombre del bucket donde se persiste todos los documentos */
-	private static final String NOMBRE_BUCKET = "/home/adminfree/Documents/AdminFree-workspace/docs/";
+	private static final String NOMBRE_BUCKET = "/home/andres/Documents/workspace/docs/";
 
 	/** Unica instancia de este singleton */
 	private static AdministracionDocumentosS3 instance;
