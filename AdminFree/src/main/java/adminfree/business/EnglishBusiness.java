@@ -31,7 +31,8 @@ public class EnglishBusiness extends CommonDAO {
 		insertUpdate(connection,
 				SQLEnglish.CREAR_SERIE,
 				ValueSQL.get(serie.getName(), Types.VARCHAR),
-				ValueSQL.get(serie.getUrl(), Types.VARCHAR));
+				ValueSQL.get(serie.getUrl(), Types.VARCHAR),
+				ValueSQL.get(serie.getImg().getBytes(), Types.BLOB));
 
 		// se obtiene el identificador de la nueva serie
 		Long idSerie = (Long) find(connection,

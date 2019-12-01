@@ -301,6 +301,10 @@ public class CommonDAO {
 			case Types.TIMESTAMP:
 				pst.setTimestamp(posicion, new java.sql.Timestamp(((Date) valor.getValor()).getTime()));
 				break;
+
+			case Types.BLOB:
+				pst.setBytes(posicion, (byte[]) valor.getValor());
+				break;
 		}
 	}
 }

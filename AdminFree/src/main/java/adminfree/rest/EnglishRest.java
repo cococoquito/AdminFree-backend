@@ -3,7 +3,7 @@ package adminfree.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,9 +37,9 @@ public class EnglishRest {
 	@RequestMapping(
 			value = ApiRest.CREATE_SERIE,
 			method = RequestMethod.POST,
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> crearSerie(@RequestBody SeriesDTO serie) {
+			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> crearSerie(@ModelAttribute SeriesDTO serie) {
 		try {
 			return Util.getResponseSuccessful(this.englishService.crearSerie(serie));
 		} catch (Exception e) {
