@@ -24,7 +24,7 @@ import adminfree.utilities.Util;
 @RequestMapping(ApiRest.ENGLISH_API)
 public class EnglishRest {
 
-	/** Objecto que contiene todo los servicios relacionado con la seguridad */
+	/** Objecto que contiene todo los servicios relacionado para el modulo de english */
 	@Autowired
 	private EnglishService englishService;
 

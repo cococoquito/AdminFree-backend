@@ -22,7 +22,7 @@ public class EnglishService {
 
 	/** DataSource para las conexiones de la BD de AdminFree */
 	@Autowired
-	private DataSource adminFreeDS;
+	private DataSource learningEnglishDS;
 
 	/**
 	 * Service que permite crear una serie en el sistema
@@ -33,8 +33,8 @@ public class EnglishService {
 	public SeriesDTO crearSerie(SeriesDTO serie) throws Exception {
 		Connection connection = null;
 		try {
-			// se solicita una conexion de la BD de AdminFree
-			connection = this.adminFreeDS.getConnection();
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
 
 			// se procede a crear la serie
 			return new EnglishBusiness().crearSerie(serie, connection);
