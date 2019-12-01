@@ -71,4 +71,9 @@ public class ApiRest {
 	public static final String GET_TIPOS_DOCUMENTALES = "gettiposdocumentales";
 	public static final String GET_INIT_ADMIN_SERIES_DOC = "getinitadminseriesdoc";
 	public static final String GET_SUBSERIES = "getsubseries";
+
+	/** Constantes para los nombre de los servicios REST del modulo de english */
+	public static final String ENGLISH_API = "englishapi";
+	public static final String CREATE_SERIE = "createserie";
+	public static final String DOWNLOAD_IMG_SERIE = "downloadimgserie";
 }

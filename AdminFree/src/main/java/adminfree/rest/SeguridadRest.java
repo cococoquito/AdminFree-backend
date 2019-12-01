@@ -27,7 +27,7 @@ public class SeguridadRest {
 
 	/** Objecto que contiene todo los servicios relacionado con la seguridad */
 	@Autowired
-	private SeguridadService seguridadService;	
+	private SeguridadService seguridadService;
 
 	/**
 	 * Servicio que permite soportar el proceso de iniciar sesion de Admin Clientes

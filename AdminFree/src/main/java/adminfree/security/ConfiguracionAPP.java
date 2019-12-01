@@ -64,13 +64,14 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		// Es el path y grant de todos los permisos de seguridad
+		// Es el path y grant de todos los permisos de seguridad E ingles
 		String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
+		String grantEnglish = "/" + ApiRest.ENGLISH_API + Security.GRANTS_PERMITS_ALL.value;
 
 		// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
 		registry.addInterceptor(this.interceptorAdminFree)
 				.addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
-				.excludePathPatterns(grantSecurity);
+				.excludePathPatterns(grantSecurity, grantEnglish);
 
 		// se registra el interceptor de la autenticacion
 		registry.addInterceptor(this.interceptorAuthAdminFree).addPathPatterns(grantSecurity);
