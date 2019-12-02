@@ -38,7 +38,7 @@ public class EnglishRest {
 			value = ApiRest.CREATE_SERIE,
 			method = RequestMethod.POST,
 			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public ResponseEntity<Object> crearSerie(@ModelAttribute SeriesDTO serie) {
 		try {
 			return Util.getResponseSuccessful(this.englishService.crearSerie(serie));

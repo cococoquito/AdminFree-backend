@@ -18,4 +18,5 @@ public class PropertyKey {
 	public static final String SECURITY_POST_ANGULAR = "${adminfree.security.post.angular}";
 	public static final String SECURITY_POST_PASS = "${adminfree.security.post.pass}";
 	public static final String SECURITY_POST_TOKEN = "${adminfree.security.post.token}";
+	public static final String ADMINFREE = "${adminfree}";
 }

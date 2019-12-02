@@ -1,6 +1,7 @@
 package adminfree.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -8,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import adminfree.constants.ApiRest;
+import adminfree.constants.PropertyKey;
 import adminfree.enums.Security;
 
 /**
@@ -25,6 +27,10 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 	 */
 	@Autowired
 	private InterceptorAdminFree interceptorAdminFree;
+
+	/** solo se configura los interceptores para adminfree */
+	@Value(PropertyKey.ADMINFREE)
+	private String adminfree;	
 
 	/**
 	 * Interceptor que aplica para las peticiones http para la autenticacion de APP
@@ -64,16 +70,19 @@ public class ConfiguracionAPP implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 
-		// Es el path y grant de todos los permisos de seguridad E ingles
-		String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
-		String grantEnglish = "/" + ApiRest.ENGLISH_API + Security.GRANTS_PERMITS_ALL.value;
+		// se identifica si la aplicacion es para adminfree
+		if (this.adminfree != null && this.adminfree.equals("1")) {
 
-		// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
-		registry.addInterceptor(this.interceptorAdminFree)
-				.addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
-				.excludePathPatterns(grantSecurity, grantEnglish);
+			// Es el path y grant de todos los permisos de seguridad E ingles
+			String grantSecurity = "/" + ApiRest.SEGURIDAD_API + Security.GRANTS_PERMITS_ALL.value;
 
-		// se registra el interceptor de la autenticacion
-		registry.addInterceptor(this.interceptorAuthAdminFree).addPathPatterns(grantSecurity);
+			// se registra el interceptor para toda la aplicacion excepto seguridad "/**"
+			registry.addInterceptor(this.interceptorAdminFree)
+					.addPathPatterns(Security.GRANTS_PERMITS_ALL.value)
+					.excludePathPatterns(grantSecurity);
+
+			// se registra el interceptor de la autenticacion
+			registry.addInterceptor(this.interceptorAuthAdminFree).addPathPatterns(grantSecurity);
+		}
 	}
 }
