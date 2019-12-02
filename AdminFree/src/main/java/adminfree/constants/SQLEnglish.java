@@ -12,4 +12,7 @@ public class SQLEnglish {
 
 	/** SQL para asociar la imagen a la serie */
 	public static final String ASOCIAR_IMG_SERIE = "UPDATE SERIES SET IMG=? WHERE ID_SERIE=?";
+
+	/** SQL para listar las series parametrizadas en el sistema */
+	public static final String GET_SERIES = "SELECT ID_SERIE,NAME,URL,IMG FROM SERIES";
 }

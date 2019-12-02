@@ -20,6 +20,9 @@ public class SeriesDTO implements Serializable {
 	/** Es la URL de esta serie */
 	private String url;
 
+	/** Es la imagen de esta serie */
+	private byte[] img;
+
 	/**
 	 * @return the id
 	 */
@@ -60,5 +63,19 @@ public class SeriesDTO implements Serializable {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	/**
+	 * @return the img
+	 */
+	public byte[] getImg() {
+		return img;
+	}
+
+	/**
+	 * @param img the img to set
+	 */
+	public void setImg(byte[] img) {
+		this.img = img;
 	}
 }

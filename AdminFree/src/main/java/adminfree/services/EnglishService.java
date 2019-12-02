@@ -1,6 +1,7 @@
 package adminfree.services;
 
 import java.sql.Connection;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -44,7 +45,7 @@ public class EnglishService {
 	}
 
 	/**
-	 * Servicio para asociar la imagen a la serie
+	 * Service para asociar la imagen a la serie
 	 *
 	 * @param img, es la imagen para asociar
 	 * @param idSerie, identificador de la serie asociar la imagen
@@ -57,6 +58,22 @@ public class EnglishService {
 
 			// se procede asociar la imagen
 			new EnglishBusiness().downloadImgSerie(img, idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Service que permite cargar las series parametrizadas en el sistema
+	 */
+	public List<SeriesDTO> getSeries() throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede listar las series
+			return new EnglishBusiness().getSeries(connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

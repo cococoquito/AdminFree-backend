@@ -73,4 +73,20 @@ public class EnglishRest {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".downloadImgSerie ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Service que permite cargar las series parametrizadas en el sistema
+	 */
+	@RequestMapping(
+			value = ApiRest.GET_SERIES,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getSeries() {
+		try {
+			return Util.getResponseSuccessful(this.englishService.getSeries());
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getSeries ", e.getMessage());
+		}
+	}
 }

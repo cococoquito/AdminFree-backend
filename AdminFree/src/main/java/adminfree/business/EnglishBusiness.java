@@ -2,10 +2,12 @@ package adminfree.business;
 
 import java.sql.Connection;
 import java.sql.Types;
+import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLEnglish;
 import adminfree.dtos.english.SeriesDTO;
+import adminfree.mappers.MapperEnglish;
 import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
 import adminfree.persistence.ValueSQL;
@@ -55,5 +57,15 @@ public class EnglishBusiness extends CommonDAO {
 				SQLEnglish.ASOCIAR_IMG_SERIE,
 				ValueSQL.get(img, Types.BLOB),
 				ValueSQL.get(idSerie, Types.VARCHAR));
+	}
+
+	/**
+	 * Metodo que permite cargar las series parametrizadas en el sistema
+	 */
+	public List<SeriesDTO> getSeries(Connection connection) throws Exception {
+		return (List<SeriesDTO>) findAll(
+				connection,
+				SQLEnglish.GET_SERIES,
+				MapperEnglish.get(MapperEnglish.GET_SERIES));
 	}
 }
