@@ -31,8 +31,7 @@ public class EnglishBusiness extends CommonDAO {
 		insertUpdate(connection,
 				SQLEnglish.CREAR_SERIE,
 				ValueSQL.get(serie.getName(), Types.VARCHAR),
-				ValueSQL.get(serie.getUrl(), Types.VARCHAR),
-				ValueSQL.get(serie.getImg().getBytes(), Types.BLOB));
+				ValueSQL.get(serie.getUrl(), Types.VARCHAR));
 
 		// se obtiene el identificador de la nueva serie
 		Long idSerie = (Long) find(connection,
@@ -43,5 +42,18 @@ public class EnglishBusiness extends CommonDAO {
 		SeriesDTO response = new SeriesDTO();
 		response.setId(idSerie);
 		return response;
+	}
+
+	/**
+	 * Metodo para asociar la imagen a la serie
+	 *
+	 * @param img, es la imagen para asociar
+	 * @param idSerie, identificador de la serie asociar la imagen
+	 */
+	public void downloadImgSerie(byte[] img ,String idSerie, Connection connection) throws Exception {
+		insertUpdate(connection,
+				SQLEnglish.ASOCIAR_IMG_SERIE,
+				ValueSQL.get(img, Types.BLOB),
+				ValueSQL.get(idSerie, Types.VARCHAR));
 	}
 }

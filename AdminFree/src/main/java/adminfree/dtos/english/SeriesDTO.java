@@ -2,8 +2,6 @@ package adminfree.dtos.english;
 
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 /**
  * DTO que se utiliza para mappear los datos de las series
  *
@@ -21,9 +19,6 @@ public class SeriesDTO implements Serializable {
 
 	/** Es la URL de esta serie */
 	private String url;
-
-	/** Es la imagen asociada a esta serie */
-	private MultipartFile img;
 
 	/**
 	 * @return the id
@@ -65,19 +60,5 @@ public class SeriesDTO implements Serializable {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	/**
-	 * @return the img
-	 */
-	public MultipartFile getImg() {
-		return img;
-	}
-
-	/**
-	 * @param img the img to set
-	 */
-	public void setImg(MultipartFile img) {
-		this.img = img;
 	}
 }

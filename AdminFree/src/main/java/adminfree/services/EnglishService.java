@@ -42,4 +42,23 @@ public class EnglishService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Servicio para asociar la imagen a la serie
+	 *
+	 * @param img, es la imagen para asociar
+	 * @param idSerie, identificador de la serie asociar la imagen
+	 */
+	public void downloadImgSerie(byte[] img ,String idSerie) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede asociar la imagen
+			new EnglishBusiness().downloadImgSerie(img, idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

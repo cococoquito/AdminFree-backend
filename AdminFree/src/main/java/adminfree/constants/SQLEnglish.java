@@ -8,5 +8,8 @@ package adminfree.constants;
 public class SQLEnglish {
 
 	/** SQL para la creacion de la serie */
-	public static final String CREAR_SERIE = "INSERT INTO SERIES (NAME,URL,IMG) VALUES (?,?,?)";
+	public static final String CREAR_SERIE = "INSERT INTO SERIES (NAME,URL) VALUES (?,?)";
+
+	/** SQL para asociar la imagen a la serie */
+	public static final String ASOCIAR_IMG_SERIE = "UPDATE SERIES SET IMG=? WHERE ID_SERIE=?";
 }
