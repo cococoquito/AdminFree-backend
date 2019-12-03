@@ -1,6 +1,8 @@
 package adminfree.dtos.english;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DTO que se utiliza para mappear los datos de las series
@@ -22,6 +24,20 @@ public class SerieDTO implements Serializable {
 
 	/** Es la imagen de esta serie */
 	private byte[] img;
+
+	/** son las temporadas de esta serie */
+	private List<SeasonDTO> seasons;
+
+	/**
+	 * Metodo que permite agregar una temporada para esta serie
+	 * @param season, DTO con los datos de la temporada
+	 */
+	public void addSeason(SeasonDTO season) {
+		if (this.seasons == null) {
+			this.seasons = new ArrayList<>();
+		}
+		this.seasons.add(season);
+	}
 
 	/**
 	 * @return the id
@@ -77,5 +93,19 @@ public class SerieDTO implements Serializable {
 	 */
 	public void setImg(byte[] img) {
 		this.img = img;
+	}
+
+	/**
+	 * @return the seasons
+	 */
+	public List<SeasonDTO> getSeasons() {
+		return seasons;
+	}
+
+	/**
+	 * @param seasons the seasons to set
+	 */
+	public void setSeasons(List<SeasonDTO> seasons) {
+		this.seasons = seasons;
 	}
 }
