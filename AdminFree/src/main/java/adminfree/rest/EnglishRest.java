@@ -79,7 +79,7 @@ public class EnglishRest {
 	 */
 	@RequestMapping(
 			value = ApiRest.GET_SERIES,
-			method = RequestMethod.POST,
+			method = RequestMethod.GET,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<Object> getSeries() {
