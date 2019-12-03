@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +88,24 @@ public class EnglishRest {
 			return Util.getResponseSuccessful(this.englishService.getSeries());
 		} catch (Exception e) {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getSeries ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Service que permite obtener los detalles de una serie
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	@RequestMapping(
+			value = ApiRest.DETAIL_SERIE,
+			method = RequestMethod.GET,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetailSerie(@RequestParam Long idSerie) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.getDetailSerie(idSerie));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getDetailSerie ", e.getMessage());
 		}
 	}
 }

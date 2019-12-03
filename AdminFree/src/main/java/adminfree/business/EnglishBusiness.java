@@ -68,4 +68,13 @@ public class EnglishBusiness extends CommonDAO {
 				SQLEnglish.GET_SERIES,
 				MapperEnglish.get(MapperEnglish.GET_SERIES));
 	}
+
+	/**
+	 * Metodo que permite obtener los detalles de una serie
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO getDetailSerie(Long idSerie, Connection connection) throws Exception {
+		return null;
+	}
 }

@@ -76,4 +76,5 @@ public class ApiRest {
 	public static final String ENGLISH_API = "englishapi";
 	public static final String CREATE_SERIE = "createserie";
 	public static final String DOWNLOAD_IMG_SERIE = "downloadimgserie";
+	public static final String DETAIL_SERIE = "detailserie";
 }

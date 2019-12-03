@@ -78,4 +78,22 @@ public class EnglishService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Service que permite obtener los detalles de una serie
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO getDetailSerie(Long idSerie) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede a consultar los detalles de la serie
+			return new EnglishBusiness().getDetailSerie(idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }
