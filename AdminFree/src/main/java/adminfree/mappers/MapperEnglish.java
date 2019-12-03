@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import adminfree.dtos.english.SeriesDTO;
+import adminfree.dtos.english.SerieDTO;
 import adminfree.enums.Numero;
 
 /**
@@ -71,14 +71,13 @@ public class MapperEnglish extends Mapper {
 	 * Mapper para obtener la lista de SERIES parametrizados en el sistema
 	 */
 	private Object getSeries(ResultSet res) throws Exception {
-		List<SeriesDTO> series = new ArrayList<>();
-		SeriesDTO serie = null;
+		List<SerieDTO> series = new ArrayList<>();
+		SerieDTO serie = null;
 		while (res.next()) {
-			serie = new SeriesDTO();
+			serie = new SerieDTO();
 			serie.setId(res.getLong(Numero.UNO.valueI));
 			serie.setName(res.getString(Numero.DOS.valueI));
-			serie.setUrl(res.getString(Numero.TRES.valueI));
-			serie.setImg(res.getBytes(Numero.CUATRO.valueI));
+			serie.setImg(res.getBytes(Numero.TRES.valueI));
 			series.add(serie);
 		}
 		return series;

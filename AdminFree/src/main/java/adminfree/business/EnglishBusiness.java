@@ -6,7 +6,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLEnglish;
-import adminfree.dtos.english.SeriesDTO;
+import adminfree.dtos.english.SerieDTO;
 import adminfree.mappers.MapperEnglish;
 import adminfree.mappers.MapperTransversal;
 import adminfree.persistence.CommonDAO;
@@ -27,7 +27,7 @@ public class EnglishBusiness extends CommonDAO {
 	 * @param serie, DTO que contiene los datos de la serie a crear
 	 * @return DTO con el identificador de la serie
 	 */
-	public SeriesDTO crearSerie(SeriesDTO serie, Connection connection) throws Exception {
+	public SerieDTO crearSerie(SerieDTO serie, Connection connection) throws Exception {
 
 		// se procede a crear la SERIE
 		insertUpdate(connection,
@@ -41,7 +41,7 @@ public class EnglishBusiness extends CommonDAO {
 				MapperTransversal.get(MapperTransversal.GET_ID));
 
 		// DTO con el identificador a retornar
-		SeriesDTO response = new SeriesDTO();
+		SerieDTO response = new SerieDTO();
 		response.setId(idSerie);
 		return response;
 	}
@@ -62,8 +62,8 @@ public class EnglishBusiness extends CommonDAO {
 	/**
 	 * Metodo que permite cargar las series parametrizadas en el sistema
 	 */
-	public List<SeriesDTO> getSeries(Connection connection) throws Exception {
-		return (List<SeriesDTO>) findAll(
+	public List<SerieDTO> getSeries(Connection connection) throws Exception {
+		return (List<SerieDTO>) findAll(
 				connection,
 				SQLEnglish.GET_SERIES,
 				MapperEnglish.get(MapperEnglish.GET_SERIES));

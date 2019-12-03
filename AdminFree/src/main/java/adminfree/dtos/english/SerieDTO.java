@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Carlos Andres Diaz
  *
  */
-public class SeriesDTO implements Serializable {
+public class SerieDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** identificador de la serie */

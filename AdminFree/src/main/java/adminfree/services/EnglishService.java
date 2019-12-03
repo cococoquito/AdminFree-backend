@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.EnglishBusiness;
-import adminfree.dtos.english.SeriesDTO;
+import adminfree.dtos.english.SerieDTO;
 import adminfree.utilities.CerrarRecursos;
 
 /**
@@ -31,7 +31,7 @@ public class EnglishService {
 	 * @param serie, DTO que contiene los datos de la serie a crear
 	 * @return DTO con el identificador de la serie
 	 */
-	public SeriesDTO crearSerie(SeriesDTO serie) throws Exception {
+	public SerieDTO crearSerie(SerieDTO serie) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
@@ -66,7 +66,7 @@ public class EnglishService {
 	/**
 	 * Service que permite cargar las series parametrizadas en el sistema
 	 */
-	public List<SeriesDTO> getSeries() throws Exception {
+	public List<SerieDTO> getSeries() throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH

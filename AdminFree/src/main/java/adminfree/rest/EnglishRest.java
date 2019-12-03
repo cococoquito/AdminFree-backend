@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
-import adminfree.dtos.english.SeriesDTO;
+import adminfree.dtos.english.SerieDTO;
 import adminfree.services.EnglishService;
 import adminfree.utilities.Util;
 
@@ -41,7 +41,7 @@ public class EnglishRest {
 			method = RequestMethod.POST,
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> crearSerie(@RequestBody SeriesDTO serie) {
+	public ResponseEntity<Object> crearSerie(@RequestBody SerieDTO serie) {
 		try {
 			return Util.getResponseSuccessful(this.englishService.crearSerie(serie));
 		} catch (Exception e) {
