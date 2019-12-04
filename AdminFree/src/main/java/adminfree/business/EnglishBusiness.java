@@ -6,6 +6,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLEnglish;
+import adminfree.dtos.english.SeasonDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.mappers.MapperEnglish;
 import adminfree.mappers.MapperTransversal;
@@ -88,11 +89,12 @@ public class EnglishBusiness extends CommonDAO {
 		serie.setId(idSerie);
 
 		// se verifica si esta serie tiene temporadas asociadas
-		if (serie.getSeasons() != null && !serie.getSeasons().isEmpty()) {
+		List<SeasonDTO> seasons = serie.getSeasons();
+		if (seasons != null && !seasons.isEmpty()) {
 			findParams(connection,
 					SQLEnglish.getSQLChaptersSeason(idsSeason.toString()),
 					MapperEnglish.get(MapperEnglish.GET_CHAPTERS_SEASON),
-					idsSeason);
+					seasons);
 		}
 		return serie;
 	}

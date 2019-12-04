@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -98,10 +97,10 @@ public class EnglishRest {
 	 */
 	@RequestMapping(
 			value = ApiRest.DETAIL_SERIE,
-			method = RequestMethod.GET,
+			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> getDetailSerie(@RequestParam Long idSerie) {
+	public ResponseEntity<Object> getDetailSerie(@RequestBody Long idSerie) {
 		try {
 			return Util.getResponseSuccessful(this.englishService.getDetailSerie(idSerie));
 		} catch (Exception e) {
