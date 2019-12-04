@@ -83,7 +83,8 @@ public class EnglishBusiness extends CommonDAO {
 		SerieDTO serie = (SerieDTO) findParams(connection,
 				SQLEnglish.GET_DETAIL_SERIE,
 				MapperEnglish.get(MapperEnglish.GET_DETAIL_SERIE),
-				idsSeason, ValueSQL.get(idSerie, Types.BIGINT));
+				idsSeason,
+				ValueSQL.get(idSerie, Types.BIGINT));
 		serie.setId(idSerie);
 
 		// se verifica si esta serie tiene temporadas asociadas
