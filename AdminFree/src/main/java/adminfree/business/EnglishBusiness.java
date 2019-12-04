@@ -75,6 +75,24 @@ public class EnglishBusiness extends CommonDAO {
 	 * @return DTO con el detalle de la serie
 	 */
 	public SerieDTO getDetailSerie(Long idSerie, Connection connection) throws Exception {
-		return null;
+
+		// se utiliza para encapsular los ids de cada temporada
+		StringBuilder idsSeason = new StringBuilder();
+
+		// se procede a consultar el detalle de esta serie
+		SerieDTO serie = (SerieDTO) findParams(connection,
+				SQLEnglish.GET_DETAIL_SERIE,
+				MapperEnglish.get(MapperEnglish.GET_DETAIL_SERIE),
+				idsSeason, ValueSQL.get(idSerie, Types.BIGINT));
+		serie.setId(idSerie);
+
+		// se verifica si esta serie tiene temporadas asociadas
+		if (serie.getSeasons() != null && !serie.getSeasons().isEmpty()) {
+			findParams(connection,
+					SQLEnglish.getSQLChaptersSeason(idsSeason.toString()),
+					MapperEnglish.get(MapperEnglish.GET_CHAPTERS_SEASON),
+					idsSeason);
+		}
+		return serie;
 	}
 }

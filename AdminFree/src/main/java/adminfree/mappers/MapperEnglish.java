@@ -2,10 +2,15 @@ package adminfree.mappers;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import adminfree.constants.CommonConstant;
+import adminfree.dtos.english.ChapterDTO;
+import adminfree.dtos.english.SeasonDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.enums.Numero;
+import adminfree.utilities.Util;
 
 /**
  * Mapper que contiene las implementaciones JDBC para el modulo de learning english
@@ -17,6 +22,8 @@ public class MapperEnglish extends Mapper {
 
 	/** Son los tipos de mapper que soporta este modulo */
 	public static final int GET_SERIES = 1;
+	public static final int GET_DETAIL_SERIE = 2;
+	public static final int GET_CHAPTERS_SEASON = 3;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperEnglish instance;
@@ -47,7 +54,16 @@ public class MapperEnglish extends Mapper {
 	 */
 	@Override
 	public Object executeParams(ResultSet res, Object parametro) throws Exception {
-		return null;
+		Object result = null;
+		switch (this.tipoMapper) {
+			case MapperEnglish.GET_DETAIL_SERIE:
+				result = getDetailSerie(res, parametro);
+				break;
+			case MapperEnglish.GET_CHAPTERS_SEASON:
+				result = getChaptersSeason(res, parametro);
+				break;
+		}
+		return result;
 	}
 
 	/**
@@ -81,5 +97,71 @@ public class MapperEnglish extends Mapper {
 			series.add(serie);
 		}
 		return series;
+	}
+
+	/**
+	 * Mapper para obtener el detalle de la serie
+	 */
+	private Object getDetailSerie(ResultSet res, Object parameter) throws Exception {
+		SerieDTO serie = new SerieDTO();
+		if (res.next()) {
+
+			// se configura los datos generales de la serie
+			serie = new SerieDTO();
+			serie.setName(res.getString(Numero.UNO.valueI));
+			serie.setUrl(res.getString(Numero.DOS.valueI));
+			serie.setImg(res.getBytes(Numero.TRES.valueI));
+			String idsChapter = res.getString(Numero.CUATRO.valueI);
+
+			// se verifica si esta serie tiene capitulos
+			if (!Util.isNull(idsChapter)) {
+
+				// se configura los ids separados por coma esto para otra consulta
+				((StringBuilder) parameter).append(idsChapter);
+
+				// se necesita para configurar los capitulos
+				final String seasonName = "SEASON # ";
+				SeasonDTO season;
+				int i = 1;
+
+				// por cada id es una temporada
+				List<String> ids = Arrays.asList(idsChapter.split(CommonConstant.COMA));
+				for (String id : ids) {
+					season = new SeasonDTO();
+					season.setId(Long.valueOf(id));
+					season.setName(seasonName + i);
+					serie.addSeason(season);
+					i++;
+				}
+			}
+
+		}
+		return serie;
+	}
+
+	/**
+	 * Mapper para obtener los capitulos de una temporada
+	 */
+	@SuppressWarnings("unchecked")
+	private Object getChaptersSeason(ResultSet res, Object parameter) throws Exception {
+		List<SeasonDTO> seasons = (List<SeasonDTO>) parameter;
+		ChapterDTO chapter = null;
+		Long idSeason;
+		while (res.next()) {
+			chapter = new ChapterDTO();
+			chapter.setId(res.getLong(Numero.UNO.valueI));
+			chapter.setName(res.getString(Numero.DOS.valueI));
+			chapter.setUrl(res.getString(Numero.TRES.valueI));
+			idSeason = res.getLong(Numero.CUATRO.valueI);
+
+			// se busca la temporada que contiene este capitulo
+			forseason: for (SeasonDTO season : seasons) {
+				if (season.getId().equals(idSeason)) {
+					season.addChapter(chapter);
+					break forseason;
+				}
+			}
+		}
+		return null;
 	}
 }

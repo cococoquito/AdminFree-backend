@@ -15,4 +15,17 @@ public class SQLEnglish {
 
 	/** SQL para listar las series parametrizadas en el sistema */
 	public static final String GET_SERIES = "SELECT ID_SERIE,NAME,IMG FROM SERIES";
+
+	/** SQL para obtener el detalle de la serie */
+	public static final String GET_DETAIL_SERIE = "SELECT S.NAME,S.URL,S.IMG,GROUP_CONCAT(SE.ID_SEASON ORDER BY SE.ID_SEASON ASC SEPARATOR ',') AS SEASONS FROM SERIES S LEFT JOIN SEASONS SE ON(SE.SERIE=S.ID_SERIE)WHERE ID_SERIE=? GROUP BY S.ID_SERIE";
+
+	/**
+	 * Metodo que permite construir el SQL para obtener el detalle de la serie
+	 */
+	public static String getSQLChaptersSeason(String idsSeason) {
+		StringBuilder sql = new StringBuilder("SELECT ID_CHAPTER,NAME,URL,SEASON FROM CHAPTERS WHERE SEASON IN(");
+		sql.append(idsSeason);
+		sql.append(")ORDER BY SEASON ASC");
+		return sql.toString();
+	}
 }
