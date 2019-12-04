@@ -148,7 +148,7 @@ public class CommonDAO {
 			CerrarRecursos.closeResultSet(res);
 			CerrarRecursos.closePreparedStatement(pst);
 		}
-	}	
+	}
 
 	/**
 	 * Metodo utilitario para los DELETE con JDBC 

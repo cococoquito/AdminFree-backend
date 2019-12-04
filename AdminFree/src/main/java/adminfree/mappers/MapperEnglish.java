@@ -87,9 +87,12 @@ public class MapperEnglish extends Mapper {
 	 * Mapper para obtener la lista de SERIES parametrizados en el sistema
 	 */
 	private Object getSeries(ResultSet res) throws Exception {
-		List<SerieDTO> series = new ArrayList<>();
+		List<SerieDTO> series = null;
 		SerieDTO serie = null;
 		while (res.next()) {
+			if (series == null) {
+				series = new ArrayList<>();
+			}
 			serie = new SerieDTO();
 			serie.setId(res.getLong(Numero.UNO.valueI));
 			serie.setName(res.getString(Numero.DOS.valueI));
