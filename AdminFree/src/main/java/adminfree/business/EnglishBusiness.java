@@ -98,4 +98,20 @@ public class EnglishBusiness extends CommonDAO {
 		}
 		return serie;
 	}
+
+	/**
+	 * Metodo que permite agregar una nueva temporada
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO addSeason(Long idSerie, Connection connection) throws Exception {
+
+		// se agrega la nueva temporada
+		insertUpdate(connection,
+				SQLEnglish.ADD_SEASON,
+				ValueSQL.get(idSerie, Types.BIGINT));
+
+		// se procede a consultar los detalle de esta serie
+		return getDetailSerie(idSerie, connection);
+	}
 }

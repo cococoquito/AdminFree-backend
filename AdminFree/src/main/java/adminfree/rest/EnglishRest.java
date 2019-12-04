@@ -107,4 +107,22 @@ public class EnglishRest {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getDetailSerie ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Service que permite agregar una nueva temporada
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	@RequestMapping(
+			value = ApiRest.ADD_SEASON,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> addSeason(@RequestBody Long idSerie) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.addSeason(idSerie));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".addSeason ", e.getMessage());
+		}
+	}
 }

@@ -96,4 +96,22 @@ public class EnglishService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Service que permite agregar una nueva temporada
+	 * @param idSerie, identificador de la serie
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO addSeason(Long idSerie) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede agregar una nueva temporada
+			return new EnglishBusiness().addSeason(idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

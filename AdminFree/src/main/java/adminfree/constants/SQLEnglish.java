@@ -19,6 +19,9 @@ public class SQLEnglish {
 	/** SQL para obtener el detalle de la serie */
 	public static final String GET_DETAIL_SERIE = "SELECT S.NAME,S.URL,S.IMG,GROUP_CONCAT(SE.ID_SEASON ORDER BY SE.ID_SEASON ASC SEPARATOR ',') AS SEASONS FROM SERIES S LEFT JOIN SEASONS SE ON(SE.SERIE=S.ID_SERIE)WHERE ID_SERIE=? GROUP BY S.ID_SERIE";
 
+	/** SQL para agregar una nueva temporada */
+	public static final String ADD_SEASON = "INSERT INTO SEASONS(SERIE)VALUES(?)";
+
 	/**
 	 * Metodo que permite construir el SQL para obtener el detalle de la serie
 	 */

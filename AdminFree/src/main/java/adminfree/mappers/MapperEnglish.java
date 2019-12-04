@@ -114,13 +114,13 @@ public class MapperEnglish extends Mapper {
 			serie.setName(res.getString(Numero.UNO.valueI));
 			serie.setUrl(res.getString(Numero.DOS.valueI));
 			serie.setImg(res.getBytes(Numero.TRES.valueI));
-			String idsChapter = res.getString(Numero.CUATRO.valueI);
+			String idsSeasons = res.getString(Numero.CUATRO.valueI);
 
-			// se verifica si esta serie tiene capitulos
-			if (!Util.isNull(idsChapter)) {
+			// se verifica si esta serie tiene temporadas
+			if (!Util.isNull(idsSeasons)) {
 
 				// se configura los ids separados por coma esto para otra consulta
-				((StringBuilder) parameter).append(idsChapter);
+				((StringBuilder) parameter).append(idsSeasons);
 
 				// se necesita para configurar los capitulos
 				final String seasonName = "SEASON # ";
@@ -128,7 +128,7 @@ public class MapperEnglish extends Mapper {
 				int i = 1;
 
 				// por cada id es una temporada
-				List<String> ids = Arrays.asList(idsChapter.split(CommonConstant.COMA));
+				List<String> ids = Arrays.asList(idsSeasons.split(CommonConstant.COMA));
 				for (String id : ids) {
 					season = new SeasonDTO();
 					season.setId(Long.valueOf(id));
