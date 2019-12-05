@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
+import adminfree.dtos.english.ChapterDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.services.EnglishService;
 import adminfree.utilities.Util;
@@ -123,6 +124,24 @@ public class EnglishRest {
 			return Util.getResponseSuccessful(this.englishService.addSeason(idSerie));
 		} catch (Exception e) {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".addSeason ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Service que permite agregar un capitulo a una temporada
+	 * @param chapter, DTO con los datos del capitulo
+	 * @return DTO con el detalle de la serie
+	 */
+	@RequestMapping(
+			value = ApiRest.ADD_CHAPTER,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> addChapter(@RequestBody ChapterDTO chapter) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.addChapter(chapter));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".addChapter ", e.getMessage());
 		}
 	}
 }

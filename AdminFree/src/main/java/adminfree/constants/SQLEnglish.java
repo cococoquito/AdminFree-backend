@@ -22,6 +22,9 @@ public class SQLEnglish {
 	/** SQL para agregar una nueva temporada */
 	public static final String ADD_SEASON = "INSERT INTO SEASONS(SERIE)VALUES(?)";
 
+	/** SQL para agregar un nuevo capitulo */
+	public static final String ADD_CHAPTER = "INSERT INTO CHAPTERS(SEASON,NAME,URL)VALUES(?,?,?)";
+
 	/**
 	 * Metodo que permite construir el SQL para obtener el detalle de la serie
 	 */

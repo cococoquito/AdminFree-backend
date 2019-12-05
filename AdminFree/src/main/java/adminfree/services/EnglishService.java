@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import adminfree.business.EnglishBusiness;
+import adminfree.dtos.english.ChapterDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -110,6 +111,24 @@ public class EnglishService {
 
 			// se procede agregar una nueva temporada
 			return new EnglishBusiness().addSeason(idSerie, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Service que permite agregar un capitulo a una temporada
+	 * @param chapter, DTO con los datos del capitulo
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO addChapter(ChapterDTO chapter) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede agregar el nuevo capitulo
+			return new EnglishBusiness().addChapter(chapter, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

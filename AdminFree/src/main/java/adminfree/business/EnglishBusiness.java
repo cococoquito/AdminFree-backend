@@ -6,6 +6,7 @@ import java.util.List;
 
 import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLEnglish;
+import adminfree.dtos.english.ChapterDTO;
 import adminfree.dtos.english.SeasonDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.mappers.MapperEnglish;
@@ -113,5 +114,23 @@ public class EnglishBusiness extends CommonDAO {
 
 		// se procede a consultar los detalle de esta serie
 		return getDetailSerie(idSerie, connection);
+	}
+
+	/**
+	 * Metodo que permite agregar un capitulo a una temporada
+	 * @param chapter, DTO con los datos del capitulo
+	 * @return DTO con el detalle de la serie
+	 */
+	public SerieDTO addChapter(ChapterDTO chapter, Connection connection) throws Exception {
+
+		// se agrega el nuevo capitulo para esta temporada
+		insertUpdate(connection,
+				SQLEnglish.ADD_CHAPTER,
+				ValueSQL.get(chapter.getIdSeason(), Types.BIGINT),
+				ValueSQL.get(chapter.getName(), Types.VARCHAR),
+				ValueSQL.get(chapter.getUrl(), Types.VARCHAR));
+
+		// se procede a consultar los detalle de esta serie
+		return getDetailSerie(chapter.getIdSerie(), connection);
 	}
 }

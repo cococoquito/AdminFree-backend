@@ -16,6 +16,12 @@ public class ChapterDTO implements Serializable {
 	/** identificador del capitulo */
 	private Long id;
 
+	/** identificador de la temporada */
+	private Long idSeason;
+
+	/** identificador de la serie */
+	private Long idSerie;
+
 	/** Es el nombre del capitulo */
 	private String name;
 
@@ -89,5 +95,33 @@ public class ChapterDTO implements Serializable {
 	 */
 	public void setSentences(List<SentenceDTO> sentences) {
 		this.sentences = sentences;
+	}
+
+	/**
+	 * @return the idSeason
+	 */
+	public Long getIdSeason() {
+		return idSeason;
+	}
+
+	/**
+	 * @param idSeason the idSeason to set
+	 */
+	public void setIdSeason(Long idSeason) {
+		this.idSeason = idSeason;
+	}
+
+	/**
+	 * @return the idSerie
+	 */
+	public Long getIdSerie() {
+		return idSerie;
+	}
+
+	/**
+	 * @param idSerie the idSerie to set
+	 */
+	public void setIdSerie(Long idSerie) {
+		this.idSerie = idSerie;
 	}
 }
