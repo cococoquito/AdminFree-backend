@@ -25,6 +25,9 @@ public class SQLEnglish {
 	/** SQL para agregar un nuevo capitulo */
 	public static final String ADD_CHAPTER = "INSERT INTO CHAPTERS(SEASON,NAME,URL)VALUES(?,?,?)";
 
+	/** SQL para obtener el detalle del capitulo */
+	public static final String GET_DETAIL_CHAPTER = "SELECT CH.NAME,CH.URL,SE.ID_SENTENCE,SE.SPANISH,SE.ENGLISH,SE.AUDIO,SE.AUDIO_NAME FROM CHAPTERS CH LEFT JOIN SENTENCES SE ON(SE.CHAPTER=CH.ID_CHAPTER)WHERE CH.ID_CHAPTER=? ORDER BY SE.ID_SENTENCE";
+
 	/**
 	 * Metodo que permite construir el SQL para obtener el detalle de la serie
 	 */

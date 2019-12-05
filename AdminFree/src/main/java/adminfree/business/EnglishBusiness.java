@@ -142,6 +142,12 @@ public class EnglishBusiness extends CommonDAO {
 	 * @return DTO con los datos del capitulo
 	 */
 	public ChapterDTO getDetailChapter(Long idChapter, Connection connection) throws Exception {
-		return null;
+		ChapterDTO chapter = (ChapterDTO)
+				findParams(connection,
+						SQLEnglish.GET_DETAIL_CHAPTER,
+						MapperEnglish.get(MapperEnglish.GET_DETAIL_CHAPTER),
+						ValueSQL.get(idChapter, Types.BIGINT));
+		chapter.setId(idChapter);
+		return chapter;
 	}
 }

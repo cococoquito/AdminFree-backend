@@ -8,6 +8,7 @@ import java.util.List;
 import adminfree.constants.CommonConstant;
 import adminfree.dtos.english.ChapterDTO;
 import adminfree.dtos.english.SeasonDTO;
+import adminfree.dtos.english.SentenceDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.enums.Numero;
 import adminfree.utilities.Util;
@@ -24,6 +25,7 @@ public class MapperEnglish extends Mapper {
 	public static final int GET_SERIES = 1;
 	public static final int GET_DETAIL_SERIE = 2;
 	public static final int GET_CHAPTERS_SEASON = 3;
+	public static final int GET_DETAIL_CHAPTER = 4;
 
 	/** Objecto statica que se comporta como una unica instancia */
 	private static MapperEnglish instance;
@@ -79,8 +81,34 @@ public class MapperEnglish extends Mapper {
 			case MapperEnglish.GET_SERIES:
 				result = getSeries(res);
 				break;
+			case MapperEnglish.GET_DETAIL_CHAPTER:
+				result = getDetailChapter(res);
+				break;
 		}
 		return result;
+	}
+
+	/**
+	 * Metodo que permite obtener el detalle de un capitulo
+	 */
+	private Object getDetailChapter(ResultSet res) throws Exception {
+		ChapterDTO chapter = null;
+		SentenceDTO sentence;
+		while (res.next()) {
+			if (chapter == null) {
+				chapter = new ChapterDTO();
+				chapter.setName(res.getString(Numero.UNO.valueI));
+				chapter.setUrl(res.getString(Numero.DOS.valueI));
+			}
+			sentence = new SentenceDTO();
+			sentence.setId(res.getLong(Numero.TRES.valueI));
+			sentence.setSpanish(res.getString(Numero.CUATRO.valueI));
+			sentence.setEnglish(res.getString(Numero.CINCO.valueI));
+			sentence.setAudio(res.getBytes(Numero.SEIS.valueI));
+			sentence.setAudioName(res.getString(Numero.SIETE.valueI));
+			chapter.addSentence(sentence);
+		}
+		return chapter;
 	}
 
 	/**

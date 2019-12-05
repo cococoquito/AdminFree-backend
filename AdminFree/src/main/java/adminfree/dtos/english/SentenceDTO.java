@@ -23,6 +23,9 @@ public class SentenceDTO implements Serializable {
 	/** Es el audio de la sentencia */
 	private byte[] audio;
 
+	/** Es el nombre del audio de la sentencia */
+	private String audioName;
+
 	/**
 	 * @return the id
 	 */
@@ -77,5 +80,19 @@ public class SentenceDTO implements Serializable {
 	 */
 	public void setAudio(byte[] audio) {
 		this.audio = audio;
+	}
+
+	/**
+	 * @return the audioName
+	 */
+	public String getAudioName() {
+		return audioName;
+	}
+
+	/**
+	 * @param audioName the audioName to set
+	 */
+	public void setAudioName(String audioName) {
+		this.audioName = audioName;
 	}
 }
