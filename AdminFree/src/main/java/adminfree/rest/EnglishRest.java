@@ -144,4 +144,22 @@ public class EnglishRest {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".addChapter ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Service que permite consultar el detalle del capitulo
+	 * @param idChapter, identificador del capitulo
+	 * @return DTO con los datos del capitulo
+	 */
+	@RequestMapping(
+			value = ApiRest.DETAIL_CHAPTER,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> getDetailChapter(@RequestBody Long idChapter) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.getDetailChapter(idChapter));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getDetailChapter ", e.getMessage());
+		}
+	}
 }

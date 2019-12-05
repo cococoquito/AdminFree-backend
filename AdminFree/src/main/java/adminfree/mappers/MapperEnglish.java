@@ -154,8 +154,7 @@ public class MapperEnglish extends Mapper {
 			chapter = new ChapterDTO();
 			chapter.setId(res.getLong(Numero.UNO.valueI));
 			chapter.setName(res.getString(Numero.DOS.valueI));
-			chapter.setUrl(res.getString(Numero.TRES.valueI));
-			idSeason = res.getLong(Numero.CUATRO.valueI);
+			idSeason = res.getLong(Numero.TRES.valueI);
 
 			// se busca la temporada que contiene este capitulo
 			forseason: for (SeasonDTO season : seasons) {

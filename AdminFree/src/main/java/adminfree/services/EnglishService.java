@@ -133,4 +133,22 @@ public class EnglishService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Service que permite consultar el detalle del capitulo
+	 * @param idChapter, identificador del capitulo
+	 * @return DTO con los datos del capitulo
+	 */
+	public ChapterDTO getDetailChapter(Long idChapter) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede a consultar el detalle del capitulo
+			return new EnglishBusiness().getDetailChapter(idChapter, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

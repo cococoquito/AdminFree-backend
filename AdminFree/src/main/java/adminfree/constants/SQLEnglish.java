@@ -29,9 +29,9 @@ public class SQLEnglish {
 	 * Metodo que permite construir el SQL para obtener el detalle de la serie
 	 */
 	public static String getSQLChaptersSeason(String idsSeason) {
-		StringBuilder sql = new StringBuilder("SELECT ID_CHAPTER,NAME,URL,SEASON FROM CHAPTERS WHERE SEASON IN(");
+		StringBuilder sql = new StringBuilder("SELECT ID_CHAPTER,NAME,SEASON FROM CHAPTERS WHERE SEASON IN(");
 		sql.append(idsSeason);
-		sql.append(")ORDER BY SEASON ASC");
+		sql.append(")ORDER BY ID_CHAPTER ASC");
 		return sql.toString();
 	}
 }

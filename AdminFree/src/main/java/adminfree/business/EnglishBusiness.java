@@ -92,6 +92,8 @@ public class EnglishBusiness extends CommonDAO {
 		// se verifica si esta serie tiene temporadas asociadas
 		List<SeasonDTO> seasons = serie.getSeasons();
 		if (seasons != null && !seasons.isEmpty()) {
+
+			// se consulta los capitulos para cada temporada
 			findParams(connection,
 					SQLEnglish.getSQLChaptersSeason(idsSeason.toString()),
 					MapperEnglish.get(MapperEnglish.GET_CHAPTERS_SEASON),
@@ -132,5 +134,14 @@ public class EnglishBusiness extends CommonDAO {
 
 		// se procede a consultar los detalle de esta serie
 		return getDetailSerie(chapter.getIdSerie(), connection);
+	}
+
+	/**
+	 * Metodo que permite consultar el detalle del capitulo
+	 * @param idChapter, identificador del capitulo
+	 * @return DTO con los datos del capitulo
+	 */
+	public ChapterDTO getDetailChapter(Long idChapter, Connection connection) throws Exception {
+		return null;
 	}
 }

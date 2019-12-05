@@ -79,4 +79,5 @@ public class ApiRest {
 	public static final String DETAIL_SERIE = "detailserie";
 	public static final String ADD_SEASON = "addseason";
 	public static final String ADD_CHAPTER = "addchapter";
+	public static final String DETAIL_CHAPTER = "detailchapter";
 }
