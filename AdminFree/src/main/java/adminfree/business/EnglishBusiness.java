@@ -143,7 +143,7 @@ public class EnglishBusiness extends CommonDAO {
 	 */
 	public ChapterDTO getDetailChapter(Long idChapter, Connection connection) throws Exception {
 		ChapterDTO chapter = (ChapterDTO)
-				findParams(connection,
+				find(connection,
 						SQLEnglish.GET_DETAIL_CHAPTER,
 						MapperEnglish.get(MapperEnglish.GET_DETAIL_CHAPTER),
 						ValueSQL.get(idChapter, Types.BIGINT));
