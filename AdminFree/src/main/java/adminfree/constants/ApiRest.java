@@ -80,4 +80,6 @@ public class ApiRest {
 	public static final String ADD_SEASON = "addseason";
 	public static final String ADD_CHAPTER = "addchapter";
 	public static final String DETAIL_CHAPTER = "detailchapter";
+	public static final String INSERT_SENTENCE = "insertsentence";
+	public static final String DOWNLOAD_SOUND = "downloadsound";
 }

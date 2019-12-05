@@ -14,6 +14,9 @@ public class SentenceDTO implements Serializable {
 	/** identificador de la sentencia */
 	private Long id;
 
+	/** identificador del capitulo */
+	private Long idChapter;
+
 	/** Es la sentencia en español */
 	private String spanish;
 
@@ -94,5 +97,19 @@ public class SentenceDTO implements Serializable {
 	 */
 	public void setAudioName(String audioName) {
 		this.audioName = audioName;
+	}
+
+	/**
+	 * @return the idChapter
+	 */
+	public Long getIdChapter() {
+		return idChapter;
+	}
+
+	/**
+	 * @param idChapter the idChapter to set
+	 */
+	public void setIdChapter(Long idChapter) {
+		this.idChapter = idChapter;
 	}
 }

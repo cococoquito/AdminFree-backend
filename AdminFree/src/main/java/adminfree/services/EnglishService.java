@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import adminfree.business.EnglishBusiness;
 import adminfree.dtos.english.ChapterDTO;
+import adminfree.dtos.english.SentenceDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.utilities.CerrarRecursos;
 
@@ -147,6 +148,49 @@ public class EnglishService {
 
 			// se procede a consultar el detalle del capitulo
 			return new EnglishBusiness().getDetailChapter(idChapter, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Service que permite ingresar los datos basicos de la sentencia
+	 * @param sentence, DTO con los datos de la sentencia
+	 * @return DTO con el identificador de la sentencia
+	 */
+	public SentenceDTO insertSentence(SentenceDTO sentence) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede a insertar la sentencia
+			return new EnglishBusiness().insertSentence(sentence, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Service para almacenar el sonido a la sentencia
+	 * @param sound, sonido almacenar en la BD
+	 * @param nameSound, nombre del sonido almacenar
+	 * @param idSentence, identificador de la sentencia
+	 * @param idChapter, identificador del capitulo
+	 * @return Detalle del capitulo que contiene esta sentencia
+	 */
+	public ChapterDTO downloadSound(
+			byte[] sound,
+			String nameSound,
+			String idSentence,
+			String idChapter) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede a insertar el sonido en BD
+			return new EnglishBusiness().downloadSound(sound, nameSound, idSentence, idChapter, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

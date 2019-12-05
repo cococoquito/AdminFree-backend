@@ -8,6 +8,7 @@ import adminfree.constants.CommonConstant;
 import adminfree.constants.SQLEnglish;
 import adminfree.dtos.english.ChapterDTO;
 import adminfree.dtos.english.SeasonDTO;
+import adminfree.dtos.english.SentenceDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.mappers.MapperEnglish;
 import adminfree.mappers.MapperTransversal;
@@ -149,5 +150,33 @@ public class EnglishBusiness extends CommonDAO {
 						ValueSQL.get(idChapter, Types.BIGINT));
 		chapter.setId(idChapter);
 		return chapter;
+	}
+
+	/**
+	 * Metodo que permite ingresar los datos basicos de la sentencia
+	 * @param sentence, DTO con los datos de la sentencia
+	 * @return DTO con el identificador de la sentencia
+	 */
+	public SentenceDTO insertSentence(SentenceDTO sentence, Connection connection) throws Exception {
+		return null;
+	}
+
+	/**
+	 * Metodo para almacenar el sonido a la sentencia
+	 * @param sound, sonido almacenar en la BD
+	 * @param nameSound, nombre del sonido almacenar
+	 * @param idSentence, identificador de la sentencia
+	 * @param idChapter, identificador del capitulo
+	 * @return Detalle del capitulo que contiene esta sentencia
+	 */
+	public ChapterDTO downloadSound(
+			byte[] sound,
+			String nameSound,
+			String idSentence,
+			String idChapter,
+			Connection connection) throws Exception {
+
+		// se consulta el detalle del capitulo
+		return getDetailChapter(Long.valueOf(idChapter), connection);
 	}
 }

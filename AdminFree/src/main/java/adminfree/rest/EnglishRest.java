@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import adminfree.constants.ApiRest;
 import adminfree.dtos.english.ChapterDTO;
+import adminfree.dtos.english.SentenceDTO;
 import adminfree.dtos.english.SerieDTO;
 import adminfree.services.EnglishService;
 import adminfree.utilities.Util;
@@ -160,6 +161,51 @@ public class EnglishRest {
 			return Util.getResponseSuccessful(this.englishService.getDetailChapter(idChapter));
 		} catch (Exception e) {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".getDetailChapter ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Service que permite ingresar los datos basicos de la sentencia
+	 * @param sentence, DTO con los datos de la sentencia
+	 * @return DTO con el identificador de la sentencia
+	 */
+	@RequestMapping(
+			value = ApiRest.INSERT_SENTENCE,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public ResponseEntity<Object> insertSentence(@RequestBody SentenceDTO sentence) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.insertSentence(sentence));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".insertSentence ", e.getMessage());
+		}
+	}
+
+	/**
+	 * Service para almacenar el sonido a la sentencia
+	 * @param sound, sonido almacenar en la BD
+	 * @param idSentence, identificador de la sentencia
+	 * @param idChapter, identificador del capitulo
+	 * @return Detalle del capitulo que contiene esta sentencia
+	 */
+	@RequestMapping(
+			value = ApiRest.DOWNLOAD_SOUND,
+			method = RequestMethod.POST,
+			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
+			produces = { MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<Object> downloadSound(
+			@RequestPart("sound") MultipartFile sound,
+			@RequestPart("idSentence") String idSentence,
+			@RequestPart("idChapter") String idChapter) {
+		try {
+			return Util.getResponseSuccessful(this.englishService.downloadSound(
+					sound.getBytes(),
+					sound.getOriginalFilename(),
+					idSentence,
+					idChapter));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".downloadSound ", e.getMessage());
 		}
 	}
 }
