@@ -25,6 +25,12 @@ public class SQLEnglish {
 	/** SQL para agregar un nuevo capitulo */
 	public static final String ADD_CHAPTER = "INSERT INTO CHAPTERS(SEASON,NAME,URL)VALUES(?,?,?)";
 
+	/** SQL para agregar una sentencia */
+	public static final String ADD_SENTENCE = "INSERT INTO SENTENCES(CHAPTER,SPANISH,ENGLISH)VALUES(?,?,?)";
+
+	/** SQL para asociar el sonido a la sentence */
+	public static final String ASOCIAR_SOUND_SENTENCE = "UPDATE SENTENCES SET AUDIO=?,AUDIO_NAME=? WHERE ID_SENTENCE=?";
+
 	/** SQL para obtener el detalle del capitulo */
 	public static final String GET_DETAIL_CHAPTER = "SELECT CH.NAME,CH.URL,SE.ID_SENTENCE,SE.SPANISH,SE.ENGLISH,SE.AUDIO,SE.AUDIO_NAME FROM CHAPTERS CH LEFT JOIN SENTENCES SE ON(SE.CHAPTER=CH.ID_CHAPTER)WHERE CH.ID_CHAPTER=? ORDER BY SE.ID_SENTENCE";
 

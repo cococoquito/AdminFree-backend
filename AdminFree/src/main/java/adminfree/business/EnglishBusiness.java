@@ -158,7 +158,23 @@ public class EnglishBusiness extends CommonDAO {
 	 * @return DTO con el identificador de la sentencia
 	 */
 	public SentenceDTO insertSentence(SentenceDTO sentence, Connection connection) throws Exception {
-		return null;
+
+		// se procede a insertar la sentencia
+		insertUpdate(connection,
+				SQLEnglish.ADD_SENTENCE,
+				ValueSQL.get(sentence.getIdChapter(), Types.BIGINT),
+				ValueSQL.get(sentence.getSpanish(), Types.VARCHAR),
+				ValueSQL.get(sentence.getEnglish(), Types.VARCHAR));
+
+		// se obtiene el identificador de la nueva sentencia
+		Long idSentence = (Long) find(connection,
+				CommonConstant.LAST_INSERT_ID,
+				MapperTransversal.get(MapperTransversal.GET_ID));
+
+		// DTO con el identificador a retornar
+		SentenceDTO response = new SentenceDTO();
+		response.setId(idSentence);
+		return response;
 	}
 
 	/**
@@ -175,6 +191,13 @@ public class EnglishBusiness extends CommonDAO {
 			String idSentence,
 			String idChapter,
 			Connection connection) throws Exception {
+
+		// se procede asociar el sonido a la sentence
+		insertUpdate(connection,
+				SQLEnglish.ASOCIAR_SOUND_SENTENCE,
+				ValueSQL.get(sound, Types.BLOB),
+				ValueSQL.get(nameSound, Types.VARCHAR),
+				ValueSQL.get(idSentence, Types.VARCHAR));
 
 		// se consulta el detalle del capitulo
 		return getDetailChapter(Long.valueOf(idChapter), connection);
