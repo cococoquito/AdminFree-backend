@@ -26,11 +26,9 @@ public class EnglishBusiness extends CommonDAO {
 
 	/**
 	 * Metodo que permite crear una serie en el sistema
-	 *
 	 * @param serie, DTO que contiene los datos de la serie a crear
-	 * @return DTO con el identificador de la serie
 	 */
-	public SerieDTO crearSerie(SerieDTO serie, Connection connection) throws Exception {
+	public void crearSerie(SerieDTO serie, Connection connection) throws Exception {
 
 		// se procede a crear la SERIE
 		insertUpdate(connection,
@@ -43,22 +41,10 @@ public class EnglishBusiness extends CommonDAO {
 				CommonConstant.LAST_INSERT_ID,
 				MapperTransversal.get(MapperTransversal.GET_ID));
 
-		// DTO con el identificador a retornar
-		SerieDTO response = new SerieDTO();
-		response.setId(idSerie);
-		return response;
-	}
-
-	/**
-	 * Metodo para asociar la imagen a la serie
-	 *
-	 * @param img, es la imagen para asociar
-	 * @param idSerie, identificador de la serie asociar la imagen
-	 */
-	public void downloadImgSerie(byte[] img ,String idSerie, Connection connection) throws Exception {
+		// se procede a insertar la imagen para esta serie
 		insertUpdate(connection,
 				SQLEnglish.ASOCIAR_IMG_SERIE,
-				ValueSQL.get(img, Types.BLOB),
+				ValueSQL.get(serie.getImg(), Types.BLOB),
 				ValueSQL.get(idSerie, Types.VARCHAR));
 	}
 

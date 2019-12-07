@@ -29,37 +29,16 @@ public class EnglishService {
 
 	/**
 	 * Service que permite crear una serie en el sistema
-	 *
 	 * @param serie, DTO que contiene los datos de la serie a crear
-	 * @return DTO con el identificador de la serie
 	 */
-	public SerieDTO crearSerie(SerieDTO serie) throws Exception {
+	public void crearSerie(SerieDTO serie) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
 			connection = this.learningEnglishDS.getConnection();
 
 			// se procede a crear la serie
-			return new EnglishBusiness().crearSerie(serie, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Service para asociar la imagen a la serie
-	 *
-	 * @param img, es la imagen para asociar
-	 * @param idSerie, identificador de la serie asociar la imagen
-	 */
-	public void downloadImgSerie(byte[] img ,String idSerie) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
-			connection = this.learningEnglishDS.getConnection();
-
-			// se procede asociar la imagen
-			new EnglishBusiness().downloadImgSerie(img, idSerie, connection);
+			new EnglishBusiness().crearSerie(serie, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}

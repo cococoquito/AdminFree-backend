@@ -34,45 +34,29 @@ public class EnglishRest {
 
 	/**
 	 * Service que permite crear una serie en el sistema
-	 *
 	 * @param serie, DTO que contiene los datos de la serie a crear
-	 * @return DTO con el identificador de la serie
 	 */
 	@RequestMapping(
 			value = ApiRest.CREATE_SERIE,
 			method = RequestMethod.POST,
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> crearSerie(@RequestBody SerieDTO serie) {
-		try {
-			return Util.getResponseSuccessful(this.englishService.crearSerie(serie));
-		} catch (Exception e) {
-			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".crearSerie ", e.getMessage());
-		}
-	}
-
-	/**
-	 * Service para asociar la imagen a la serie
-	 *
-	 * @param img, es la imagen para asociar
-	 * @param idSerie, identificador de la serie asociar la imagen
-	 */
-	@RequestMapping(
-			value = ApiRest.DOWNLOAD_IMG_SERIE,
-			method = RequestMethod.POST,
 			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
-			produces = { MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> downloadImgSerie(
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<Object> crearSerie(
 			@RequestPart("img") MultipartFile img,
-			@RequestPart("idSerie") String idSerie) {
+			@RequestPart("name") String name,
+			@RequestPart("url") String url) {
 		try {
-			// se procede asociar la imagen
-			this.englishService.downloadImgSerie(img.getBytes(), idSerie);
+			// se procede a crear la serie
+			SerieDTO serie = new SerieDTO();
+			serie.setImg(img.getBytes());
+			serie.setName(name);
+			serie.setUrl(url);
+			this.englishService.crearSerie(serie);
 
 			// si llega a este punto es porque el proceso se ejecuto sin problemas
 			return Util.getResponseOk();
 		} catch (Exception e) {
-			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".downloadImgSerie ", e.getMessage());
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".crearSerie ", e.getMessage());
 		}
 	}
 
