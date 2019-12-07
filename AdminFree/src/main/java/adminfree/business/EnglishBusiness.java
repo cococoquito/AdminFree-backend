@@ -162,7 +162,7 @@ public class EnglishBusiness extends CommonDAO {
 				SQLEnglish.ASOCIAR_SOUND_SENTENCE,
 				ValueSQL.get(sentence.getAudio(), Types.BLOB),
 				ValueSQL.get(sentence.getAudioName(), Types.VARCHAR),
-				ValueSQL.get(idSentence, Types.VARCHAR));
+				ValueSQL.get(idSentence, Types.BIGINT));
 
 		// se consulta el detalle del capitulo
 		return getDetailChapter(Long.valueOf(sentence.getIdChapter()), connection);
