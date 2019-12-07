@@ -28,7 +28,7 @@ public class EnglishBusiness extends CommonDAO {
 	 * Metodo que permite crear una serie en el sistema
 	 * @param serie, DTO que contiene los datos de la serie a crear
 	 */
-	public void crearSerie(SerieDTO serie, Connection connection) throws Exception {
+	public void createSerie(SerieDTO serie, Connection connection) throws Exception {
 
 		// se procede a crear la SERIE
 		insertUpdate(connection,
@@ -45,7 +45,7 @@ public class EnglishBusiness extends CommonDAO {
 		insertUpdate(connection,
 				SQLEnglish.ASOCIAR_IMG_SERIE,
 				ValueSQL.get(serie.getImg(), Types.BLOB),
-				ValueSQL.get(idSerie, Types.VARCHAR));
+				ValueSQL.get(idSerie, Types.BIGINT));
 	}
 
 	/**
@@ -139,11 +139,11 @@ public class EnglishBusiness extends CommonDAO {
 	}
 
 	/**
-	 * Metodo que permite ingresar los datos basicos de la sentencia
+	 * Metodo que permite crear una sentencia en el sistema
 	 * @param sentence, DTO con los datos de la sentencia
-	 * @return DTO con el identificador de la sentencia
+	 * @return detalle del capitulo con todas sus sentencias
 	 */
-	public SentenceDTO insertSentence(SentenceDTO sentence, Connection connection) throws Exception {
+	public ChapterDTO createSentence(SentenceDTO sentence, Connection connection) throws Exception {
 
 		// se procede a insertar la sentencia
 		insertUpdate(connection,
@@ -157,35 +157,14 @@ public class EnglishBusiness extends CommonDAO {
 				CommonConstant.LAST_INSERT_ID,
 				MapperTransversal.get(MapperTransversal.GET_ID));
 
-		// DTO con el identificador a retornar
-		SentenceDTO response = new SentenceDTO();
-		response.setId(idSentence);
-		return response;
-	}
-
-	/**
-	 * Metodo para almacenar el sonido a la sentencia
-	 * @param sound, sonido almacenar en la BD
-	 * @param nameSound, nombre del sonido almacenar
-	 * @param idSentence, identificador de la sentencia
-	 * @param idChapter, identificador del capitulo
-	 * @return Detalle del capitulo que contiene esta sentencia
-	 */
-	public ChapterDTO downloadSound(
-			byte[] sound,
-			String nameSound,
-			String idSentence,
-			String idChapter,
-			Connection connection) throws Exception {
-
 		// se procede asociar el sonido a la sentence
 		insertUpdate(connection,
 				SQLEnglish.ASOCIAR_SOUND_SENTENCE,
-				ValueSQL.get(sound, Types.BLOB),
-				ValueSQL.get(nameSound, Types.VARCHAR),
+				ValueSQL.get(sentence.getAudio(), Types.BLOB),
+				ValueSQL.get(sentence.getAudioName(), Types.VARCHAR),
 				ValueSQL.get(idSentence, Types.VARCHAR));
 
 		// se consulta el detalle del capitulo
-		return getDetailChapter(Long.valueOf(idChapter), connection);
+		return getDetailChapter(Long.valueOf(sentence.getIdChapter()), connection);
 	}
 }

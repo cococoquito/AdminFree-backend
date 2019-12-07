@@ -43,7 +43,7 @@ public class EnglishRest {
 			method = RequestMethod.POST,
 			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
 			produces = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<Object> crearSerie(
+	public ResponseEntity<Object> createSerie(
 			@RequestPart("img") MultipartFile img,
 			@RequestPart("name") String name,
 			@RequestPart("url") String url) {
@@ -53,12 +53,12 @@ public class EnglishRest {
 			serie.setImg(img.getBytes());
 			serie.setName(name);
 			serie.setUrl(url);
-			this.englishService.crearSerie(serie);
+			this.englishService.createSerie(serie);
 
 			// si llega a este punto es porque el proceso se ejecuto sin problemas
 			return Util.getResponseOk();
 		} catch (Exception e) {
-			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".crearSerie ", e.getMessage());
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".createSerie ", e.getMessage());
 		}
 	}
 
@@ -151,47 +151,36 @@ public class EnglishRest {
 	}
 
 	/**
-	 * Service que permite ingresar los datos basicos de la sentencia
-	 * @param sentence, DTO con los datos de la sentencia
-	 * @return DTO con el identificador de la sentencia
+	 * Service que permite crear una sentencia en el sistema
+	 * @param audio, es el audio de la sentencia
+	 * @param idChapter, identificador del capitulo
+	 * @param spanish, la sentencia en espaniol
+	 * @param english, la sentencia en ingles
+	 * @return detalle del capitulo con todas sus sentencias
 	 */
 	@RequestMapping(
-			value = ApiRest.INSERT_SENTENCE,
+			value = ApiRest.CREATE_SENTENCE,
 			method = RequestMethod.POST,
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
-			consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<Object> insertSentence(@RequestBody SentenceDTO sentence) {
+			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<Object> createSentence(
+			@RequestPart("audio") MultipartFile audio,
+			@RequestPart("idChapter") String idChapter,
+			@RequestPart("spanish") String spanish,
+			@RequestPart("english") String english) {
 		try {
-			return Util.getResponseSuccessful(this.englishService.insertSentence(sentence));
-		} catch (Exception e) {
-			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".insertSentence ", e.getMessage());
-		}
-	}
+			// se construye el DTO con los datos de la sentencia
+			SentenceDTO sentence = new SentenceDTO();
+			sentence.setAudio(audio.getBytes());
+			sentence.setAudioName(audio.getOriginalFilename());
+			sentence.setIdChapter(Long.valueOf(idChapter));
+			sentence.setSpanish(spanish);
+			sentence.setEnglish(english);
 
-	/**
-	 * Service para almacenar el sonido a la sentencia
-	 * @param sound, sonido almacenar en la BD
-	 * @param idSentence, identificador de la sentencia
-	 * @param idChapter, identificador del capitulo
-	 * @return Detalle del capitulo que contiene esta sentencia
-	 */
-	@RequestMapping(
-			value = ApiRest.DOWNLOAD_SOUND,
-			method = RequestMethod.POST,
-			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
-			produces = { MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Object> downloadSound(
-			@RequestPart("sound") MultipartFile sound,
-			@RequestPart("idSentence") String idSentence,
-			@RequestPart("idChapter") String idChapter) {
-		try {
-			return Util.getResponseSuccessful(this.englishService.downloadSound(
-					sound.getBytes(),
-					sound.getOriginalFilename(),
-					idSentence,
-					idChapter));
+			// se procede a crear la sentencia
+			return Util.getResponseSuccessful(this.englishService.createSentence(sentence));
 		} catch (Exception e) {
-			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".downloadSound ", e.getMessage());
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".createSentence ", e.getMessage());
 		}
 	}
 }

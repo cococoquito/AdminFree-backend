@@ -31,14 +31,14 @@ public class EnglishService {
 	 * Service que permite crear una serie en el sistema
 	 * @param serie, DTO que contiene los datos de la serie a crear
 	 */
-	public void crearSerie(SerieDTO serie) throws Exception {
+	public void createSerie(SerieDTO serie) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
 			connection = this.learningEnglishDS.getConnection();
 
 			// se procede a crear la serie
-			new EnglishBusiness().crearSerie(serie, connection);
+			new EnglishBusiness().createSerie(serie, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
@@ -133,43 +133,18 @@ public class EnglishService {
 	}
 
 	/**
-	 * Service que permite ingresar los datos basicos de la sentencia
+	 * Service que permite crear una sentencia en el sistema
 	 * @param sentence, DTO con los datos de la sentencia
-	 * @return DTO con el identificador de la sentencia
+	 * @return detalle del capitulo con todas sus sentencias
 	 */
-	public SentenceDTO insertSentence(SentenceDTO sentence) throws Exception {
+	public ChapterDTO createSentence(SentenceDTO sentence) throws Exception {
 		Connection connection = null;
 		try {
 			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
 			connection = this.learningEnglishDS.getConnection();
 
 			// se procede a insertar la sentencia
-			return new EnglishBusiness().insertSentence(sentence, connection);
-		} finally {
-			CerrarRecursos.closeConnection(connection);
-		}
-	}
-
-	/**
-	 * Service para almacenar el sonido a la sentencia
-	 * @param sound, sonido almacenar en la BD
-	 * @param nameSound, nombre del sonido almacenar
-	 * @param idSentence, identificador de la sentencia
-	 * @param idChapter, identificador del capitulo
-	 * @return Detalle del capitulo que contiene esta sentencia
-	 */
-	public ChapterDTO downloadSound(
-			byte[] sound,
-			String nameSound,
-			String idSentence,
-			String idChapter) throws Exception {
-		Connection connection = null;
-		try {
-			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
-			connection = this.learningEnglishDS.getConnection();
-
-			// se procede a insertar el sonido en BD
-			return new EnglishBusiness().downloadSound(sound, nameSound, idSentence, idChapter, connection);
+			return new EnglishBusiness().createSentence(sentence, connection);
 		} finally {
 			CerrarRecursos.closeConnection(connection);
 		}
