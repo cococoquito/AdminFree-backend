@@ -34,7 +34,9 @@ public class EnglishRest {
 
 	/**
 	 * Service que permite crear una serie en el sistema
-	 * @param serie, DTO que contiene los datos de la serie a crear
+	 * @param img, Imagen asociada a la serie
+	 * @param name, nombre de la serie a crear
+	 * @param url, direccion de la pagina de esta serie
 	 */
 	@RequestMapping(
 			value = ApiRest.CREATE_SERIE,
