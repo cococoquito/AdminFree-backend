@@ -199,7 +199,7 @@ public class EnglishRest {
 			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
 			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public ResponseEntity<Object> editSentence(
-			@RequestPart("audio") MultipartFile audio,
+			@RequestPart(name = "audio", required = false) MultipartFile audio,
 			@RequestPart("idChapter") String idChapter,
 			@RequestPart("idSentence") String idSentence,
 			@RequestPart("spanish") String spanish,
@@ -207,8 +207,11 @@ public class EnglishRest {
 		try {
 			// se construye el DTO con los datos de la sentencia
 			SentenceDTO sentence = new SentenceDTO();
-			sentence.setAudio(audio.getBytes());
-			sentence.setAudioName(audio.getOriginalFilename());
+			if (audio != null) {
+				sentence.setAudio(audio.getBytes());
+				sentence.setAudioName(audio.getOriginalFilename());
+				sentence.setAudioModificado(true);
+			}
 			sentence.setIdChapter(Long.valueOf(idChapter));
 			sentence.setId(Long.valueOf(idSentence));
 			sentence.setSpanish(spanish);
