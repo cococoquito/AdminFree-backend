@@ -149,4 +149,22 @@ public class EnglishService {
 			CerrarRecursos.closeConnection(connection);
 		}
 	}
+
+	/**
+	 * Service que permite editar una sentencia en el sistema
+	 * @param sentence, DTO con los datos de la sentencia
+	 * @return detalle del capitulo con todas sus sentencias
+	 */
+	public ChapterDTO editSentence(SentenceDTO sentence) throws Exception {
+		Connection connection = null;
+		try {
+			// se solicita una conexion de la BD para el esquema LEARNING_ENGLISH
+			connection = this.learningEnglishDS.getConnection();
+
+			// se procede a editar la sentencia
+			return new EnglishBusiness().editSentence(sentence, connection);
+		} finally {
+			CerrarRecursos.closeConnection(connection);
+		}
+	}
 }

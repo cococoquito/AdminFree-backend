@@ -80,4 +80,5 @@ public class ApiRest {
 	public static final String ADD_CHAPTER = "addchapter";
 	public static final String DETAIL_CHAPTER = "detailchapter";
 	public static final String CREATE_SENTENCE = "createsentence";
+	public static final String EDIT_SENTENCE = "editsentence";
 }

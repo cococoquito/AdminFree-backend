@@ -183,4 +183,41 @@ public class EnglishRest {
 			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".createSentence ", e.getMessage());
 		}
 	}
+
+	/**
+	 * Service que permite editar una sentencia en el sistema
+	 * @param audio, es el audio de la sentencia
+	 * @param idChapter, identificador del capitulo
+	 * @param idSentence, identificador de la sentence
+	 * @param spanish, la sentencia en espaniol
+	 * @param english, la sentencia en ingles
+	 * @return detalle del capitulo con todas sus sentencias
+	 */
+	@RequestMapping(
+			value = ApiRest.EDIT_SENTENCE,
+			method = RequestMethod.POST,
+			produces = { MediaType.APPLICATION_JSON_UTF8_VALUE },
+			consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public ResponseEntity<Object> editSentence(
+			@RequestPart("audio") MultipartFile audio,
+			@RequestPart("idChapter") String idChapter,
+			@RequestPart("idSentence") String idSentence,
+			@RequestPart("spanish") String spanish,
+			@RequestPart("english") String english) {
+		try {
+			// se construye el DTO con los datos de la sentencia
+			SentenceDTO sentence = new SentenceDTO();
+			sentence.setAudio(audio.getBytes());
+			sentence.setAudioName(audio.getOriginalFilename());
+			sentence.setIdChapter(Long.valueOf(idChapter));
+			sentence.setId(Long.valueOf(idSentence));
+			sentence.setSpanish(spanish);
+			sentence.setEnglish(english);
+
+			// se procede a editar la sentencia
+			return Util.getResponseSuccessful(this.englishService.editSentence(sentence));
+		} catch (Exception e) {
+			return Util.getResponseError(EnglishRest.class.getSimpleName() + ".editSentence ", e.getMessage());
+		}
+	}
 }

@@ -167,4 +167,13 @@ public class EnglishBusiness extends CommonDAO {
 		// se consulta el detalle del capitulo
 		return getDetailChapter(Long.valueOf(sentence.getIdChapter()), connection);
 	}
+
+	/**
+	 * Metodo que permite editar una sentencia en el sistema
+	 * @param sentence, DTO con los datos de la sentencia
+	 * @return detalle del capitulo con todas sus sentencias
+	 */
+	public ChapterDTO editSentence(SentenceDTO sentence, Connection connection) throws Exception {
+		return null;
+	}
 }
