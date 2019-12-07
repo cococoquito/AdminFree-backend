@@ -34,6 +34,12 @@ public class SQLEnglish {
 	/** SQL para obtener el detalle del capitulo */
 	public static final String GET_DETAIL_CHAPTER = "SELECT CH.NAME,CH.URL,SE.ID_SENTENCE,SE.SPANISH,SE.ENGLISH,SE.AUDIO,SE.AUDIO_NAME FROM CHAPTERS CH LEFT JOIN SENTENCES SE ON(SE.CHAPTER=CH.ID_CHAPTER)WHERE CH.ID_CHAPTER=? ORDER BY SE.ID_SENTENCE";
 
+	/** SQL para actualizar todos los campos de una sentencia*/
+	public static final String UPDATE_SENTENCE_ALL = "UPDATE SENTENCES SET SPANISH=?,ENGLISH=?,AUDIO=?,AUDIO_NAME=? WHERE ID_SENTENCE=?";
+
+	/** SQL para actualizar solo los campos spanish, english*/
+	public static final String UPDATE_SENTENCE_ONLY_STATEMENT = "UPDATE SENTENCES SET SPANISH=?,ENGLISH=? WHERE ID_SENTENCE=?";
+
 	/**
 	 * Metodo que permite construir el SQL para obtener el detalle de la serie
 	 */

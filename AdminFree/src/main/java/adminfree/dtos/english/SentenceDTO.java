@@ -29,6 +29,9 @@ public class SentenceDTO implements Serializable {
 	/** Es el nombre del audio de la sentencia */
 	private String audioName;
 
+	/** Se utiliza para la modificacion de la sentencia */
+	private boolean audioModificado;
+
 	/**
 	 * @return the id
 	 */
@@ -111,5 +114,19 @@ public class SentenceDTO implements Serializable {
 	 */
 	public void setIdChapter(Long idChapter) {
 		this.idChapter = idChapter;
+	}
+
+	/**
+	 * @return the audioModificado
+	 */
+	public boolean isAudioModificado() {
+		return audioModificado;
+	}
+
+	/**
+	 * @param audioModificado the audioModificado to set
+	 */
+	public void setAudioModificado(boolean audioModificado) {
+		this.audioModificado = audioModificado;
 	}
 }

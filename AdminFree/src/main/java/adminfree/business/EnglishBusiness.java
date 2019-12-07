@@ -165,7 +165,7 @@ public class EnglishBusiness extends CommonDAO {
 				ValueSQL.get(idSentence, Types.BIGINT));
 
 		// se consulta el detalle del capitulo
-		return getDetailChapter(Long.valueOf(sentence.getIdChapter()), connection);
+		return getDetailChapter(sentence.getIdChapter(), connection);
 	}
 
 	/**
@@ -174,6 +174,25 @@ public class EnglishBusiness extends CommonDAO {
 	 * @return detalle del capitulo con todas sus sentencias
 	 */
 	public ChapterDTO editSentence(SentenceDTO sentence, Connection connection) throws Exception {
-		return null;
+
+		// se verifica si se debe modificar el audio
+		if (sentence.isAudioModificado()) {
+			insertUpdate(connection,
+					SQLEnglish.UPDATE_SENTENCE_ALL,
+					ValueSQL.get(sentence.getSpanish(), Types.VARCHAR),
+					ValueSQL.get(sentence.getEnglish(), Types.VARCHAR),
+					ValueSQL.get(sentence.getAudio(), Types.BLOB),
+					ValueSQL.get(sentence.getAudioName(), Types.VARCHAR),
+					ValueSQL.get(sentence.getId(), Types.BIGINT));
+		} else {
+			insertUpdate(connection,
+					SQLEnglish.UPDATE_SENTENCE_ONLY_STATEMENT,
+					ValueSQL.get(sentence.getSpanish(), Types.VARCHAR),
+					ValueSQL.get(sentence.getEnglish(), Types.VARCHAR),
+					ValueSQL.get(sentence.getId(), Types.BIGINT));
+		}
+
+		// se consulta el detalle del capitulo
+		return getDetailChapter(sentence.getIdChapter(), connection);
 	}
 }
